@@ -12,6 +12,7 @@ add_library(NeuralNetwork SHARED NeuralNetwork.cc)
 
 # Define the wrapper library that wraps our library
 add_library(NeuralNetwork_Ext SHARED neuralnetwork_ext.cc)
+
 target_link_libraries(NeuralNetwork_Ext
                       ${Boost_LIBRARIES}
                       ${PYTHON_LIBRARIES}
