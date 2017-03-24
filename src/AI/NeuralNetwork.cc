@@ -8,29 +8,35 @@ char const* greet( )
     return "Hello world";
 }
 
-NeuralNetwork::NeuralNetwork(const std::vector<int> &layerSizes) {
-    neurons = std::vector<arma::mat>(layerSizes.size());
-    weights = std::vector<arma::mat>(layerSizes.size() - 1);
+NeuralNetwork::NeuralNetwork(const std::vector<int> &layer_sizes) {
+    neurons = std::vector<arma::mat>(layer_sizes.size());
+    output = &neurons.back();
 
-    initializeLayers(layerSizes);
+    weights = std::vector<arma::mat>(layer_sizes.size() - 1);
+
+    initializeLayers(layer_sizes);
 }
 
 
-void NeuralNetwork::initializeLayers(const std::vector<int> &layerSizes) {
-    int layerSize, prevLayerSize;
+void NeuralNetwork::initializeLayers(const std::vector<int> &layer_sizes) {
+    int layer_size, prev_layer_size;
 
-    neurons[0] = arma::mat(1, layerSizes[0]);
-    for (int i = 1; i < layerSizes.size(); ++i) {
-        layerSize = layerSizes[i];
-        prevLayerSize = layerSizes[i-1];
+    neurons[0] = arma::mat(1, layer_sizes[0]);
+    for (int i = 1; i < layer_sizes.size(); ++i) {
+        layer_size = layer_sizes[i];
+        prev_layer_size = layer_sizes[i-1];
 
-        neurons[i] = arma::mat(1, layerSize);
-        weights[i-1] = arma::randu<arma::mat>(prevLayerSize, layerSize) * 10 - 5;
+        neurons[i] = arma::mat(1, layer_size);
+        weights[i-1] = arma::randu<arma::mat>(prev_layer_size, layer_size) * 10 - 5;
     }
 }
 
 arma::mat NeuralNetwork::sigmoid(arma::mat z) {
     return 1/(1 + arma::exp(-z));
+}
+
+arma::mat NeuralNetwork::sigmoidPrime(arma::mat z) {
+    return z % (1 - z);
 }
 
 arma::mat NeuralNetwork::feedForward(arma::mat input) {
@@ -45,4 +51,19 @@ arma::mat NeuralNetwork::feedForward(arma::mat input) {
 
 bool NeuralNetwork::compatible(const arma::mat &input) {
     return size(neurons[0]) == size(input);
+}
+
+arma::mat NeuralNetwork::backpropagate(arma::mat expected_output) {
+    arma::mat output_error = expected_output - *output;
+
+    arma::mat layer_error = output_error;
+    arma::mat layer_delta;
+
+    for (int i = weights.size() - 1; i >= 0; --i) {
+        layer_delta = layer_error % sigmoidPrime(neurons[i + 1]);
+        layer_error = layer_delta * weights[i].t();
+        weights[i] += neurons[i].t() * layer_delta;
+    }
+
+    return arma::abs(output_error);
 }

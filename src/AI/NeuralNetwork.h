@@ -16,13 +16,17 @@ private:
     std::vector<arma::mat> neurons;
     std::vector<arma::mat> weights;
 
-    void initializeLayers(const std::vector<int> &layerSizes);
+    void initializeLayers(const std::vector<int> &layer_sizes);
     bool compatible(const arma::mat &input);
 
     arma::mat sigmoid(arma::mat z);
+    arma::mat sigmoidPrime(arma::mat x);
 
 public:
-    NeuralNetwork(const std::vector<int> &layerSizes);
+    arma::mat *output;
+
+    NeuralNetwork(const std::vector<int> &layer_sizes);
     arma::mat feedForward(arma::mat input);
+    arma::mat backpropagate(arma::mat expected_output);
 };
 #endif //PROJECT_NEURALNETWORK_H

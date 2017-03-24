@@ -11,12 +11,22 @@ TEST(HelloTest, Hello) {
 }
 
 TEST(NeuralNetworkTest, InitTest) {
-    std::vector<int> layerSizes({1,2,3});
-    NeuralNetwork neuralNetwork(layerSizes);
-    arma::mat input(1, layerSizes[0]);
+    std::vector<int> layer_sizes({1,2,3});
+    NeuralNetwork neuralNetwork(layer_sizes);
+    arma::mat input(1, layer_sizes[0]);
     input += 1;
     input.print();
-    neuralNetwork.feedForward(input).print();
+
+    for (int i = 0; i < 10000; ++i) {
+        neuralNetwork.feedForward(input);
+        arma::mat actual = neuralNetwork.backpropagate(arma::mat({1,0,1}));
+
+        if (i % 1000 == 0) {
+            std::cout << "Iteration #" << i << std::endl << "Actual output: ";
+            neuralNetwork.output->print();
+            std::cout << "Mean error: " << arma::mean(arma::mean(actual)) << std::endl;
+        }
+    }
 
     ASSERT_TRUE(true);
 }
