@@ -6,27 +6,23 @@
 #define PROJECT_NEURALNETWORK_H
 
 #include <vector>
-#include <math.h>
-#include <numeric>
 #include <armadillo>
 #include <cstdlib>
-
-using namespace std;
-using namespace arma;
 
 char const* greet( );
 
 class NeuralNetwork {
 private:
-    vector<mat> neurons;
-    vector<mat> weights;
+    std::vector<arma::mat> neurons;
+    std::vector<arma::mat> weights;
 
-    void initializeLayers(const vector<int> &layerSizes);
+    void initializeLayers(const std::vector<int> &layerSizes);
+    bool compatible(const arma::mat &input);
 
-    double sigmoid(int z);
+    arma::mat sigmoid(arma::mat z);
 
 public:
-    NeuralNetwork(const vector<int> &layerSizes);
-    mat feedForward(mat input);
+    NeuralNetwork(const std::vector<int> &layerSizes);
+    arma::mat feedForward(arma::mat input);
 };
 #endif //PROJECT_NEURALNETWORK_H

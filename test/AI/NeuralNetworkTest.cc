@@ -13,6 +13,10 @@ TEST(HelloTest, Hello) {
 TEST(NeuralNetworkTest, InitTest) {
     std::vector<int> layerSizes({1,2,3});
     NeuralNetwork neuralNetwork(layerSizes);
+    arma::mat input(1, layerSizes[0]);
+    input += 1;
+    input.print();
+    neuralNetwork.feedForward(input).print();
 
     ASSERT_TRUE(true);
 }
