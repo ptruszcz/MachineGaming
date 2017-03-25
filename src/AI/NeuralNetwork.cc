@@ -17,6 +17,12 @@ NeuralNetwork::NeuralNetwork(const std::vector<int> &layer_sizes) {
     initializeLayers(layer_sizes);
 }
 
+NeuralNetwork::NeuralNetwork(const NeuralNetwork &neural_network) {
+    neurons = std::vector<arma::mat>(neural_network.neurons);
+    output = &neurons.back();
+
+    weights = std::vector<arma::mat>(neural_network.weights);
+}
 
 void NeuralNetwork::initializeLayers(const std::vector<int> &layer_sizes) {
     int layer_size, prev_layer_size;
@@ -31,11 +37,11 @@ void NeuralNetwork::initializeLayers(const std::vector<int> &layer_sizes) {
     }
 }
 
-arma::mat NeuralNetwork::sigmoid(arma::mat z) {
+arma::mat NeuralNetwork::activationFunction(arma::mat z) {
     return 1/(1 + arma::exp(-z));
 }
 
-arma::mat NeuralNetwork::sigmoidPrime(arma::mat z) {
+arma::mat NeuralNetwork::activationFunctionDerivative(arma::mat z) {
     return z % (1 - z);
 }
 
@@ -44,9 +50,9 @@ arma::mat NeuralNetwork::feedForward(arma::mat input) {
 
     neurons[0] = input;
     for (int i = 0; i < weights.size(); ++i) {
-        neurons[i + 1] = sigmoid(neurons[i] * weights[i]);
+        neurons[i + 1] = activationFunction(neurons[i] * weights[i]);
     }
-    return neurons.back();
+    return *output;
 }
 
 bool NeuralNetwork::compatible(const arma::mat &input) {
@@ -59,11 +65,15 @@ arma::mat NeuralNetwork::backpropagate(arma::mat expected_output) {
     arma::mat layer_error = output_error;
     arma::mat layer_delta;
 
-    for (int i = weights.size() - 1; i >= 0; --i) {
-        layer_delta = layer_error % sigmoidPrime(neurons[i + 1]);
+    for (int i = (int) (weights.size() - 1); i >= 0; --i) {
+        layer_delta = layer_error % activationFunctionDerivative(neurons[i + 1]);
         layer_error = layer_delta * weights[i].t();
         weights[i] += neurons[i].t() * layer_delta;
     }
 
     return arma::abs(output_error);
+}
+
+arma::mat NeuralNetwork::getOutput() {
+    return *output;
 }
