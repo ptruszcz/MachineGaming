@@ -5,14 +5,14 @@
 #include <armadillo>
 #include "Genotype.h"
 
-arma::mat Genotype::generateNeuronMatrix() {
-    return arma::mat();
-}
-
-arma::mat Genotype::generateWeightMatrix() {
-    return arma::mat();
-}
-
 Genotype Genotype::cross(const Genotype &parentA, const Genotype &parentB) {
     return Genotype();
+}
+
+const std::list<Neuron> &Genotype::getNeurons() const {
+    return neurons;
+}
+
+const std::list<Connection> &Genotype::getConnections() const {
+    return connections;
 }

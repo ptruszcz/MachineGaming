@@ -16,9 +16,10 @@ private:
     std::list<Connection> connections;
 
 public:
-    arma::mat generateNeuronMatrix();
-    arma::mat generateWeightMatrix();
     static Genotype cross(const Genotype &parentA, const Genotype &parentB);
+
+    const std::list<Neuron> &getNeurons() const;
+    const std::list<Connection> &getConnections() const;
 };
 
 
