@@ -10,18 +10,17 @@ Phenotype::Phenotype(Genotype genotype) {
     generateWeightMatrices(genotype.getConnections(), layer_sizes);
 }
 
-std::vector<int> Phenotype::calculateNumberOfNeuronsPerLayer(std::list<Neuron> neuron_list) {
+std::vector<int> Phenotype::calculateNumberOfNeuronsPerLayer(const std::list<std::shared_ptr<Neuron>> &neuron_list) {
     std::vector<int> neuronsPerLayers = std::vector();
 
-    while(!neuron_list.empty()) {
-        Neuron neuron = neuron_list.front();
-        neuron_list.pop_front();
+    for (auto neuron_ptr: neuron_list) {
+        Neuron *neuron = neuron_ptr.get();
 
-        if (neuron.getLayerNumber() >= neuronsPerLayers.size()) {
+        if (neuron->getLayerNumber() >= neuronsPerLayers.size()) {
             neuronsPerLayers.push_back(1);
         }
         else {
-            neuronsPerLayers[neuron.getLayerNumber()]++;
+            neuronsPerLayers[neuron->getLayerNumber()]++;
         }
     }
 
@@ -38,7 +37,8 @@ void Phenotype::generateNeuronMatrices(const std::vector<int> &layer_sizes) {
     }
 }
 
-void Phenotype::generateWeightMatrices(std::list<Connection> connection_list, const std::vector<int> &layer_sizes) {
+void Phenotype::generateWeightMatrices(const std::list<std::shared_ptr<Connection>> &connection_list,
+                                       const std::vector<int> &layer_sizes) {
     weights = std::vector<arma::mat>(layer_sizes.size());
     int layer_size, prev_layer_size;
 

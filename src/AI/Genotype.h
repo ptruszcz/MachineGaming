@@ -12,14 +12,14 @@
 
 class Genotype {
 private:
-    std::list<Neuron> neurons;
-    std::list<Connection> connections;
+    std::list<std::shared_ptr<Neuron>> neurons;
+    std::list<std::shared_ptr<Connection>> connections;
 
 public:
     static Genotype cross(const Genotype &parentA, const Genotype &parentB);
 
-    const std::list<Neuron> &getNeurons() const;
-    const std::list<Connection> &getConnections() const;
+    const std::list<std::shared_ptr<Neuron>> &getNeurons() const;
+    const std::list<std::shared_ptr<Connection>> &getConnections() const;
 };
 
 

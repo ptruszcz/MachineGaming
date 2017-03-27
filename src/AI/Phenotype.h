@@ -14,10 +14,10 @@ private:
     std::vector<arma::mat> neurons;
     std::vector<arma::mat> weights;
 
-    std::vector<int> calculateNumberOfNeuronsPerLayer(std::list<Neuron> neuron_list);
+    std::vector<int> calculateNumberOfNeuronsPerLayer(const std::list<std::shared_ptr<Neuron>> &neuron_list);
     void generateNeuronMatrices(const std::vector<int> &layer_sizes);
 
-    void generateWeightMatrices(std::list<Connection> connection_list, const std::vector<int> &layer_sizes);
+    void generateWeightMatrices(const std::list<std::shared_ptr<Connection>> &connection_list, const std::vector<int> &layer_sizes);
 public:
     Phenotype(Genotype genotype);
 

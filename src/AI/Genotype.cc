@@ -9,10 +9,10 @@ Genotype Genotype::cross(const Genotype &parentA, const Genotype &parentB) {
     return Genotype();
 }
 
-const std::list<Neuron> &Genotype::getNeurons() const {
+const std::list<std::shared_ptr<Neuron>> &Genotype::getNeurons() const {
     return neurons;
 }
 
-const std::list<Connection> &Genotype::getConnections() const {
+const std::list<std::shared_ptr<Connection>> &Genotype::getConnections() const {
     return connections;
 }
