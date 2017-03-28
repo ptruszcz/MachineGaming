@@ -20,6 +20,10 @@ public:
 
     int getOrderNumber() const;
     int getLayerNumber() const;
+
+    bool operator==(const Neuron &rhs) const;
+
+    bool operator!=(const Neuron &rhs) const;
 };
 
 

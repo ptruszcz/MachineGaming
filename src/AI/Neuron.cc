@@ -21,3 +21,11 @@ Neuron::Neuron(const Neuron &neuron) {
     order_number = neuron.order_number;
     layer_number = neuron.layer_number;
 }
+
+bool Neuron::operator==(const Neuron &rhs) const {
+    return order_number == rhs.order_number;
+}
+
+bool Neuron::operator!=(const Neuron &rhs) const {
+    return !(rhs == *this);
+}
