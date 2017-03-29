@@ -3,22 +3,31 @@ import pygame
 
 class GameWindow:
     def __init__(self):
-        self._running = True
         self._screen = None
         self._clock = None
 
-    def execute(self):
-        if not self._init():
-            self._running = False
+    def run(self):
+        self._init()
 
-        #while running
-            #event
-            #loop
-            #render
+        while True:
+            for event in pygame.event.get():
+                self._handle_event(event)
+                self._render()
+
+
 
     def _init(self):
         pygame.init()
         self._screen = pygame.display.set_mode((1024, 768), pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._clock = pygame.time.Clock()
-        self._running = True
 
+    def _handle_event(self, event):
+        if event.type == pygame.QUIT:
+            pygame.quit()
+
+        # do sth
+
+    def _render(self):
+        # render sth
+        # switch buffers as pygame uses double buffering
+        pygame.display.flip()
