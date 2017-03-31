@@ -19,7 +19,7 @@ private:
 
     NeuronLayers createNeuronLayers(const std::list<std::shared_ptr<Neuron>> &neuron_list);
     void generateNeuronMatrices(const NeuronLayers &neuron_layers);
-    void generateWeightMatrices(const std::list<std::shared_ptr<Connection>> &connection_list,
+    void generateWeightMatrices(const std::list<Connection> &connection_list,
                                 const NeuronLayers &neuron_layers);
     Coordinates findNeuronCoordinates(const Neuron &neuron, const NeuronLayers &neuron_layers);
 

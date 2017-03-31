@@ -7,8 +7,10 @@
 
 
 #include <list>
+#include <boost/shared_ptr.hpp>
 #include "Neuron.h"
 #include "Connection.h"
+#include "Random.h"
 
 enum MutationType {
     ADD_NEURON,
@@ -19,20 +21,29 @@ enum MutationType {
 
 class Genotype {
 private:
+    static Random random;
+
+    int layer_counter;
     std::list<std::shared_ptr<Neuron>> neurons;
-    std::list<std::shared_ptr<Connection>> connections;
+    std::list<Connection> connections;
 
     void addNeuron();
+    void addNeuron(int layer_number);
+    void addLayer(int size);
+    void connectLayer(int layer_number);
+    void addConnections(const std::vector<std::shared_ptr<Neuron>> &input_layer,
+                        const std::vector<std::shared_ptr<Neuron>> &output_layer);
     void addConnection();
+    void addConnection(const Neuron &input, const Neuron &output);
     void disableConnection();
     void randomizeWeight();
 public:
-    Genotype();
+    Genotype(int input_size, int hidden_layers, int output_size);
     static Genotype cross(const Genotype &parentA, const Genotype &parentB);
-    void mutate(MutationType mutation_type);
+    void mutate(const MutationType &mutation_type);
 
     const std::list<std::shared_ptr<Neuron>> &getNeurons() const;
-    const std::list<std::shared_ptr<Connection>> &getConnections() const;
+    const std::list<Connection> &getConnections() const;
 };
 
 

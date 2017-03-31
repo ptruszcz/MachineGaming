@@ -36,7 +36,7 @@ void Phenotype::generateNeuronMatrices(const NeuronLayers &neuron_layers) {
     }
 }
 
-void Phenotype::generateWeightMatrices(const std::list<std::shared_ptr<Connection>> &connection_list,
+void Phenotype::generateWeightMatrices(const std::list<Connection> &connection_list,
                                        const NeuronLayers &neuron_layers) {
     weights = std::vector<arma::mat>(neuron_layers.size());
     unsigned long layer_size;
@@ -48,17 +48,15 @@ void Phenotype::generateWeightMatrices(const std::list<std::shared_ptr<Connectio
         weights[i-1] = arma::mat(prev_layer_size, layer_size, arma::fill::zeros);
     }
 
-    for (auto connection_ptr: connection_list) {
-        Connection *connection = connection_ptr.get();
-
-        if (connection->isEnabled()) {
-            Neuron *input_neuron = connection->getInput().get();
+    for (auto connection: connection_list) {
+        if (connection.isEnabled()) {
+            Neuron *input_neuron = connection.getInput().get();
             Coordinates input_coordinates = findNeuronCoordinates(*input_neuron, neuron_layers);
 
-            Neuron *output_neuron = connection->getOutput().get();
+            Neuron *output_neuron = connection.getOutput().get();
             Coordinates output_coordinates = findNeuronCoordinates(*output_neuron, neuron_layers);
 
-            weights[input_coordinates.getX()][output_coordinates.getX()] = connection->getWeight();
+            weights[input_coordinates.getX()][output_coordinates.getX()] = connection.getWeight();
         }
     }
 }

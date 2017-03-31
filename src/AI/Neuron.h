@@ -10,16 +10,18 @@
 
 class Neuron {
 private:
-    static int counter;
+    static int neuron_counter;
     int order_number;
     int layer_number;
 
+    Neuron();
+
 public:
     Neuron(int layer_number);
-    Neuron(const Neuron &neuron);
 
     int getOrderNumber() const;
     int getLayerNumber() const;
+    void incrementLayerNumber();
 
     bool operator==(const Neuron &rhs) const;
 

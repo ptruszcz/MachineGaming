@@ -29,7 +29,7 @@ private:
 
 public:
     NeuralNetwork(int input_size, int output_size) :
-            NeuralNetwork(std::vector<int>({input_size, output_size})) {}
+            NeuralNetwork(std::vector<int>({input_size, output_size})), genotype(0, 0, 0) {}
     NeuralNetwork(const std::vector<int> &layer_sizes);
     NeuralNetwork(const NeuralNetwork &neural_network);
 
