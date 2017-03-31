@@ -1,7 +1,8 @@
 import pygame
 from Spaceship import Spaceship
 from Coordinates import Coordinates
-
+from Vector import Vector
+from Asteroid import Asteroid
 
 WINDOW_SIZE_X = 1024
 WINDOW_SIZE_Y = 768
@@ -16,12 +17,16 @@ class GameWindow:
         self._clock = None
         self._pressed_buttons = set()
         self._spaceship = Spaceship(Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2))
+        self._allgroup = pygame.sprite.Group()
+        self._asteroids = pygame.sprite.Group()
+        self._allgroup.add(self._spaceship)
+        self._asteroids.add(Asteroid(Coordinates(30, 30), Vector(0.5, 0.5)))
 
     def run(self):
         self._init()
 
         while self._running:
-            self._clock.tick(15)
+            self._clock.tick(25)
 
             for event in pygame.event.get():
                 self._handle_event(event)
@@ -50,5 +55,6 @@ class GameWindow:
 
     def _render(self):
         self._screen.fill(black)
-        self._spaceship.draw(self._screen, white)
+        self._spaceship.update(self._screen)
+        self._asteroids.update(self._screen)
         pygame.display.update()

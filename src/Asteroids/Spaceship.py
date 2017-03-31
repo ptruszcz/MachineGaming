@@ -1,25 +1,30 @@
+import os
 import pygame
 import math
 from Vector import Vector
-from Coordinates import Coordinates
 
 
-MAIN_BOOSTER_POWER = 0.05
+MAIN_BOOSTER_POWER = 0.09
 SLOW_DOWN_RATE = 0.01  # TODO: change to atmosphere viscosity
 
 
 # hardcoded and ugly - will be fixed soon :)
 # will be sprite later
-class Spaceship:
+class Spaceship(pygame.sprite.Sprite):
     def __init__(self, coordinates, velocity=Vector(0, 0), direction=0):
+        pygame.sprite.Sprite.__init__(self)
         self._coordinates = coordinates
         self._velocity = velocity
         self._direction = direction    # from 0 to 359 where 0 is right and 90 is down
 
-    def draw(self, screen, color):
-        rect = pygame.Surface((20, 20))
-        rect.fill(color)
-        screen.blit(rect, (self._coordinates.x, self._coordinates.y))
+        self.image = pygame.Surface([20, 20])
+
+        fullname = os.path.join('sprites', 'spaceship.png')
+        self.image = pygame.image.load(fullname)
+
+    def update(self, screen):
+        rotated = pygame.transform.rotate(self.image, -self._direction) # minus because 90 degrees are up here
+        screen.blit(rotated, (self._coordinates.x, self._coordinates.y))
 
     def steer(self, key):
         if key == pygame.K_w:
