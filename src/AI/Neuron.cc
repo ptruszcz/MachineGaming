@@ -4,6 +4,10 @@
 
 #include "Neuron.h"
 
+int Neuron::neuron_counter = 0;
+
+Neuron::Neuron() {}
+
 int Neuron::getOrderNumber() const {
     return order_number;
 }
@@ -12,14 +16,13 @@ int Neuron::getLayerNumber() const {
     return layer_number;
 }
 
-Neuron::Neuron(int layer_number) : layer_number(layer_number) {
-    counter++;
-    order_number = counter;
+void Neuron::incrementLayerNumber() {
+    ++layer_number;
 }
 
-Neuron::Neuron(const Neuron &neuron) {
-    order_number = neuron.order_number;
-    layer_number = neuron.layer_number;
+Neuron::Neuron(int layer_number) : layer_number(layer_number) {
+    neuron_counter++;
+    order_number = neuron_counter;
 }
 
 bool Neuron::operator==(const Neuron &rhs) const {

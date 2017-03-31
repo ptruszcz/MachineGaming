@@ -8,7 +8,7 @@ char const* greet( )
     return "Hello world";
 }
 
-NeuralNetwork::NeuralNetwork(const std::vector<int> &layer_sizes) {
+NeuralNetwork::NeuralNetwork(const std::vector<int> &layer_sizes) : genotype(0, 0, 0) {
     neurons = std::vector<arma::mat>(layer_sizes.size());
     output = &neurons.back();
 
@@ -17,7 +17,7 @@ NeuralNetwork::NeuralNetwork(const std::vector<int> &layer_sizes) {
     initializeLayers(layer_sizes);
 }
 
-NeuralNetwork::NeuralNetwork(const NeuralNetwork &neural_network) {
+NeuralNetwork::NeuralNetwork(const NeuralNetwork &neural_network) : genotype(0, 0, 0) {
     neurons = std::vector<arma::mat>(neural_network.neurons);
     output = &neurons.back();
 

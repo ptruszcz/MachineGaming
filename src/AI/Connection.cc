@@ -4,15 +4,18 @@
 
 #include "Connection.h"
 
+int Connection::connection_counter = 0;
+double Connection::weight_variance = 5.0;
+
 int Connection::getOrderNumber() const {
     return order_number;
 }
 
-const boost::shared_ptr<Neuron> &Connection::getInput() const {
+const std::shared_ptr<Neuron> &Connection::getInput() const {
     return input;
 }
 
-const boost::shared_ptr<Neuron> &Connection::getOutput() const {
+const std::shared_ptr<Neuron> &Connection::getOutput() const {
     return output;
 }
 
@@ -24,11 +27,11 @@ double Connection::getWeight() const {
     return weight;
 }
 
-Connection::Connection(const boost::shared_ptr<Neuron> &input,
-                       const boost::shared_ptr<Neuron> &output) : input(input),
+Connection::Connection(const std::shared_ptr<Neuron> &input,
+                       const std::shared_ptr<Neuron> &output) : input(input),
                                                                   output(output) {
-    counter++;
-    order_number = counter;
+    connection_counter++;
+    order_number = connection_counter;
     enabled = true;
     randomizeWeight();
 }
@@ -36,4 +39,12 @@ Connection::Connection(const boost::shared_ptr<Neuron> &input,
 void Connection::randomizeWeight() {
     double f = (double)rand() / RAND_MAX;
     weight =  (2 * f * weight_variance) - weight_variance;
+}
+
+bool Connection::operator==(const Connection &rhs) const {
+    return order_number == rhs.order_number;
+}
+
+bool Connection::operator!=(const Connection &rhs) const {
+    return !(rhs == *this);
 }

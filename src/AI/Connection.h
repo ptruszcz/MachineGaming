@@ -5,31 +5,34 @@
 #ifndef MACHINEGAMING_CONNECTION_H
 #define MACHINEGAMING_CONNECTION_H
 
-
 #include <boost/shared_ptr.hpp>
 #include "Neuron.h"
 
 class Connection {
 private:
-    static int counter;
+    static int connection_counter;
+    static double weight_variance;
     int order_number;
-    boost::shared_ptr<Neuron> input;
-    boost::shared_ptr<Neuron> output;
+    std::shared_ptr<Neuron> input;
+    std::shared_ptr<Neuron> output;
     double weight;
 
 public:
-    double weight_variance;
     bool enabled;
 
-    Connection(const boost::shared_ptr<Neuron> &input, const boost::shared_ptr<Neuron> &output);
+    Connection(const std::shared_ptr<Neuron> &input, const std::shared_ptr<Neuron> &output);
 
     void randomizeWeight();
 
     int getOrderNumber() const;
-    const boost::shared_ptr<Neuron> &getInput() const;
-    const boost::shared_ptr<Neuron> &getOutput() const;
+    const std::shared_ptr<Neuron> &getInput() const;
+    const std::shared_ptr<Neuron> &getOutput() const;
     bool isEnabled() const;
     double getWeight() const;
+
+    bool operator==(const Connection &rhs) const;
+
+    bool operator!=(const Connection &rhs) const;
 };
 
 
