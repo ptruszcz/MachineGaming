@@ -2,9 +2,12 @@ import os
 import pygame
 import math
 from Vector import Vector
+from Missile import Missile
+from Coordinates import Coordinates
 
 MAIN_BOOSTER_POWER = 0.09
 SIDE_BOOSTER_POWER = 3 # in degrees
+FIRE_POWER = 10
 SLOW_DOWN_RATE = 0.01
 
 
@@ -20,7 +23,6 @@ class Spaceship(pygame.sprite.Sprite):
         self.image = pygame.image.load(fullname)
 
     def update(self, surface):
-        center = self.image.get_rect().center
         # minus before self._direction is because transform.rotate counts rotation in counter-clockwise direction
         rotated = self.rot_center(self.image, -self._direction)
         surface.blit(rotated, (self._coordinates.x, self._coordinates.y))
@@ -43,11 +45,12 @@ class Spaceship(pygame.sprite.Sprite):
             self._rotate(SIDE_BOOSTER_POWER)
         elif key == pygame.K_a:
             self._rotate(-SIDE_BOOSTER_POWER)
-        elif key == pygame.K_RETURN:
-            self._fire()
 
-    def _fire(self):
-        print("pew pew pew")
+    def fire(self):
+        out_velocity = Vector()
+        out_velocity.x_value = math.cos(math.radians(self._direction)) * FIRE_POWER
+        out_velocity.y_value = math.sin(math.radians(self._direction)) * FIRE_POWER
+        return Missile(Coordinates(self._coordinates.x, self._coordinates.y), out_velocity, self._direction)
 
     def move(self):
         self._slow_down()
@@ -64,7 +67,7 @@ class Spaceship(pygame.sprite.Sprite):
         self._velocity.y_value += math.sin(math.radians(self._direction)) * value
 
     def _rotate(self, value):
-        self._direction = (self._direction + value) % 360
+        self._direction = (value + self._direction) % 360
 
     def _update_coordinates(self):
         self._coordinates.x += self._velocity.x_value

@@ -23,7 +23,6 @@ class GameWindow:
 
         self._spaceship = Spaceship(Coordinates(0, 0))
         self._asteroids.add(Asteroid(Coordinates(200, 30), Vector(0.5, 0.5)))
-        self._missiles.add(Missile(Coordinates(400, 500), Vector(0.5, -0.5)))
 
         self._allgroup.add(self._spaceship, self._asteroids, self._missiles)
 
@@ -44,7 +43,10 @@ class GameWindow:
             for event in pygame.event.get():
                 self._handle_event(event)
             for key in self._pressed_buttons:
-                self._spaceship.steer(key)
+                if key == pygame.K_RETURN:
+                    self._missiles.add(self._spaceship.fire())
+                else:
+                    self._spaceship.steer(key)
 
             self._spaceship.move()
             self._render()
@@ -65,4 +67,5 @@ class GameWindow:
     def _render(self):
         self._screen.fill(black)
         self._allgroup.update(self._screen)
+        self._missiles.update(self._screen)
         pygame.display.update()
