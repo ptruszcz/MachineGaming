@@ -4,24 +4,28 @@ from Vector import Vector
 from Coordinates import Coordinates
 
 
+MAIN_BOOSTER_POWER = 0.05
+SLOW_DOWN_RATE = 0.01  # TODO: change to atmosphere viscosity
+
+
 # hardcoded and ugly - will be fixed soon :)
 # will be sprite later
 class Spaceship:
-    def __init__(self, coordinates, velocity=Vector(0, 0), direction=0, acceleration=0):
+    def __init__(self, coordinates, velocity=Vector(0, 0), direction=0):
         self._coordinates = coordinates
         self._velocity = velocity
-        self._direction = direction    # from 0 to 359 where 0 is right and 90 is up
-        self._acceleration = acceleration
+        self._direction = direction    # from 0 to 359 where 0 is right and 90 is down
 
     def draw(self, screen, color):
-        rect = pygame.Rect = (self._coordinates.x, self._coordinates.y, 20, 20)
-        pygame.draw.rect(screen, color, rect)
+        rect = pygame.Surface((20, 20))
+        rect.fill(color)
+        screen.blit(rect, (self._coordinates.x, self._coordinates.y))
 
     def steer(self, key):
         if key == pygame.K_w:
-            self._accelerate(forward=True)
+            self._accelerate(MAIN_BOOSTER_POWER)
         elif key == pygame.K_s:
-            self._accelerate(forward=False)
+            self._accelerate(-MAIN_BOOSTER_POWER)
         elif key == pygame.K_d:
             self._rotate(clockwise=True)
         elif key == pygame.K_a:
@@ -30,27 +34,30 @@ class Spaceship:
             print("pew pew pew")
 
     def move(self):
-        self._update_velocity()
-        self._coordinates.x += self._velocity.x_value
-        self._coordinates.y += self._velocity.y_value
+        self._slow_down()
+        self._update_coordinates()
+        self._display_info()
 
-    def _accelerate(self, forward):
-        if forward:
-            self._acceleration += 0.01
-        else:
-            self._acceleration -= 0.01
+    def _slow_down(self):
+        if abs(self._velocity.x_value) > SLOW_DOWN_RATE or abs(self._velocity.y_value) > SLOW_DOWN_RATE:
+            self._velocity.x_value -= math.copysign(SLOW_DOWN_RATE, self._velocity.x_value)
+            self._velocity.y_value -= math.copysign(SLOW_DOWN_RATE, self._velocity.y_value)
+
+    def _accelerate(self, value):
+        self._velocity.x_value += math.cos(math.radians(self._direction)) * value
+        self._velocity.y_value += math.sin(math.radians(self._direction)) * value
 
     def _rotate(self, clockwise):
         if clockwise:
-            self._direction -= 1
+            self._direction += 5
         else:
-            self._direction += 1
+            self._direction -= 5
         self._direction = self._direction % 360
 
-    def _update_velocity(self):
-        self._velocity.x_value += math.cos(math.radians(self._direction)) * self._acceleration
-        self._velocity.y_value += math.sin(math.radians(self._direction)) * self._acceleration
+    def _update_coordinates(self):
+        self._coordinates.x += self._velocity.x_value
+        self._coordinates.y += self._velocity.y_value
 
+    def _display_info(self):
         print("\nDirection: " + str(self._direction))
-        print("Acceleration: " + str(self._acceleration))
         print("Velocity x: " + str(self._velocity.x_value) + "\nVelocity y: " + str(self._velocity.y_value))

@@ -6,6 +6,8 @@ from Coordinates import Coordinates
 WINDOW_SIZE_X = 1024
 WINDOW_SIZE_Y = 768
 white = (255, 255, 255)
+black = (0, 0, 0)
+
 
 class GameWindow:
     def __init__(self):
@@ -23,9 +25,9 @@ class GameWindow:
 
             for event in pygame.event.get():
                 self._handle_event(event)
-
             for key in self._pressed_buttons:
                 self._spaceship.steer(key)
+
             self._spaceship.move()
             self._render()
 
@@ -41,11 +43,12 @@ class GameWindow:
         if event.type == pygame.KEYDOWN:
             self._pressed_buttons.add(event.key)
         elif event.type == pygame.KEYUP:
-            self._pressed_buttons.remove(event.key)
+            if self._pressed_buttons:
+                self._pressed_buttons.remove(event.key)
         elif event.type == pygame.QUIT:
             self._running = False
 
     def _render(self):
-        # render sth
+        self._screen.fill(black)
         self._spaceship.draw(self._screen, white)
         pygame.display.update()
