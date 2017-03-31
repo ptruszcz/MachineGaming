@@ -19,15 +19,20 @@ class Spaceship(pygame.sprite.Sprite):
         fullname = os.path.join('../../res/Asteroids/sprites', 'spaceship.png')
         self.image = pygame.image.load(fullname)
 
-
     def update(self, surface):
         center = self.image.get_rect().center
         # minus before self._direction is because transform.rotate counts rotation in counter-clockwise direction
-        scaled = pygame.transform.scale(self.image, (100, 100))
-        rotated = pygame.transform.rotate(scaled, -self._direction)
-        rotated.get_rect().center = center
+        rotated = self.rot_center(self.image, -self._direction)
         surface.blit(rotated, (self._coordinates.x, self._coordinates.y))
 
+    def rot_center(self, image, angle):
+        """rotate an image while keeping its center and size"""
+        orig_rect = image.get_rect()
+        rot_image = pygame.transform.rotate(image, angle)
+        rot_rect = orig_rect.copy()
+        rot_rect.center = rot_image.get_rect().center
+        rot_image = rot_image.subsurface(rot_rect).copy()
+        return rot_image
 
     def steer(self, key):
         if key == pygame.K_w:
@@ -49,26 +54,21 @@ class Spaceship(pygame.sprite.Sprite):
         self._update_coordinates()
         self._display_info()
 
-
     def _slow_down(self):
         if abs(self._velocity.x_value) > SLOW_DOWN_RATE or abs(self._velocity.y_value) > SLOW_DOWN_RATE:
             self._velocity.x_value -= math.copysign(SLOW_DOWN_RATE, self._velocity.x_value)
             self._velocity.y_value -= math.copysign(SLOW_DOWN_RATE, self._velocity.y_value)
 
-
     def _accelerate(self, value):
         self._velocity.x_value += math.cos(math.radians(self._direction)) * value
         self._velocity.y_value += math.sin(math.radians(self._direction)) * value
 
-
     def _rotate(self, value):
         self._direction = (self._direction + value) % 360
-
 
     def _update_coordinates(self):
         self._coordinates.x += self._velocity.x_value
         self._coordinates.y += self._velocity.y_value
-
 
     def _display_info(self):
         print("\nDirection: " + str(self._direction))

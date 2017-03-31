@@ -39,7 +39,7 @@ class GameWindow:
         self._init()
 
         while self._running:
-            self._clock.tick(25)
+            self._clock.tick(60)
 
             for event in pygame.event.get():
                 self._handle_event(event)
