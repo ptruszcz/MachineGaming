@@ -8,18 +8,18 @@
 
 #include <armadillo>
 #include "Genotype.h"
-#include "Coordinates.h"
 
-typedef std::vector<std::vector<std::shared_ptr<Neuron>>> NeuronLayers;
+typedef std::pair<int, int> Coordinates;
+typedef std::vector<std::vector<PNeuron>> NeuronLayers;
 
 class Phenotype {
 private:
     std::vector<arma::mat> neurons;
     std::vector<arma::mat> weights;
 
-    NeuronLayers createNeuronLayers(const std::list<std::shared_ptr<Neuron>> &neuron_list);
+    NeuronLayers createNeuronLayers(const std::vector<PNeuron> &neuron_list);
     void generateNeuronMatrices(const NeuronLayers &neuron_layers);
-    void generateWeightMatrices(const std::list<Connection> &connection_list,
+    void generateWeightMatrices(const std::vector<Connection> &connection_list,
                                 const NeuronLayers &neuron_layers);
     Coordinates findNeuronCoordinates(const Neuron &neuron, const NeuronLayers &neuron_layers);
 

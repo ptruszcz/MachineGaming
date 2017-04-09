@@ -10,28 +10,34 @@
 
 class Connection {
 private:
-    static int connection_counter;
+    static int counter;
     static double weight_variance;
+
     int order_number;
-    std::shared_ptr<Neuron> input;
-    std::shared_ptr<Neuron> output;
+    PNeuron input;
+    PNeuron output;
     double weight;
 
 public:
+
+    Connection() {}
     bool enabled;
 
-    Connection(const std::shared_ptr<Neuron> &input, const std::shared_ptr<Neuron> &output);
+    Connection(const PNeuron &input, const PNeuron &output);
 
     void randomizeWeight();
 
+    static int getCounter();
+    static void resetCounter();
+    static double getWeightVariance();
+    static void setWeightVariance(double weight_variance);
     int getOrderNumber() const;
-    const std::shared_ptr<Neuron> &getInput() const;
-    const std::shared_ptr<Neuron> &getOutput() const;
+    const PNeuron &getInput() const;
+    const PNeuron &getOutput() const;
     bool isEnabled() const;
     double getWeight() const;
 
     bool operator==(const Connection &rhs) const;
-
     bool operator!=(const Connection &rhs) const;
 };
 

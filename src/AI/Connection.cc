@@ -4,18 +4,34 @@
 
 #include "Connection.h"
 
-int Connection::connection_counter = 0;
+int Connection::counter = 0;
 double Connection::weight_variance = 5.0;
+
+int Connection::getCounter() {
+    return counter;
+}
+
+void Connection::resetCounter() {
+    Connection::counter = 0;
+}
+
+double Connection::getWeightVariance() {
+    return weight_variance;
+}
+
+void Connection::setWeightVariance(double weight_variance) {
+    Connection::weight_variance = weight_variance;
+}
 
 int Connection::getOrderNumber() const {
     return order_number;
 }
 
-const std::shared_ptr<Neuron> &Connection::getInput() const {
+const PNeuron &Connection::getInput() const {
     return input;
 }
 
-const std::shared_ptr<Neuron> &Connection::getOutput() const {
+const PNeuron &Connection::getOutput() const {
     return output;
 }
 
@@ -27,11 +43,11 @@ double Connection::getWeight() const {
     return weight;
 }
 
-Connection::Connection(const std::shared_ptr<Neuron> &input,
-                       const std::shared_ptr<Neuron> &output) : input(input),
-                                                                  output(output) {
-    connection_counter++;
-    order_number = connection_counter;
+Connection::Connection(const PNeuron &input,
+                       const PNeuron &output) : input(input),
+                                                output(output) {
+    counter++;
+    order_number = counter;
     enabled = true;
     randomizeWeight();
 }

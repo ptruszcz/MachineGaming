@@ -4,9 +4,15 @@
 
 #include "Neuron.h"
 
-int Neuron::neuron_counter = 0;
+int Neuron::counter = 0;
 
-Neuron::Neuron() {}
+int Neuron::getCounter() {
+    return counter;
+}
+
+void Neuron::resetCounter() {
+    Neuron::counter = 0;
+}
 
 int Neuron::getOrderNumber() const {
     return order_number;
@@ -21,8 +27,8 @@ void Neuron::incrementLayerNumber() {
 }
 
 Neuron::Neuron(int layer_number) : layer_number(layer_number) {
-    neuron_counter++;
-    order_number = neuron_counter;
+    counter++;
+    order_number = counter;
 }
 
 bool Neuron::operator==(const Neuron &rhs) const {

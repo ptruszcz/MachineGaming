@@ -8,7 +8,9 @@
 
 
 TEST(PhenotypeTest, ConstructorTest) {
-    //TODO: Check if list to matrix structure conversion is done correctly.
+    Genotype genotype(10,5,15);
+    Phenotype phenotype(genotype);
+    
 }
 
 int main(int argc, char **argv) {

@@ -44,23 +44,27 @@ void Genotype::mutate(const MutationType &mutation_type) {
     }
 }
 
-void Genotype::addNeuron() {
+PNeuron Genotype::addNeuron() {
     int random_layer_number = random.next(1, layer_counter);
-    addNeuron(random_layer_number);
+    PNeuron neuron_ptr = addNeuron(random_layer_number);
+    addConnectionToPrevLayer(neuron_ptr);
+    addConnectionToNextLayer(neuron_ptr);
+
+    return neuron_ptr;
 }
 
-void Genotype::addNeuron(int layer_number) {
+PNeuron Genotype::addNeuron(int layer_number) {
     Neuron neuron_to_add = Neuron(layer_number);
-    neurons.push_back(std::make_shared<Neuron>(neuron_to_add));
+    PNeuron neuron_ptr = std::make_shared<Neuron>(neuron_to_add);
+    neurons.push_back(neuron_ptr);
+
+    return neuron_ptr;
 }
 
 void Genotype::addLayer(int size) {
     int layer_number = layer_counter;
-    Neuron *neuron;
 
-    for(auto neuron_ptr: neurons) {
-        neuron = neuron_ptr.get();
-
+    for (PNeuron neuron: neurons) {
         if (neuron->getLayerNumber() >= layer_number)
             neuron->incrementLayerNumber();
     }
@@ -73,47 +77,54 @@ void Genotype::addLayer(int size) {
 }
 
 void Genotype::connectLayer(int layer_number) {
-    std::vector<std::shared_ptr<Neuron>> prev_layer_neurons = std::vector<std::shared_ptr<Neuron>>();
-    std::vector<std::shared_ptr<Neuron>> this_layer_neurons = std::vector<std::shared_ptr<Neuron>>();
-    Neuron *neuron;
+    std::vector<PNeuron> prev_layer_neurons = std::vector<PNeuron>();
+    std::vector<PNeuron> this_layer_neurons = std::vector<PNeuron>();
 
-    for (auto neuron_ptr: neurons) {
-        neuron = neuron_ptr.get();
-
+    for (auto neuron: neurons) {
         if (neuron->getLayerNumber() == layer_number - 1) {
-            prev_layer_neurons.push_back(neuron_ptr);
+            prev_layer_neurons.push_back(neuron);
         } else if (neuron->getLayerNumber() == layer_number) {
-            this_layer_neurons.push_back(neuron_ptr);
+            this_layer_neurons.push_back(neuron);
         }
     }
 
     addConnections(prev_layer_neurons, this_layer_neurons);
 }
 
-void Genotype::addConnections(const std::vector<std::shared_ptr<Neuron>> &input_layer,
-                              const std::vector<std::shared_ptr<Neuron>> &output_layer) {
-    Neuron *input_neuron;
-    Neuron *output_neuron;
-
-    for (auto input_neuron_ptr: input_layer) {
-        input_neuron = input_neuron_ptr.get();
-
-        for (auto output_neuron_ptr: output_layer) {
-            output_neuron = output_neuron_ptr.get();
-
-            addConnection(*input_neuron, *output_neuron);
+void Genotype::addConnections(const std::vector<PNeuron> &input_layer,
+                              const std::vector<PNeuron> &output_layer) {
+    for (auto input_neuron: input_layer) {
+        for (auto output_neuron: output_layer) {
+            addConnection(input_neuron, output_neuron);
         }
     }
 }
 
 void Genotype::addConnection() {
-
 }
 
-void Genotype::addConnection(const Neuron &input, const Neuron &output) {
-    std::shared_ptr<Neuron> input_ptr = std::make_shared<Neuron>(input);
-    std::shared_ptr<Neuron> output_ptr = std::make_shared<Neuron>(output);
-    Connection connection(input_ptr, output_ptr);
+void Genotype::addConnectionToPrevLayer(const PNeuron &output) {
+    PNeuron input;
+
+    do {
+        input = getRandomNeuron(output->getLayerNumber() - 1);
+    } while (input == output);
+
+    addConnection(input, output);
+}
+
+void Genotype::addConnectionToNextLayer(const PNeuron &input) {
+    PNeuron output;
+
+    do {
+        output = getRandomNeuron(input->getLayerNumber() + 1);
+    } while (output == input);
+
+    addConnection(input, output);
+}
+
+void Genotype::addConnection(const PNeuron &input, const PNeuron &output) {
+    Connection connection(input, output);
     connections.push_back(connection);
 }
 
@@ -125,10 +136,27 @@ void Genotype::randomizeWeight() {
 
 }
 
-const std::list<std::shared_ptr<Neuron>> &Genotype::getNeurons() const {
+const std::vector<PNeuron> & Genotype::getNeurons() const {
     return neurons;
 }
 
-const std::list<Connection> &Genotype::getConnections() const {
+const PNeuron &Genotype::getRandomNeuron() const {
+    int index = random.next(0, (int) neurons.size() - 1);
+    return neurons[index];
+}
+
+const PNeuron &Genotype::getRandomNeuron(int layer_number) const {
+    std::vector<PNeuron> matches;
+    for (auto neuron: neurons) {
+        if (neuron->getLayerNumber() == layer_number)
+            matches.push_back(neuron);
+    }
+
+    int index = random.next(0, (int) matches.size() - 1);
+
+    return matches[index];
+}
+
+const std::vector<Connection> & Genotype::getConnections() const {
     return connections;
 }

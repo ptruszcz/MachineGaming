@@ -23,7 +23,13 @@ add_executable(PhenotypeTest PhenotypeTest.cc
                              ${TEST_DIR}/Phenotype.h
                              ${TEST_DIR}/Phenotype.cc
                              ${TEST_DIR}/Genotype.h
-                             ${TEST_DIR}/Genotype.cc)
+                             ${TEST_DIR}/Genotype.cc
+                             ${TEST_DIR}/Random.h
+                             ${TEST_DIR}/Random.cc
+                             ${TEST_DIR}/Neuron.h
+                             ${TEST_DIR}/Neuron.cc
+                             ${TEST_DIR}/Connection.h
+                             ${TEST_DIR}/Connection.cc)
 target_link_libraries(PhenotypeTest ${GTEST_LIBRARIES}
                                     ${ARMADILLO_LIBRARIES}
                                     pthread)

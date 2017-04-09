@@ -7,24 +7,27 @@
 
 
 #include <vector>
+#include <boost/shared_ptr.hpp>
+
+class Neuron;
+typedef std::shared_ptr<Neuron> PNeuron;
 
 class Neuron {
 private:
-    static int neuron_counter;
+    static int counter;
     int order_number;
     int layer_number;
-
-    Neuron();
 
 public:
     Neuron(int layer_number);
 
+    static int getCounter();
+    static void resetCounter();
     int getOrderNumber() const;
     int getLayerNumber() const;
     void incrementLayerNumber();
 
     bool operator==(const Neuron &rhs) const;
-
     bool operator!=(const Neuron &rhs) const;
 };
 

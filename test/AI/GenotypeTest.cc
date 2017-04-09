@@ -4,8 +4,23 @@
 
 #include <gtest/gtest.h>
 #include "Genotype.h"
+#include "Connection.h"
 
-TEST(GenotypeTest, SimpleGenotypeTest) {
+template class std::vector<PNeuron>;
+template class std::vector<Connection>;
+
+class GenotypeTest: public testing::Test {
+public:
+    virtual void SetUp() {
+        Neuron::resetCounter();
+        Connection::resetCounter();
+    }
+
+    virtual void TearDown() {}
+};
+
+
+TEST_F(GenotypeTest, SimpleGenotypeTest) {
     Genotype genotype1(5, 1, 10);
     ASSERT_EQ(16, genotype1.getNeurons().size());
     ASSERT_EQ(15, genotype1.getConnections().size());
@@ -16,10 +31,16 @@ TEST(GenotypeTest, SimpleGenotypeTest) {
     ASSERT_EQ(2, genotype2.getConnections().size());
 }
 
-TEST(GenotypeTest, ComplexGenotypeTest) {
+TEST_F(GenotypeTest, ComplexGenotypeTest) {
     Genotype genotype(50, 10, 20);
     ASSERT_EQ(50 + 10 + 20, genotype.getNeurons().size());
     ASSERT_EQ(50 + 9 + 20, genotype.getConnections().size());
+}
+
+TEST_F(GenotypeTest, NeuronAddingTest) {
+    Genotype genotype(5, 1, 10);
+    genotype.mutate(ADD_NEURON);
+    ASSERT_EQ(17, genotype.getConnections().size());
 }
 
 int main(int argc, char **argv) {
