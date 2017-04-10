@@ -26,6 +26,7 @@ Genotype::Genotype(const Genotype &genotype) {
 }
 
 Genotype Genotype::cross(const Genotype &parentA, const Genotype &parentB) {
+    // TODO Implementation of genotype crossing.
     return Genotype(0, 0, 0);
 }
 
@@ -142,16 +143,18 @@ void Genotype::addConnection(const PNeuron &input, const PNeuron &output) {
 
 void Genotype::disableConnection() {
     int index = random.next(0, (int)(connections.size() - 1));
+    BOOST_LOG_TRIVIAL(debug) << "[DISABLE CONNECTION BEFORE] " << connections[index];
     connections[index].enabled = false;
 
-    BOOST_LOG_TRIVIAL(debug) << "[DISABLE CONNECTION] " << connections[index];
+    BOOST_LOG_TRIVIAL(debug) << "[DISABLE CONNECTION AFTER] " << connections[index];
 }
 
 void Genotype::randomizeWeight() {
     int index = random.next(0, (int)(connections.size() - 1));
+    BOOST_LOG_TRIVIAL(debug) << "[RANDOMIZE WEIGHT BEFORE] " << connections[index];
     connections[index].randomizeWeight();
 
-    BOOST_LOG_TRIVIAL(debug) << "[RANDOMIZE WEIGHT] " << connections[index];
+    BOOST_LOG_TRIVIAL(debug) << "[RANDOMIZE WEIGHT AFTER] " << connections[index];
 }
 
 const std::vector<PNeuron> & Genotype::getNeurons() const {
@@ -183,21 +186,3 @@ bool Genotype::operator==(const Genotype &rhs) const {
 bool Genotype::operator!=(const Genotype &rhs) const {
     return !(rhs == *this);
 }
-
-
-
-/*
-bool Genotype::operator!=(const Genotype &rhs) const {
-    if(layer_counter != rhs.layer_counter || neurons.size() != rhs.neurons.size() ||
-            connections.size() != rhs.connections.size()) {
-        return false;
-    }
-    for(int i = 0; i < connections.size() - 1; ++i) {
-        if(rhs.connections[i].getWeight() != connections[i].getWeight() ||
-                rhs.connections[i].isEnabled() != connections[i].isEnabled()) {
-            return false;
-        }
-    }
-    return true;
-}
-*/

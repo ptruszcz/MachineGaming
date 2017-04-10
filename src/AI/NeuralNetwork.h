@@ -16,6 +16,7 @@ char const* greet( );
 class NeuralNetwork {
 private:
     Genotype genotype;
+    // TODO Phenotype instead of neurons and weights.
 
     arma::mat *output;
     std::vector<arma::mat> neurons;

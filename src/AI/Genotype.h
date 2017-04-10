@@ -25,6 +25,7 @@ private:
     static Random random;
 
     int layer_counter;
+    // TODO Change vector structure (index == (neuron/connection).getOrderNumber())
     std::vector<PNeuron> neurons;
     std::vector<Connection> connections;
 
@@ -46,7 +47,6 @@ private:
 public:
     Genotype(int input_size, int hidden_layers, int output_size);
     Genotype(const Genotype &genotype);
-    //bool operator!=(const Genotype& rhs) const;
 
     static Genotype cross(const Genotype &parentA, const Genotype &parentB);
     void mutate(const MutationType &mutation_type);
@@ -55,7 +55,6 @@ public:
     const std::vector<Connection> & getConnections() const;
 
     bool operator==(const Genotype &rhs) const;
-
     bool operator!=(const Genotype &rhs) const;
 };
 
