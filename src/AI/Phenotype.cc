@@ -5,22 +5,20 @@
 #include "Phenotype.h"
 
 Phenotype::Phenotype(Genotype genotype) {
-    auto neuron_layers = createNeuronLayers(genotype.getNeurons());
-    generateNeuronMatrices(neuron_layers);
-    generateWeightMatrices(genotype.getConnections(), neuron_layers);
+    NeuronLayers neurons = createNeuronLayers(genotype.getNeurons());
+    generateNeuronMatrices(neurons);
+    generateWeightMatrices(genotype.getConnections(), neurons);
 }
 
-NeuronLayers Phenotype::createNeuronLayers(const std::vector<PNeuron> &neuron_list) {
+NeuronLayers Phenotype::createNeuronLayers(const std::vector<PNeuron> &neurons) {
     NeuronLayers neuron_layers;
 
-    for (auto neuron_ptr: neuron_list) {
-        Neuron *neuron = neuron_ptr.get();
-
+    for (auto neuron: neurons) {
         if (neuron->getLayerNumber() >= neuron_layers.size()) {
             neuron_layers.push_back(std::vector<PNeuron>());
         }
 
-        neuron_layers[neuron->getLayerNumber()].push_back(neuron_ptr);
+        neuron_layers[neuron->getLayerNumber()].push_back(neuron);
     }
 
     return neuron_layers;
@@ -38,7 +36,7 @@ void Phenotype::generateNeuronMatrices(const NeuronLayers &neuron_layers) {
 
 void Phenotype::generateWeightMatrices(const std::vector<Connection> &connection_list,
                                        const NeuronLayers &neuron_layers) {
-    weights = std::vector<arma::mat>(neuron_layers.size());
+    weights = std::vector<arma::mat>(neuron_layers.size() - 1);
     unsigned long layer_size;
     unsigned long prev_layer_size;
 
@@ -48,26 +46,33 @@ void Phenotype::generateWeightMatrices(const std::vector<Connection> &connection
         weights[i-1] = arma::mat(prev_layer_size, layer_size, arma::fill::zeros);
     }
 
+    fillWeightMatrices(connection_list, neuron_layers);
+}
+
+void Phenotype::fillWeightMatrices(const std::vector<Connection> &connection_list,
+                                   const NeuronLayers &neuron_layers) {
     for (auto connection: connection_list) {
         if (connection.isEnabled()) {
-            Neuron *input_neuron = connection.getInput().get();
-            Coordinates input_coordinates = findNeuronCoordinates(*input_neuron, neuron_layers);
+            PNeuron input_neuron = connection.getInput();
+            Coordinates input_coordinates = findNeuronCoordinates(input_neuron, neuron_layers);
 
-            Neuron *output_neuron = connection.getOutput().get();
-            Coordinates output_coordinates = findNeuronCoordinates(*output_neuron, neuron_layers);
+            PNeuron output_neuron = connection.getOutput();
+            Coordinates output_coordinates = findNeuronCoordinates(output_neuron, neuron_layers);
 
             weights[input_coordinates.first][output_coordinates.second] = connection.getWeight();
         }
     }
 }
 
-Coordinates Phenotype::findNeuronCoordinates(const Neuron &neuron, const NeuronLayers &neuron_layers) {
-    for (int layer_number = 0; layer_number < neuron_layers.size(); ++layer_number) {
-        for (int neuron_number = 0; neuron_number < neuron_layers[layer_number].size(); ++neuron_number) {
-            if (neuron == *neuron_layers[layer_number][neuron_number].get())
-                return Coordinates(layer_number, neuron_number);
-        }
-    }
+Coordinates Phenotype::findNeuronCoordinates(const PNeuron &neuron,
+                                             const NeuronLayers &neuron_layers) {
+    int layer_number = neuron->getLayerNumber();
+    auto layer = neuron_layers[layer_number];
+
+    auto iterator = std::find(layer.begin(), layer.end(), neuron);
+    int neuron_number = (int) (iterator - layer.begin());
+
+    return Coordinates(layer_number, neuron_number);
 }
 
 const std::vector<arma::mat> &Phenotype::getNeurons() const {

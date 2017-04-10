@@ -8,9 +8,9 @@
 
 
 TEST(PhenotypeTest, ConstructorTest) {
-    Genotype genotype(10,5,15);
+    Genotype genotype(10,1,15);
+    genotype.mutate(ADD_NEURON);
     Phenotype phenotype(genotype);
-    
 }
 
 int main(int argc, char **argv) {

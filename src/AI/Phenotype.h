@@ -17,11 +17,12 @@ private:
     std::vector<arma::mat> neurons;
     std::vector<arma::mat> weights;
 
-    NeuronLayers createNeuronLayers(const std::vector<PNeuron> &neuron_list);
+    NeuronLayers createNeuronLayers(const std::vector<PNeuron> &neurons);
     void generateNeuronMatrices(const NeuronLayers &neuron_layers);
     void generateWeightMatrices(const std::vector<Connection> &connection_list,
                                 const NeuronLayers &neuron_layers);
-    Coordinates findNeuronCoordinates(const Neuron &neuron, const NeuronLayers &neuron_layers);
+    void fillWeightMatrices(const std::vector<Connection> &connection_list, const NeuronLayers &neuron_layers);
+    Coordinates findNeuronCoordinates(const PNeuron &neuron, const NeuronLayers &neuron_layers);
 
 public:
     Phenotype(Genotype genotype);
