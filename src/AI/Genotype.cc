@@ -19,6 +19,12 @@ Genotype::Genotype(int input_size, int hidden_layers, int output_size) {
     connectLayer(layer_counter - 1);
 }
 
+Genotype::Genotype(const Genotype &genotype) {
+    layer_counter = genotype.layer_counter;
+    neurons = genotype.neurons;
+    connections =  genotype.connections;
+}
+
 Genotype Genotype::cross(const Genotype &parentA, const Genotype &parentB) {
     return Genotype(0, 0, 0);
 }
@@ -135,11 +141,13 @@ void Genotype::addConnection(const PNeuron &input, const PNeuron &output) {
 }
 
 void Genotype::disableConnection() {
-
+    int index = random.next(0, (int)(connections.size() - 1));
+    connections[index].enabled = false;
 }
 
 void Genotype::randomizeWeight() {
-
+    int index = random.next(0, (int)(connections.size() - 1));
+    connections[index].randomizeWeight();
 }
 
 const std::vector<PNeuron> & Genotype::getNeurons() const {
@@ -161,3 +169,31 @@ const PNeuron Genotype::getRandomNeuron(int layer_number) const {
 const std::vector<Connection> & Genotype::getConnections() const {
     return connections;
 }
+
+bool Genotype::operator==(const Genotype &rhs) const {
+    return layer_counter == rhs.layer_counter &&
+           neurons == rhs.neurons &&
+           connections == rhs.connections;
+}
+
+bool Genotype::operator!=(const Genotype &rhs) const {
+    return !(rhs == *this);
+}
+
+
+
+/*
+bool Genotype::operator!=(const Genotype &rhs) const {
+    if(layer_counter != rhs.layer_counter || neurons.size() != rhs.neurons.size() ||
+            connections.size() != rhs.connections.size()) {
+        return false;
+    }
+    for(int i = 0; i < connections.size() - 1; ++i) {
+        if(rhs.connections[i].getWeight() != connections[i].getWeight() ||
+                rhs.connections[i].isEnabled() != connections[i].isEnabled()) {
+            return false;
+        }
+    }
+    return true;
+}
+*/

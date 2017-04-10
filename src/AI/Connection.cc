@@ -58,7 +58,11 @@ void Connection::randomizeWeight() {
 }
 
 bool Connection::operator==(const Connection &rhs) const {
-    return order_number == rhs.order_number;
+    return order_number == rhs.order_number &&
+            weight == rhs.weight &&
+            enabled == rhs.enabled &&
+            input == rhs.input &&
+            output == rhs.output;
 }
 
 bool Connection::operator!=(const Connection &rhs) const {

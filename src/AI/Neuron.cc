@@ -32,7 +32,8 @@ Neuron::Neuron(int layer_number) : layer_number(layer_number) {
 }
 
 bool Neuron::operator==(const Neuron &rhs) const {
-    return order_number == rhs.order_number;
+    return order_number == rhs.order_number &&
+            layer_number == rhs.layer_number;
 }
 
 bool Neuron::operator!=(const Neuron &rhs) const {
