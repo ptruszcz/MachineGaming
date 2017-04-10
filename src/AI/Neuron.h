@@ -8,6 +8,7 @@
 
 #include <vector>
 #include <boost/shared_ptr.hpp>
+#include <ostream>
 
 class Neuron;
 typedef std::shared_ptr<Neuron> PNeuron;
@@ -29,6 +30,7 @@ public:
 
     bool operator==(const Neuron &rhs) const;
     bool operator!=(const Neuron &rhs) const;
+    friend std::ostream &operator<<(std::ostream &os, const Neuron &neuron);
 };
 
 

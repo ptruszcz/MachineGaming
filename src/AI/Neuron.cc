@@ -38,3 +38,8 @@ bool Neuron::operator==(const Neuron &rhs) const {
 bool Neuron::operator!=(const Neuron &rhs) const {
     return !(rhs == *this);
 }
+
+std::ostream &operator<<(std::ostream &os, const Neuron &neuron) {
+    os << "[No. " << neuron.order_number << " Layer " << neuron.layer_number << "]";
+    return os;
+}

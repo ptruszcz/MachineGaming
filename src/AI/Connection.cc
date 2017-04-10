@@ -64,3 +64,9 @@ bool Connection::operator==(const Connection &rhs) const {
 bool Connection::operator!=(const Connection &rhs) const {
     return !(rhs == *this);
 }
+
+std::ostream &operator<<(std::ostream &os, const Connection &connection) {
+    os << "[No.: " << connection.order_number << " In " << *connection.input << " Out "
+       << *connection.output << " Weight " << connection.weight << " Enabled " << connection.enabled << "]";
+    return os;
+}

@@ -7,6 +7,10 @@ include_directories(${GTEST_INCLUDE_DIRS})
 find_package(Armadillo REQUIRED)
 include_directories(${ARMADILLO_INCLUDE_DIRS})
 
+find_package(Boost REQUIRED log)
+ADD_DEFINITIONS(-DBOOST_LOG_DYN_LINK)
+include_directories(${Boost_INCLUDE_DIRS})
+
 # Locate classes we want to test
 set(TEST_DIR ${MachineGaming_SOURCE_DIR}/src/AI)
 include_directories (${TEST_DIR})
@@ -17,6 +21,7 @@ add_executable(NeuralNetworkTest NeuralNetworkTest.cc
                                  ${TEST_DIR}/NeuralNetwork.cc)
 target_link_libraries(NeuralNetworkTest ${GTEST_LIBRARIES}
                                         ${ARMADILLO_LIBRARIES}
+                                        ${Boost_LIBRARIES}
                                         pthread)
 
 add_executable(PhenotypeTest PhenotypeTest.cc
@@ -32,6 +37,7 @@ add_executable(PhenotypeTest PhenotypeTest.cc
                              ${TEST_DIR}/Connection.cc)
 target_link_libraries(PhenotypeTest ${GTEST_LIBRARIES}
                                     ${ARMADILLO_LIBRARIES}
+                                    ${Boost_LIBRARIES}
                                     pthread)
 
 add_executable(GenotypeTest GenotypeTest.cc
@@ -44,5 +50,6 @@ add_executable(GenotypeTest GenotypeTest.cc
                             ${TEST_DIR}/Connection.h
                             ${TEST_DIR}/Connection.cc)
 target_link_libraries(GenotypeTest ${GTEST_LIBRARIES}
-        ${ARMADILLO_LIBRARIES}
-        pthread)
+                                   ${ARMADILLO_LIBRARIES}
+                                   ${Boost_LIBRARIES}
+                                   pthread)

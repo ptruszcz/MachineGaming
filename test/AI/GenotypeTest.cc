@@ -41,6 +41,10 @@ TEST_F(GenotypeTest, NeuronAddingTest) {
     Genotype genotype(5, 1, 10);
     genotype.mutate(ADD_NEURON);
     ASSERT_EQ(17, genotype.getConnections().size());
+
+    /*for (auto neuron: genotype.getNeurons()) {
+        ASSERT_FALSE(neuron.use_count() == 0)
+    }*/
 }
 
 int main(int argc, char **argv) {

@@ -6,6 +6,7 @@
 #define MACHINEGAMING_CONNECTION_H
 
 #include <boost/shared_ptr.hpp>
+#include <ostream>
 #include "Neuron.h"
 
 class Connection {
@@ -39,6 +40,8 @@ public:
 
     bool operator==(const Connection &rhs) const;
     bool operator!=(const Connection &rhs) const;
+
+    friend std::ostream &operator<<(std::ostream &os, const Connection &connection);
 };
 
 

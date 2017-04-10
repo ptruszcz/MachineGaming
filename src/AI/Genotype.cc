@@ -2,7 +2,6 @@
 // Created by fajqa on 25.03.17.
 //
 
-#include <armadillo>
 #include "Genotype.h"
 
 Random Genotype::random = Random();
@@ -58,6 +57,8 @@ PNeuron Genotype::addNeuron(int layer_number) {
     PNeuron neuron_ptr = std::make_shared<Neuron>(neuron_to_add);
     neurons.push_back(neuron_ptr);
 
+    BOOST_LOG_TRIVIAL(debug) << "[ADD NEURON] " << neuron_to_add;
+
     return neuron_ptr;
 }
 
@@ -101,6 +102,9 @@ void Genotype::addConnections(const std::vector<PNeuron> &input_layer,
 }
 
 void Genotype::addConnection() {
+    int layer_number = random.next(1, layer_counter);
+    PNeuron neuron = getRandomNeuron(layer_number);
+    addConnectionToPrevLayer(neuron);
 }
 
 void Genotype::addConnectionToPrevLayer(const PNeuron &output) {
@@ -126,6 +130,8 @@ void Genotype::addConnectionToNextLayer(const PNeuron &input) {
 void Genotype::addConnection(const PNeuron &input, const PNeuron &output) {
     Connection connection(input, output);
     connections.push_back(connection);
+
+    BOOST_LOG_TRIVIAL(debug) << "[ADD CONNECTION] " << connection;
 }
 
 void Genotype::disableConnection() {
@@ -140,12 +146,7 @@ const std::vector<PNeuron> & Genotype::getNeurons() const {
     return neurons;
 }
 
-const PNeuron &Genotype::getRandomNeuron() const {
-    int index = random.next(0, (int) neurons.size() - 1);
-    return neurons[index];
-}
-
-const PNeuron &Genotype::getRandomNeuron(int layer_number) const {
+const PNeuron Genotype::getRandomNeuron(int layer_number) const {
     std::vector<PNeuron> matches;
     for (auto neuron: neurons) {
         if (neuron->getLayerNumber() == layer_number)

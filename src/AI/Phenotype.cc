@@ -5,9 +5,9 @@
 #include "Phenotype.h"
 
 Phenotype::Phenotype(Genotype genotype) {
-    auto layer_sizes = createNeuronLayers(genotype.getNeurons());
-    generateNeuronMatrices(layer_sizes);
-    generateWeightMatrices(genotype.getConnections(), layer_sizes);
+    auto neuron_layers = createNeuronLayers(genotype.getNeurons());
+    generateNeuronMatrices(neuron_layers);
+    generateWeightMatrices(genotype.getConnections(), neuron_layers);
 }
 
 NeuronLayers Phenotype::createNeuronLayers(const std::vector<PNeuron> &neuron_list) {

@@ -4,7 +4,7 @@ set(Python_ADDITIONAL_VERSIONS 3.4)
 find_package(PythonLibs 3)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
-find_package(Boost 1.45.0 COMPONENTS python)
+find_package(Boost 1.45.0 COMPONENTS python log)
 include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(Armadillo REQUIRED)

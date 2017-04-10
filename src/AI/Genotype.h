@@ -7,6 +7,8 @@
 
 
 #include <list>
+#include <armadillo>
+#include "boost/log/trivial.hpp"
 #include "Neuron.h"
 #include "Connection.h"
 #include "Random.h"
@@ -40,8 +42,7 @@ private:
     void disableConnection();
     void randomizeWeight();
 
-    const PNeuron &getRandomNeuron() const;
-    const PNeuron &getRandomNeuron(int layer_number) const;
+    const PNeuron getRandomNeuron(int layer_number) const;
 public:
     Genotype(int input_size, int hidden_layers, int output_size);
 
