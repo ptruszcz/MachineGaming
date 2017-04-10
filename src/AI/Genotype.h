@@ -45,12 +45,18 @@ private:
     const PNeuron getRandomNeuron(int layer_number) const;
 public:
     Genotype(int input_size, int hidden_layers, int output_size);
+    Genotype(const Genotype &genotype);
+    //bool operator!=(const Genotype& rhs) const;
 
     static Genotype cross(const Genotype &parentA, const Genotype &parentB);
     void mutate(const MutationType &mutation_type);
 
     const std::vector<PNeuron> & getNeurons() const;
     const std::vector<Connection> & getConnections() const;
+
+    bool operator==(const Genotype &rhs) const;
+
+    bool operator!=(const Genotype &rhs) const;
 };
 
 
