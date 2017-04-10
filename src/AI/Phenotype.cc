@@ -51,15 +51,17 @@ void Phenotype::generateWeightMatrices(const std::vector<Connection> &connection
 
 void Phenotype::fillWeightMatrices(const std::vector<Connection> &connection_list,
                                    const NeuronLayers &neuron_layers) {
+    PNeuron input_neuron, output_neuron;
+
     for (auto connection: connection_list) {
         if (connection.isEnabled()) {
-            PNeuron input_neuron = connection.getInput();
+            input_neuron = connection.getInput();
             Coordinates input_coordinates = findNeuronCoordinates(input_neuron, neuron_layers);
 
-            PNeuron output_neuron = connection.getOutput();
+            output_neuron = connection.getOutput();
             Coordinates output_coordinates = findNeuronCoordinates(output_neuron, neuron_layers);
 
-            weights[input_coordinates.first][output_coordinates.second] = connection.getWeight();
+            weights[input_coordinates.first](input_coordinates.second, output_coordinates.second) = connection.getWeight();
         }
     }
 }
@@ -81,4 +83,26 @@ const std::vector<arma::mat> &Phenotype::getNeurons() const {
 
 const std::vector<arma::mat> &Phenotype::getWeights() const {
     return weights;
+}
+
+bool Phenotype::operator==(const Phenotype &rhs) const {
+    if (neurons.size() != rhs.neurons.size() ||
+        weights.size() != rhs.weights.size())
+        return false;
+
+    for (int i = 0; i < neurons.size() - 1; ++i) {
+        if ((int) arma::accu(neurons[i]) != (int) arma::accu(rhs.neurons[i]))
+            return false;
+    }
+
+    for (int j = 0; j < weights.size() - 1; ++j) {
+        if ((int) arma::accu(weights[j]) != (int) arma::accu(rhs.weights[j]))
+            return false;
+    }
+
+    return true;
+}
+
+bool Phenotype::operator!=(const Phenotype &rhs) const {
+    return !(rhs == *this);
 }

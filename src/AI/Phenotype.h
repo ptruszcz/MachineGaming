@@ -29,6 +29,9 @@ public:
 
     const std::vector<arma::mat> &getNeurons() const;
     const std::vector<arma::mat> &getWeights() const;
+
+    bool operator==(const Phenotype &rhs) const;
+    bool operator!=(const Phenotype &rhs) const;
 };
 
 
