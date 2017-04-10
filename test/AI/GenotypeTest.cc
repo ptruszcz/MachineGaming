@@ -61,6 +61,13 @@ TEST_F(GenotypeTest, WeightRandomizationTest) {
     Genotype genotype1(50, 10, 20);
     Genotype genotype2(genotype1);
     genotype2.mutate(DISABLE_CONNECTION);
+
+    bool disabled_connection_flag = false; //true if at least one connection is disabled
+    for(Connection c : genotype2.getConnections())
+        if(!c.isEnabled())
+            disabled_connection_flag = true;
+
+    ASSERT_TRUE(disabled_connection_flag);
     ASSERT_NE(genotype1, genotype2);
 }
 

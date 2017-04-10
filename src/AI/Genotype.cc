@@ -143,11 +143,15 @@ void Genotype::addConnection(const PNeuron &input, const PNeuron &output) {
 void Genotype::disableConnection() {
     int index = random.next(0, (int)(connections.size() - 1));
     connections[index].enabled = false;
+
+    BOOST_LOG_TRIVIAL(debug) << "[DISABLE CONNECTION] " << connections[index];
 }
 
 void Genotype::randomizeWeight() {
     int index = random.next(0, (int)(connections.size() - 1));
     connections[index].randomizeWeight();
+
+    BOOST_LOG_TRIVIAL(debug) << "[RANDOMIZE WEIGHT] " << connections[index];
 }
 
 const std::vector<PNeuron> & Genotype::getNeurons() const {
