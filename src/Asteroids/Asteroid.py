@@ -1,27 +1,25 @@
 import os
 import pygame
 from Vector import Vector
+from MovingObject import MovingObject
 
 
-class Asteroid(pygame.sprite.Sprite):
-    def __init__(self, coordinates, velocity=Vector(0, 0)):
-        pygame.sprite.Sprite.__init__(self)
-        self._coordinates = coordinates
-        self._velocity = velocity
-
-        self.image = pygame.Surface([20, 20])
-
+class Asteroid(MovingObject):
+    def __init__(self, coordinates, velocity=Vector(0, 0), scale=0.25, rotation_rate=-0.5):
         fullname = os.path.join('../../res/Asteroids/sprites', 'asteroid.png')
-        self.image = pygame.image.load(fullname)
-        self.rect = self.image.get_rect()
+        image = pygame.image.load(fullname)
 
+        MovingObject.__init__(self, image, coordinates, velocity, image_scale=scale)
+
+        self._rotation_rate = rotation_rate
 
     def update(self, surface):
-        self._update_coordinates()
-        scaled = pygame.transform.scale(self.image, (100, 100))
-        surface.blit(scaled, (self._coordinates.x, self._coordinates.y))
+        self.move()
+        MovingObject.update(self, surface)
 
+    def move(self):
+        self._rotate(self._rotation_rate)
+        MovingObject.move(self)
 
-    def _update_coordinates(self):
-        self._coordinates.x += self._velocity.x_value
-        self._coordinates.y += self._velocity.y_value
+    def _rotate(self, value):
+        self._direction = (value + self._direction) % 360
