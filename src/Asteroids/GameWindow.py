@@ -1,5 +1,5 @@
 import pygame
-from Spaceship import Spaceship
+import Spaceship
 from Coordinates import Coordinates
 from Vector import Vector
 from Asteroid import Asteroid
@@ -17,22 +17,17 @@ class GameWindow:
         self._screen = None
         self._clock = None
         self._pressed_buttons = set()
-        self._allgroup = pygame.sprite.Group()
         self._asteroids = pygame.sprite.Group()
         self._missiles = pygame.sprite.Group()
 
-        self._spaceship = Spaceship(Coordinates(0, 0))
+        self._spaceship = Spaceship.Spaceship(Coordinates(0, 0))
         self._asteroids.add(Asteroid(Coordinates(200, 30), Vector(0.5, 0.5)))
-
-        self._allgroup.add(self._spaceship, self._asteroids, self._missiles)
-
 
     def _init(self):
         pygame.init()
         self._screen = pygame.display.set_mode((WINDOW_SIZE_X, WINDOW_SIZE_Y), pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._clock = pygame.time.Clock()
         self._running = True
-
 
     def run(self):
         self._init()
@@ -44,15 +39,23 @@ class GameWindow:
                 self._handle_event(event)
             for key in self._pressed_buttons:
                 if key == pygame.K_RETURN:
-                    self._missiles.add(self._spaceship.fire())
+                    if pygame.time.get_ticks() - self._spaceship.last_shot > Spaceship.MISSILE_RELOAD_TIME:
+                        missile = self._spaceship.fire()
+                        self._missiles.add(missile)
                 else:
                     self._spaceship.steer(key)
 
             self._spaceship.move()
+            spaceship_crashed = pygame.sprite.spritecollideany(self._spaceship, self._asteroids)
+            if spaceship_crashed:
+                print("JEB")
+
+            destroyed_asteroids = pygame.sprite.groupcollide(self._missiles, self._asteroids,
+                                                             True, True)
+
             self._render()
 
         pygame.quit()
-
 
     def _handle_event(self, event):
         if event.type == pygame.KEYDOWN:
@@ -63,9 +66,9 @@ class GameWindow:
         elif event.type == pygame.QUIT:
             self._running = False
 
-
     def _render(self):
         self._screen.fill(black)
-        self._allgroup.update(self._screen)
+        self._spaceship.update(self._screen)
+        self._asteroids.update(self._screen)
         self._missiles.update(self._screen)
         pygame.display.update()

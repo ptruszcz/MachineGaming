@@ -8,8 +8,9 @@ from Coordinates import Coordinates
 
 MAIN_BOOSTER_POWER = 0.09
 SIDE_BOOSTER_POWER = 3 # in degrees
-FIRE_POWER = 5
+FIRE_POWER = 1
 SLOW_DOWN_RATE = 0.01
+MISSILE_RELOAD_TIME = 500
 
 
 class Spaceship(MovingObject):
@@ -18,6 +19,8 @@ class Spaceship(MovingObject):
         image = pygame.image.load(fullname)
 
         MovingObject.__init__(self, image, coordinates, velocity, direction)
+
+        self.last_shot = 0
 
     def move(self):
         self._slow_down()
@@ -37,6 +40,7 @@ class Spaceship(MovingObject):
         out_velocity = Vector()
         out_velocity.x = math.cos(math.radians(self._direction)) * FIRE_POWER
         out_velocity.y = math.sin(math.radians(self._direction)) * FIRE_POWER
+        self.last_shot = pygame.time.get_ticks()
         return Missile(Coordinates(self._coordinates.x, self._coordinates.y), out_velocity, self._direction)
 
     def _slow_down(self):
