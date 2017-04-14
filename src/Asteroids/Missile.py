@@ -9,7 +9,7 @@ class Missile(MovingObject):
         fullname = os.path.join('../../res/Asteroids/sprites', 'missile.png')
         image = pygame.image.load(fullname)
 
-        MovingObject.__init__(self, image, coordinates, velocity, direction, image_scale=0.1)
+        MovingObject.__init__(self, image, coordinates, velocity, direction, image_scale=0.05)
 
     def update(self, surface):
         self.move()

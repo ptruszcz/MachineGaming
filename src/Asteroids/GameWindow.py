@@ -1,4 +1,6 @@
 import pygame
+import random
+import math
 import Spaceship
 from Coordinates import Coordinates
 from Vector import Vector
@@ -9,7 +11,8 @@ WINDOW_SIZE_X = 1024
 WINDOW_SIZE_Y = 768
 white = (255, 255, 255)
 black = (0, 0, 0)
-
+ASTEROIDS_NUMBER = 20
+ASTEROIDS_MAX_VELOCITY = 5
 
 class GameWindow:
     def __init__(self):
@@ -21,7 +24,7 @@ class GameWindow:
         self._missiles = pygame.sprite.Group()
 
         self._spaceship = Spaceship.Spaceship(Coordinates(0, 0))
-        self._asteroids.add(Asteroid(Coordinates(200, 30), Vector(0.5, 0.5)))
+        self._spawn_asteroids(ASTEROIDS_NUMBER, ASTEROIDS_MAX_VELOCITY)
 
     def _init(self):
         pygame.init()
@@ -72,3 +75,17 @@ class GameWindow:
         self._asteroids.update(self._screen)
         self._missiles.update(self._screen)
         pygame.display.update()
+
+    def _spawn_asteroids(self, asteroids_number, max_velocity):
+        max_vel_sqrt = math.sqrt(max_velocity)
+        self._asteroids = pygame.sprite.Group()
+
+        for _ in range(asteroids_number):
+            x_pos = random.randint(0, WINDOW_SIZE_X)
+            y_pos = random.randint(0, WINDOW_SIZE_Y)
+
+            x_vel = random.uniform(-max_vel_sqrt, max_vel_sqrt)
+            y_vel = random.uniform(-max_vel_sqrt, max_vel_sqrt)
+
+            self._asteroids.add(Asteroid(Coordinates(x_pos, y_pos),
+                                         Vector(x_vel, y_vel)))

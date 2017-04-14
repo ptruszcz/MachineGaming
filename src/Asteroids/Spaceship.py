@@ -8,9 +8,9 @@ from Coordinates import Coordinates
 
 MAIN_BOOSTER_POWER = 0.09
 SIDE_BOOSTER_POWER = 3 # in degrees
-FIRE_POWER = 1
+FIRE_POWER = 5
 SLOW_DOWN_RATE = 0.01
-MISSILE_RELOAD_TIME = 500
+MISSILE_RELOAD_TIME = 100
 
 
 class Spaceship(MovingObject):
@@ -18,7 +18,7 @@ class Spaceship(MovingObject):
         fullname = os.path.join('../../res/Asteroids/sprites', 'spaceship.png')
         image = pygame.image.load(fullname)
 
-        MovingObject.__init__(self, image, coordinates, velocity, direction)
+        MovingObject.__init__(self, image, coordinates, velocity, direction, image_scale=0.5)
 
         self.last_shot = 0
 
