@@ -1,13 +1,14 @@
 import pygame
 from Vector import Vector
-
+import GameWindow
 
 red = (255, 0, 0)
+SPEED_AFTER_BOUNCE = 0.2
 
 
 def scale_image(image, scale):
-    scaled_width = int(image.get_width()*scale)
-    scaled_height = int(image.get_height()*scale)
+    scaled_width = int(image.get_width() * scale)
+    scaled_height = int(image.get_height() * scale)
     scaled_image = pygame.transform.scale(image, (scaled_width, scaled_height))
     return scaled_image
 
@@ -19,13 +20,15 @@ class MovingObject(pygame.sprite.Sprite):
         self.rect = self._image.get_rect()
         self._coordinates = coordinates
         self._velocity = velocity
-        self._direction = direction    # from 0 to 359 where 0 is right and 90 is down
+        self._direction = direction  # from 0 to 359 where 0 is right and 90 is down
+        self._bounce = True
+        self._slow_after_bounce = False
 
     def update(self, surface):
         # minus before self._direction is because transform.rotate counts rotation in counter-clockwise direction
         rotated = self.rotate_image(-self._direction)
-        topleft = (self._coordinates.x - self._image.get_width()/2,
-                   self._coordinates.y - self._image.get_height()/2)
+        topleft = (self._coordinates.x - self._image.get_width() / 2,
+                   self._coordinates.y - self._image.get_height() / 2)
         surface.blit(rotated, topleft)
         # draw collision detection border
         self.rect.topleft = topleft
@@ -44,6 +47,21 @@ class MovingObject(pygame.sprite.Sprite):
         self._update_coordinates()
 
     def _update_coordinates(self):
+        # bounce only objects on the screen
+        next_x = self._coordinates.x + self._velocity.x
+        next_y = self._coordinates.y + self._velocity.y
+        if 0 < self._coordinates.x < GameWindow.WINDOW_SIZE_X and 0 < self._coordinates.y < GameWindow.WINDOW_SIZE_Y \
+                and self._bounce:
+            if next_x <= 0 or next_x >= GameWindow.WINDOW_SIZE_X:
+                self._velocity.x = -self._velocity.x
+                if self._slow_after_bounce:
+                    self._velocity.x *= SPEED_AFTER_BOUNCE
+
+            if next_y <= 0 or next_y >= GameWindow.WINDOW_SIZE_Y:
+                self._velocity.y = -self._velocity.y
+                if self._slow_after_bounce:
+                    self._velocity.y *= SPEED_AFTER_BOUNCE
+
         self._coordinates.x += self._velocity.x
         self._coordinates.y += self._velocity.y
 

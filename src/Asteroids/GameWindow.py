@@ -14,7 +14,7 @@ INITIAL_ASTEROIDS_NUMBER = 10
 ASTEROIDS_MAX_VELOCITY = 5
 POINTS_FOR_ASTEROID = 10
 ASTEROIDS_PER_SPAWN = 2
-ASTEROID_SPAWN_INTERVAL = 500 # no idea how much should it be
+ASTEROID_SPAWN_INTERVAL = 1000 # no idea how much should it be
 SPAWN_RECT = 100
 
 
@@ -66,7 +66,6 @@ class GameWindow:
             if pygame.time.get_ticks() - self._last_asteroid_spawn > ASTEROID_SPAWN_INTERVAL:
                 self._spawn_asteroids_off_screen(ASTEROIDS_PER_SPAWN, ASTEROIDS_MAX_VELOCITY)
                 self._last_asteroid_spawn = pygame.time.get_ticks()
-                print("Last spawn: " + str(self._last_asteroid_spawn))
 
             self._render()
 

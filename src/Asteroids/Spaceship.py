@@ -21,6 +21,7 @@ class Spaceship(MovingObject):
         MovingObject.__init__(self, image, coordinates, velocity, direction, image_scale=0.5)
 
         self.last_shot = 0
+        self._slow_after_bounce = True
 
     def move(self):
         self._slow_down()
