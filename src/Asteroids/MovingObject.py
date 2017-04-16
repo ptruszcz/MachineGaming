@@ -3,7 +3,7 @@ from Vector import Vector
 import GameWindow
 
 red = (255, 0, 0)
-SPEED_AFTER_BOUNCE = 0.2
+SPEED_AFTER_BOUNCE = 0.7
 
 
 def scale_image(image, scale):
@@ -48,7 +48,7 @@ class MovingObject(pygame.sprite.Sprite):
 
     def _update_coordinates(self):
         # bounce only objects on the screen
-        if self.is_on_screen() and self._does_it_bounce:
+        if self._does_it_bounce and self.is_on_screen():
             self._bounce()
 
         self._coordinates.x += self._velocity.x
@@ -70,7 +70,4 @@ class MovingObject(pygame.sprite.Sprite):
             self._velocity.y = -self._velocity.y
             if self._slows_down_after_bounce:
                 self._velocity.y *= SPEED_AFTER_BOUNCE
-
-    def is_collided_with(self, other_object):
-        return self.rect.colliderect(other_object.rect)
 

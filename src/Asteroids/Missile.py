@@ -14,4 +14,8 @@ class Missile(MovingObject):
 
     def update(self, surface):
         self.move()
+
+        if not self.is_on_screen():
+            self.kill()
+
         MovingObject.update(self, surface)
