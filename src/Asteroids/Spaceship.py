@@ -36,6 +36,7 @@ class Spaceship(MovingObject):
         elif key == pygame.K_a:
             self._rotate(-SIDE_BOOSTER_POWER)
 
+    # TODO fix fire power - when spaceship moves very fast missles spawn behind the ship
     def fire(self):
         out_velocity = Vector()
         out_velocity.x = math.cos(math.radians(self._direction)) * FIRE_POWER
