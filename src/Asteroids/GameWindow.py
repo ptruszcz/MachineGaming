@@ -15,7 +15,7 @@ ASTEROIDS_MAX_VELOCITY = 5
 POINTS_FOR_ASTEROID = 10
 ASTEROIDS_PER_SPAWN = 2
 ASTEROID_SPAWN_INTERVAL = 1000 # no idea how much should it be
-SPAWN_RECT = 100
+SPAWN_MARGIN = 100
 
 
 class GameWindow:
@@ -90,31 +90,35 @@ class GameWindow:
 
     def _spawn_asteroids_off_screen(self, asteroids_number, max_velocity):
         """spawn asteroids outside the screen, with velocity vector pointed towards the screen"""
+        for _ in range(asteroids_number):
+            border_number = random.randint(1, 4)
+            # get random point on outer rectangle (bigger than screen by SPAWN_MARGIN in every direction)
+            if border_number == 1:
+                position = (-SPAWN_MARGIN, random.randint(-SPAWN_MARGIN, WINDOW_SIZE_Y + SPAWN_MARGIN))
+            elif border_number == 2:
+                position = (WINDOW_SIZE_X + SPAWN_MARGIN, random.randint(-SPAWN_MARGIN, WINDOW_SIZE_Y + SPAWN_MARGIN))
+            elif border_number == 3:
+                position = (random.randint(-SPAWN_MARGIN, WINDOW_SIZE_X + SPAWN_MARGIN), -SPAWN_MARGIN)
+            elif border_number == 4:
+                position = (random.randint(-SPAWN_MARGIN, WINDOW_SIZE_X + SPAWN_MARGIN), WINDOW_SIZE_Y + SPAWN_MARGIN)
+
+            velocity = self._create_vector_towards_screen(position, max_velocity)
+
+            self._asteroids.add(Asteroid(Coordinates(position[0], position[1]),
+                                         velocity))
+
+    def _create_vector_towards_screen(self, origin_point, max_velocity):
         max_vel_sqrt = math.sqrt(max_velocity)
 
-        for _ in range(asteroids_number):
-            option = random.randint(1, 4)
-            # get random point on outer rectangle (bigger by SPAWN_RECT in every direction than screen)
-            if option == 1:
-                position = (-SPAWN_RECT, random.randint(-SPAWN_RECT, WINDOW_SIZE_Y + SPAWN_RECT))
-            elif option == 2:
-                position = (WINDOW_SIZE_X + SPAWN_RECT, random.randint(-SPAWN_RECT, WINDOW_SIZE_Y + SPAWN_RECT))
-            elif option == 3:
-                position = (random.randint(-SPAWN_RECT, WINDOW_SIZE_X+SPAWN_RECT), -SPAWN_RECT)
-            elif option == 4:
-                position = (random.randint(-SPAWN_RECT, WINDOW_SIZE_X+SPAWN_RECT), WINDOW_SIZE_Y+SPAWN_RECT)
+        # random point on screen towards which asteroid will be flying
+        point = (random.randint(0, WINDOW_SIZE_X), random.randint(0, WINDOW_SIZE_Y))
+        # distance between spawn point and random point on screen
+        distance = (point[0] - origin_point[0], point[1] - origin_point[1])
+        norm = math.sqrt(distance[0] ** 2 + distance[1] ** 2)
+        # unit vector of direction
+        direction = (distance[0] / norm, distance[1] / norm)
 
-            # random point on screen towards which asteroid will be flying
-            point = (random.randint(0, WINDOW_SIZE_X), random.randint(0, WINDOW_SIZE_Y))
-            # distance between spawn point and random point on screen
-            distance = (point[0]-position[0], point[1]-position[1])
-            norm = math.sqrt(distance[0] ** 2 + distance[1] ** 2)
-            # unit vector of direction
-            direction = (distance[0]/norm, distance[1]/norm)
-
-            velocity = (direction[0]*max_vel_sqrt, direction[1]*max_vel_sqrt)
-            self._asteroids.add(Asteroid(Coordinates(position[0], position[1]),
-                                         Vector(velocity[0], velocity[1])))
+        return Vector(direction[0] * max_vel_sqrt, direction[1] * max_vel_sqrt)
 
     def _display_score(self):
         font = pygame.font.SysFont("Courier New", 30)
