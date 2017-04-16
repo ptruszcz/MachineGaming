@@ -11,6 +11,7 @@ SIDE_BOOSTER_POWER = 3 # in degrees
 FIRE_POWER = 5
 SLOW_DOWN_RATE = 0.01
 MISSILE_RELOAD_TIME = 100
+MAX_SPEED = 7
 
 
 class Spaceship(MovingObject):
@@ -37,11 +38,11 @@ class Spaceship(MovingObject):
         elif key == pygame.K_a:
             self._rotate(-SIDE_BOOSTER_POWER)
 
-    # TODO fix fire power - when spaceship moves very fast missles spawn behind the ship
     def fire(self):
+        spaceship_speed = math.sqrt(self._velocity.x ** 2 + self._velocity.y ** 2)
         out_velocity = Vector()
-        out_velocity.x = math.cos(math.radians(self._direction)) * FIRE_POWER
-        out_velocity.y = math.sin(math.radians(self._direction)) * FIRE_POWER
+        out_velocity.x = math.cos(math.radians(self._direction)) * (FIRE_POWER + spaceship_speed)
+        out_velocity.y = math.sin(math.radians(self._direction)) * (FIRE_POWER + spaceship_speed)
         self.last_shot = pygame.time.get_ticks()
         return Missile(Coordinates(self._coordinates.x, self._coordinates.y), out_velocity, self._direction)
 
@@ -51,8 +52,10 @@ class Spaceship(MovingObject):
             self._velocity.y -= math.copysign(SLOW_DOWN_RATE, self._velocity.y)
 
     def _accelerate(self, value):
-        self._velocity.x += math.cos(math.radians(self._direction)) * value
-        self._velocity.y += math.sin(math.radians(self._direction)) * value
+        spaceship_speed = math.sqrt(self._velocity.x ** 2 + self._velocity.y ** 2)
+        if spaceship_speed < MAX_SPEED:
+            self._velocity.x += math.cos(math.radians(self._direction)) * value
+            self._velocity.y += math.sin(math.radians(self._direction)) * value
 
     def _rotate(self, value):
         self._direction = (value + self._direction) % 360
