@@ -73,3 +73,4 @@ class MovingObject(pygame.sprite.Sprite):
 
     def is_collided_with(self, other_object):
         return self.rect.colliderect(other_object.rect)
+

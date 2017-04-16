@@ -10,7 +10,7 @@ class Missile(MovingObject):
         image = pygame.image.load(fullname)
 
         MovingObject.__init__(self, image, coordinates, velocity, direction, image_scale=0.05)
-        self._bounce = False
+        self._does_it_bounce = False
 
     def update(self, surface):
         self.move()
