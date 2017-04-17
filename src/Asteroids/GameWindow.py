@@ -1,10 +1,7 @@
 import pygame
-import random
-import math
 import Spaceship
 from Coordinates import Coordinates
-from Vector import Vector
-from Asteroid import Asteroid
+import AsteroidGenerator
 
 WINDOW_SIZE_X = 1024
 WINDOW_SIZE_Y = 768
@@ -14,7 +11,9 @@ ASTEROIDS_MAX_VELOCITY = 5
 POINTS_FOR_ASTEROID = 10
 ASTEROIDS_PER_SPAWN = 2
 ASTEROIDS_SPAWN_INTERVAL = 1000  # no idea how much should it be
-ASTEROIDS_MAX_ON_SCREEN = 10
+DIFFICULTY_INCREASE_INTERVAL = 10000
+SPAWN_INTERVAL_DECREASE = 20
+ASTEROIDS_MAX_ON_SCREEN = 15
 SPAWN_MARGIN = 100
 
 
@@ -29,6 +28,7 @@ class GameWindow:
         self._missiles = pygame.sprite.Group()
         self._spaceship = Spaceship.Spaceship(Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2))
         self._last_asteroid_spawn = 0
+        self._last_difficulty_increase = 0
 
     def _init(self):
         pygame.init()
@@ -64,7 +64,11 @@ class GameWindow:
 
             if pygame.time.get_ticks() - self._last_asteroid_spawn > ASTEROIDS_SPAWN_INTERVAL \
                and len(self._asteroids.sprites()) < ASTEROIDS_MAX_ON_SCREEN:
-                self._spawn_asteroids(ASTEROIDS_PER_SPAWN)
+                AsteroidGenerator.spawn_asteroids(self, ASTEROIDS_PER_SPAWN)
+
+            # time based difficulty - can easily be changed to score based
+            if pygame.time.get_ticks() - self._last_difficulty_increase > DIFFICULTY_INCREASE_INTERVAL:
+                self._increase_difficulty()
 
             self._render()
 
@@ -87,51 +91,19 @@ class GameWindow:
         self._display_score()
         pygame.display.update()
 
-    def _spawn_asteroids(self, asteroids_number):
-        """spawn asteroids outside the screen, with velocity vector pointed towards the screen"""
-        for _ in range(asteroids_number):
-            self._spawn_single_asteroid()
+    def _increase_difficulty(self):
+        global ASTEROIDS_SPAWN_INTERVAL
+        global ASTEROIDS_PER_SPAWN
+        global ASTEROIDS_MAX_ON_SCREEN
 
-    def _spawn_single_asteroid(self):
-        position = self._randomize_spawn_point()
-        velocity = self._create_vector_towards_screen(position)
+        if ASTEROIDS_SPAWN_INTERVAL > 0:
+            ASTEROIDS_SPAWN_INTERVAL -= SPAWN_INTERVAL_DECREASE
+        elif ASTEROIDS_PER_SPAWN < 10:
+            ASTEROIDS_PER_SPAWN += 1
+        elif ASTEROIDS_MAX_ON_SCREEN < 30:
+            ASTEROIDS_MAX_ON_SCREEN += 1
 
-        self._asteroids.add(Asteroid(position,
-                                     velocity))
-        self._last_asteroid_spawn = pygame.time.get_ticks()
-
-    def _randomize_spawn_point(self):
-        border_number = random.randint(1, 4)
-        # get random point on outer rectangle (bigger than screen by SPAWN_MARGIN in every direction)
-        if border_number == 1:
-            position = Coordinates(-SPAWN_MARGIN,
-                                   random.randint(-SPAWN_MARGIN, WINDOW_SIZE_Y + SPAWN_MARGIN))
-        elif border_number == 2:
-            position = Coordinates(WINDOW_SIZE_X + SPAWN_MARGIN,
-                                   random.randint(-SPAWN_MARGIN, WINDOW_SIZE_Y + SPAWN_MARGIN))
-        elif border_number == 3:
-            position = Coordinates(random.randint(-SPAWN_MARGIN,
-                                                  WINDOW_SIZE_X + SPAWN_MARGIN), -SPAWN_MARGIN)
-        elif border_number == 4:
-            position = Coordinates(random.randint(-SPAWN_MARGIN,
-                                                  WINDOW_SIZE_X + SPAWN_MARGIN), WINDOW_SIZE_Y + SPAWN_MARGIN)
-
-        return position
-
-    def _create_vector_towards_screen(self, origin_coordinates):
-        max_vel_sqrt = math.sqrt(ASTEROIDS_MAX_VELOCITY)
-
-        # random point on screen towards which asteroid will be flying
-        random_screen_coordinates = Coordinates(random.randint(0, WINDOW_SIZE_X),
-                                                random.randint(0, WINDOW_SIZE_Y))
-        # distance between spawn point and random point on screen
-        distance = (random_screen_coordinates.x - origin_coordinates.x,
-                    random_screen_coordinates.y - origin_coordinates.y)
-        norm = math.sqrt(distance[0] ** 2 + distance[1] ** 2)
-        # unit vector of direction
-        direction = (distance[0] / norm, distance[1] / norm)
-
-        return Vector(direction[0] * max_vel_sqrt, direction[1] * max_vel_sqrt)
+        self._last_difficulty_increase = pygame.time.get_ticks()
 
     def _display_score(self):
         font = pygame.font.SysFont("Courier New", 30)
