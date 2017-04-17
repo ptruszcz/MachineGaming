@@ -1,16 +1,14 @@
-//
-// Created by fajqa on 25.03.17.
-//
-
 #ifndef MACHINEGAMING_CONNECTION_H
 #define MACHINEGAMING_CONNECTION_H
 
 #include <boost/shared_ptr.hpp>
 #include <ostream>
 #include "Neuron.h"
+#include "Random.h"
 
 class Connection {
 private:
+    static Random random;
     static int counter;
     static double weight_variance;
 

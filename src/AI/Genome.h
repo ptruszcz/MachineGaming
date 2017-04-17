@@ -1,7 +1,3 @@
-//
-// Created by fajqa on 25.03.17.
-//
-
 #ifndef MACHINEGAMING_GENOTYPE_H
 #define MACHINEGAMING_GENOTYPE_H
 
@@ -20,7 +16,7 @@ enum MutationType {
     RANDOMIZE_WEIGHT
 };
 
-class Genotype {
+class Genome {
 private:
     static Random random;
 
@@ -45,17 +41,17 @@ private:
 
     const PNeuron getRandomNeuron(int layer_number) const;
 public:
-    Genotype(int input_size, int hidden_layers, int output_size);
-    Genotype(const Genotype &genotype);
+    Genome(int input_size, int hidden_layers, int output_size);
+    Genome(const Genome &genome);
 
-    static Genotype cross(const Genotype &parentA, const Genotype &parentB);
+    static Genome cross(const Genome &parentA, const Genome &parentB);
     void mutate(const MutationType &mutation_type);
 
     const std::vector<PNeuron> & getNeurons() const;
     const std::vector<Connection> & getConnections() const;
 
-    bool operator==(const Genotype &rhs) const;
-    bool operator!=(const Genotype &rhs) const;
+    bool operator==(const Genome &rhs) const;
+    bool operator!=(const Genome &rhs) const;
 };
 
 

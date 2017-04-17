@@ -24,32 +24,32 @@ target_link_libraries(NeuralNetworkTest ${GTEST_LIBRARIES}
                                         ${Boost_LIBRARIES}
                                         pthread)
 
-add_executable(PhenotypeTest PhenotypeTest.cc
-                             ${TEST_DIR}/Phenotype.h
-                             ${TEST_DIR}/Phenotype.cc
-                             ${TEST_DIR}/Genotype.h
-                             ${TEST_DIR}/Genotype.cc
+add_executable(PhenomeTest PhenomeTest.cc
+                             ${TEST_DIR}/Phenome.h
+                             ${TEST_DIR}/Phenome.cc
+                             ${TEST_DIR}/Genome.h
+                             ${TEST_DIR}/Genome.cc
                              ${TEST_DIR}/Random.h
                              ${TEST_DIR}/Random.cc
                              ${TEST_DIR}/Neuron.h
                              ${TEST_DIR}/Neuron.cc
                              ${TEST_DIR}/Connection.h
                              ${TEST_DIR}/Connection.cc)
-target_link_libraries(PhenotypeTest ${GTEST_LIBRARIES}
+target_link_libraries(PhenomeTest ${GTEST_LIBRARIES}
                                     ${ARMADILLO_LIBRARIES}
                                     ${Boost_LIBRARIES}
                                     pthread)
 
-add_executable(GenotypeTest GenotypeTest.cc
-                            ${TEST_DIR}/Genotype.h
-                            ${TEST_DIR}/Genotype.cc
+add_executable(GenomeTest GenomeTest.cc
+                            ${TEST_DIR}/Genome.h
+                            ${TEST_DIR}/Genome.cc
                             ${TEST_DIR}/Random.h
                             ${TEST_DIR}/Random.cc
                             ${TEST_DIR}/Neuron.h
                             ${TEST_DIR}/Neuron.cc
                             ${TEST_DIR}/Connection.h
                             ${TEST_DIR}/Connection.cc)
-target_link_libraries(GenotypeTest ${GTEST_LIBRARIES}
+target_link_libraries(GenomeTest ${GTEST_LIBRARIES}
                                    ${ARMADILLO_LIBRARIES}
                                    ${Boost_LIBRARIES}
                                    pthread)

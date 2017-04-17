@@ -1,16 +1,12 @@
-//
-// Created by fajqa on 27.03.17.
-//
+#include "Phenome.h"
 
-#include "Phenotype.h"
-
-Phenotype::Phenotype(Genotype genotype) {
-    NeuronLayers neurons = createNeuronLayers(genotype.getNeurons());
+Phenome::Phenome(Genome genome) {
+    NeuronLayers neurons = createNeuronLayers(genome.getNeurons());
     generateNeuronMatrices(neurons);
-    generateWeightMatrices(genotype.getConnections(), neurons);
+    generateWeightMatrices(genome.getConnections(), neurons);
 }
 
-NeuronLayers Phenotype::createNeuronLayers(const std::vector<PNeuron> &neurons) {
+NeuronLayers Phenome::createNeuronLayers(const std::vector<PNeuron> &neurons) {
     NeuronLayers neuron_layers;
 
     for (auto neuron: neurons) {
@@ -24,7 +20,7 @@ NeuronLayers Phenotype::createNeuronLayers(const std::vector<PNeuron> &neurons) 
     return neuron_layers;
 }
 
-void Phenotype::generateNeuronMatrices(const NeuronLayers &neuron_layers) {
+void Phenome::generateNeuronMatrices(const NeuronLayers &neuron_layers) {
     neurons = std::vector<arma::mat>(neuron_layers.size());
     unsigned long layer_size;
 
@@ -34,7 +30,7 @@ void Phenotype::generateNeuronMatrices(const NeuronLayers &neuron_layers) {
     }
 }
 
-void Phenotype::generateWeightMatrices(const std::vector<Connection> &connection_list,
+void Phenome::generateWeightMatrices(const std::vector<Connection> &connection_list,
                                        const NeuronLayers &neuron_layers) {
     weights = std::vector<arma::mat>(neuron_layers.size() - 1);
     unsigned long layer_size;
@@ -49,7 +45,7 @@ void Phenotype::generateWeightMatrices(const std::vector<Connection> &connection
     fillWeightMatrices(connection_list, neuron_layers);
 }
 
-void Phenotype::fillWeightMatrices(const std::vector<Connection> &connection_list,
+void Phenome::fillWeightMatrices(const std::vector<Connection> &connection_list,
                                    const NeuronLayers &neuron_layers) {
     PNeuron input_neuron, output_neuron;
 
@@ -66,7 +62,7 @@ void Phenotype::fillWeightMatrices(const std::vector<Connection> &connection_lis
     }
 }
 
-Coordinates Phenotype::findNeuronCoordinates(const PNeuron &neuron,
+Coordinates Phenome::findNeuronCoordinates(const PNeuron &neuron,
                                              const NeuronLayers &neuron_layers) {
     int layer_number = neuron->getLayerNumber();
     auto layer = neuron_layers[layer_number];
@@ -77,15 +73,15 @@ Coordinates Phenotype::findNeuronCoordinates(const PNeuron &neuron,
     return Coordinates(layer_number, neuron_number);
 }
 
-const std::vector<arma::mat> &Phenotype::getNeurons() const {
+const std::vector<arma::mat> &Phenome::getNeurons() const {
     return neurons;
 }
 
-const std::vector<arma::mat> &Phenotype::getWeights() const {
+const std::vector<arma::mat> &Phenome::getWeights() const {
     return weights;
 }
 
-bool Phenotype::operator==(const Phenotype &rhs) const {
+bool Phenome::operator==(const Phenome &rhs) const {
     if (neurons.size() != rhs.neurons.size() ||
         weights.size() != rhs.weights.size())
         return false;
@@ -103,6 +99,6 @@ bool Phenotype::operator==(const Phenotype &rhs) const {
     return true;
 }
 
-bool Phenotype::operator!=(const Phenotype &rhs) const {
+bool Phenome::operator!=(const Phenome &rhs) const {
     return !(rhs == *this);
 }

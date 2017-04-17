@@ -1,18 +1,14 @@
-//
-// Created by fajqa on 27.03.17.
-//
-
-#ifndef MACHINEGAMING_PHENOTYPE_H
-#define MACHINEGAMING_PHENOTYPE_H
+#ifndef MACHINEGAMING_PHENOME_H
+#define MACHINEGAMING_PHENOME_H
 
 
 #include <armadillo>
-#include "Genotype.h"
+#include "Genome.h"
 
 typedef std::pair<int, int> Coordinates;
 typedef std::vector<std::vector<PNeuron>> NeuronLayers;
 
-class Phenotype {
+class Phenome {
 private:
     std::vector<arma::mat> neurons;
     std::vector<arma::mat> weights;
@@ -25,14 +21,14 @@ private:
     Coordinates findNeuronCoordinates(const PNeuron &neuron, const NeuronLayers &neuron_layers);
 
 public:
-    Phenotype(Genotype genotype);
+    Phenome(Genome genome);
 
     const std::vector<arma::mat> &getNeurons() const;
     const std::vector<arma::mat> &getWeights() const;
 
-    bool operator==(const Phenotype &rhs) const;
-    bool operator!=(const Phenotype &rhs) const;
+    bool operator==(const Phenome &rhs) const;
+    bool operator!=(const Phenome &rhs) const;
 };
 
 
-#endif //MACHINEGAMING_PHENOTYPE_H
+#endif //MACHINEGAMING_PHENOME_H

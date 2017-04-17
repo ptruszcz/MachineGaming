@@ -1,7 +1,3 @@
-//
-// Created by fajqa on 22.03.17.
-//
-
 #ifndef PROJECT_NEURALNETWORK_H
 #define PROJECT_NEURALNETWORK_H
 
@@ -9,14 +5,14 @@
 #include <armadillo>
 #include <cstdlib>
 #include <Neuron.h>
-#include "Genotype.h"
+#include "Genome.h"
 
 char const* greet( );
 
 class NeuralNetwork {
 private:
-    Genotype genotype;
-    // TODO Phenotype instead of neurons and weights.
+    Genome genome;
+    // TODO Phenome instead of neurons and weights.
 
     arma::mat *output;
     std::vector<arma::mat> neurons;
@@ -30,7 +26,7 @@ private:
 
 public:
     NeuralNetwork(int input_size, int output_size) :
-            NeuralNetwork(std::vector<int>({input_size, output_size})), genotype(0, 0, 0) {}
+            NeuralNetwork(std::vector<int>({input_size, output_size})), genome(0, 0, 0) {}
     NeuralNetwork(const std::vector<int> &layer_sizes);
     NeuralNetwork(const NeuralNetwork &neural_network);
 

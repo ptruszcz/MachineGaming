@@ -1,7 +1,3 @@
-//
-// Created by fajqa on 31.03.17.
-//
-
 #include "Random.h"
 
 Random::Random() {}

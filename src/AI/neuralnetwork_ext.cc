@@ -1,7 +1,3 @@
-//
-// Created by fajqa on 22.03.17.
-//
-
 #include "NeuralNetwork.h"
 #include <boost/python.hpp>
 

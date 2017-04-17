@@ -1,6 +1,3 @@
-//
-// Created by fajqa on 22.03.17.
-//
 #include "NeuralNetwork.h"
 
 char const* greet( )
@@ -8,7 +5,7 @@ char const* greet( )
     return "Hello world";
 }
 
-NeuralNetwork::NeuralNetwork(const std::vector<int> &layer_sizes) : genotype(0, 0, 0) {
+NeuralNetwork::NeuralNetwork(const std::vector<int> &layer_sizes) : genome(0, 0, 0) {
     neurons = std::vector<arma::mat>(layer_sizes.size());
     output = &neurons.back();
 
@@ -17,7 +14,7 @@ NeuralNetwork::NeuralNetwork(const std::vector<int> &layer_sizes) : genotype(0, 
     initializeLayers(layer_sizes);
 }
 
-NeuralNetwork::NeuralNetwork(const NeuralNetwork &neural_network) : genotype(0, 0, 0) {
+NeuralNetwork::NeuralNetwork(const NeuralNetwork &neural_network) : genome(0, 0, 0) {
     neurons = std::vector<arma::mat>(neural_network.neurons);
     output = &neurons.back();
 

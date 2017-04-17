@@ -1,7 +1,3 @@
-//
-// Created by fajqa on 25.03.17.
-//
-
 #ifndef MACHINEGAMING_NEURON_H
 #define MACHINEGAMING_NEURON_H
 

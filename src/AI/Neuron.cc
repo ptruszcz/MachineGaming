@@ -1,7 +1,3 @@
-//
-// Created by fajqa on 25.03.17.
-//
-
 #include "Neuron.h"
 
 int Neuron::counter = 0;

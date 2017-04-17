@@ -1,12 +1,8 @@
-//
-// Created by fajqa on 25.03.17.
-//
+#include "Genome.h"
 
-#include "Genotype.h"
+Random Genome::random = Random();
 
-Random Genotype::random = Random();
-
-Genotype::Genotype(int input_size, int hidden_layers, int output_size) {
+Genome::Genome(int input_size, int hidden_layers, int output_size) {
     layer_counter = 0;
     addLayer(input_size);
 
@@ -19,18 +15,18 @@ Genotype::Genotype(int input_size, int hidden_layers, int output_size) {
     connectLayer(layer_counter - 1);
 }
 
-Genotype::Genotype(const Genotype &genotype) {
-    layer_counter = genotype.layer_counter;
-    neurons = genotype.neurons;
-    connections =  genotype.connections;
+Genome::Genome(const Genome &genome) {
+    layer_counter = genome.layer_counter;
+    neurons = genome.neurons;
+    connections =  genome.connections;
 }
 
-Genotype Genotype::cross(const Genotype &parentA, const Genotype &parentB) {
-    // TODO Implementation of genotype crossing.
-    return Genotype(0, 0, 0);
+Genome Genome::cross(const Genome &parentA, const Genome &parentB) {
+    // TODO Implementation of genome crossing.
+    return Genome(0, 0, 0);
 }
 
-void Genotype::mutate(const MutationType &mutation_type) {
+void Genome::mutate(const MutationType &mutation_type) {
     switch (mutation_type) {
         case ADD_NEURON:
             addNeuron();
@@ -50,7 +46,7 @@ void Genotype::mutate(const MutationType &mutation_type) {
     }
 }
 
-PNeuron Genotype::addNeuron() {
+PNeuron Genome::addNeuron() {
     int random_layer_number = random.next(1, layer_counter);
     PNeuron neuron_ptr = addNeuron(random_layer_number);
     addConnectionToPrevLayer(neuron_ptr);
@@ -59,7 +55,7 @@ PNeuron Genotype::addNeuron() {
     return neuron_ptr;
 }
 
-PNeuron Genotype::addNeuron(int layer_number) {
+PNeuron Genome::addNeuron(int layer_number) {
     Neuron neuron_to_add = Neuron(layer_number);
     PNeuron neuron_ptr = std::make_shared<Neuron>(neuron_to_add);
     neurons.push_back(neuron_ptr);
@@ -69,7 +65,7 @@ PNeuron Genotype::addNeuron(int layer_number) {
     return neuron_ptr;
 }
 
-void Genotype::addLayer(int size) {
+void Genome::addLayer(int size) {
     int layer_number = layer_counter;
 
     for (PNeuron neuron: neurons) {
@@ -84,7 +80,7 @@ void Genotype::addLayer(int size) {
     ++layer_counter;
 }
 
-void Genotype::connectLayer(int layer_number) {
+void Genome::connectLayer(int layer_number) {
     std::vector<PNeuron> prev_layer_neurons = std::vector<PNeuron>();
     std::vector<PNeuron> this_layer_neurons = std::vector<PNeuron>();
 
@@ -99,7 +95,7 @@ void Genotype::connectLayer(int layer_number) {
     addConnections(prev_layer_neurons, this_layer_neurons);
 }
 
-void Genotype::addConnections(const std::vector<PNeuron> &input_layer,
+void Genome::addConnections(const std::vector<PNeuron> &input_layer,
                               const std::vector<PNeuron> &output_layer) {
     for (auto input_neuron: input_layer) {
         for (auto output_neuron: output_layer) {
@@ -108,13 +104,13 @@ void Genotype::addConnections(const std::vector<PNeuron> &input_layer,
     }
 }
 
-void Genotype::addConnection() {
+void Genome::addConnection() {
     int layer_number = random.next(1, layer_counter);
     PNeuron neuron = getRandomNeuron(layer_number);
     addConnectionToPrevLayer(neuron);
 }
 
-void Genotype::addConnectionToPrevLayer(const PNeuron &output) {
+void Genome::addConnectionToPrevLayer(const PNeuron &output) {
     PNeuron input;
 
     do {
@@ -124,7 +120,7 @@ void Genotype::addConnectionToPrevLayer(const PNeuron &output) {
     addConnection(input, output);
 }
 
-void Genotype::addConnectionToNextLayer(const PNeuron &input) {
+void Genome::addConnectionToNextLayer(const PNeuron &input) {
     PNeuron output;
 
     do {
@@ -134,14 +130,14 @@ void Genotype::addConnectionToNextLayer(const PNeuron &input) {
     addConnection(input, output);
 }
 
-void Genotype::addConnection(const PNeuron &input, const PNeuron &output) {
+void Genome::addConnection(const PNeuron &input, const PNeuron &output) {
     Connection connection(input, output);
     connections.push_back(connection);
 
     BOOST_LOG_TRIVIAL(debug) << "[ADD CONNECTION] " << connection;
 }
 
-void Genotype::disableConnection() {
+void Genome::disableConnection() {
     int index = random.next(0, (int)(connections.size() - 1));
     BOOST_LOG_TRIVIAL(debug) << "[DISABLE CONNECTION BEFORE] " << connections[index];
     connections[index].enabled = false;
@@ -149,7 +145,7 @@ void Genotype::disableConnection() {
     BOOST_LOG_TRIVIAL(debug) << "[DISABLE CONNECTION AFTER] " << connections[index];
 }
 
-void Genotype::randomizeWeight() {
+void Genome::randomizeWeight() {
     int index = random.next(0, (int)(connections.size() - 1));
     BOOST_LOG_TRIVIAL(debug) << "[RANDOMIZE WEIGHT BEFORE] " << connections[index];
     connections[index].randomizeWeight();
@@ -157,11 +153,11 @@ void Genotype::randomizeWeight() {
     BOOST_LOG_TRIVIAL(debug) << "[RANDOMIZE WEIGHT AFTER] " << connections[index];
 }
 
-const std::vector<PNeuron> & Genotype::getNeurons() const {
+const std::vector<PNeuron> & Genome::getNeurons() const {
     return neurons;
 }
 
-const PNeuron Genotype::getRandomNeuron(int layer_number) const {
+const PNeuron Genome::getRandomNeuron(int layer_number) const {
     std::vector<PNeuron> matches;
     for (auto neuron: neurons) {
         if (neuron->getLayerNumber() == layer_number)
@@ -173,16 +169,16 @@ const PNeuron Genotype::getRandomNeuron(int layer_number) const {
     return matches[index];
 }
 
-const std::vector<Connection> & Genotype::getConnections() const {
+const std::vector<Connection> & Genome::getConnections() const {
     return connections;
 }
 
-bool Genotype::operator==(const Genotype &rhs) const {
+bool Genome::operator==(const Genome &rhs) const {
     return layer_counter == rhs.layer_counter &&
            neurons == rhs.neurons &&
            connections == rhs.connections;
 }
 
-bool Genotype::operator!=(const Genotype &rhs) const {
+bool Genome::operator!=(const Genome &rhs) const {
     return !(rhs == *this);
 }

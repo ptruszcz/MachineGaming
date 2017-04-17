@@ -1,9 +1,6 @@
-//
-// Created by fajqa on 25.03.17.
-//
-
 #include "Connection.h"
 
+Random Connection::random = Random();
 int Connection::counter = 0;
 double Connection::weight_variance = 5.0;
 
@@ -53,8 +50,7 @@ Connection::Connection(const PNeuron &input,
 }
 
 void Connection::randomizeWeight() {
-    double f = (double)rand() / RAND_MAX;
-    weight =  (2 * f * weight_variance) - weight_variance;
+    weight = random.next(-weight_variance, weight_variance);
 }
 
 bool Connection::operator==(const Connection &rhs) const {

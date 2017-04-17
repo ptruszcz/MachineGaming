@@ -1,7 +1,3 @@
-//
-// Created by fajqa on 23.03.17.
-//
-
 #include <gtest/gtest.h>
 #include "NeuralNetwork.h"
 

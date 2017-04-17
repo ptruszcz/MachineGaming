@@ -1,7 +1,3 @@
-//
-// Created by fajqa on 31.03.17.
-//
-
 #ifndef MACHINEGAMING_RANDOM_H
 #define MACHINEGAMING_RANDOM_H
 
