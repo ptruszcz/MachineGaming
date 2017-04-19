@@ -49,25 +49,21 @@ class MovingObject(pygame.sprite.Sprite):
     def _update_coordinates(self):
         # bounce only objects on the screen
         if self._does_it_bounce and self.is_on_screen():
-            self._bounce()
+            next_x = self._coordinates.x + self._velocity.x
+            next_y = self._coordinates.y + self._velocity.y
+
+            if next_x <= 0 or next_x >= GameWindow.WINDOW_SIZE_X:
+                self._velocity.x = -self._velocity.x
+                if self._slows_down_after_bounce:
+                    self._velocity.x *= SPEED_AFTER_BOUNCE
+
+            if next_y <= 0 or next_y >= GameWindow.WINDOW_SIZE_Y:
+                self._velocity.y = -self._velocity.y
+                if self._slows_down_after_bounce:
+                    self._velocity.y *= SPEED_AFTER_BOUNCE
 
         self._coordinates.x += self._velocity.x
         self._coordinates.y += self._velocity.y
 
     def is_on_screen(self):
         return 0 < self._coordinates.x < GameWindow.WINDOW_SIZE_X and 0 < self._coordinates.y < GameWindow.WINDOW_SIZE_Y
-
-    def _bounce(self):
-        next_x = self._coordinates.x + self._velocity.x
-        next_y = self._coordinates.y + self._velocity.y
-
-        if next_x <= 0 or next_x >= GameWindow.WINDOW_SIZE_X:
-            self._velocity.x = -self._velocity.x
-            if self._slows_down_after_bounce:
-                self._velocity.x *= SPEED_AFTER_BOUNCE
-
-        if next_y <= 0 or next_y >= GameWindow.WINDOW_SIZE_Y:
-            self._velocity.y = -self._velocity.y
-            if self._slows_down_after_bounce:
-                self._velocity.y *= SPEED_AFTER_BOUNCE
-
