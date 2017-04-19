@@ -31,6 +31,8 @@ add_executable(PhenomeTest PhenomeTest.cc
                              ${TEST_DIR}/Genome.cc
                              ${TEST_DIR}/Random.h
                              ${TEST_DIR}/Random.cc
+                             ${TEST_DIR}/Gene.h
+                             ${TEST_DIR}/Gene.cc
                              ${TEST_DIR}/Neuron.h
                              ${TEST_DIR}/Neuron.cc
                              ${TEST_DIR}/Connection.h
@@ -45,6 +47,10 @@ add_executable(GenomeTest GenomeTest.cc
                             ${TEST_DIR}/Genome.cc
                             ${TEST_DIR}/Random.h
                             ${TEST_DIR}/Random.cc
+                            ${TEST_DIR}/Genotype.h
+                            ${TEST_DIR}/Genotype.cc
+                            ${TEST_DIR}/Gene.h
+                            ${TEST_DIR}/Gene.cc
                             ${TEST_DIR}/Neuron.h
                             ${TEST_DIR}/Neuron.cc
                             ${TEST_DIR}/Connection.h
@@ -53,3 +59,33 @@ target_link_libraries(GenomeTest ${GTEST_LIBRARIES}
                                    ${ARMADILLO_LIBRARIES}
                                    ${Boost_LIBRARIES}
                                    pthread)
+
+add_executable(GeneTest GeneTest.cc
+        ${TEST_DIR}/Gene.h
+        ${TEST_DIR}/Gene.cc
+        ${TEST_DIR}/Neuron.h
+        ${TEST_DIR}/Neuron.cc
+        ${TEST_DIR}/Connection.h
+        ${TEST_DIR}/Connection.cc
+        ${TEST_DIR}/Random.h
+        ${TEST_DIR}/Random.cc)
+target_link_libraries(GeneTest ${GTEST_LIBRARIES}
+        ${ARMADILLO_LIBRARIES}
+        ${Boost_LIBRARIES}
+        pthread)
+
+add_executable(GenotypeTest GenotypeTest.cc
+        ${TEST_DIR}/Genotype.h
+        ${TEST_DIR}/Genotype.cc
+        ${TEST_DIR}/Gene.h
+        ${TEST_DIR}/Gene.cc
+        ${TEST_DIR}/Neuron.h
+        ${TEST_DIR}/Neuron.cc
+        ${TEST_DIR}/Connection.h
+        ${TEST_DIR}/Connection.cc
+        ${TEST_DIR}/Random.h
+        ${TEST_DIR}/Random.cc)
+target_link_libraries(GenotypeTest ${GTEST_LIBRARIES}
+        ${ARMADILLO_LIBRARIES}
+        ${Boost_LIBRARIES}
+        pthread)

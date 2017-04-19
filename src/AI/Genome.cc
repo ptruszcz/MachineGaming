@@ -21,7 +21,7 @@ Genome::Genome(const Genome &genome) {
     connections =  genome.connections;
 }
 
-Genome Genome::cross(const Genome &parentA, const Genome &parentB) {
+Genome Genome::crossover(const Genome &parentA, const Genome &parentB) {
     // TODO Implementation of genome crossing.
     return Genome(0, 0, 0);
 }
@@ -32,12 +32,16 @@ void Genome::mutate(const MutationType &mutation_type) {
             addNeuron();
             break;
 
+        case DELETE_NEURON:
+            deleteNeuron();
+            break;
+
         case ADD_CONNECTION:
             addConnection();
             break;
 
-        case DISABLE_CONNECTION:
-            disableConnection();
+        case DELETE_CONNECTION:
+            deleteConnection();
             break;
 
         case RANDOMIZE_WEIGHT:
@@ -46,32 +50,8 @@ void Genome::mutate(const MutationType &mutation_type) {
     }
 }
 
-PNeuron Genome::addNeuron() {
-    int random_layer_number = random.next(1, layer_counter);
-    PNeuron neuron_ptr = addNeuron(random_layer_number);
-    addConnectionToPrevLayer(neuron_ptr);
-    addConnectionToNextLayer(neuron_ptr);
-
-    return neuron_ptr;
-}
-
-PNeuron Genome::addNeuron(int layer_number) {
-    Neuron neuron_to_add = Neuron(layer_number);
-    PNeuron neuron_ptr = std::make_shared<Neuron>(neuron_to_add);
-    neurons.push_back(neuron_ptr);
-
-    BOOST_LOG_TRIVIAL(debug) << "[ADD NEURON] " << neuron_to_add;
-
-    return neuron_ptr;
-}
-
 void Genome::addLayer(int size) {
     int layer_number = layer_counter;
-
-    for (PNeuron neuron: neurons) {
-        if (neuron->getLayerNumber() >= layer_number)
-            neuron->incrementLayerNumber();
-    }
 
     for (int i = 0; i < size; ++i) {
         addNeuron(layer_number);
@@ -80,11 +60,34 @@ void Genome::addLayer(int size) {
     ++layer_counter;
 }
 
+void Genome::addNeuron() {
+    int random_layer_number = random.next(1, layer_counter);
+    PNeuron neuron_ptr = addNeuron(random_layer_number);
+    addConnectionToPrevLayer(neuron_ptr);
+    addConnectionToNextLayer(neuron_ptr);
+}
+
+PNeuron Genome::addNeuron(int layer_number) {
+    Neuron neuron_to_add = Neuron(layer_number);
+    PNeuron neuron_ptr = std::make_shared<Neuron>(neuron_to_add);
+    neurons.insert(neuron_ptr);
+
+    BOOST_LOG_TRIVIAL(debug) << "[ADD NEURON] " << neuron_to_add;
+
+    return neuron_ptr;
+}
+
+void Genome::deleteNeuron() {
+
+}
+
 void Genome::connectLayer(int layer_number) {
     std::vector<PNeuron> prev_layer_neurons = std::vector<PNeuron>();
     std::vector<PNeuron> this_layer_neurons = std::vector<PNeuron>();
 
-    for (auto neuron: neurons) {
+    PNeuron neuron;
+    for (auto gene: getNeurons()) {
+        neuron = std::static_pointer_cast<Neuron>(gene);
         if (neuron->getLayerNumber() == layer_number - 1) {
             prev_layer_neurons.push_back(neuron);
         } else if (neuron->getLayerNumber() == layer_number) {
@@ -131,35 +134,33 @@ void Genome::addConnectionToNextLayer(const PNeuron &input) {
 }
 
 void Genome::addConnection(const PNeuron &input, const PNeuron &output) {
-    Connection connection(input, output);
-    connections.push_back(connection);
+    Connection connection(*input, *output);
+    connections.insert(std::make_shared<Connection>(connection));
 
     BOOST_LOG_TRIVIAL(debug) << "[ADD CONNECTION] " << connection;
 }
 
-void Genome::disableConnection() {
-    int index = random.next(0, (int)(connections.size() - 1));
+void Genome::deleteConnection() {
+    int index = random.next(0, (int)(getConnections().size() - 1));
     BOOST_LOG_TRIVIAL(debug) << "[DISABLE CONNECTION BEFORE] " << connections[index];
-    connections[index].enabled = false;
+    //connections[index] = nullptr;
 
     BOOST_LOG_TRIVIAL(debug) << "[DISABLE CONNECTION AFTER] " << connections[index];
 }
 
 void Genome::randomizeWeight() {
-    int index = random.next(0, (int)(connections.size() - 1));
+    int index = random.next(0, (int)(getConnections().size() - 1));
     BOOST_LOG_TRIVIAL(debug) << "[RANDOMIZE WEIGHT BEFORE] " << connections[index];
-    connections[index].randomizeWeight();
+    connections[index]->mutate(RANDOMIZE_WEIGHT);
 
     BOOST_LOG_TRIVIAL(debug) << "[RANDOMIZE WEIGHT AFTER] " << connections[index];
 }
 
-const std::vector<PNeuron> & Genome::getNeurons() const {
-    return neurons;
-}
-
-const PNeuron Genome::getRandomNeuron(int layer_number) const {
+PNeuron Genome::getRandomNeuron(int layer_number) {
     std::vector<PNeuron> matches;
-    for (auto neuron: neurons) {
+    PNeuron neuron;
+    for (auto gene: getNeurons()) {
+        neuron = std::static_pointer_cast<Neuron>(gene);
         if (neuron->getLayerNumber() == layer_number)
             matches.push_back(neuron);
     }
@@ -169,8 +170,12 @@ const PNeuron Genome::getRandomNeuron(int layer_number) const {
     return matches[index];
 }
 
-const std::vector<Connection> & Genome::getConnections() const {
-    return connections;
+Genes Genome::getNeurons() {
+    return neurons.getGenes();
+}
+
+Genes Genome::getConnections() {
+    return connections.getGenes();
 }
 
 bool Genome::operator==(const Genome &rhs) const {

@@ -1,44 +1,40 @@
 #ifndef MACHINEGAMING_CONNECTION_H
 #define MACHINEGAMING_CONNECTION_H
 
-#include <boost/shared_ptr.hpp>
 #include <ostream>
 #include "Neuron.h"
 #include "Random.h"
+#include "Gene.h"
+#include "Counter.hpp"
 
-class Connection {
+class Connection;
+typedef std::shared_ptr<Connection> PConnection;
+typedef std::vector<PConnection> Connections;
+
+class Connection : public Counter<Connection>, public Gene {
 private:
     static Random random;
-    static int counter;
-    static double weight_variance;
 
-    int order_number;
     PNeuron input;
     PNeuron output;
     double weight;
 
 public:
+    static double weight_variance;
 
-    Connection() {}
-    bool enabled;
+    Connection() : Counter(), Gene(howMany()) {};
+    Connection(const Neuron &input, const Neuron &output);
 
-    Connection(const PNeuron &input, const PNeuron &output);
+    virtual void mutate(MutationType mutation_type);
 
     void randomizeWeight();
 
-    static int getCounter();
-    static void resetCounter();
-    static double getWeightVariance();
-    static void setWeightVariance(double weight_variance);
-    int getOrderNumber() const;
     const PNeuron &getInput() const;
     const PNeuron &getOutput() const;
-    bool isEnabled() const;
     double getWeight() const;
 
     bool operator==(const Connection &rhs) const;
     bool operator!=(const Connection &rhs) const;
-
     friend std::ostream &operator<<(std::ostream &os, const Connection &connection);
 };
 

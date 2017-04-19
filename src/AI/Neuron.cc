@@ -1,34 +1,17 @@
 #include "Neuron.h"
 
-int Neuron::counter = 0;
-
-int Neuron::getCounter() {
-    return counter;
+Neuron::Neuron(int layer_number) : Counter(), Gene(howMany()) {
+    this->layer_number = layer_number;
 }
 
-void Neuron::resetCounter() {
-    Neuron::counter = 0;
-}
-
-int Neuron::getOrderNumber() const {
-    return order_number;
-}
+void Neuron::mutate(MutationType mutation_type) {}
 
 int Neuron::getLayerNumber() const {
     return layer_number;
 }
 
-void Neuron::incrementLayerNumber() {
-    ++layer_number;
-}
-
-Neuron::Neuron(int layer_number) : layer_number(layer_number) {
-    counter++;
-    order_number = counter;
-}
-
 bool Neuron::operator==(const Neuron &rhs) const {
-    return order_number == rhs.order_number &&
+    return id == rhs.id &&
             layer_number == rhs.layer_number;
 }
 
@@ -37,6 +20,6 @@ bool Neuron::operator!=(const Neuron &rhs) const {
 }
 
 std::ostream &operator<<(std::ostream &os, const Neuron &neuron) {
-    os << "[No. " << neuron.order_number << " Layer " << neuron.layer_number << "]";
+    os << "[No. " << neuron.id << " Layer " << neuron.layer_number << "]";
     return os;
 }

@@ -1,28 +1,25 @@
 #ifndef MACHINEGAMING_NEURON_H
 #define MACHINEGAMING_NEURON_H
 
-
-#include <vector>
-#include <boost/shared_ptr.hpp>
 #include <ostream>
+#include <boost/shared_ptr.hpp>
+#include "Counter.hpp"
+#include "Gene.h"
 
 class Neuron;
 typedef std::shared_ptr<Neuron> PNeuron;
+typedef std::vector<PNeuron> Neurons;
 
-class Neuron {
+class Neuron : public Counter<Neuron>, public Gene {
 private:
-    static int counter;
-    int order_number;
     int layer_number;
 
 public:
     Neuron(int layer_number);
 
-    static int getCounter();
-    static void resetCounter();
-    int getOrderNumber() const;
+    virtual void mutate(MutationType mutation_type);
+
     int getLayerNumber() const;
-    void incrementLayerNumber();
 
     bool operator==(const Neuron &rhs) const;
     bool operator!=(const Neuron &rhs) const;

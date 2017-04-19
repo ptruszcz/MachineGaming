@@ -1,5 +1,5 @@
-#ifndef MACHINEGAMING_GENOTYPE_H
-#define MACHINEGAMING_GENOTYPE_H
+#ifndef MACHINEGAMING_GENOME_H
+#define MACHINEGAMING_GENOME_H
 
 
 #include <list>
@@ -8,25 +8,21 @@
 #include "Neuron.h"
 #include "Connection.h"
 #include "Random.h"
-
-enum MutationType {
-    ADD_NEURON,
-    ADD_CONNECTION,
-    DISABLE_CONNECTION,
-    RANDOMIZE_WEIGHT
-};
+#include "MutationType.h"
+#include "Genotype.h"
 
 class Genome {
 private:
     static Random random;
 
     int layer_counter;
-    // TODO Change vector structure (index == (neuron/connection).getOrderNumber())
-    std::vector<PNeuron> neurons;
-    std::vector<Connection> connections;
+    Genotype neurons;
+    Genotype connections;
 
-    PNeuron addNeuron();
+    void addNeuron();
     PNeuron addNeuron(int layer_number);
+
+    void deleteNeuron();
 
     void addLayer(int size);
     void connectLayer(int layer_number);
@@ -36,23 +32,23 @@ private:
     void addConnectionToPrevLayer(const PNeuron &output);
     void addConnectionToNextLayer(const PNeuron &input);
     void addConnection(const PNeuron &input, const PNeuron &output);
-    void disableConnection();
+    void deleteConnection();
     void randomizeWeight();
 
-    const PNeuron getRandomNeuron(int layer_number) const;
+    PNeuron getRandomNeuron(int layer_number);
 public:
     Genome(int input_size, int hidden_layers, int output_size);
     Genome(const Genome &genome);
 
-    static Genome cross(const Genome &parentA, const Genome &parentB);
+    static Genome crossover(const Genome &parentA, const Genome &parentB);
     void mutate(const MutationType &mutation_type);
 
-    const std::vector<PNeuron> & getNeurons() const;
-    const std::vector<Connection> & getConnections() const;
+    Genes getNeurons();
+    Genes getConnections();
 
     bool operator==(const Genome &rhs) const;
     bool operator!=(const Genome &rhs) const;
 };
 
 
-#endif //MACHINEGAMING_GENOTYPE_H
+#endif //MACHINEGAMING_GENOME_H
