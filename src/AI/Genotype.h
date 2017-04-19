@@ -11,6 +11,10 @@ class Genotype {
 private:
     static Random random;
     Genes genes;
+
+    static size_t makeEqualSize(Genotype &parent_a, Genotype &parent_b);
+    static Genotype createChild(Genotype &parent_a, Genotype &parent_b);
+    static PGene getRandomGene(PGene gene_a, PGene gene_b);
     
 public:
     static Genotype crossover(Genotype &parent_a, Genotype &parent_b);

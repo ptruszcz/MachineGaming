@@ -1,7 +1,3 @@
-//
-// Created by fajqa on 19.04.17.
-//
-
 #ifndef MACHINEGAMING_MUTATIONTYPE_H
 #define MACHINEGAMING_MUTATIONTYPE_H
 

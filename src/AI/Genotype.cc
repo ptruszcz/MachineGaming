@@ -3,6 +3,28 @@
 Random Genotype::random = Random();
 
 Genotype Genotype::crossover(Genotype &parent_a, Genotype &parent_b) {
+    return createChild(parent_a, parent_b);
+}
+
+Genotype Genotype::createChild(Genotype &parent_a, Genotype &parent_b) {
+    size_t common_size = makeEqualSize(parent_a, parent_b);
+
+    Genotype child_genotype = Genotype();
+    child_genotype.genes.reserve(common_size);
+    PGene gene_a, gene_b, child_gene;
+
+    for (size_t i = 0; i < common_size; ++i) {
+        gene_a = parent_a.genes[i];
+        gene_b = parent_b.genes[i];
+
+        child_gene = getRandomGene(gene_a, gene_b);
+        child_genotype.genes.push_back(child_gene);
+    }
+
+    return child_genotype;
+}
+
+size_t Genotype::makeEqualSize(Genotype &parent_a, Genotype &parent_b) {
     size_t a_size = parent_a.genes.size();
     size_t b_size = parent_b.genes.size();
     size_t common_size;
@@ -16,26 +38,7 @@ Genotype Genotype::crossover(Genotype &parent_a, Genotype &parent_b) {
         common_size = b_size;
     }
 
-    Genotype child_genotype = Genotype();
-    child_genotype.genes.reserve(common_size);
-    PGene gene_a, gene_b, child_gene;
-
-    for (size_t i = 0; i < common_size; ++i) {
-        gene_a = parent_a.genes[i];
-        gene_b = parent_b.genes[i];
-
-
-        if (random.next(0,1) == 0) {
-            child_gene = gene_a;
-        }
-        else {
-            child_gene = gene_b;
-        }
-
-        child_genotype.genes.push_back(child_gene);
-    }
-
-    return child_genotype;
+    return common_size;
 }
 
 void Genotype::insert(const PGene &gene) {
@@ -53,7 +56,7 @@ void Genotype::erase(const PGene &gene) {
     genes.erase(it + id);
 }
 
-std::vector<PGene> Genotype::getGenes() {
+Genes Genotype::getGenes() {
     Genes valid_genes;
 
     for (PGene gene: genes) {
@@ -79,4 +82,17 @@ bool Genotype::operator==(const Genotype &rhs) const {
 
 bool Genotype::operator!=(const Genotype &rhs) const {
     return !(rhs == *this);
+}
+
+PGene Genotype::getRandomGene(PGene gene_a, PGene gene_b) {
+    PGene child_gene;
+
+    if (random.next(0,1) == 0) {
+        child_gene = gene_a;
+    }
+    else {
+        child_gene = gene_b;
+    }
+
+    return child_gene;
 }

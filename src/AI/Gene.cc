@@ -1,7 +1,3 @@
-//
-// Created by fajqa on 18.04.17.
-//
-
 #include "Gene.h"
 
 std::size_t Gene::getId() const {
