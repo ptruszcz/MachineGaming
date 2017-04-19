@@ -16,6 +16,8 @@ private:
 
 public:
     Neuron(int layer_number);
+    Neuron(const Neuron &neuron);
+    virtual PGene clone() const;
 
     virtual void mutate(MutationType mutation_type);
 

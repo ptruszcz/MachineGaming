@@ -17,6 +17,10 @@ private:
     static PGene getRandomGene(PGene gene_a, PGene gene_b);
     
 public:
+    Genotype() {};
+    Genotype(const Genotype &genotype);
+    PGenotype clone() const;
+
     static Genotype crossover(Genotype &parent_a, Genotype &parent_b);
 
     void insert(const PGene &gene);

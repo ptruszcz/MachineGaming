@@ -14,16 +14,32 @@ const PNeuron &Connection::getOutput() const {
 double Connection::getWeight() const {
     return weight;
 }
-Connection::Connection(const Neuron &input,
-                       const Neuron &output) : Counter(), Gene(howMany()) {
-    this->input = std::make_shared<Neuron>(input);
-    this->output = std::make_shared<Neuron>(output);
+Connection::Connection(const PNeuron &input,
+                       const PNeuron &output) : Counter(), Gene(howMany()) {
+    this->input = input;
+    this->output = output;
     randomizeWeight();
 }
 
+Connection::Connection(const Connection &connection) : Gene(connection) {
+    this->input = connection.input;
+    this->output = connection.output;
+    this->weight = connection.weight;
+}
+
+PGene Connection::clone() const {
+    return std::make_shared<Connection>(Connection(*this));
+}
+
 void Connection::mutate(MutationType mutation_type) {
-    //TODO
-    randomizeWeight();
+    switch (mutation_type) {
+        case RANDOMIZE_WEIGHT:
+            randomizeWeight();
+            break;
+
+        default:
+            break;
+    }
 }
 
 void Connection::randomizeWeight() {

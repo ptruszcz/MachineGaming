@@ -14,8 +14,8 @@
 class Genome {
 private:
     static Random random;
-
-    int layer_counter;
+    static int layer_counter;
+    
     Genotype neurons;
     Genotype connections;
 
@@ -26,8 +26,7 @@ private:
 
     void addLayer(int size);
     void connectLayer(int layer_number);
-    void addConnections(const std::vector<PNeuron> &input_layer,
-                        const std::vector<PNeuron> &output_layer);
+    void addConnections(const Neurons &input_layer, const Neurons &output_layer);
     void addConnection();
     void addConnectionToPrevLayer(const PNeuron &output);
     void addConnectionToNextLayer(const PNeuron &input);
@@ -36,11 +35,13 @@ private:
     void randomizeWeight();
 
     PNeuron getRandomNeuron(int layer_number);
+    PConnection getRandomConnection();
 public:
     Genome(int input_size, int hidden_layers, int output_size);
+    Genome(Genotype neurons, Genotype connections);
     Genome(const Genome &genome);
 
-    static Genome crossover(const Genome &parentA, const Genome &parentB);
+    static Genome crossover(Genome &parentA, Genome &parentB);
     void mutate(const MutationType &mutation_type);
 
     Genes getNeurons();
@@ -48,6 +49,8 @@ public:
 
     bool operator==(const Genome &rhs) const;
     bool operator!=(const Genome &rhs) const;
+
+    void deleteNeuronConnections(const PNeuron &neuron);
 };
 
 

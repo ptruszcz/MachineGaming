@@ -2,6 +2,18 @@
 
 Random Genotype::random = Random();
 
+Genotype::Genotype(const Genotype &genotype) {
+    for (auto gene: genotype.genes) {
+        if (gene) {
+            this->insert(gene->clone());
+        }
+    }
+}
+
+PGenotype Genotype::clone() const {
+    return std::make_shared<Genotype>(Genotype(*this));
+}
+
 Genotype Genotype::crossover(Genotype &parent_a, Genotype &parent_b) {
     return createChild(parent_a, parent_b);
 }
@@ -39,6 +51,19 @@ size_t Genotype::makeEqualSize(Genotype &parent_a, Genotype &parent_b) {
     }
 
     return common_size;
+}
+
+PGene Genotype::getRandomGene(PGene gene_a, PGene gene_b) {
+    PGene child_gene;
+
+    if (random.next(0,1) == 0) {
+        child_gene = gene_a;
+    }
+    else {
+        child_gene = gene_b;
+    }
+
+    return child_gene;
 }
 
 void Genotype::insert(const PGene &gene) {
@@ -82,17 +107,4 @@ bool Genotype::operator==(const Genotype &rhs) const {
 
 bool Genotype::operator!=(const Genotype &rhs) const {
     return !(rhs == *this);
-}
-
-PGene Genotype::getRandomGene(PGene gene_a, PGene gene_b) {
-    PGene child_gene;
-
-    if (random.next(0,1) == 0) {
-        child_gene = gene_a;
-    }
-    else {
-        child_gene = gene_b;
-    }
-
-    return child_gene;
 }

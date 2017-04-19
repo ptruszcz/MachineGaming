@@ -1,5 +1,9 @@
 #include "Gene.h"
 
+Gene::Gene(const Gene &gene) {
+    this->id = gene.id;
+}
+
 std::size_t Gene::getId() const {
     return id;
 }

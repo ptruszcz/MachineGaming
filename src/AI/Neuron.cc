@@ -4,6 +4,14 @@ Neuron::Neuron(int layer_number) : Counter(), Gene(howMany()) {
     this->layer_number = layer_number;
 }
 
+Neuron::Neuron(const Neuron &neuron) : Gene(neuron) {
+    this->layer_number = neuron.layer_number;
+}
+
+PGene Neuron::clone() const {
+    return std::make_shared<Neuron>(*this);
+}
+
 void Neuron::mutate(MutationType mutation_type) {}
 
 int Neuron::getLayerNumber() const {

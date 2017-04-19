@@ -23,7 +23,9 @@ public:
     static double weight_variance;
 
     Connection() : Counter(), Gene(howMany()) {};
-    Connection(const Neuron &input, const Neuron &output);
+    Connection(const PNeuron &input, const PNeuron &output);
+    Connection(const Connection &connection);
+    virtual PGene clone() const;
 
     virtual void mutate(MutationType mutation_type);
 

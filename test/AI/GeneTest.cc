@@ -4,14 +4,15 @@
 #include "Connection.h"
 
 TEST(GeneTest, InheritedCounterTest) {
-    Neuron neuron1(0);
-    Neuron neuron2(0);
+    PNeuron neuron1 = std::make_shared<Neuron>(Neuron(0));
+    PNeuron neuron2 = std::make_shared<Neuron>(Neuron(0));
+    PGene neuron3 = neuron1->clone();
 
     Connection connection(neuron1, neuron2);
 
     ASSERT_EQ(2, Neuron::howMany());
-    ASSERT_EQ(0, neuron1.getId());
-    ASSERT_EQ(1, neuron2.getId());
+    ASSERT_EQ(0, neuron1->getId());
+    ASSERT_EQ(1, neuron2->getId());
 
     ASSERT_EQ(1, Connection::howMany());
     ASSERT_EQ(0, connection.getId());
