@@ -1,8 +1,8 @@
 #include "NeuralNetwork.h"
 
-const std::string greet( )
+char const* greet( )
 {
-    return std::string("Hello world");
+    return "Hello world";
 }
 /*
 

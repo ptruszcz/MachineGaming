@@ -29,14 +29,7 @@ Genotype Genotype::createChild(Genotype &parent_a, Genotype &parent_b) {
         gene_a = parent_a.genes[i];
         gene_b = parent_b.genes[i];
 
-        if (gene_a && gene_b)
-            child_gene = getRandomGene(gene_a, gene_b)->clone();
-        else if (gene_a)
-            child_gene = gene_a->clone();
-        else if (gene_b)
-            child_gene = gene_b->clone();
-        else
-            child_gene = nullptr;
+        child_gene = chooseGene(gene_a, gene_b);
 
         child_genotype.genes.push_back(child_gene);
     }
@@ -61,7 +54,22 @@ size_t Genotype::makeEqualSize(Genotype &parent_a, Genotype &parent_b) {
     return common_size;
 }
 
-PGene Genotype::getRandomGene(PGene gene_a, PGene gene_b) {
+PGene Genotype::chooseGene(const PGene &gene_a, const PGene &gene_b) {
+    PGene child_gene;
+
+    if (gene_a && gene_b)
+        child_gene = getRandomGene(gene_a, gene_b);
+    else if (gene_a)
+        child_gene = gene_a;
+    else if (gene_b)
+        child_gene = gene_b;
+    else
+        child_gene = nullptr;
+
+    return child_gene;
+}
+
+PGene Genotype::getRandomGene(const PGene &gene_a, const PGene &gene_b) {
     PGene child_gene;
 
     if (random.next(0,1) == 0) {

@@ -134,7 +134,7 @@ TEST_F(GenotypeTest, CrossoverConnectionTest) {
     connections2.insert(connection2);
     connections2.insert(connection4);
 
-    Genotype child_connections = Genotype::crossover(connections1, connections2);
+    Genotype child_connections = *Genotype::crossover(connections1, connections2).clone();
 
     std::vector<PGene> genes = child_connections.getGenes();
 

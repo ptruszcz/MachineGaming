@@ -28,7 +28,7 @@ Connection::Connection(const Connection &connection) : Counter(connection), Gene
 }
 
 PGene Connection::clone() const {
-    return std::make_shared<Connection>(Connection(*this));
+    return std::make_shared<Connection>(*this);
 }
 
 void Connection::mutate(MutationType mutation_type) {

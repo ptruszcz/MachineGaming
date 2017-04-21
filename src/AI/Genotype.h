@@ -12,9 +12,10 @@ private:
     static Random random;
     Genes genes;
 
-    static size_t makeEqualSize(Genotype &parent_a, Genotype &parent_b);
     static Genotype createChild(Genotype &parent_a, Genotype &parent_b);
-    static PGene getRandomGene(PGene gene_a, PGene gene_b);
+    static size_t makeEqualSize(Genotype &parent_a, Genotype &parent_b);
+    static PGene chooseGene(const PGene &gene_a, const PGene &gene_b);
+    static PGene getRandomGene(const PGene &gene_a, const PGene &gene_b);
     
 public:
     Genotype() {};

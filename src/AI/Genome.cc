@@ -29,7 +29,7 @@ Genome::Genome(const Genome &genome) {
 
 Genome Genome::crossover(Genome &parentA, Genome &parentB) {
     Genotype neurons = Genotype::crossover(parentA.neurons, parentB.neurons);
-    Genotype connections = Genotype::crossover(parentA.connections, parentB.connections);
+    Genotype connections = *Genotype::crossover(parentA.connections, parentB.connections).clone();
 
     return Genome(neurons, connections);
 }
