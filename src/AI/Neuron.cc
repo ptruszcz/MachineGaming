@@ -4,7 +4,7 @@ Neuron::Neuron(int layer_number) : Counter(), Gene(howMany()) {
     this->layer_number = layer_number;
 }
 
-Neuron::Neuron(const Neuron &neuron) : Gene(neuron) {
+Neuron::Neuron(const Neuron &neuron) : Counter(neuron), Gene(neuron) {
     this->layer_number = neuron.layer_number;
 }
 

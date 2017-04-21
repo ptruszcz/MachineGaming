@@ -29,7 +29,15 @@ Genotype Genotype::createChild(Genotype &parent_a, Genotype &parent_b) {
         gene_a = parent_a.genes[i];
         gene_b = parent_b.genes[i];
 
-        child_gene = getRandomGene(gene_a, gene_b);
+        if (gene_a && gene_b)
+            child_gene = getRandomGene(gene_a, gene_b)->clone();
+        else if (gene_a)
+            child_gene = gene_a->clone();
+        else if (gene_b)
+            child_gene = gene_b->clone();
+        else
+            child_gene = nullptr;
+
         child_genotype.genes.push_back(child_gene);
     }
 

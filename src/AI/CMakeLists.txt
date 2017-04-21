@@ -1,10 +1,9 @@
 set(Boost_USE_MULTITHREADED      ON)
 
-set(Python_ADDITIONAL_VERSIONS 3.4)
-find_package(PythonLibs 3)
+find_package(PythonLibs 3 REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
-find_package(Boost 1.45.0 COMPONENTS python log)
+find_package(Boost 1.45.0 COMPONENTS python-py35 log)
 include_directories(${Boost_INCLUDE_DIRS})
 
 find_package(Armadillo REQUIRED)

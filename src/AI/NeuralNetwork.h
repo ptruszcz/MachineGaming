@@ -4,11 +4,11 @@
 #include <vector>
 #include <armadillo>
 #include <cstdlib>
-#include <Neuron.h>
-#include "Genome.h"
+//#include <Neuron.h>
+//#include "Genome.h"
 
-char const* greet( );
-
+const std::string greet( );
+/*
 class NeuralNetwork {
 private:
     Genome genome;
@@ -34,5 +34,5 @@ public:
     arma::mat backpropagate(arma::mat expected_output);
 
     arma::mat getOutput();
-};
+};*/
 #endif //PROJECT_NEURALNETWORK_H

@@ -9,7 +9,8 @@ template<typename T>
 class Counter {
 public:
     Counter() { ++count; }
-    ~Counter() { --count; }
+    Counter(const Counter &) {}
+    ~Counter() {}
 
     static size_t howMany() { return count; }
     static void resetCounter();

@@ -21,7 +21,7 @@ Connection::Connection(const PNeuron &input,
     randomizeWeight();
 }
 
-Connection::Connection(const Connection &connection) : Gene(connection) {
+Connection::Connection(const Connection &connection) : Counter(connection), Gene(connection) {
     this->input = connection.input;
     this->output = connection.output;
     this->weight = connection.weight;

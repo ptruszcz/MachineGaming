@@ -56,15 +56,13 @@ TEST_F(GenomeTest, ConnectionAddingTest) {
 TEST_F(GenomeTest, ConnectionDeletingTest) {
     Genome genome1(50, 10, 20);
     Genome genome2(genome1);
-    //genome2.mutate(DELETE_CONNECTION);
 
-//    bool disabled_connection_flag = false; //true if at least one connection is disabled
-/*    for(Connection c: genome2.getConnections())
-        if(!c.isEnabled())
-            disabled_connection_flag = true;*/
+    genome2.mutate(DELETE_CONNECTION);
+    Genes genes1 = genome1.getConnections();
+    Genes genes2 = genome2.getConnections();
 
-//    ASSERT_TRUE(disabled_connection_flag);
-    //ASSERT_NE(genome1, genome2);
+    ASSERT_TRUE(genes1.size() > genes2.size());
+    ASSERT_NE(genome1, genome2);
 }
 
 TEST_F(GenomeTest, WeightRandomizationTest) {

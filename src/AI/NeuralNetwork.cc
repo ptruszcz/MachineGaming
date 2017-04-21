@@ -1,9 +1,10 @@
 #include "NeuralNetwork.h"
 
-char const* greet( )
+const std::string greet( )
 {
-    return "Hello world";
+    return std::string("Hello world");
 }
+/*
 
 NeuralNetwork::NeuralNetwork(const std::vector<int> &layer_sizes) : genome(0, 0, 0) {
     neurons = std::vector<arma::mat>(layer_sizes.size());
@@ -74,3 +75,4 @@ arma::mat NeuralNetwork::backpropagate(arma::mat expected_output) {
 arma::mat NeuralNetwork::getOutput() {
     return *output;
 }
+*/
