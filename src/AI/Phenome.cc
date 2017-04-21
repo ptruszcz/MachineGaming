@@ -1,12 +1,12 @@
 #include "Phenome.h"
 
-Phenome::Phenome(Genome genome) {
+Phenome::Phenome(const Genome &genome) {
     NeuronLayers neurons = createNeuronLayers(genome.getNeurons());
     generateNeuronMatrices(neurons);
     generateWeightMatrices(genome.getConnections(), neurons);
 }
 
-NeuronLayers Phenome::createNeuronLayers(const std::vector<PNeuron> &neurons) {
+NeuronLayers Phenome::createNeuronLayers(const Neurons &neurons) {
     NeuronLayers neuron_layers;
 
     for (auto neuron: neurons) {
@@ -30,7 +30,7 @@ void Phenome::generateNeuronMatrices(const NeuronLayers &neuron_layers) {
     }
 }
 
-void Phenome::generateWeightMatrices(const std::vector<Connection> &connection_list,
+void Phenome::generateWeightMatrices(const Connections &connection_list,
                                        const NeuronLayers &neuron_layers) {
     weights = std::vector<arma::mat>(neuron_layers.size() - 1);
     unsigned long layer_size;
@@ -45,20 +45,18 @@ void Phenome::generateWeightMatrices(const std::vector<Connection> &connection_l
     fillWeightMatrices(connection_list, neuron_layers);
 }
 
-void Phenome::fillWeightMatrices(const std::vector<Connection> &connection_list,
+void Phenome::fillWeightMatrices(const Connections &connection_list,
                                    const NeuronLayers &neuron_layers) {
     PNeuron input_neuron, output_neuron;
 
     for (auto connection: connection_list) {
-        if (connection.isEnabled()) {
-            input_neuron = connection.getInput();
-            Coordinates input_coordinates = findNeuronCoordinates(input_neuron, neuron_layers);
+        input_neuron = connection->getInput();
+        Coordinates input_coordinates = findNeuronCoordinates(input_neuron, neuron_layers);
 
-            output_neuron = connection.getOutput();
-            Coordinates output_coordinates = findNeuronCoordinates(output_neuron, neuron_layers);
+        output_neuron = connection->getOutput();
+        Coordinates output_coordinates = findNeuronCoordinates(output_neuron, neuron_layers);
 
-            weights[input_coordinates.first](input_coordinates.second, output_coordinates.second) = connection.getWeight();
-        }
+        weights[input_coordinates.first](input_coordinates.second, output_coordinates.second) = connection->getWeight();
     }
 }
 
@@ -86,12 +84,12 @@ bool Phenome::operator==(const Phenome &rhs) const {
         weights.size() != rhs.weights.size())
         return false;
 
-    for (int i = 0; i < neurons.size() - 1; ++i) {
+    for (int i = 0; i < neurons.size(); ++i) {
         if ((int) arma::accu(neurons[i]) != (int) arma::accu(rhs.neurons[i]))
             return false;
     }
 
-    for (int j = 0; j < weights.size() - 1; ++j) {
+    for (int j = 0; j < weights.size(); ++j) {
         if ((int) arma::accu(weights[j]) != (int) arma::accu(rhs.weights[j]))
             return false;
     }

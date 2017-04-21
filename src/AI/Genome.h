@@ -44,8 +44,8 @@ public:
     static Genome crossover(Genome &parentA, Genome &parentB);
     void mutate(const MutationType &mutation_type);
 
-    Genes getNeurons();
-    Genes getConnections();
+    Neurons getNeurons() const;
+    Connections getConnections() const;
 
     bool operator==(const Genome &rhs) const;
     bool operator!=(const Genome &rhs) const;

@@ -196,12 +196,24 @@ PConnection Genome::getRandomConnection() {
 }
 
 
-Genes Genome::getNeurons() {
-    return neurons.getGenes();
+Neurons Genome::getNeurons() const {
+    Genes genes = neurons.getGenes();
+    Neurons result;
+    for (PGene g: genes) {
+        result.push_back(std::static_pointer_cast<Neuron>(g));
+    }
+
+    return result;
 }
 
-Genes Genome::getConnections() {
-    return connections.getGenes();
+Connections Genome::getConnections() const {
+    Genes genes = connections.getGenes();
+    Connections result;
+    for (PGene g: genes) {
+        result.push_back(std::static_pointer_cast<Connection>(g));
+    }
+
+    return result;
 }
 
 bool Genome::operator==(const Genome &rhs) const {

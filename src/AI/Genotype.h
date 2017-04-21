@@ -26,7 +26,7 @@ public:
 
     void insert(const PGene &gene);
     void erase(const PGene &gene);
-    Genes getGenes();
+    Genes getGenes() const;
 
     PGene & operator[](size_t index);
     const PGene & operator[](size_t index) const;

@@ -29,6 +29,8 @@ add_executable(PhenomeTest PhenomeTest.cc
                              ${TEST_DIR}/Phenome.cc
                              ${TEST_DIR}/Genome.h
                              ${TEST_DIR}/Genome.cc
+                             ${TEST_DIR}/Genotype.h
+                             ${TEST_DIR}/Genotype.cc
                              ${TEST_DIR}/Random.h
                              ${TEST_DIR}/Random.cc
                              ${TEST_DIR}/Gene.h

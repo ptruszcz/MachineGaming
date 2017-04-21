@@ -58,8 +58,8 @@ TEST_F(GenomeTest, ConnectionDeletingTest) {
     Genome genome2(genome1);
 
     genome2.mutate(DELETE_CONNECTION);
-    Genes genes1 = genome1.getConnections();
-    Genes genes2 = genome2.getConnections();
+    Connections genes1 = genome1.getConnections();
+    Connections genes2 = genome2.getConnections();
 
     ASSERT_TRUE(genes1.size() > genes2.size());
     ASSERT_NE(genome1, genome2);

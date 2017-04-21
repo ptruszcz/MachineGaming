@@ -13,15 +13,15 @@ private:
     std::vector<arma::mat> neurons;
     std::vector<arma::mat> weights;
 
-    NeuronLayers createNeuronLayers(const std::vector<PNeuron> &neurons);
+    NeuronLayers createNeuronLayers(const Neurons &neurons);
     void generateNeuronMatrices(const NeuronLayers &neuron_layers);
-    void generateWeightMatrices(const std::vector<Connection> &connection_list,
+    void generateWeightMatrices(const Connections &connection_list,
                                 const NeuronLayers &neuron_layers);
-    void fillWeightMatrices(const std::vector<Connection> &connection_list, const NeuronLayers &neuron_layers);
+    void fillWeightMatrices(const Connections &connection_list, const NeuronLayers &neuron_layers);
     Coordinates findNeuronCoordinates(const PNeuron &neuron, const NeuronLayers &neuron_layers);
 
 public:
-    Phenome(Genome genome);
+    Phenome(const Genome &genome);
 
     const std::vector<arma::mat> &getNeurons() const;
     const std::vector<arma::mat> &getWeights() const;

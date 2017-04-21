@@ -97,7 +97,7 @@ void Genotype::erase(const PGene &gene) {
     genes.erase(it + id);
 }
 
-Genes Genotype::getGenes() {
+Genes Genotype::getGenes() const {
     Genes valid_genes;
 
     for (PGene gene: genes) {
