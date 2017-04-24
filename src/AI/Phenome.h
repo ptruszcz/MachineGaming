@@ -7,11 +7,12 @@
 
 typedef std::pair<int, int> Coordinates;
 typedef std::vector<std::vector<PNeuron>> NeuronLayers;
+typedef arma::mat Matrix;
 
 class Phenome {
 private:
-    std::vector<arma::mat> neurons;
-    std::vector<arma::mat> weights;
+    std::vector<Matrix> neurons;
+    std::vector<Matrix> weights;
 
     NeuronLayers createNeuronLayers(const Neurons &neurons);
     void generateNeuronMatrices(const NeuronLayers &neuron_layers);
@@ -23,8 +24,8 @@ private:
 public:
     Phenome(const Genome &genome);
 
-    const std::vector<arma::mat> &getNeurons() const;
-    const std::vector<arma::mat> &getWeights() const;
+    const std::vector<Matrix> &getNeurons() const;
+    const std::vector<Matrix> &getWeights() const;
 
     bool operator==(const Phenome &rhs) const;
     bool operator!=(const Phenome &rhs) const;

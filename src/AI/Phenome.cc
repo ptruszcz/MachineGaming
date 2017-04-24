@@ -21,25 +21,25 @@ NeuronLayers Phenome::createNeuronLayers(const Neurons &neurons) {
 }
 
 void Phenome::generateNeuronMatrices(const NeuronLayers &neuron_layers) {
-    neurons = std::vector<arma::mat>(neuron_layers.size());
+    neurons = std::vector<Matrix>(neuron_layers.size());
     unsigned long layer_size;
 
     for (int i = 0; i < neuron_layers.size(); ++i) {
         layer_size = neuron_layers[i].size();
-        neurons[i] = arma::mat(1, layer_size);
+        neurons[i] = Matrix(1, layer_size);
     }
 }
 
 void Phenome::generateWeightMatrices(const Connections &connection_list,
                                        const NeuronLayers &neuron_layers) {
-    weights = std::vector<arma::mat>(neuron_layers.size() - 1);
+    weights = std::vector<Matrix>(neuron_layers.size() - 1);
     unsigned long layer_size;
     unsigned long prev_layer_size;
 
     for (int i = 1; i < neuron_layers.size(); ++i) {
         layer_size = neuron_layers[i].size();
         prev_layer_size = neuron_layers[i-1].size();
-        weights[i-1] = arma::mat(prev_layer_size, layer_size, arma::fill::zeros);
+        weights[i-1] = Matrix(prev_layer_size, layer_size, arma::fill::zeros);
     }
 
     fillWeightMatrices(connection_list, neuron_layers);
@@ -71,11 +71,11 @@ Coordinates Phenome::findNeuronCoordinates(const PNeuron &neuron,
     return Coordinates(layer_number, neuron_number);
 }
 
-const std::vector<arma::mat> &Phenome::getNeurons() const {
+const std::vector<Matrix> &Phenome::getNeurons() const {
     return neurons;
 }
 
-const std::vector<arma::mat> &Phenome::getWeights() const {
+const std::vector<Matrix> &Phenome::getWeights() const {
     return weights;
 }
 

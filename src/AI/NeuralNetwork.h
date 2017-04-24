@@ -4,35 +4,34 @@
 #include <vector>
 #include <armadillo>
 #include <cstdlib>
-//#include <Neuron.h>
-//#include "Genome.h"
+#include "Genome.h"
+#include "Phenome.h"
 
 const std::string greet( );
-/*
+
+typedef std::shared_ptr<NeuralNetwork> PNeuralNetwork;
+
 class NeuralNetwork {
 private:
+    NeuralNetwork(const Genome &genome);
+
     Genome genome;
-    // TODO Phenome instead of neurons and weights.
+    Phenome phenome;
 
-    arma::mat *output;
-    std::vector<arma::mat> neurons;
-    std::vector<arma::mat> weights;
+    void randomizeConnections(const Connections &connections);
+    bool compatible(const Matrix &input);
 
-    void initializeLayers(const std::vector<int> &layer_sizes);
-    bool compatible(const arma::mat &input);
-
-    arma::mat activationFunction(arma::mat z);
-    arma::mat activationFunctionDerivative(arma::mat x);
+    Matrix activationFunction(Matrix z);
 
 public:
-    NeuralNetwork(int input_size, int output_size) :
-            NeuralNetwork(std::vector<int>({input_size, output_size})), genome(0, 0, 0) {}
-    NeuralNetwork(const std::vector<int> &layer_sizes);
+    NeuralNetwork(int input_size, int hidden_layers, int output_size);
     NeuralNetwork(const NeuralNetwork &neural_network);
 
-    arma::mat feedForward(arma::mat input);
-    arma::mat backpropagate(arma::mat expected_output);
+    static PNeuralNetwork crossover(PNeuralNetwork &parent_a, PNeuralNetwork &parent_b);
+    void mutate(const MutationType &mutation_type);
 
-    arma::mat getOutput();
-};*/
+    Matrix feedForward(Matrix input);
+
+    const Matrix &getOutput() const;
+};
 #endif //PROJECT_NEURALNETWORK_H

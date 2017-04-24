@@ -11,6 +11,9 @@
 #include "MutationType.h"
 #include "Genotype.h"
 
+class Genome;
+typedef std::shared_ptr<Genome> PGenome;
+
 class Genome {
 private:
     static Random random;
@@ -41,7 +44,7 @@ public:
     Genome(Genotype neurons, Genotype connections);
     Genome(const Genome &genome);
 
-    static Genome crossover(Genome &parentA, Genome &parentB);
+    static PGenome crossover(Genome &parentA, Genome &parentB);
     void mutate(const MutationType &mutation_type);
 
     Neurons getNeurons() const;

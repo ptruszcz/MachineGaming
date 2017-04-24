@@ -23,15 +23,15 @@ Genome::Genome(Genotype neurons, Genotype connections) {
 
 Genome::Genome(const Genome &genome) {
     layer_counter = genome.layer_counter;
-    neurons = *genome.neurons.clone();
+    neurons = genome.neurons;
     connections = *genome.connections.clone();
 }
 
-Genome Genome::crossover(Genome &parentA, Genome &parentB) {
+PGenome Genome::crossover(Genome &parentA, Genome &parentB) {
     Genotype neurons = Genotype::crossover(parentA.neurons, parentB.neurons);
     Genotype connections = *Genotype::crossover(parentA.connections, parentB.connections).clone();
 
-    return Genome(neurons, connections);
+    return std::make_shared<Genome>(neurons, connections);
 }
 
 void Genome::mutate(const MutationType &mutation_type) {

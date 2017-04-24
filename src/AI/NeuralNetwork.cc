@@ -1,78 +1,58 @@
+#include <bits/valarray_after.h>
 #include "NeuralNetwork.h"
 
-char const* greet( )
-{
-    return "Hello world";
-}
-/*
-
-NeuralNetwork::NeuralNetwork(const std::vector<int> &layer_sizes) : genome(0, 0, 0) {
-    neurons = std::vector<arma::mat>(layer_sizes.size());
-    output = &neurons.back();
-
-    weights = std::vector<arma::mat>(layer_sizes.size() - 1);
-
-    initializeLayers(layer_sizes);
+const std::string greet( ) {
+    return std::string("Hello world");
 }
 
-NeuralNetwork::NeuralNetwork(const NeuralNetwork &neural_network) : genome(0, 0, 0) {
-    neurons = std::vector<arma::mat>(neural_network.neurons);
-    output = &neurons.back();
+NeuralNetwork::NeuralNetwork(int input_size, int hidden_layers, int output_size)
+        : genome(input_size, hidden_layers, output_size),
+          phenome(genome) {}
 
-    weights = std::vector<arma::mat>(neural_network.weights);
+NeuralNetwork::NeuralNetwork(const NeuralNetwork &neural_network) :
+        genome(neural_network.genome),
+        phenome(genome) {
+    randomizeConnections(genome.getConnections());
 }
 
-void NeuralNetwork::initializeLayers(const std::vector<int> &layer_sizes) {
-    int layer_size, prev_layer_size;
+NeuralNetwork::NeuralNetwork(const Genome &genome) :
+        genome(genome),
+        phenome(this->genome) {}
 
-    neurons[0] = arma::mat(1, layer_sizes[0]);
-    for (int i = 1; i < layer_sizes.size(); ++i) {
-        layer_size = layer_sizes[i];
-        prev_layer_size = layer_sizes[i-1];
-
-        neurons[i] = arma::mat(1, layer_size);
-        weights[i-1] = arma::randu<arma::mat>(prev_layer_size, layer_size) * 10 - 5;
+void NeuralNetwork::randomizeConnections (const Connections &connections) {
+    for (PConnection connection: connections) {
+        connection->randomizeWeight();
     }
 }
 
-arma::mat NeuralNetwork::activationFunction(arma::mat z) {
+Matrix NeuralNetwork::activationFunction(Matrix z) {
     return 1/(1 + arma::exp(-z));
 }
 
-arma::mat NeuralNetwork::activationFunctionDerivative(arma::mat z) {
-    return z % (1 - z);
+PNeuralNetwork NeuralNetwork::crossover(PNeuralNetwork &parent_a, PNeuralNetwork &parent_b) {
+    PGenome genome = Genome::crossover(parent_a->genome, parent_b->genome);
+    return std::make_shared<NeuralNetwork>(*genome);
 }
 
-arma::mat NeuralNetwork::feedForward(arma::mat input) {
-    if (!compatible(input)) return arma::mat();
+void NeuralNetwork::mutate(const MutationType &mutation_type) {
+    genome.mutate(mutation_type);
+}
 
-    neurons[0] = input;
-    for (int i = 0; i < weights.size(); ++i) {
-        neurons[i + 1] = activationFunction(neurons[i] * weights[i]);
+Matrix NeuralNetwork::feedForward(Matrix input) {
+    if (!compatible(input)) return Matrix();
+
+    phenome.getNeurons()[0] = input;
+    for (int i = 0; i < phenome.getWeights().size(); ++i) {
+        phenome.getNeurons()[i + 1] = activationFunction(phenome.getNeurons()[i]
+                                                         * phenome.getWeights()[i]);
     }
-    return *output;
+    return getOutput();
 }
 
-bool NeuralNetwork::compatible(const arma::mat &input) {
-    return size(neurons[0]) == size(input);
+bool NeuralNetwork::compatible(const Matrix &input) {
+    return size(phenome.getNeurons()[0]) == size(input);
 }
 
-arma::mat NeuralNetwork::backpropagate(arma::mat expected_output) {
-    arma::mat output_error = expected_output - *output;
-
-    arma::mat layer_error = output_error;
-    arma::mat layer_delta;
-
-    for (int i = (int) (weights.size() - 1); i >= 0; --i) {
-        layer_delta = layer_error % activationFunctionDerivative(neurons[i + 1]);
-        layer_error = layer_delta * weights[i].t();
-        weights[i] += neurons[i].t() * layer_delta;
-    }
-
-    return arma::abs(output_error);
+const Matrix &NeuralNetwork::getOutput() const {
+    return phenome.getNeurons().back();
 }
-
-arma::mat NeuralNetwork::getOutput() {
-    return *output;
-}
-*/
