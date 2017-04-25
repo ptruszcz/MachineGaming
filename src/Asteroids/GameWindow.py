@@ -63,7 +63,7 @@ class GameWindow:
             self._spaceship.move()
             spaceship_crashed = pygame.sprite.spritecollideany(self._spaceship, self._asteroids)
             if spaceship_crashed:
-                print("JEB")
+                print("BUM")
 
             destroyed_asteroids = pygame.sprite.groupcollide(self._missiles, self._asteroids,
                                                              True, True)
