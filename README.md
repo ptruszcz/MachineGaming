@@ -4,4 +4,3 @@ Neural Network learning how to play Asteroids. Project for advanced programming 
 
 ### Requirements
 sudo apt install cmake python3-dev libboost-all-dev libarmadillo-dev
-https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/
