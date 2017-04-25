@@ -1,21 +1,17 @@
-#include <gtest/gtest.h>
+#define BOOST_TEST_MODULE GenotypeTest
+#include <boost/test/unit_test.hpp>
 #include "Genotype.h"
-#include "Gene.h"
 #include "Neuron.h"
 #include "Connection.h"
 
-
-class GenotypeTest: public testing::Test {
-public:
-    virtual void SetUp() {
+struct F {
+    F() {
         Neuron::resetCounter();
         Connection::resetCounter();
     }
-
-    virtual void TearDown() {}
 };
 
-TEST_F(GenotypeTest, InsertNeuronTest) {
+BOOST_FIXTURE_TEST_CASE(InsertNeuronTest, F) {
     PNeuron neuron1 = std::make_shared<Neuron>(0);
     PNeuron neuron2 = std::make_shared<Neuron>(1);
     PNeuron neuron3 = std::make_shared<Neuron>(1);
@@ -28,10 +24,10 @@ TEST_F(GenotypeTest, InsertNeuronTest) {
 
     std::vector<PGene> genes = neurons.getGenes();
 
-    ASSERT_EQ(3, genes.size());
+    BOOST_TEST(3 == genes.size());
 }
 
-TEST_F(GenotypeTest, EraseNeuronTest) {
+BOOST_FIXTURE_TEST_CASE(EraseNeuronTest, F) {
     PNeuron neuron1 = std::make_shared<Neuron>(0);
     PNeuron neuron2 = std::make_shared<Neuron>(1);
     PNeuron neuron3 = std::make_shared<Neuron>(1);
@@ -46,10 +42,10 @@ TEST_F(GenotypeTest, EraseNeuronTest) {
 
     std::vector<PGene> genes = neurons.getGenes();
 
-    ASSERT_EQ(2, genes.size());
+    BOOST_TEST(2 == genes.size());
 }
 
-TEST_F(GenotypeTest, CrossoverNeuronTest) {
+BOOST_FIXTURE_TEST_CASE(CrossoverNeuronTest, F) {
     PNeuron neuron1 = std::make_shared<Neuron>(0);
     PNeuron neuron2 = std::make_shared<Neuron>(1);
     PNeuron neuron3 = std::make_shared<Neuron>(1);
@@ -69,11 +65,11 @@ TEST_F(GenotypeTest, CrossoverNeuronTest) {
 
     std::vector<PGene> genes = child_neurons.getGenes();
 
-    ASSERT_EQ(4, genes.size());
-    ASSERT_EQ(4, Neuron::howMany());
+    BOOST_TEST(4 == genes.size());
+    BOOST_TEST(4 == Neuron::howMany());
 }
 
-TEST_F(GenotypeTest, InsertConnectionTest) {
+BOOST_FIXTURE_TEST_CASE(InsertConnectionTest, F) {
     PNeuron neuron1 = std::make_shared<Neuron>(0);
     PNeuron neuron2 = std::make_shared<Neuron>(1);
     PNeuron neuron3 = std::make_shared<Neuron>(1);
@@ -90,10 +86,10 @@ TEST_F(GenotypeTest, InsertConnectionTest) {
 
     std::vector<PGene> genes = connections.getGenes();
 
-    ASSERT_EQ(2, genes.size());
+    BOOST_TEST(2 == genes.size());
 }
 
-TEST_F(GenotypeTest, EraseConnectionTest) {
+BOOST_FIXTURE_TEST_CASE(EraseConnectionTest, F) {
     PNeuron neuron1 = std::make_shared<Neuron>(0);
     PNeuron neuron2 = std::make_shared<Neuron>(1);
     PNeuron neuron3 = std::make_shared<Neuron>(1);
@@ -112,10 +108,10 @@ TEST_F(GenotypeTest, EraseConnectionTest) {
 
     std::vector<PGene> genes = connections.getGenes();
 
-    ASSERT_EQ(1, genes.size());
+    BOOST_TEST(1 == genes.size());
 }
 
-TEST_F(GenotypeTest, CrossoverConnectionTest) {
+BOOST_FIXTURE_TEST_CASE(CrossoverConnectionTest, F) {
     PNeuron neuron1 = std::make_shared<Neuron>(0);
     PNeuron neuron2 = std::make_shared<Neuron>(1);
     PNeuron neuron3 = std::make_shared<Neuron>(1);
@@ -138,11 +134,6 @@ TEST_F(GenotypeTest, CrossoverConnectionTest) {
 
     std::vector<PGene> genes = child_connections.getGenes();
 
-    ASSERT_EQ(4, genes.size());
-    ASSERT_EQ(4, Connection::howMany());
-}
-
-int main(int argc, char **argv) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    BOOST_TEST(4 == genes.size());
+    BOOST_TEST(4 == Connection::howMany());
 }

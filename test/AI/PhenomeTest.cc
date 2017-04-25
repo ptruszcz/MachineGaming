@@ -1,22 +1,18 @@
-#include <gtest/gtest.h>
+#define BOOST_TEST_MODULE PhenomeTest
+#include <boost/test/unit_test.hpp>
 #include "Genome.h"
 #include "Phenome.h"
 
 
-TEST(PhenomeTest, ConstructorTest) {
+BOOST_AUTO_TEST_CASE(ConstructorTest) {
     Genome genotype(10,1,15);
     Phenome phenome1(genotype);
     Phenome phenome2(genotype);
 
-    ASSERT_EQ(phenome1, phenome2);
+    BOOST_ASSERT(phenome1 == phenome2);
 
     genotype.mutate(ADD_NEURON);
     Phenome phenome3(genotype);
 
-    ASSERT_NE(phenome1, phenome3);
-}
-
-int main(int argc, char **argv) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    BOOST_ASSERT(phenome1 != phenome3);
 }

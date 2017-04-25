@@ -1,59 +1,55 @@
-#include <gtest/gtest.h>
+#define BOOST_TEST_MODULE GenomeTest
+#include <boost/test/unit_test.hpp>
 #include "Genome.h"
-#include "Connection.h"
 
 template class std::vector<PNeuron>;
 template class std::vector<Connection>;
 
-class GenomeTest: public testing::Test {
-public:
-    virtual void SetUp() {
-        Neuron::resetCounter();
+struct F {
+    F() {
+        Neuron::resetCounter(); 
         Connection::resetCounter();
     }
-
-    virtual void TearDown() {}
 };
 
-
-TEST_F(GenomeTest, SimpleGenomeTest) {
+BOOST_FIXTURE_TEST_CASE(SimpleGenomeTest, F) {
     Genome genome1(5, 1, 10);
-    ASSERT_EQ(16, genome1.getNeurons().size());
-    ASSERT_EQ(15, genome1.getConnections().size());
+    BOOST_TEST(16 == genome1.getNeurons().size());
+    BOOST_TEST(15 == genome1.getConnections().size());
 
 
     Genome genome2(1, 1, 1);
-    ASSERT_EQ(3, genome2.getNeurons().size());
-    ASSERT_EQ(2, genome2.getConnections().size());
+    BOOST_TEST(3 == genome2.getNeurons().size());
+    BOOST_TEST(2 == genome2.getConnections().size());
 }
 
-TEST_F(GenomeTest, CopyingConstuctorTest) {
+BOOST_FIXTURE_TEST_CASE(CopyingConstuctorTest, F) {
     Genome genome1(1, 1, 1);
     Genome genome2(genome1);
-    ASSERT_NE(genome1, genome2);
+    BOOST_TEST(genome1 != genome2);
 }
 
-TEST_F(GenomeTest, ComplexGenomeTest) {
+BOOST_FIXTURE_TEST_CASE(ComplexGenomeTest, F) {
     Genome genome(50, 10, 20);
-    ASSERT_EQ(50 + 10 + 20, genome.getNeurons().size());
-    ASSERT_EQ(50 + 9 + 20, genome.getConnections().size());
+    BOOST_TEST(50 + 10 + 20 == genome.getNeurons().size());
+    BOOST_TEST(50 + 9 + 20 == genome.getConnections().size());
 }
 
-TEST_F(GenomeTest, NeuronAddingTest) {
+BOOST_FIXTURE_TEST_CASE(NeuronAddingTest, F) {
     Genome genome1(50, 10, 20);
     Genome genome2(genome1);
     genome2.mutate(ADD_NEURON);
-    ASSERT_NE(genome1, genome2);
+    BOOST_TEST(genome1 != genome2);
 }
 
-TEST_F(GenomeTest, ConnectionAddingTest) {
+BOOST_FIXTURE_TEST_CASE(ConnectionAddingTest, F) {
     Genome genome1(50, 10, 20);
     Genome genome2(genome1);
     genome2.mutate(ADD_CONNECTION);
-    ASSERT_NE(genome1, genome2);
+    BOOST_TEST(genome1 != genome2);
 }
 
-TEST_F(GenomeTest, ConnectionDeletingTest) {
+BOOST_FIXTURE_TEST_CASE(ConnectionDeletingTest, F) {
     Genome genome1(50, 10, 20);
     Genome genome2(genome1);
 
@@ -61,18 +57,13 @@ TEST_F(GenomeTest, ConnectionDeletingTest) {
     Connections genes1 = genome1.getConnections();
     Connections genes2 = genome2.getConnections();
 
-    ASSERT_TRUE(genes1.size() > genes2.size());
-    ASSERT_NE(genome1, genome2);
+    BOOST_TEST(genes1.size() > genes2.size());
+    BOOST_TEST(genome1 != genome2);
 }
 
-TEST_F(GenomeTest, WeightRandomizationTest) {
+BOOST_FIXTURE_TEST_CASE(WeightRandomizationTest, F) {
     Genome genome1(50, 10, 20);
     Genome genome2(genome1);
     genome2.mutate(RANDOMIZE_WEIGHT);
-    ASSERT_NE(genome1, genome2);
-}
-
-int main(int argc, char **argv) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
+    BOOST_TEST(genome1 != genome2);
 }
