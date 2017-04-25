@@ -1,6 +1,6 @@
-//
-// Created by fajqa on 18.04.17.
-//
+/*
+File created by: Jakub Fajkowski
+*/
 
 #ifndef MACHINEGAMING_COUNTER_HPP
 #define MACHINEGAMING_COUNTER_HPP

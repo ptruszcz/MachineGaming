@@ -1,3 +1,8 @@
+/*
+File created by: Jakub Fajkowski
+Modified by: Piotr Truszczyński
+*/
+
 #ifndef MACHINEGAMING_GENOME_H
 #define MACHINEGAMING_GENOME_H
 

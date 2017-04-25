@@ -1,3 +1,7 @@
+/*
+File created by: Jakub Fajkowski
+*/
+
 #ifndef MACHINEGAMING_MUTATIONTYPE_H
 #define MACHINEGAMING_MUTATIONTYPE_H
 

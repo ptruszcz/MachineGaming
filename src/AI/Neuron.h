@@ -1,3 +1,7 @@
+/*
+File created by: Jakub Fajkowski
+*/
+
 #ifndef MACHINEGAMING_NEURON_H
 #define MACHINEGAMING_NEURON_H
 

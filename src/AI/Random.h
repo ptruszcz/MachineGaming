@@ -1,3 +1,7 @@
+/*
+File created by: Jakub Fajkowski
+*/
+
 #ifndef MACHINEGAMING_RANDOM_H
 #define MACHINEGAMING_RANDOM_H
 

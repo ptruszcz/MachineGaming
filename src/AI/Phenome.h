@@ -1,3 +1,7 @@
+/*
+File created by: Jakub Fajkowski
+*/
+
 #ifndef MACHINEGAMING_PHENOME_H
 #define MACHINEGAMING_PHENOME_H
 

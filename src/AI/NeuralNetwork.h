@@ -1,3 +1,7 @@
+/*
+File created by: Jakub Fajkowski
+*/
+
 #ifndef PROJECT_NEURALNETWORK_H
 #define PROJECT_NEURALNETWORK_H
 
