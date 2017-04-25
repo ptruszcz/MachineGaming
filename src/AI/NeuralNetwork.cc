@@ -1,4 +1,3 @@
-#include <bits/valarray_after.h>
 #include "NeuralNetwork.h"
 
 const std::string greet( ) {
@@ -53,6 +52,6 @@ bool NeuralNetwork::compatible(const Matrix &input) {
     return size(phenome.getNeurons()[0]) == size(input);
 }
 
-const Matrix &NeuralNetwork::getOutput() const {
+Matrix &NeuralNetwork::getOutput() {
     return phenome.getNeurons().back();
 }

@@ -71,7 +71,7 @@ Coordinates Phenome::findNeuronCoordinates(const PNeuron &neuron,
     return Coordinates(layer_number, neuron_number);
 }
 
-const std::vector<Matrix> &Phenome::getNeurons() const {
+std::vector<Matrix> &Phenome::getNeurons() {
     return neurons;
 }
 

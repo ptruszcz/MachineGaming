@@ -1,12 +1,8 @@
 cmake_minimum_required(VERSION 2.6)
 
-add_executable(NeuralNetworkTest NeuralNetworkTest.cc
-                                 ${TEST_DIR}/NeuralNetwork.h
-                                 ${TEST_DIR}/NeuralNetwork.cc)
-target_link_libraries(NeuralNetworkTest ${GTEST_LIBRARIES}
-                                        ${ARMADILLO_LIBRARIES}
-                                        ${Boost_LIBRARIES}
-                                        pthread)
+add_executable(NeuralNetworkTest NeuralNetworkTest.cc)
+target_link_libraries(NeuralNetworkTest  ${ARMADILLO_LIBRARIES}
+                                        ${Boost_LIBRARIES})
 
 add_executable(PhenomeTest PhenomeTest.cc
                              ${TEST_DIR}/Phenome.h
@@ -41,10 +37,8 @@ add_executable(GenomeTest GenomeTest.cc
                             ${TEST_DIR}/Neuron.cc
                             ${TEST_DIR}/Connection.h
                             ${TEST_DIR}/Connection.cc)
-target_link_libraries(GenomeTest ${GTEST_LIBRARIES}
-                                   ${ARMADILLO_LIBRARIES}
-                                   ${Boost_LIBRARIES}
-                                   pthread)
+target_link_libraries(GenomeTest ${ARMADILLO_LIBRARIES}
+                                   ${Boost_LIBRARIES})
 
 add_executable(GeneTest GeneTest.cc
         ${TEST_DIR}/Gene.h
@@ -55,10 +49,8 @@ add_executable(GeneTest GeneTest.cc
         ${TEST_DIR}/Connection.cc
         ${TEST_DIR}/Random.h
         ${TEST_DIR}/Random.cc)
-target_link_libraries(GeneTest ${GTEST_LIBRARIES}
-        ${ARMADILLO_LIBRARIES}
-        ${Boost_LIBRARIES}
-        pthread)
+target_link_libraries(GeneTest         ${ARMADILLO_LIBRARIES}
+        ${Boost_LIBRARIES})
 
 add_executable(GenotypeTest GenotypeTest.cc
         ${TEST_DIR}/Genotype.h
@@ -71,7 +63,5 @@ add_executable(GenotypeTest GenotypeTest.cc
         ${TEST_DIR}/Connection.cc
         ${TEST_DIR}/Random.h
         ${TEST_DIR}/Random.cc)
-target_link_libraries(GenotypeTest ${GTEST_LIBRARIES}
-        ${ARMADILLO_LIBRARIES}
-        ${Boost_LIBRARIES}
-        pthread)
+target_link_libraries(GenotypeTest        ${ARMADILLO_LIBRARIES}
+        ${Boost_LIBRARIES})

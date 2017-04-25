@@ -80,7 +80,7 @@ PNeuron Genome::addNeuron(int layer_number) {
     PNeuron neuron_ptr = std::make_shared<Neuron>(neuron_to_add);
     neurons.insert(neuron_ptr);
 
-    BOOST_LOG_TRIVIAL(debug) << "[ADD NEURON] " << neuron_to_add;
+    //BOOST_LOG_TRIVIAL(debug) << "[ADD NEURON] " << neuron_to_add;
 
     return neuron_ptr;
 }
@@ -91,7 +91,7 @@ void Genome::deleteNeuron() {
     neurons.erase(neuron_to_delete);
     deleteNeuronConnections(neuron_to_delete);
 
-    BOOST_LOG_TRIVIAL(debug) << "[DELETE NEURON] " << neuron_to_delete;
+    //BOOST_LOG_TRIVIAL(debug) << "[DELETE NEURON] " << neuron_to_delete;
 }
 
 void Genome::deleteNeuronConnections(const PNeuron &neuron) {
@@ -158,21 +158,21 @@ void Genome::addConnection(const PNeuron &input, const PNeuron &output) {
     Connection connection(input, output);
     connections.insert(std::make_shared<Connection>(connection));
 
-    BOOST_LOG_TRIVIAL(debug) << "[ADD CONNECTION] " << connection;
+    //BOOST_LOG_TRIVIAL(debug) << "[ADD CONNECTION] " << connection;
 }
 
 void Genome::deleteConnection() {
     PConnection connection = getRandomConnection();
     connections.erase(connection);
 
-    BOOST_LOG_TRIVIAL(debug) << "[DELETE CONNECTION] " << *connection;
+    //BOOST_LOG_TRIVIAL(debug) << "[DELETE CONNECTION] " << *connection;
 }
 
 void Genome::randomizeWeight() {
     PConnection connection = getRandomConnection();
     connection->mutate(RANDOMIZE_WEIGHT);
 
-    BOOST_LOG_TRIVIAL(debug) << "[RANDOMIZE WEIGHT] " << *connection;
+    //BOOST_LOG_TRIVIAL(debug) << "[RANDOMIZE WEIGHT] " << *connection;
 }
 
 PNeuron Genome::getRandomNeuron(int layer_number) {

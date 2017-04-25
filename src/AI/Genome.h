@@ -4,7 +4,7 @@
 
 #include <list>
 #include <armadillo>
-#include "boost/log/trivial.hpp"
+//#include "boost/log/trivial.hpp"
 #include "Neuron.h"
 #include "Connection.h"
 #include "Random.h"

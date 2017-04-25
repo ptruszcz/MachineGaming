@@ -24,7 +24,7 @@ private:
 public:
     Phenome(const Genome &genome);
 
-    const std::vector<Matrix> &getNeurons() const;
+    std::vector<Matrix> &getNeurons();
     const std::vector<Matrix> &getWeights() const;
 
     bool operator==(const Phenome &rhs) const;

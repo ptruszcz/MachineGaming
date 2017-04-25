@@ -24,7 +24,7 @@ BOOST_FIXTURE_TEST_CASE(InsertNeuronTest, F) {
 
     std::vector<PGene> genes = neurons.getGenes();
 
-    BOOST_TEST(3 == genes.size());
+    BOOST_ASSERT(3 == genes.size());
 }
 
 BOOST_FIXTURE_TEST_CASE(EraseNeuronTest, F) {
@@ -42,7 +42,7 @@ BOOST_FIXTURE_TEST_CASE(EraseNeuronTest, F) {
 
     std::vector<PGene> genes = neurons.getGenes();
 
-    BOOST_TEST(2 == genes.size());
+    BOOST_ASSERT(2 == genes.size());
 }
 
 BOOST_FIXTURE_TEST_CASE(CrossoverNeuronTest, F) {
@@ -65,8 +65,8 @@ BOOST_FIXTURE_TEST_CASE(CrossoverNeuronTest, F) {
 
     std::vector<PGene> genes = child_neurons.getGenes();
 
-    BOOST_TEST(4 == genes.size());
-    BOOST_TEST(4 == Neuron::howMany());
+    BOOST_ASSERT(4 == genes.size());
+    BOOST_ASSERT(4 == Neuron::howMany());
 }
 
 BOOST_FIXTURE_TEST_CASE(InsertConnectionTest, F) {
@@ -86,7 +86,7 @@ BOOST_FIXTURE_TEST_CASE(InsertConnectionTest, F) {
 
     std::vector<PGene> genes = connections.getGenes();
 
-    BOOST_TEST(2 == genes.size());
+    BOOST_ASSERT(2 == genes.size());
 }
 
 BOOST_FIXTURE_TEST_CASE(EraseConnectionTest, F) {
@@ -108,7 +108,7 @@ BOOST_FIXTURE_TEST_CASE(EraseConnectionTest, F) {
 
     std::vector<PGene> genes = connections.getGenes();
 
-    BOOST_TEST(1 == genes.size());
+    BOOST_ASSERT(1 == genes.size());
 }
 
 BOOST_FIXTURE_TEST_CASE(CrossoverConnectionTest, F) {
@@ -134,6 +134,6 @@ BOOST_FIXTURE_TEST_CASE(CrossoverConnectionTest, F) {
 
     std::vector<PGene> genes = child_connections.getGenes();
 
-    BOOST_TEST(4 == genes.size());
-    BOOST_TEST(4 == Connection::howMany());
+    BOOST_ASSERT(4 == genes.size());
+    BOOST_ASSERT(4 == Connection::howMany());
 }

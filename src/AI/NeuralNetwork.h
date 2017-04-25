@@ -9,12 +9,11 @@
 
 const std::string greet( );
 
+class NeuralNetwork;
 typedef std::shared_ptr<NeuralNetwork> PNeuralNetwork;
 
 class NeuralNetwork {
 private:
-    NeuralNetwork(const Genome &genome);
-
     Genome genome;
     Phenome phenome;
 
@@ -26,12 +25,13 @@ private:
 public:
     NeuralNetwork(int input_size, int hidden_layers, int output_size);
     NeuralNetwork(const NeuralNetwork &neural_network);
+    NeuralNetwork(const Genome &genome);
 
     static PNeuralNetwork crossover(PNeuralNetwork &parent_a, PNeuralNetwork &parent_b);
     void mutate(const MutationType &mutation_type);
 
     Matrix feedForward(Matrix input);
 
-    const Matrix &getOutput() const;
+    Matrix &getOutput();
 };
 #endif //PROJECT_NEURALNETWORK_H
