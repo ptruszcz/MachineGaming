@@ -2,6 +2,11 @@ import pygame
 from Vector import Vector
 import GameWindow
 
+"""
+File created by: Jakub Fajkowski
+"""
+
+
 red = (255, 0, 0)
 SPEED_AFTER_BOUNCE = 0.7
 
