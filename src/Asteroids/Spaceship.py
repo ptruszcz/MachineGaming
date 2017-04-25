@@ -6,6 +6,11 @@ from Vector import Vector
 from Missile import Missile
 from Coordinates import Coordinates
 
+"""
+File created by: Piotr Truszczynski
+Modified by: Jakub Fajkowski
+"""
+
 MAIN_BOOSTER_POWER = 0.09
 SIDE_BOOSTER_POWER = 3 # in degrees
 FIRE_POWER = 5
