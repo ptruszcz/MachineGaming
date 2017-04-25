@@ -14,7 +14,7 @@ class Missile(MovingObject):
         fullname = os.path.join('../../res/Asteroids/sprites', 'missile.png')
         image = pygame.image.load(fullname)
 
-        MovingObject.__init__(self, image, coordinates, velocity, direction, image_scale=0.05)
+        MovingObject.__init__(self, image, coordinates, velocity, direction, image_scale=0.15)
         self._does_it_bounce = False
 
     def update(self, surface):
