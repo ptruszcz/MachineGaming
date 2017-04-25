@@ -12,11 +12,11 @@ if (WIN32)
     set(ARMADILLO_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include)
 elseif(UNIX)
     find_package(Boost COMPONENTS python-py35 unit_test_framework)
+    ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
     find_package(Armadillo REQUIRED)
 endif()
 
 set(Boost_USE_MULTITHREADED      ON)
-ADD_DEFINITIONS(-DBOOST_TEST_DYN_LINK)
 include_directories(${Boost_INCLUDE_DIRS})
 
 include_directories(${ARMADILLO_INCLUDE_DIRS})
