@@ -1,6 +1,6 @@
 #!/bin/bash
 # bash script here
-sudo apt install cmake python3-dev libboost-all-dev libarmadillo-dev
+sudo apt install cmake python3-dev libboost-all-dev libarmadillo-dev python-pygame
 mkdir bin
 cd bin
 rm -rf *
