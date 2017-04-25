@@ -2,5 +2,7 @@
 ### Description
 Neural Network learning how to play Asteroids. Project for advanced programming classes.
 
-### Requirements
-sudo apt install cmake python3-dev libboost-all-dev libarmadillo-dev
+### Linux installation
+1. Download and unpack or clone repository to desired location.
+2. ./run.sh
+3. Run desired component.
