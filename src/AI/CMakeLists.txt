@@ -7,10 +7,6 @@ file(GLOB SOURCES
 # Build our library
 add_library(NeuralNetwork SHARED ${SOURCES})
 
-target_link_libraries(NeuralNetwork
-        ${ARMADILLO_LIBRARIES}
-        ${Boost_LIBRARIES})
-
 # Define the wrapper library that wraps our library
 add_library(NeuralNetwork_Ext SHARED neuralnetwork_ext.cc
         ${PYTHON_LIBRARIES}
