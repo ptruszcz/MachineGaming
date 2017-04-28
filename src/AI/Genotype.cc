@@ -124,3 +124,11 @@ bool Genotype::operator==(const Genotype &rhs) const {
 bool Genotype::operator!=(const Genotype &rhs) const {
     return !(rhs == *this);
 }
+
+std::ostream &operator<<(std::ostream &os, const Genotype &genotype) {
+    os << "genes: ";
+    for (auto gene: genotype.getGenes()) {
+        os << gene << " ";
+    }
+    return os;
+}

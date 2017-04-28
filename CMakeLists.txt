@@ -19,8 +19,8 @@ enable_testing()
 include_directories(${Boost_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS} ${ARMADILLO_INCLUDE_DIRS})
 link_libraries(${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${ARMADILLO_LIBRARIES})
 
-set(TEST_DIR ${MachineGaming_SOURCE_DIR}/src/AI)
-include_directories(${TEST_DIR})
+set(SOURCES_DIR ${MachineGaming_SOURCE_DIR}/src/AI)
+include_directories(${SOURCES_DIR})
 
 add_subdirectory(src)
 add_subdirectory(test)

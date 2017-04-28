@@ -7,6 +7,7 @@ File created by: Jakub Fajkowski
 
 
 #include <armadillo>
+#include <ostream>
 #include "Genome.h"
 
 typedef std::pair<int, int> Coordinates;
@@ -33,6 +34,8 @@ public:
 
     bool operator==(const Phenome &rhs) const;
     bool operator!=(const Phenome &rhs) const;
+
+    friend std::ostream &operator<<(std::ostream &os, const Phenome &phenome);
 };
 
 

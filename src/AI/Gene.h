@@ -7,6 +7,7 @@ File created by: Jakub Fajkowski
 
 #include <cstddef>
 #include <boost/shared_ptr.hpp>
+#include <ostream>
 #include "MutationType.h"
 
 class Gene;
@@ -24,6 +25,8 @@ public:
     virtual void mutate(MutationType mutation_type) = 0;
 
     size_t getId() const;
+
+    friend std::ostream &operator<<(std::ostream &os, const Gene &gene);
 };
 
 #endif //MACHINEGAMING_GENE_H

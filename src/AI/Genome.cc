@@ -69,7 +69,7 @@ void Genome::addLayer(int size) {
 }
 
 void Genome::addNeuron() {
-    int random_layer_number = random.next(1, layer_counter);
+    int random_layer_number = random.next(1, layer_counter - 2);
     PNeuron neuron_ptr = addNeuron(random_layer_number);
     addConnectionToPrevLayer(neuron_ptr);
     addConnectionToNextLayer(neuron_ptr);
@@ -178,6 +178,7 @@ void Genome::randomizeWeight() {
 PNeuron Genome::getRandomNeuron(int layer_number) {
     Neurons matches;
     PNeuron neuron;
+    Neurons neurons = getNeurons();
     for (auto gene: getNeurons()) {
         neuron = std::static_pointer_cast<Neuron>(gene);
         if (neuron->getLayerNumber() == layer_number)
@@ -224,4 +225,9 @@ bool Genome::operator==(const Genome &rhs) const {
 
 bool Genome::operator!=(const Genome &rhs) const {
     return !(rhs == *this);
+}
+
+std::ostream &operator<<(std::ostream &os, const Genome &genome) {
+    os << "neurons: " << genome.neurons << " connections: " << genome.connections;
+    return os;
 }

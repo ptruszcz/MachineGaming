@@ -1,8 +1,9 @@
-#define BOOST_TEST_MODULE GenotypeTest
 #include <boost/test/unit_test.hpp>
 #include "Genotype.h"
 #include "Neuron.h"
 #include "Connection.h"
+
+BOOST_AUTO_TEST_SUITE(GenotypeTest)
 
 struct F {
     F() {
@@ -24,7 +25,7 @@ BOOST_FIXTURE_TEST_CASE(InsertNeuronTest, F) {
 
     std::vector<PGene> genes = neurons.getGenes();
 
-    BOOST_ASSERT(3 == genes.size());
+    BOOST_CHECK_EQUAL(3, genes.size());
 }
 
 BOOST_FIXTURE_TEST_CASE(EraseNeuronTest, F) {
@@ -42,7 +43,7 @@ BOOST_FIXTURE_TEST_CASE(EraseNeuronTest, F) {
 
     std::vector<PGene> genes = neurons.getGenes();
 
-    BOOST_ASSERT(2 == genes.size());
+    BOOST_CHECK_EQUAL(2, genes.size());
 }
 
 BOOST_FIXTURE_TEST_CASE(CrossoverNeuronTest, F) {
@@ -65,8 +66,8 @@ BOOST_FIXTURE_TEST_CASE(CrossoverNeuronTest, F) {
 
     std::vector<PGene> genes = child_neurons.getGenes();
 
-    BOOST_ASSERT(4 == genes.size());
-    BOOST_ASSERT(4 == Neuron::howMany());
+    BOOST_CHECK_EQUAL(4, genes.size());
+    BOOST_CHECK_EQUAL(4, Neuron::howMany());
 }
 
 BOOST_FIXTURE_TEST_CASE(InsertConnectionTest, F) {
@@ -86,7 +87,7 @@ BOOST_FIXTURE_TEST_CASE(InsertConnectionTest, F) {
 
     std::vector<PGene> genes = connections.getGenes();
 
-    BOOST_ASSERT(2 == genes.size());
+    BOOST_CHECK_EQUAL(2, genes.size());
 }
 
 BOOST_FIXTURE_TEST_CASE(EraseConnectionTest, F) {
@@ -108,7 +109,7 @@ BOOST_FIXTURE_TEST_CASE(EraseConnectionTest, F) {
 
     std::vector<PGene> genes = connections.getGenes();
 
-    BOOST_ASSERT(1 == genes.size());
+    BOOST_CHECK_EQUAL(1, genes.size());
 }
 
 BOOST_FIXTURE_TEST_CASE(CrossoverConnectionTest, F) {
@@ -134,6 +135,8 @@ BOOST_FIXTURE_TEST_CASE(CrossoverConnectionTest, F) {
 
     std::vector<PGene> genes = child_connections.getGenes();
 
-    BOOST_ASSERT(4 == genes.size());
-    BOOST_ASSERT(4 == Connection::howMany());
+    BOOST_CHECK_EQUAL(4, genes.size());
+    BOOST_CHECK_EQUAL(4, Connection::howMany());
 }
+
+BOOST_AUTO_TEST_SUITE_END()

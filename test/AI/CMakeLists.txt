@@ -5,13 +5,10 @@ file(GLOB TEST_SOURCES
         )
 
 file(GLOB SOURCES
-        "${TEST_DIR}/*.h"
-        "${TEST_DIR}/*.cc"
-        "${TEST_DIR}/*.hpp"
+        "${SOURCES_DIR}/*.h"
+        "${SOURCES_DIR}/*.cc"
+        "${SOURCES_DIR}/*.hpp"
         )
 
-add_executable(GeneTest
-        GeneTest.cc
-        ${SOURCES}
-        ${ARMADILLO_LIBRARIES}
-        ${Boost_LIBRARIES})
+add_executable(AITests ${TEST_SOURCES} ${SOURCES})
+add_test(AITests AITests)

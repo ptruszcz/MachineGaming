@@ -5,6 +5,7 @@ File created by: Jakub Fajkowski
 #ifndef MACHINEGAMING_GENOTYPE_H
 #define MACHINEGAMING_GENOTYPE_H
 
+#include <ostream>
 #include "Gene.h"
 #include "Random.h"
 
@@ -36,6 +37,8 @@ public:
     const PGene & operator[](size_t index) const;
     bool operator==(const Genotype &rhs) const;
     bool operator!=(const Genotype &rhs) const;
+
+    friend std::ostream &operator<<(std::ostream &os, const Genotype &genotype);
 };
 
 

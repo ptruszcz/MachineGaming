@@ -100,3 +100,8 @@ bool Phenome::operator==(const Phenome &rhs) const {
 bool Phenome::operator!=(const Phenome &rhs) const {
     return !(rhs == *this);
 }
+
+std::ostream &operator<<(std::ostream &os, const Phenome &phenome) {
+    os << "neurons: " << phenome.neurons.size() << " weights: " << phenome.weights.size();
+    return os;
+}

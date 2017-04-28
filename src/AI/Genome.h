@@ -9,6 +9,7 @@ Modified by: Piotr Truszczyński
 
 #include <list>
 #include <armadillo>
+#include <ostream>
 //#include "boost/log/trivial.hpp"
 #include "Neuron.h"
 #include "Connection.h"
@@ -52,13 +53,15 @@ public:
     static PGenome crossover(Genome &parentA, Genome &parentB);
     void mutate(const MutationType &mutation_type);
 
+    void deleteNeuronConnections(const PNeuron &neuron);
+
     Neurons getNeurons() const;
     Connections getConnections() const;
 
     bool operator==(const Genome &rhs) const;
     bool operator!=(const Genome &rhs) const;
 
-    void deleteNeuronConnections(const PNeuron &neuron);
+    friend std::ostream &operator<<(std::ostream &os, const Genome &genome);
 };
 
 
