@@ -55,3 +55,12 @@ bool NeuralNetwork::compatible(const Matrix &input) {
 Matrix &NeuralNetwork::getOutput() {
     return phenome.getNeurons().back();
 }
+
+bool NeuralNetwork::operator==(const NeuralNetwork &rhs) const {
+    return genome == rhs.genome &&
+           phenome == rhs.phenome;
+}
+
+bool NeuralNetwork::operator!=(const NeuralNetwork &rhs) const {
+    return !(rhs == *this);
+}

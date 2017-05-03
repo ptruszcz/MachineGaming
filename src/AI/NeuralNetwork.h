@@ -37,5 +37,8 @@ public:
     Matrix feedForward(Matrix input);
 
     Matrix &getOutput();
+
+    bool operator==(const NeuralNetwork &rhs) const;
+    bool operator!=(const NeuralNetwork &rhs) const;
 };
 #endif //PROJECT_NEURALNETWORK_H
