@@ -26,7 +26,6 @@ BOOST_AUTO_TEST_SUITE(NeuralNetworkTest)
     }
 
     BOOST_FIXTURE_TEST_CASE(CrossoverTest, F) {
-        //TODO Fix the bug. :c
         PNeuralNetwork parentA = std::make_shared<NeuralNetwork>(5,5,5);
         PNeuralNetwork parentB = std::make_shared<NeuralNetwork>(*parentA);
 
@@ -36,13 +35,15 @@ BOOST_AUTO_TEST_SUITE(NeuralNetworkTest)
         parentB->feedForward({1, 2, 3, 4, 5});
         child->feedForward({1, 2, 3, 4, 5});
 
+        parentA->getOutput().print();
+        parentB->getOutput().print();
+        child->getOutput().print();
+
         BOOST_CHECK_EQUAL(5, parentA->getOutput().n_elem);
         BOOST_CHECK_EQUAL(5, parentB->getOutput().n_elem);
         BOOST_CHECK_EQUAL(5, child->getOutput().n_elem);
-
-
-        bool expected = is_close(parentA->getOutput(), parentB->getOutput(), 0.0);
-        //BOOST_ASSERT(expected);
     }
+
+    //TODO TEST CONSTRUCTOR DOESN'T WORK AS EXPECTED
 
 BOOST_AUTO_TEST_SUITE_END()
