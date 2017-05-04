@@ -48,7 +48,6 @@ void Phenome::generateWeightMatrices(const Connections &connection_list,
 void Phenome::fillWeightMatrices(const Connections &connection_list,
                                    const NeuronLayers &neuron_layers) {
     PNeuron input_neuron, output_neuron;
-
     for (auto connection: connection_list) {
         input_neuron = connection->getInput();
         Coordinates input_coordinates = findNeuronCoordinates(input_neuron, neuron_layers);
@@ -65,8 +64,11 @@ Coordinates Phenome::findNeuronCoordinates(const PNeuron &neuron,
     int layer_number = neuron->getLayerNumber();
     auto layer = neuron_layers[layer_number];
 
-    auto iterator = std::find(layer.begin(), layer.end(), neuron);
-    int neuron_number = (int) (iterator - layer.begin());
+    int neuron_number = -1;
+    for (int i = 0; i < layer.size(); ++i) {
+        if (*layer[i] == *neuron)
+            neuron_number = i;
+    }
 
     return Coordinates(layer_number, neuron_number);
 }
