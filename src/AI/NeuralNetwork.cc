@@ -20,7 +20,7 @@ NeuralNetwork::NeuralNetwork(const Genome &genome) :
 
 void NeuralNetwork::randomizeConnections (const Connections &connections) {
     for (PConnection connection: connections) {
-        connection->randomizeWeight();
+        connection->mutate(RANDOMIZE_WEIGHT);
     }
 }
 

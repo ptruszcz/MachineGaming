@@ -21,15 +21,15 @@ private:
 public:
     Neuron(int layer_number);
     Neuron(const Neuron &neuron);
+
     virtual PGene clone() const;
-
     virtual void mutate(MutationType mutation_type);
-
-    int getLayerNumber() const;
 
     bool operator==(const Neuron &rhs) const;
     bool operator!=(const Neuron &rhs) const;
     friend std::ostream &operator<<(std::ostream &os, const Neuron &neuron);
+
+    int getLayerNumber() const;
 };
 
 

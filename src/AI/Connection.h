@@ -22,26 +22,25 @@ private:
     PNeuron input;
     PNeuron output;
     double weight;
-
+    
+    void randomizeWeight();
 public:
     static double weight_variance;
 
     Connection() : Counter(), Gene(howMany()) {};
     Connection(const PNeuron &input, const PNeuron &output);
     Connection(const Connection &connection);
+    
     virtual PGene clone() const;
-
     virtual void mutate(MutationType mutation_type);
-
-    void randomizeWeight();
-
-    const PNeuron &getInput() const;
-    const PNeuron &getOutput() const;
-    double getWeight() const;
 
     bool operator==(const Connection &rhs) const;
     bool operator!=(const Connection &rhs) const;
     friend std::ostream &operator<<(std::ostream &os, const Connection &connection);
+
+    const PNeuron &getInput() const;
+    const PNeuron &getOutput() const;
+    double getWeight() const;
 };
 
 

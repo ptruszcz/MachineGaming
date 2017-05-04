@@ -21,6 +21,7 @@ protected:
 public:
     Gene(size_t how_many);
     Gene(const Gene &gene);
+
     virtual PGene clone() const = 0;
     virtual void mutate(MutationType mutation_type) = 0;
 

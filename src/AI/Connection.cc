@@ -3,17 +3,6 @@
 Random Connection::random = Random();
 double Connection::weight_variance = 5.0;
 
-const PNeuron &Connection::getInput() const {
-    return input;
-}
-
-const PNeuron &Connection::getOutput() const {
-    return output;
-}
-
-double Connection::getWeight() const {
-    return weight;
-}
 Connection::Connection(const PNeuron &input,
                        const PNeuron &output) : Counter(), Gene(howMany()) {
     this->input = input;
@@ -61,4 +50,16 @@ std::ostream &operator<<(std::ostream &os, const Connection &connection) {
     os << "[No.: " << connection.id << " In " << *connection.input << " Out "
        << *connection.output << " Weight " << connection.weight << "]";
     return os;
+}
+
+const PNeuron &Connection::getInput() const {
+    return input;
+}
+
+const PNeuron &Connection::getOutput() const {
+    return output;
+}
+
+double Connection::getWeight() const {
+    return weight;
 }

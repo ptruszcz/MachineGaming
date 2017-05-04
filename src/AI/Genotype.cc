@@ -14,15 +14,15 @@ PGenotype Genotype::clone() const {
     return std::make_shared<Genotype>(Genotype(*this));
 }
 
-Genotype Genotype::crossover(Genotype &parent_a, Genotype &parent_b) {
+PGenotype Genotype::crossover(Genotype &parent_a, Genotype &parent_b) {
     return createChild(parent_a, parent_b);
 }
 
-Genotype Genotype::createChild(Genotype &parent_a, Genotype &parent_b) {
+PGenotype Genotype::createChild(Genotype &parent_a, Genotype &parent_b) {
     size_t common_size = makeEqualSize(parent_a, parent_b);
 
-    Genotype child_genotype = Genotype();
-    child_genotype.genes.reserve(common_size);
+    PGenotype child_genotype = std::make_shared<Genotype>();
+    child_genotype->genes.reserve(common_size);
     PGene gene_a, gene_b, child_gene;
 
     for (size_t i = 0; i < common_size; ++i) {
@@ -31,7 +31,7 @@ Genotype Genotype::createChild(Genotype &parent_a, Genotype &parent_b) {
 
         child_gene = chooseGene(gene_a, gene_b);
 
-        child_genotype.genes.push_back(child_gene);
+        child_genotype->genes.push_back(child_gene);
     }
 
     return child_genotype;
@@ -97,18 +97,6 @@ void Genotype::erase(const PGene &gene) {
     genes.erase(it + id);
 }
 
-Genes Genotype::getGenes() const {
-    Genes valid_genes;
-
-    for (PGene gene: genes) {
-        if (gene) {
-            valid_genes.push_back(gene);
-        }
-    }
-
-    return valid_genes;
-}
-
 PGene &Genotype::operator[](size_t index) {
     return genes[index];
 }
@@ -131,4 +119,16 @@ std::ostream &operator<<(std::ostream &os, const Genotype &genotype) {
         os << gene << " ";
     }
     return os;
+}
+
+Genes Genotype::getGenes() const {
+    Genes valid_genes;
+
+    for (PGene gene: genes) {
+        if (gene) {
+            valid_genes.push_back(gene);
+        }
+    }
+
+    return valid_genes;
 }

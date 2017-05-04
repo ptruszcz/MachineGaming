@@ -62,9 +62,9 @@ BOOST_FIXTURE_TEST_CASE(CrossoverNeuronTest, F) {
     neurons2.insert(neuron3);
     neurons2.insert(neuron4);
 
-    Genotype child_neurons = Genotype::crossover(neurons1, neurons2);
+    PGenotype child_neurons = Genotype::crossover(neurons1, neurons2);
 
-    std::vector<PGene> genes = child_neurons.getGenes();
+    std::vector<PGene> genes = child_neurons->getGenes();
 
     BOOST_CHECK_EQUAL(4, genes.size());
     BOOST_CHECK_EQUAL(4, Neuron::howMany());
@@ -131,7 +131,7 @@ BOOST_FIXTURE_TEST_CASE(CrossoverConnectionTest, F) {
     connections2.insert(connection2);
     connections2.insert(connection4);
 
-    Genotype child_connections = *Genotype::crossover(connections1, connections2).clone();
+    Genotype child_connections = *Genotype::crossover(connections1, connections2)->clone();
 
     std::vector<PGene> genes = child_connections.getGenes();
 

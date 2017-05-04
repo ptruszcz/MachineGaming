@@ -71,14 +71,6 @@ Coordinates Phenome::findNeuronCoordinates(const PNeuron &neuron,
     return Coordinates(layer_number, neuron_number);
 }
 
-std::vector<Matrix> &Phenome::getNeurons() {
-    return neurons;
-}
-
-const std::vector<Matrix> &Phenome::getWeights() const {
-    return weights;
-}
-
 bool Phenome::operator==(const Phenome &rhs) const {
     if (neurons.size() != rhs.neurons.size() ||
         weights.size() != rhs.weights.size())
@@ -104,4 +96,12 @@ bool Phenome::operator!=(const Phenome &rhs) const {
 std::ostream &operator<<(std::ostream &os, const Phenome &phenome) {
     os << "neurons: " << phenome.neurons.size() << " weights: " << phenome.weights.size();
     return os;
+}
+
+std::vector<Matrix> &Phenome::getNeurons() {
+    return neurons;
+}
+
+const std::vector<Matrix> &Phenome::getWeights() const {
+    return weights;
 }

@@ -29,13 +29,12 @@ private:
 public:
     Phenome(const Genome &genome);
 
-    std::vector<Matrix> &getNeurons();
-    const std::vector<Matrix> &getWeights() const;
-
     bool operator==(const Phenome &rhs) const;
     bool operator!=(const Phenome &rhs) const;
-
     friend std::ostream &operator<<(std::ostream &os, const Phenome &phenome);
+
+    std::vector<Matrix> &getNeurons();
+    const std::vector<Matrix> &getWeights() const;
 };
 
 
