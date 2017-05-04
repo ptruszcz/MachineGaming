@@ -13,15 +13,9 @@ EvolutionaryAlgorithm::EvolutionaryAlgorithm(int population_size, int input_size
 
     for(int i = 0; i < population_size; ++i) {
         PNetworkFitnessPair pair_to_add;
-        pair_to_add->network = std::make_shared<NeuralNetwork>(NeuralNetwork(input_size, hidden_layers, output_size));
+        pair_to_add->network = std::make_shared<NeuralNetwork>(input_size, hidden_layers, output_size);
         pair_to_add->fitness = evaluateFitness(pair_to_add->network);
         population.push_back(pair_to_add);
-    }
-}
-
-void EvolutionaryAlgorithm::process(int number_of_generations, int parents_selected_per_generation) {
-    for(int i = 0; i < number_of_generations; ++i) {
-        processGeneration(parents_selected_per_generation);
     }
 }
 
@@ -66,7 +60,7 @@ PNetworkFitnessPair EvolutionaryAlgorithm::select() {
 void EvolutionaryAlgorithm::removeWeakest() {
     std::sort(population.begin(), population.end(), compareNetworkFitnessPair);
 
-    for(int i = 0; i < initial_population_size; ++i) {
+    while (population.size() > initial_population_size) {
         population.pop_back();
     }
 }
@@ -84,6 +78,6 @@ PNetworkFitnessPair EvolutionaryAlgorithm::crossover() {
 }
 
 void EvolutionaryAlgorithm::mutate(PNetworkFitnessPair &networkFitnessPair) {
-    MutationType random_mutation_type = static_cast<MutationType >(rand() % RANDOMIZE_WEIGHT);
+    MutationType random_mutation_type = static_cast<MutationType>(random.next(0, NUM_OF_MUTATION_TYPES - 1));
     networkFitnessPair->network->mutate(random_mutation_type);
 }

@@ -36,7 +36,6 @@ private:
 public:
     EvolutionaryAlgorithm(int population_size, int input_size, int hidden_layers, int output_size,
                           double crossover_probability, double mutation_probability);
-    void process(int number_of_generations, int parents_selected_per_generation);
     void processGeneration(int parents_selected_per_generation);
 };
 
