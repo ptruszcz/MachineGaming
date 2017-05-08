@@ -44,19 +44,19 @@ void Genome::connectLayer(int layer_number) {
 }
 
 Genome::Genome(const Genotype &neurons, const Genotype &connections) {
-    this->neurons = Genotype(neurons);
-    this->connections = Genotype(connections);
+    this->neurons_ = Genotype(neurons);
+    this->connections_ = Genotype(connections);
 }
 
 Genome::Genome(const Genome &genome) {
     layer_counter = genome.layer_counter;
-    neurons = genome.neurons;
-    connections = *genome.connections.clone();
+    neurons_ = genome.neurons_;
+    connections_ = *genome.connections_.clone();
 }
 
 PGenome Genome::crossover(Genome &parentA, Genome &parentB) {
-    PGenotype neurons = Genotype::crossover(parentA.neurons, parentB.neurons);
-    PGenotype connections = Genotype::crossover(parentA.connections, parentB.connections)->clone();
+    PGenotype neurons = Genotype::crossover(parentA.neurons_, parentB.neurons_);
+    PGenotype connections = Genotype::crossover(parentA.connections_, parentB.connections_)->clone();
 
     return std::make_shared<Genome>(*neurons, *connections);
 }
@@ -95,7 +95,7 @@ void Genome::addNeuron() {
 PNeuron Genome::addNeuron(int layer_number) {
     Neuron neuron_to_add = Neuron(layer_number);
     PNeuron neuron_ptr = std::make_shared<Neuron>(neuron_to_add);
-    neurons.insert(neuron_ptr);
+    neurons_.insert(neuron_ptr);
 
     return neuron_ptr;
 }
@@ -103,7 +103,7 @@ PNeuron Genome::addNeuron(int layer_number) {
 void Genome::deleteNeuron() {
     int random_layer_number = random.next(1, layer_counter);
     PNeuron neuron_to_delete = getRandomNeuron(random_layer_number);
-    neurons.erase(neuron_to_delete);
+    neurons_.erase(neuron_to_delete);
     deleteNeuronConnections(neuron_to_delete);
 }
 
@@ -120,7 +120,7 @@ void Genome::deleteNeuronConnections(const PNeuron &neuron) {
     }
 
     for (auto connection: matches) {
-        connections.erase(connection);
+        connections_.erase(connection);
     }
 }
 
@@ -152,12 +152,12 @@ void Genome::addConnectionToNextLayer(const PNeuron &input) {
 
 void Genome::addConnection(const PNeuron &input, const PNeuron &output) {
     Connection connection(input, output);
-    connections.insert(std::make_shared<Connection>(connection));
+    connections_.insert(std::make_shared<Connection>(connection));
 }
 
 void Genome::deleteConnection() {
     PConnection connection = getRandomConnection();
-    connections.erase(connection);
+    connections_.erase(connection);
 }
 
 void Genome::randomizeWeight() {
@@ -181,15 +181,15 @@ PNeuron Genome::getRandomNeuron(int layer_number) {
 }
 
 PConnection Genome::getRandomConnection() {
-    Genes valid_connections = connections.getGenes();
+    Genes valid_connections = connections_.getGenes();
     int index = random.next(0, (int)(valid_connections.size() - 1));
     return std::static_pointer_cast<Connection>(valid_connections[index]);
 }
 
 bool Genome::operator==(const Genome &rhs) const {
     return layer_counter == rhs.layer_counter &&
-           neurons == rhs.neurons &&
-           connections == rhs.connections;
+           neurons_ == rhs.neurons_ &&
+           connections_ == rhs.connections_;
 }
 
 bool Genome::operator!=(const Genome &rhs) const {
@@ -197,12 +197,12 @@ bool Genome::operator!=(const Genome &rhs) const {
 }
 
 std::ostream &operator<<(std::ostream &os, const Genome &genome) {
-    os << "neurons: " << genome.neurons << " connections: " << genome.connections;
+    os << "neurons: " << genome.neurons_ << " connections: " << genome.connections_;
     return os;
 }
 
 Neurons Genome::getNeurons() const {
-    Genes genes = neurons.getGenes();
+    Genes genes = neurons_.getGenes();
     Neurons result;
     for (PGene gene: genes) {
         result.push_back(std::static_pointer_cast<Neuron>(gene));
@@ -212,7 +212,7 @@ Neurons Genome::getNeurons() const {
 }
 
 Connections Genome::getConnections() const {
-    Genes genes = connections.getGenes();
+    Genes genes = connections_.getGenes();
     Connections result;
     for (PGene gene: genes) {
         result.push_back(std::static_pointer_cast<Connection>(gene));

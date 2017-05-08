@@ -22,8 +22,8 @@ private:
     static Random random;
     static int layer_counter;
     
-    Genotype neurons;
-    Genotype connections;
+    Genotype neurons_;
+    Genotype connections_;
 
     void addNeuron();
     PNeuron addNeuron(int layer_number);

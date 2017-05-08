@@ -16,8 +16,8 @@ typedef arma::mat Matrix;
 
 class Phenome {
 private:
-    std::vector<Matrix> neurons;
-    std::vector<Matrix> weights;
+    std::vector<Matrix> neurons_;
+    std::vector<Matrix> weights_;
 
     NeuronLayers createNeuronLayers(const Neurons &neurons);
     void generateNeuronMatrices(const NeuronLayers &neuron_layers);

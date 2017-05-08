@@ -22,10 +22,10 @@ private:
     static Random random;
     static bool compareNetworkFitnessPair(PNetworkFitnessPair &p1, PNetworkFitnessPair &p2); //fitness comparison
 
-    NeuralNetworks population;
-    int initial_population_size;
-    double crossover_probability;
-    double mutation_probability;
+    NeuralNetworks population_;
+    int initial_population_size_;
+    double crossover_probability_;
+    double mutation_probability_;
 
     int evaluateFitness(PNeuralNetwork& network);
     PNetworkFitnessPair crossover();

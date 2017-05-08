@@ -19,9 +19,9 @@ class Connection : public Counter<Connection>, public Gene {
 private:
     static Random random;
 
-    PNeuron input;
-    PNeuron output;
-    double weight;
+    PNeuron input_;
+    PNeuron output_;
+    double weight_;
     
     void randomizeWeight();
 public:

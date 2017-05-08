@@ -5,15 +5,15 @@ double Connection::weight_variance = 5.0;
 
 Connection::Connection(const PNeuron &input,
                        const PNeuron &output) : Counter(), Gene(howMany()) {
-    this->input = input;
-    this->output = output;
+    this->input_ = input;
+    this->output_ = output;
     randomizeWeight();
 }
 
 Connection::Connection(const Connection &connection) : Counter(connection), Gene(connection) {
-    this->input = connection.input;
-    this->output = connection.output;
-    this->weight = connection.weight;
+    this->input_ = connection.input_;
+    this->output_ = connection.output_;
+    this->weight_ = connection.weight_;
 }
 
 PGene Connection::clone() const {
@@ -32,14 +32,14 @@ void Connection::mutate(MutationType mutation_type) {
 }
 
 void Connection::randomizeWeight() {
-    weight = random.next(-weight_variance, weight_variance);
+    weight_ = random.next(-weight_variance, weight_variance);
 }
 
 bool Connection::operator==(const Connection &rhs) const {
     return id == rhs.id &&
-            weight == rhs.weight &&
-            input == rhs.input &&
-            output == rhs.output;
+            weight_ == rhs.weight_ &&
+            input_ == rhs.input_ &&
+            output_ == rhs.output_;
 }
 
 bool Connection::operator!=(const Connection &rhs) const {
@@ -47,19 +47,19 @@ bool Connection::operator!=(const Connection &rhs) const {
 }
 
 std::ostream &operator<<(std::ostream &os, const Connection &connection) {
-    os << "[No.: " << connection.id << " In " << *connection.input << " Out "
-       << *connection.output << " Weight " << connection.weight << "]";
+    os << "[No.: " << connection.id << " In " << *connection.input_ << " Out "
+       << *connection.output_ << " Weight " << connection.weight_ << "]";
     return os;
 }
 
 const PNeuron &Connection::getInput() const {
-    return input;
+    return input_;
 }
 
 const PNeuron &Connection::getOutput() const {
-    return output;
+    return output_;
 }
 
 double Connection::getWeight() const {
-    return weight;
+    return weight_;
 }

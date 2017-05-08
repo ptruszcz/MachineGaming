@@ -15,7 +15,7 @@ typedef std::shared_ptr<Genotype> PGenotype;
 class Genotype {
 private:
     static Random random;
-    Genes genes;
+    Genes genes_;
 
     static PGenotype createChild(Genotype &parent_a, Genotype &parent_b);
     static size_t makeEqualSize(Genotype &parent_a, Genotype &parent_b);

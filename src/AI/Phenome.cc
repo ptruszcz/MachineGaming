@@ -21,25 +21,25 @@ NeuronLayers Phenome::createNeuronLayers(const Neurons &neurons) {
 }
 
 void Phenome::generateNeuronMatrices(const NeuronLayers &neuron_layers) {
-    neurons = std::vector<Matrix>(neuron_layers.size());
+    neurons_ = std::vector<Matrix>(neuron_layers.size());
     unsigned long layer_size;
 
     for (int i = 0; i < neuron_layers.size(); ++i) {
         layer_size = neuron_layers[i].size();
-        neurons[i] = Matrix(1, layer_size);
+        neurons_[i] = Matrix(1, layer_size);
     }
 }
 
 void Phenome::generateWeightMatrices(const Connections &connection_list,
                                        const NeuronLayers &neuron_layers) {
-    weights = std::vector<Matrix>(neuron_layers.size() - 1);
+    weights_ = std::vector<Matrix>(neuron_layers.size() - 1);
     unsigned long layer_size;
     unsigned long prev_layer_size;
 
     for (int i = 1; i < neuron_layers.size(); ++i) {
         layer_size = neuron_layers[i].size();
         prev_layer_size = neuron_layers[i-1].size();
-        weights[i-1] = Matrix(prev_layer_size, layer_size, arma::fill::zeros);
+        weights_[i-1] = Matrix(prev_layer_size, layer_size, arma::fill::zeros);
     }
 
     fillWeightMatrices(connection_list, neuron_layers);
@@ -55,7 +55,7 @@ void Phenome::fillWeightMatrices(const Connections &connection_list,
         output_neuron = connection->getOutput();
         Coordinates output_coordinates = findNeuronCoordinates(output_neuron, neuron_layers);
 
-        weights[input_coordinates.first](input_coordinates.second, output_coordinates.second) = connection->getWeight();
+        weights_[input_coordinates.first](input_coordinates.second, output_coordinates.second) = connection->getWeight();
     }
 }
 
@@ -74,17 +74,17 @@ Coordinates Phenome::findNeuronCoordinates(const PNeuron &neuron,
 }
 
 bool Phenome::operator==(const Phenome &rhs) const {
-    if (neurons.size() != rhs.neurons.size() ||
-        weights.size() != rhs.weights.size())
+    if (neurons_.size() != rhs.neurons_.size() ||
+        weights_.size() != rhs.weights_.size())
         return false;
 
-    for (int i = 0; i < neurons.size(); ++i) {
-        if ((int) arma::accu(neurons[i]) != (int) arma::accu(rhs.neurons[i]))
+    for (int i = 0; i < neurons_.size(); ++i) {
+        if ((int) arma::accu(neurons_[i]) != (int) arma::accu(rhs.neurons_[i]))
             return false;
     }
 
-    for (int j = 0; j < weights.size(); ++j) {
-        if ((int) arma::accu(weights[j]) != (int) arma::accu(rhs.weights[j]))
+    for (int j = 0; j < weights_.size(); ++j) {
+        if ((int) arma::accu(weights_[j]) != (int) arma::accu(rhs.weights_[j]))
             return false;
     }
 
@@ -96,14 +96,14 @@ bool Phenome::operator!=(const Phenome &rhs) const {
 }
 
 std::ostream &operator<<(std::ostream &os, const Phenome &phenome) {
-    os << "neurons: " << phenome.neurons.size() << " weights: " << phenome.weights.size();
+    os << "neurons: " << phenome.neurons_.size() << " weights: " << phenome.weights_.size();
     return os;
 }
 
 std::vector<Matrix> &Phenome::getNeurons() {
-    return neurons;
+    return neurons_;
 }
 
 const std::vector<Matrix> &Phenome::getWeights() const {
-    return weights;
+    return weights_;
 }

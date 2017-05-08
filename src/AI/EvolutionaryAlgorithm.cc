@@ -8,14 +8,14 @@ bool EvolutionaryAlgorithm::compareNetworkFitnessPair(PNetworkFitnessPair &p1, P
 
 EvolutionaryAlgorithm::EvolutionaryAlgorithm(int population_size, int input_size, int hidden_layers, int output_size,
                                              double crossover_probability, double mutation_probability)
-        : initial_population_size(population_size), crossover_probability(crossover_probability),
-          mutation_probability(mutation_probability) {
+        : initial_population_size_(population_size), crossover_probability_(crossover_probability),
+          mutation_probability_(mutation_probability) {
 
     for(int i = 0; i < population_size; ++i) {
         PNetworkFitnessPair pair_to_add;
         pair_to_add->network = std::make_shared<NeuralNetwork>(input_size, hidden_layers, output_size);
         pair_to_add->fitness = evaluateFitness(pair_to_add->network);
-        population.push_back(pair_to_add);
+        population_.push_back(pair_to_add);
     }
 }
 
@@ -23,13 +23,13 @@ void EvolutionaryAlgorithm::processGeneration(int parents_selected_per_generatio
     for(int i = 0; i < parents_selected_per_generation; ++i) {
         double random_value = random.next(0.0, 1.0);
 
-        if(random_value <= crossover_probability) {
+        if(random_value <= crossover_probability_) {
             PNetworkFitnessPair offspring = crossover();
 
-            if(random_value <= mutation_probability)
+            if(random_value <= mutation_probability_)
                 mutate(offspring);
 
-            population.push_back(offspring);
+            population_.push_back(offspring);
         }
 
         removeWeakest();
@@ -41,27 +41,27 @@ int EvolutionaryAlgorithm::evaluateFitness(PNeuralNetwork &network) {
 }
 
 PNetworkFitnessPair EvolutionaryAlgorithm::select() {
-    std::sort(population.begin(), population.end(), compareNetworkFitnessPair);
+    std::sort(population_.begin(), population_.end(), compareNetworkFitnessPair);
 
     int fitness_sum = 0;
-    for(auto pair : population) {
+    for(auto pair : population_) {
         fitness_sum += pair->fitness;
     }
 
     double random_value = random.next(0.0, 1.0) * fitness_sum;
-    for(auto pair : population) {
+    for(auto pair : population_) {
         random_value -= pair->fitness;
         if(random_value <= 0)
             return pair;
     }
-    return population.front();
+    return population_.front();
 }
 
 void EvolutionaryAlgorithm::removeWeakest() {
-    std::sort(population.begin(), population.end(), compareNetworkFitnessPair);
+    std::sort(population_.begin(), population_.end(), compareNetworkFitnessPair);
 
-    while (population.size() > initial_population_size) {
-        population.pop_back();
+    while (population_.size() > initial_population_size_) {
+        population_.pop_back();
     }
 }
 

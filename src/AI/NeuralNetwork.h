@@ -18,8 +18,8 @@ typedef std::shared_ptr<NeuralNetwork> PNeuralNetwork;
 
 class NeuralNetwork {
 private:
-    Genome genome;
-    Phenome phenome;
+    Genome genome_;
+    Phenome phenome_;
 
     bool compatible(const Matrix &input);
 

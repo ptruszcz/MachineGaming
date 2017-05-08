@@ -1,11 +1,11 @@
 #include "Neuron.h"
 
 Neuron::Neuron(int layer_number) : Counter(), Gene(howMany()) {
-    this->layer_number = layer_number;
+    this->layer_number_ = layer_number;
 }
 
 Neuron::Neuron(const Neuron &neuron) : Counter(neuron), Gene(neuron) {
-    this->layer_number = neuron.layer_number;
+    this->layer_number_ = neuron.layer_number_;
 }
 
 PGene Neuron::clone() const {
@@ -16,7 +16,7 @@ void Neuron::mutate(MutationType mutation_type) {}
 
 bool Neuron::operator==(const Neuron &rhs) const {
     return id == rhs.id &&
-            layer_number == rhs.layer_number;
+            layer_number_ == rhs.layer_number_;
 }
 
 bool Neuron::operator!=(const Neuron &rhs) const {
@@ -24,10 +24,10 @@ bool Neuron::operator!=(const Neuron &rhs) const {
 }
 
 std::ostream &operator<<(std::ostream &os, const Neuron &neuron) {
-    os << "[No. " << neuron.id << " Layer " << neuron.layer_number << "]";
+    os << "[No. " << neuron.id << " Layer " << neuron.layer_number_ << "]";
     return os;
 }
 
 int Neuron::getLayerNumber() const {
-    return layer_number;
+    return layer_number_;
 }

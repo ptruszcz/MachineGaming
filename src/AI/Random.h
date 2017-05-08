@@ -9,7 +9,7 @@ File created by: Jakub Fajkowski
 
 class Random {
 private:
-    std::default_random_engine generator;
+    std::default_random_engine generator_;
 
 public:
     Random();

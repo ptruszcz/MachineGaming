@@ -16,7 +16,7 @@ typedef std::vector<PNeuron> Neurons;
 
 class Neuron : public Counter<Neuron>, public Gene {
 private:
-    int layer_number;
+    int layer_number_;
 
 public:
     Neuron(int layer_number);
