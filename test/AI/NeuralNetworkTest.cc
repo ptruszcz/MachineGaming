@@ -25,7 +25,7 @@ BOOST_AUTO_TEST_SUITE(NeuralNetworkTest)
         BOOST_CHECK_EQUAL(5, neuralNetwork.getOutput().n_elem);
     }
 
-    BOOST_FIXTURE_TEST_CASE(CrossoverTest, F) {
+    BOOST_FIXTURE_TEST_CASE(SameParentsCrossoverTest, F) {
         PNeuralNetwork parentA = std::make_shared<NeuralNetwork>(5,5,5);
         PNeuralNetwork parentB = std::make_shared<NeuralNetwork>(*parentA);
 
@@ -35,15 +35,23 @@ BOOST_AUTO_TEST_SUITE(NeuralNetworkTest)
         parentB->feedForward({1, 2, 3, 4, 5});
         child->feedForward({1, 2, 3, 4, 5});
 
-        parentA->getOutput().print();
-        parentB->getOutput().print();
-        child->getOutput().print();
-
-        BOOST_CHECK_EQUAL(5, parentA->getOutput().n_elem);
-        BOOST_CHECK_EQUAL(5, parentB->getOutput().n_elem);
-        BOOST_CHECK_EQUAL(5, child->getOutput().n_elem);
+        BOOST_ASSERT(is_close(parentA->getOutput(), child->getOutput(), 0.0001));
+        BOOST_ASSERT(is_close(parentB->getOutput(), child->getOutput(), 0.0001));
     }
 
-    //TODO TEST CONSTRUCTOR DOESN'T WORK AS EXPECTED
+    BOOST_FIXTURE_TEST_CASE(DifferentParentsCrossoverTest, F) {
+        PNeuralNetwork parentA = std::make_shared<NeuralNetwork>(5,5,5);
+        PNeuralNetwork parentB = std::make_shared<NeuralNetwork>(*parentA);
+        parentB->randomizeConnections();
+
+        PNeuralNetwork child = NeuralNetwork::crossover(parentA, parentB);
+
+        parentA->feedForward({1, 2, 3, 4, 5});
+        parentB->feedForward({1, 2, 3, 4, 5});
+        child->feedForward({1, 2, 3, 4, 5});
+
+        BOOST_ASSERT(!is_close(parentA->getOutput(), child->getOutput(), 0.0001));
+        BOOST_ASSERT(!is_close(parentB->getOutput(), child->getOutput(), 0.0001));
+    }
 
 BOOST_AUTO_TEST_SUITE_END()

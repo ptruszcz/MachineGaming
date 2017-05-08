@@ -11,17 +11,18 @@ NeuralNetwork::NeuralNetwork(int input_size, int hidden_layers, int output_size)
 NeuralNetwork::NeuralNetwork(const NeuralNetwork &neural_network) :
         genome(neural_network.genome),
         phenome(genome) {
-    randomizeConnections(genome.getConnections());
 }
 
 NeuralNetwork::NeuralNetwork(const Genome &genome) :
         genome(genome),
         phenome(this->genome) {}
 
-void NeuralNetwork::randomizeConnections (const Connections &connections) {
-    for (PConnection connection: connections) {
+void NeuralNetwork::randomizeConnections () {
+    for (PConnection connection: genome.getConnections()) {
         connection->mutate(RANDOMIZE_WEIGHT);
     }
+
+    phenome = Phenome(genome);
 }
 
 Matrix NeuralNetwork::activationFunction(Matrix z) {
@@ -35,6 +36,7 @@ PNeuralNetwork NeuralNetwork::crossover(PNeuralNetwork &parent_a, PNeuralNetwork
 
 void NeuralNetwork::mutate(const MutationType &mutation_type) {
     genome.mutate(mutation_type);
+    phenome = Phenome(genome);
 }
 
 Matrix NeuralNetwork::feedForward(Matrix input) {

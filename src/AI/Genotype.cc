@@ -11,7 +11,7 @@ Genotype::Genotype(const Genotype &genotype) {
 }
 
 PGenotype Genotype::clone() const {
-    return std::make_shared<Genotype>(Genotype(*this));
+    return std::make_shared<Genotype>(*this);
 }
 
 PGenotype Genotype::crossover(Genotype &parent_a, Genotype &parent_b) {

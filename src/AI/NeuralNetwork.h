@@ -21,7 +21,6 @@ private:
     Genome genome;
     Phenome phenome;
 
-    void randomizeConnections(const Connections &connections);
     bool compatible(const Matrix &input);
 
     Matrix activationFunction(Matrix z);
@@ -34,6 +33,7 @@ public:
     static PNeuralNetwork crossover(PNeuralNetwork &parent_a, PNeuralNetwork &parent_b);
     void mutate(const MutationType &mutation_type);
 
+    void randomizeConnections();
     Matrix feedForward(Matrix input);
 
     Matrix &getOutput();
