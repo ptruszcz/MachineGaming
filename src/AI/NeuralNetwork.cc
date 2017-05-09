@@ -58,6 +58,14 @@ Matrix &NeuralNetwork::getOutput() {
     return phenome_.getNeurons().back();
 }
 
+int NeuralNetwork::getFitness() const {
+    return fitness_;
+}
+
+void NeuralNetwork::setFitness(int fitness) {
+    NeuralNetwork::fitness_ = fitness;
+}
+
 bool NeuralNetwork::operator==(const NeuralNetwork &rhs) const {
     return genome_ == rhs.genome_ &&
            phenome_ == rhs.phenome_;

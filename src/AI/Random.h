@@ -14,6 +14,7 @@ private:
 public:
     Random();
 
+    double next();
     int next(int min, int max);
     double next(double min, double max);
 };

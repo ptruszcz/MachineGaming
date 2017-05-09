@@ -8,35 +8,39 @@ File created by: Piotr Truszczyński
 #include <vector>
 #include "NeuralNetwork.h"
 
-struct NetworkFitnessPair {
-    PNeuralNetwork network;
-    int fitness = 0;
+struct EvolutionaryAlgorithmParameters {
+    int population_size = 10;
+    int children_bred_per_generation = 2;
+    double crossover_probability = 0.5;
+    double mutation_probability = 0.5;
+    int input_size = 1;
+    int hidden_layers = 1;
+    int output_size = 1;
 };
-
-typedef std::shared_ptr<NetworkFitnessPair> PNetworkFitnessPair;
-typedef std::vector<PNetworkFitnessPair> NeuralNetworks;
-
 
 class EvolutionaryAlgorithm {
 private:
     static Random random;
-    static bool compareNetworkFitnessPair(PNetworkFitnessPair &p1, PNetworkFitnessPair &p2); //fitness comparison
+    static bool compareNeuralNetworks(const PNeuralNetwork &p1, const PNeuralNetwork &p2); //fitness_ comparison
 
     NeuralNetworks population_;
-    int initial_population_size_;
+    int population_size_;
+    int children_bred_per_generation_;
     double crossover_probability_;
     double mutation_probability_;
 
-    int evaluateFitness(PNeuralNetwork& network);
-    PNetworkFitnessPair crossover();
-    void mutate(PNetworkFitnessPair& networkFitnessPair);
-    PNetworkFitnessPair select();
-    void removeWeakest();
+    void generateInitialPopulation(int input_size, int hidden_layers, int output_size);
+    PNeuralNetwork select();
+    PNeuralNetwork crossover();
+    void mutate(NeuralNetwork& neural_network);
 
 public:
-    EvolutionaryAlgorithm(int population_size, int input_size, int hidden_layers, int output_size,
-                          double crossover_probability, double mutation_probability);
-    void processGeneration(int parents_selected_per_generation);
+    EvolutionaryAlgorithm(EvolutionaryAlgorithmParameters p);
+
+    void breed();
+    void removeWeakestIndividuals();
+
+    const NeuralNetworks &getCurrentGeneration() const;
 };
 
 #endif //MACHINEGAMING_EVOLUTIONARYALGORITHM_H

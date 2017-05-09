@@ -54,4 +54,17 @@ BOOST_AUTO_TEST_SUITE(NeuralNetworkTest)
         BOOST_ASSERT(!is_close(parentB->getOutput(), child->getOutput(), 0.0001));
     }
 
+    BOOST_FIXTURE_TEST_CASE(MutationCrossoverTest, F) {
+        NeuralNetwork modified(5,5,5);
+        NeuralNetwork unmodified(modified);
+
+        modified.mutate(ADD_NEURON);
+
+
+        modified.feedForward({1, 2, 3, 4, 5});
+        unmodified.feedForward({1, 2, 3, 4, 5});
+
+        BOOST_ASSERT(!is_close(modified.getOutput(), unmodified.getOutput(), 0.0001));
+    }
+
 BOOST_AUTO_TEST_SUITE_END()

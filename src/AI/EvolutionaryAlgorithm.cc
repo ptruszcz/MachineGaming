@@ -1,83 +1,81 @@
 #include "EvolutionaryAlgorithm.h"
 
 Random EvolutionaryAlgorithm::random = Random();
-bool EvolutionaryAlgorithm::compareNetworkFitnessPair(PNetworkFitnessPair &p1, PNetworkFitnessPair &p2) {
-    return p1->fitness < p2->fitness;
+bool EvolutionaryAlgorithm::compareNeuralNetworks(const PNeuralNetwork &p1, const PNeuralNetwork &p2) {
+    return p1->getFitness() < p2->getFitness();
 }
 
 
-EvolutionaryAlgorithm::EvolutionaryAlgorithm(int population_size, int input_size, int hidden_layers, int output_size,
-                                             double crossover_probability, double mutation_probability)
-        : initial_population_size_(population_size), crossover_probability_(crossover_probability),
-          mutation_probability_(mutation_probability) {
+EvolutionaryAlgorithm::EvolutionaryAlgorithm(EvolutionaryAlgorithmParameters p)
+        : population_size_(p.population_size), crossover_probability_(p.crossover_probability),
+          mutation_probability_(p.mutation_probability), children_bred_per_generation_(p.children_bred_per_generation) {
+    generateInitialPopulation(p.input_size, p.hidden_layers, p.output_size);
+}
 
-    for(int i = 0; i < population_size; ++i) {
-        PNetworkFitnessPair pair_to_add;
-        pair_to_add->network = std::make_shared<NeuralNetwork>(input_size, hidden_layers, output_size);
-        pair_to_add->fitness = evaluateFitness(pair_to_add->network);
-        population_.push_back(pair_to_add);
+void EvolutionaryAlgorithm::generateInitialPopulation(int input_size, int hidden_layers, int output_size) {
+    PNeuralNetwork ancestor = std::make_shared<NeuralNetwork>(input_size, hidden_layers, output_size);
+    PNeuralNetwork descendant;
+
+    for(int i = 0; i < population_size_; ++i) {
+        descendant = std::make_shared<NeuralNetwork>(*ancestor);
+        descendant->randomizeConnections();
+        population_.push_back(descendant);
     }
 }
 
-void EvolutionaryAlgorithm::processGeneration(int parents_selected_per_generation) {
-    for(int i = 0; i < parents_selected_per_generation; ++i) {
-        double random_value = random.next(0.0, 1.0);
+void EvolutionaryAlgorithm::breed() {
+    std::sort(population_.begin(), population_.end(), compareNeuralNetworks);
+
+    for(int i = 0; i < children_bred_per_generation_; ++i) {
+        double random_value = random.next();
 
         if(random_value <= crossover_probability_) {
-            PNetworkFitnessPair offspring = crossover();
+            PNeuralNetwork offspring = crossover();
 
             if(random_value <= mutation_probability_)
-                mutate(offspring);
+                mutate(*offspring);
 
             population_.push_back(offspring);
         }
-
-        removeWeakest();
     }
 }
 
-int EvolutionaryAlgorithm::evaluateFitness(PNeuralNetwork &network) {
-    return 0; //TODO: connect with game
+PNeuralNetwork EvolutionaryAlgorithm::crossover() {
+    PNeuralNetwork first_parent = select();
+    PNeuralNetwork second_parent = select();
+
+    PNeuralNetwork offspring;
+    return NeuralNetwork::crossover(first_parent, second_parent);
 }
 
-PNetworkFitnessPair EvolutionaryAlgorithm::select() {
-    std::sort(population_.begin(), population_.end(), compareNetworkFitnessPair);
-
+PNeuralNetwork EvolutionaryAlgorithm::select() {
     int fitness_sum = 0;
-    for(auto pair : population_) {
-        fitness_sum += pair->fitness;
+    for(auto individual : population_) {
+        fitness_sum += individual->getFitness();
     }
 
-    double random_value = random.next(0.0, 1.0) * fitness_sum;
-    for(auto pair : population_) {
-        random_value -= pair->fitness;
+    double random_value = random.next() * fitness_sum;
+    for(auto individual : population_) {
+        random_value -= individual->getFitness();
         if(random_value <= 0)
-            return pair;
+            return individual;
     }
     return population_.front();
 }
 
-void EvolutionaryAlgorithm::removeWeakest() {
-    std::sort(population_.begin(), population_.end(), compareNetworkFitnessPair);
+void EvolutionaryAlgorithm::mutate(NeuralNetwork& neural_network) {
+    MutationType random_mutation_type = static_cast<MutationType>(random.next(0, NUM_OF_MUTATION_TYPES - 1));
+    neural_network.mutate(random_mutation_type);
+}
 
-    while (population_.size() > initial_population_size_) {
+void EvolutionaryAlgorithm::removeWeakestIndividuals() {
+    std::sort(population_.begin(), population_.end(), compareNeuralNetworks);
+
+    while (population_.size() > population_size_) {
         population_.pop_back();
     }
 }
 
-PNetworkFitnessPair EvolutionaryAlgorithm::crossover() {
-    PNetworkFitnessPair first_parent = select();
-    PNetworkFitnessPair second_parent;
-    do {
-        second_parent = select();
-    } while(first_parent->network == second_parent->network);
-
-    PNetworkFitnessPair offspring;
-    offspring->network = NeuralNetwork::crossover(first_parent->network, second_parent->network);
-    return offspring;
-}
-
-void EvolutionaryAlgorithm::mutate(PNetworkFitnessPair &networkFitnessPair) {
-    MutationType random_mutation_type = static_cast<MutationType>(random.next(0, NUM_OF_MUTATION_TYPES - 1));
-    networkFitnessPair->network->mutate(random_mutation_type);
+const NeuralNetworks &EvolutionaryAlgorithm::getCurrentGeneration() const {
+    return population_;
 }
