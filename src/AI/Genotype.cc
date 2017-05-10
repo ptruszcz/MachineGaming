@@ -92,9 +92,7 @@ void Genotype::insert(const PGene &gene) {
 
 void Genotype::erase(const PGene &gene) {
     size_t id = gene->getId();
-
-    Genes::iterator it = genes_.begin();
-    genes_.erase(it + id);
+    genes_.at(id) = nullptr;
 }
 
 PGene &Genotype::operator[](size_t index) {

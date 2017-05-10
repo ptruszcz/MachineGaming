@@ -84,11 +84,12 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
 
     BOOST_FIXTURE_TEST_CASE(ImproveResultsTest, F) {
         EvolutionaryAlgorithmParameters p;
-        p.population_size = 10;
-        p.children_bred_per_generation = 2;
+        p.population_size = 30;
+        p.children_bred_per_generation = 10;
         p.crossover_probability = 0.5;
-        p.mutation_probability = 0.5;
+        p.mutation_probability = 1;
         p.input_size = 2;
+        p.hidden_layers = 2;
         p.output_size = 1;
 
         EvolutionaryAlgorithm evolutionaryAlgorithm(p);

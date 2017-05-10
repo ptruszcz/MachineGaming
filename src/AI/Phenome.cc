@@ -10,7 +10,7 @@ NeuronLayers Phenome::createNeuronLayers(const Neurons &neurons) {
     NeuronLayers neuron_layers;
 
     for (auto neuron: neurons) {
-        if (neuron->getLayerNumber() >= neuron_layers.size()) {
+        while (neuron->getLayerNumber() >= neuron_layers.size()) {
             neuron_layers.push_back(std::vector<PNeuron>());
         }
 
@@ -50,23 +50,23 @@ void Phenome::fillWeightMatrices(const Connections &connection_list,
     PNeuron input_neuron, output_neuron;
     for (auto connection: connection_list) {
         input_neuron = connection->getInput();
-        Coordinates input_coordinates = findNeuronCoordinates(input_neuron, neuron_layers);
+        Coordinates input_coordinates = findNeuronCoordinates(*input_neuron, neuron_layers);
 
         output_neuron = connection->getOutput();
-        Coordinates output_coordinates = findNeuronCoordinates(output_neuron, neuron_layers);
+        Coordinates output_coordinates = findNeuronCoordinates(*output_neuron, neuron_layers);
 
         weights_[input_coordinates.first](input_coordinates.second, output_coordinates.second) = connection->getWeight();
     }
 }
 
-Coordinates Phenome::findNeuronCoordinates(const PNeuron &neuron,
+Coordinates Phenome::findNeuronCoordinates(const Neuron &neuron,
                                              const NeuronLayers &neuron_layers) {
-    int layer_number = neuron->getLayerNumber();
+    int layer_number = neuron.getLayerNumber();
     auto layer = neuron_layers[layer_number];
 
     int neuron_number = -1;
     for (int i = 0; i < layer.size(); ++i) {
-        if (*layer[i] == *neuron)
+        if (*layer[i] == neuron)
             neuron_number = i;
     }
 

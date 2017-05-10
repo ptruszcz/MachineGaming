@@ -47,5 +47,14 @@ BOOST_AUTO_TEST_SUITE(PhenomeTest)
 
         BOOST_CHECK_EQUAL(5, child.getNeurons().size());
     }
+
+    BOOST_FIXTURE_TEST_CASE(CreateFromDeleteNeuronGenome, F) {
+        Genome genome(1,1,1);
+
+        genome.mutate(ADD_NEURON);
+        genome.mutate(DELETE_NEURON);
+
+        Phenome phenome(genome);
+    }
     
 BOOST_AUTO_TEST_SUITE_END()

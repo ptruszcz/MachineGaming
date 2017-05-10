@@ -24,7 +24,7 @@ private:
     void generateWeightMatrices(const Connections &connection_list,
                                 const NeuronLayers &neuron_layers);
     void fillWeightMatrices(const Connections &connection_list, const NeuronLayers &neuron_layers);
-    Coordinates findNeuronCoordinates(const PNeuron &neuron, const NeuronLayers &neuron_layers);
+    Coordinates findNeuronCoordinates(const Neuron &neuron, const NeuronLayers &neuron_layers);
 
 public:
     Phenome(const Genome &genome);

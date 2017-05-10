@@ -39,6 +39,7 @@ private:
     void deleteNeuronConnections(const Neuron &neuron);
     void randomizeWeight();
 
+    int layerSize(int layer_number);
     PNeuron getRandomNeuron(int layer_number);
     PConnection getRandomConnection();
 
