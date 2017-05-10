@@ -17,7 +17,7 @@ NeuralNetwork::NeuralNetwork(const Genome &genome) :
         genome_(genome),
         phenome_(genome_) {}
 
-void NeuralNetwork::randomizeConnections () {
+void NeuralNetwork::randomizeAllWeights() {
     for (PConnection connection: genome_.getConnections()) {
         connection->mutate(RANDOMIZE_WEIGHT);
     }

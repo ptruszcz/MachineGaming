@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_SUITE(NeuralNetworkTest)
     BOOST_FIXTURE_TEST_CASE(DifferentParentsCrossoverTest, F) {
         PNeuralNetwork parentA = std::make_shared<NeuralNetwork>(5,5,5);
         PNeuralNetwork parentB = std::make_shared<NeuralNetwork>(*parentA);
-        parentB->randomizeConnections();
+        parentB->randomizeAllWeights();
 
         PNeuralNetwork child = NeuralNetwork::crossover(parentA, parentB);
 

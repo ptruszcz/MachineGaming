@@ -35,7 +35,7 @@ public:
     static PNeuralNetwork crossover(PNeuralNetwork &parent_a, PNeuralNetwork &parent_b);
     void mutate(const MutationType &mutation_type);
 
-    void randomizeConnections();
+    void randomizeAllWeights();
     Matrix feedForward(Matrix input);
 
     Matrix &getOutput();

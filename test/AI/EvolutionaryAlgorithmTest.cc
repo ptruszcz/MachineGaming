@@ -13,28 +13,30 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
     void trainXOR(const NeuralNetworks &networks) {
         double fitness;
         for (auto network: networks) {
-            fitness = 0;
+            if (network->getFitness() == 0) {
+                fitness = 0;
 
-            network->feedForward({0, 0});
-            fitness += 1 - std::abs(network->getOutput()(0));
-            std::cout << "0 XOR 0 ~ " << network->getOutput()(0) << std::endl;
+                network->feedForward({0, 0});
+                fitness += 1 - std::abs(network->getOutput()(0));
+                std::cout << "0 XOR 0 ~ " << network->getOutput()(0) << std::endl;
 
-            network->feedForward({0, 1});
-            fitness += network->getOutput()(0);
-            std::cout << "0 XOR 1 ~ " << network->getOutput()(0) << std::endl;
+                network->feedForward({0, 1});
+                fitness += network->getOutput()(0);
+                std::cout << "0 XOR 1 ~ " << network->getOutput()(0) << std::endl;
 
-            network->feedForward({1, 0});
-            fitness += network->getOutput()(0);
-            std::cout << "1 XOR 0 ~ " << network->getOutput()(0) << std::endl;
+                network->feedForward({1, 0});
+                fitness += network->getOutput()(0);
+                std::cout << "1 XOR 0 ~ " << network->getOutput()(0) << std::endl;
 
-            network->feedForward({1, 1});
-            fitness += 1 - std::abs(network->getOutput()(0));
-            std::cout << "1 XOR 1 ~ " << network->getOutput()(0) << std::endl;
+                network->feedForward({1, 1});
+                fitness += 1 - std::abs(network->getOutput()(0));
+                std::cout << "1 XOR 1 ~ " << network->getOutput()(0) << std::endl;
 
-            std::cout << "Fitness: " << fitness << std::endl;
-            std::cout << "---------------------" << std::endl;
+                std::cout << "Fitness: " << fitness << std::endl;
+                std::cout << "---------------------" << std::endl;
 
-            network->setFitness(fitness);
+                network->setFitness(fitness);
+            }
         }
     }
 
@@ -84,10 +86,11 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
 
     BOOST_FIXTURE_TEST_CASE(ImproveResultsTest, F) {
         EvolutionaryAlgorithmParameters p;
-        p.population_size = 30;
-        p.children_bred_per_generation = 10;
-        p.crossover_probability = 0.5;
-        p.mutation_probability = 1;
+        p.population_size = 10;
+        p.children_bred_per_generation = 5;
+        p.crossover_probability = 1;
+        p.mutation_probability = 0.5;
+        p.randomisation_probability = 0.1;
         p.input_size = 2;
         p.hidden_layers = 2;
         p.output_size = 1;
@@ -95,7 +98,6 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         EvolutionaryAlgorithm evolutionaryAlgorithm(p);
         trainXOR(evolutionaryAlgorithm.getCurrentGeneration());
 
-        // TODO: Resolve why 1 XOR 1 ~ 1. :c
         while (evolutionaryAlgorithm.getCurrentGeneration()[0]->getFitness() < 3.99) {
             evolutionaryAlgorithm.breed();
             trainXOR(evolutionaryAlgorithm.getCurrentGeneration());

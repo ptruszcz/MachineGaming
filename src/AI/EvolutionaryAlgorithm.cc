@@ -7,8 +7,11 @@ bool EvolutionaryAlgorithm::compareNeuralNetworks(const PNeuralNetwork &p1, cons
 
 
 EvolutionaryAlgorithm::EvolutionaryAlgorithm(EvolutionaryAlgorithmParameters p)
-        : population_size_(p.population_size), crossover_probability_(p.crossover_probability),
-          mutation_probability_(p.mutation_probability), children_bred_per_generation_(p.children_bred_per_generation) {
+        : population_size_(p.population_size),
+          crossover_probability_(p.crossover_probability),
+          mutation_probability_(p.mutation_probability),
+          randomisation_probability_(p.randomisation_probability),
+          children_bred_per_generation_(p.children_bred_per_generation) {
     generateInitialPopulation(p.input_size, p.hidden_layers, p.output_size);
 }
 
@@ -18,7 +21,7 @@ void EvolutionaryAlgorithm::generateInitialPopulation(int input_size, int hidden
 
     for(int i = 0; i < population_size_; ++i) {
         descendant = std::make_shared<NeuralNetwork>(*ancestor);
-        descendant->randomizeConnections();
+        descendant->randomizeAllWeights();
         population_.push_back(descendant);
     }
 }
@@ -73,6 +76,10 @@ void EvolutionaryAlgorithm::removeWeakestIndividuals() {
     while (population_.size() > population_size_) {
         population_.pop_back();
     }
+
+    // TODO RANDOMISATION HERE
+    //if (random.next() <= randomisation_probability_);
+        //population_.end()->get()->randomizeAllWeights();
 }
 
 const NeuralNetworks &EvolutionaryAlgorithm::getCurrentGeneration() const {
