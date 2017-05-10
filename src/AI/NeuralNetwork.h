@@ -21,7 +21,7 @@ class NeuralNetwork {
 private:
     Genome genome_;
     Phenome phenome_;
-    int fitness_ = 0;
+    double fitness_ = 0;
 
     bool compatible(const Matrix &input);
 
@@ -39,8 +39,8 @@ public:
     Matrix feedForward(Matrix input);
 
     Matrix &getOutput();
-    int getFitness() const;
-    void setFitness(int fitness);
+    double getFitness() const;
+    void setFitness(double fitness);
 
     bool operator==(const NeuralNetwork &rhs) const;
     bool operator!=(const NeuralNetwork &rhs) const;

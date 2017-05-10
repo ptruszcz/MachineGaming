@@ -101,20 +101,21 @@ PNeuron Genome::addNeuron(int layer_number) {
 }
 
 void Genome::deleteNeuron() {
-    int random_layer_number = random.next(1, layer_counter);
-    PNeuron neuron_to_delete = getRandomNeuron(random_layer_number);
-    neurons_.erase(neuron_to_delete);
-    deleteNeuronConnections(neuron_to_delete);
+    // TODO Deal when only one Neuron in Layer
+    //int random_layer_number = random.next(1, layer_counter - 2);
+    //PNeuron neuron_to_delete = getRandomNeuron(random_layer_number);
+    //neurons_.erase(neuron_to_delete);
+    //deleteNeuronConnections(*neuron_to_delete);
 }
 
-void Genome::deleteNeuronConnections(const PNeuron &neuron) {
+void Genome::deleteNeuronConnections(const Neuron &neuron) {
     Connections matches;
     PConnection connection;
 
     for (auto gene: getConnections()) {
         connection = std::static_pointer_cast<Connection>(gene);
 
-        if (connection->getInput() == neuron || connection->getOutput() == neuron) {
+        if (*connection->getInput() == neuron || *connection->getOutput() == neuron) {
             matches.push_back(connection);
         }
     }
@@ -133,7 +134,7 @@ void Genome::addConnections(const Neurons &input_layer, const Neurons &output_la
 }
 
 void Genome::addConnection() {
-    int layer_number = random.next(1, layer_counter);
+    int layer_number = random.next(1, layer_counter - 2);
     PNeuron neuron = getRandomNeuron(layer_number);
     addConnectionToPrevLayer(neuron);
 }

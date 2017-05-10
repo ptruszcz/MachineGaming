@@ -2,7 +2,7 @@
 
 Random EvolutionaryAlgorithm::random = Random();
 bool EvolutionaryAlgorithm::compareNeuralNetworks(const PNeuralNetwork &p1, const PNeuralNetwork &p2) {
-    return p1->getFitness() < p2->getFitness();
+    return p1->getFitness() > p2->getFitness();
 }
 
 
@@ -44,7 +44,6 @@ PNeuralNetwork EvolutionaryAlgorithm::crossover() {
     PNeuralNetwork first_parent = select();
     PNeuralNetwork second_parent = select();
 
-    PNeuralNetwork offspring;
     return NeuralNetwork::crossover(first_parent, second_parent);
 }
 

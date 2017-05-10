@@ -58,11 +58,11 @@ Matrix &NeuralNetwork::getOutput() {
     return phenome_.getNeurons().back();
 }
 
-int NeuralNetwork::getFitness() const {
+double NeuralNetwork::getFitness() const {
     return fitness_;
 }
 
-void NeuralNetwork::setFitness(int fitness) {
+void NeuralNetwork::setFitness(double fitness) {
     NeuralNetwork::fitness_ = fitness;
 }
 

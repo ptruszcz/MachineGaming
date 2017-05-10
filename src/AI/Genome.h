@@ -36,7 +36,7 @@ private:
     void addConnectionToNextLayer(const PNeuron &input);
     void addConnection(const PNeuron &input, const PNeuron &output);
     void deleteConnection();
-    void deleteNeuronConnections(const PNeuron &neuron);
+    void deleteNeuronConnections(const Neuron &neuron);
     void randomizeWeight();
 
     PNeuron getRandomNeuron(int layer_number);
