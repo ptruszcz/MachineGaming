@@ -15,7 +15,7 @@ Modified by: Piotr Truszczyński
 #include "Genotype.h"
 
 class Genome;
-typedef std::shared_ptr<Genome> PGenome;
+typedef std::unique_ptr<Genome> PGenome;
 
 class Genome {
 private:

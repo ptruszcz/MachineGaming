@@ -1,6 +1,5 @@
 #include <boost/test/unit_test.hpp>
 #include "EvolutionaryAlgorithm.h"
-#include <cmath>
 
 BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
     struct F {
@@ -12,7 +11,7 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
 
     void trainXOR(const NeuralNetworks &networks) {
         double fitness;
-        for (auto network: networks) {
+        for (auto& network: networks) {
             if (network->getFitness() == 0) {
                 fitness = 0;
 
@@ -67,7 +66,7 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         evolutionaryAlgorithm.breed();
 
         int i = 0;
-        for (auto individual: evolutionaryAlgorithm.getCurrentGeneration()) {
+        for (auto& individual: evolutionaryAlgorithm.getCurrentGeneration()) {
             individual->setFitness(++i);
         }
 
@@ -75,7 +74,7 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
 
         bool contains_nine = false;
         bool contains_ten = false;
-        for (auto individual: evolutionaryAlgorithm.getCurrentGeneration()) {
+        for (auto& individual: evolutionaryAlgorithm.getCurrentGeneration()) {
             contains_nine = contains_nine || individual->getFitness() == 9;
             contains_ten = contains_ten || individual->getFitness() == 10;
         }

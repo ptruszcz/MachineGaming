@@ -11,7 +11,7 @@ Genotype::Genotype(const Genotype &genotype) {
 }
 
 PGenotype Genotype::clone() const {
-    return std::make_shared<Genotype>(*this);
+    return std::make_unique<Genotype>(*this);
 }
 
 PGenotype Genotype::crossover(Genotype &parent_a, Genotype &parent_b) {
@@ -21,7 +21,7 @@ PGenotype Genotype::crossover(Genotype &parent_a, Genotype &parent_b) {
 PGenotype Genotype::createChild(Genotype &parent_a, Genotype &parent_b) {
     size_t common_size = makeEqualSize(parent_a, parent_b);
 
-    PGenotype child_genotype = std::make_shared<Genotype>();
+    PGenotype child_genotype = std::make_unique<Genotype>();
     child_genotype->genes_.reserve(common_size);
     PGene gene_a, gene_b, child_gene;
 

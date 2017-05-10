@@ -16,13 +16,13 @@ EvolutionaryAlgorithm::EvolutionaryAlgorithm(EvolutionaryAlgorithmParameters p)
 }
 
 void EvolutionaryAlgorithm::generateInitialPopulation(int input_size, int hidden_layers, int output_size) {
-    PNeuralNetwork ancestor = std::make_shared<NeuralNetwork>(input_size, hidden_layers, output_size);
+    PNeuralNetwork ancestor = std::make_unique<NeuralNetwork>(input_size, hidden_layers, output_size);
     PNeuralNetwork descendant;
 
     for(int i = 0; i < population_size_; ++i) {
-        descendant = std::make_shared<NeuralNetwork>(*ancestor);
+        descendant = std::make_unique<NeuralNetwork>(*ancestor);
         descendant->randomizeAllWeights();
-        population_.push_back(descendant);
+        population_.push_back(std::move(descendant));
     }
 }
 
@@ -38,31 +38,31 @@ void EvolutionaryAlgorithm::breed() {
             if(random_value <= mutation_probability_)
                 mutate(*offspring);
 
-            population_.push_back(offspring);
+            population_.push_back(std::move(offspring));
         }
     }
 }
 
 PNeuralNetwork EvolutionaryAlgorithm::crossover() {
-    PNeuralNetwork first_parent = select();
-    PNeuralNetwork second_parent = select();
+    NeuralNetwork* first_parent = &select();
+    NeuralNetwork* second_parent = &select();
 
-    return NeuralNetwork::crossover(first_parent, second_parent);
+    return NeuralNetwork::crossover(*first_parent, *second_parent);
 }
 
-PNeuralNetwork EvolutionaryAlgorithm::select() {
+NeuralNetwork& EvolutionaryAlgorithm::select() {
     int fitness_sum = 0;
-    for(auto individual : population_) {
+    for(const auto& individual : population_) {
         fitness_sum += individual->getFitness();
     }
 
     double random_value = random.next() * fitness_sum;
-    for(auto individual : population_) {
+    for(auto& individual : population_) {
         random_value -= individual->getFitness();
         if(random_value <= 0)
-            return individual;
+            return *individual;
     }
-    return population_.front();
+    return *population_.front();
 }
 
 void EvolutionaryAlgorithm::mutate(NeuralNetwork& neural_network) {

@@ -58,7 +58,7 @@ PGenome Genome::crossover(Genome &parentA, Genome &parentB) {
     PGenotype neurons = Genotype::crossover(parentA.neurons_, parentB.neurons_);
     PGenotype connections = Genotype::crossover(parentA.connections_, parentB.connections_)->clone();
 
-    return std::make_shared<Genome>(*neurons, *connections);
+    return std::make_unique<Genome>(*neurons, *connections);
 }
 
 void Genome::mutate(const MutationType &mutation_type) {
@@ -122,8 +122,8 @@ void Genome::deleteNeuronConnections(const Neuron &neuron) {
         }
     }
 
-    for (auto connection: matches) {
-        connections_.erase(connection);
+    for (auto connection_to_erase: matches) {
+        connections_.erase(connection_to_erase);
     }
 }
 

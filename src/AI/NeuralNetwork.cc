@@ -1,9 +1,5 @@
 #include "NeuralNetwork.h"
 
-const std::string greet( ) {
-    return std::string("Hello world");
-}
-
 NeuralNetwork::NeuralNetwork(int input_size, int hidden_layers, int output_size)
         : genome_(input_size, hidden_layers, output_size),
           phenome_(genome_) {}
@@ -29,9 +25,9 @@ Matrix NeuralNetwork::activationFunction(Matrix z) {
     return 1/(1 + arma::exp(-z));
 }
 
-PNeuralNetwork NeuralNetwork::crossover(PNeuralNetwork &parent_a, PNeuralNetwork &parent_b) {
-    PGenome genome = Genome::crossover(parent_a->genome_, parent_b->genome_);
-    return std::make_shared<NeuralNetwork>(*genome);
+PNeuralNetwork NeuralNetwork::crossover(NeuralNetwork &parent_a, NeuralNetwork &parent_b) {
+    PGenome genome = Genome::crossover(parent_a.genome_, parent_b.genome_);
+    return std::make_unique<NeuralNetwork>(*genome);
 }
 
 void NeuralNetwork::mutate(const MutationType &mutation_type) {

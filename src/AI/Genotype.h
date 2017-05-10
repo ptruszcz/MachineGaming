@@ -10,7 +10,7 @@ File created by: Jakub Fajkowski
 #include "Random.h"
 
 class Genotype;
-typedef std::shared_ptr<Genotype> PGenotype;
+typedef std::unique_ptr<Genotype> PGenotype;
 
 class Genotype {
 private:

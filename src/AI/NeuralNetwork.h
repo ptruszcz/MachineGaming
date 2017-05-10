@@ -11,10 +11,8 @@ File created by: Jakub Fajkowski
 #include "Genome.h"
 #include "Phenome.h"
 
-const std::string greet( );
-
 class NeuralNetwork;
-typedef std::shared_ptr<NeuralNetwork> PNeuralNetwork;
+typedef std::unique_ptr<NeuralNetwork> PNeuralNetwork;
 typedef std::vector<PNeuralNetwork> NeuralNetworks;
 
 class NeuralNetwork {
@@ -32,7 +30,7 @@ public:
     NeuralNetwork(const NeuralNetwork &neural_network);
     NeuralNetwork(const Genome &genome);
 
-    static PNeuralNetwork crossover(PNeuralNetwork &parent_a, PNeuralNetwork &parent_b);
+    static PNeuralNetwork crossover(NeuralNetwork &parent_a, NeuralNetwork &parent_b);
     void mutate(const MutationType &mutation_type);
 
     void randomizeAllWeights();

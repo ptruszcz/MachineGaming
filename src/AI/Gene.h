@@ -6,7 +6,8 @@ File created by: Jakub Fajkowski
 #define MACHINEGAMING_GENE_H
 
 #include <cstddef>
-#include <boost/shared_ptr.hpp>
+#include <memory>
+#include <vector>
 #include <ostream>
 #include "MutationType.h"
 

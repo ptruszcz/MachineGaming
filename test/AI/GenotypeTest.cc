@@ -13,10 +13,10 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
     };
 
     BOOST_FIXTURE_TEST_CASE(InsertNeuronTest, F) {
-        PNeuron neuron1 = std::make_shared<Neuron>(0);
-        PNeuron neuron2 = std::make_shared<Neuron>(1);
-        PNeuron neuron3 = std::make_shared<Neuron>(1);
-        PNeuron neuron4 = std::make_shared<Neuron>(3);
+        PNeuron neuron1 = std::make_unique<Neuron>(0);
+        PNeuron neuron2 = std::make_unique<Neuron>(1);
+        PNeuron neuron3 = std::make_unique<Neuron>(1);
+        PNeuron neuron4 = std::make_unique<Neuron>(3);
 
         Genotype neurons;
         neurons.insert(neuron1);
@@ -29,10 +29,10 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
     }
 
     BOOST_FIXTURE_TEST_CASE(EraseNeuronTest, F) {
-        PNeuron neuron1 = std::make_shared<Neuron>(0);
-        PNeuron neuron2 = std::make_shared<Neuron>(1);
-        PNeuron neuron3 = std::make_shared<Neuron>(1);
-        PNeuron neuron4 = std::make_shared<Neuron>(2);
+        PNeuron neuron1 = std::make_unique<Neuron>(0);
+        PNeuron neuron2 = std::make_unique<Neuron>(1);
+        PNeuron neuron3 = std::make_unique<Neuron>(1);
+        PNeuron neuron4 = std::make_unique<Neuron>(2);
 
         Genotype neurons;
         neurons.insert(neuron1);
@@ -47,10 +47,10 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
     }
 
     BOOST_FIXTURE_TEST_CASE(CrossoverNeuronTest, F) {
-        PNeuron neuron1 = std::make_shared<Neuron>(0);
-        PNeuron neuron2 = std::make_shared<Neuron>(1);
-        PNeuron neuron3 = std::make_shared<Neuron>(1);
-        PNeuron neuron4 = std::make_shared<Neuron>(2);
+        PNeuron neuron1 = std::make_unique<Neuron>(0);
+        PNeuron neuron2 = std::make_unique<Neuron>(1);
+        PNeuron neuron3 = std::make_unique<Neuron>(1);
+        PNeuron neuron4 = std::make_unique<Neuron>(2);
 
         Genotype neurons1;
         neurons1.insert(neuron1);
@@ -76,15 +76,15 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
     }
 
     BOOST_FIXTURE_TEST_CASE(InsertConnectionTest, F) {
-        PNeuron neuron1 = std::make_shared<Neuron>(0);
-        PNeuron neuron2 = std::make_shared<Neuron>(1);
-        PNeuron neuron3 = std::make_shared<Neuron>(1);
-        PNeuron neuron4 = std::make_shared<Neuron>(2);
+        PNeuron neuron1 = std::make_unique<Neuron>(0);
+        PNeuron neuron2 = std::make_unique<Neuron>(1);
+        PNeuron neuron3 = std::make_unique<Neuron>(1);
+        PNeuron neuron4 = std::make_unique<Neuron>(2);
 
-        PConnection connection1 = std::make_shared<Connection>(neuron1, neuron2);
-        PConnection connection2 = std::make_shared<Connection>(neuron1, neuron3);
-        PConnection connection3 = std::make_shared<Connection>(neuron2, neuron4);
-        PConnection connection4 = std::make_shared<Connection>(neuron3, neuron4);
+        PConnection connection1 = std::make_unique<Connection>(neuron1, neuron2);
+        PConnection connection2 = std::make_unique<Connection>(neuron1, neuron3);
+        PConnection connection3 = std::make_unique<Connection>(neuron2, neuron4);
+        PConnection connection4 = std::make_unique<Connection>(neuron3, neuron4);
 
         Genotype connections;
         connections.insert(connection2);
@@ -96,15 +96,15 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
     }
 
     BOOST_FIXTURE_TEST_CASE(EraseConnectionTest, F) {
-        PNeuron neuron1 = std::make_shared<Neuron>(0);
-        PNeuron neuron2 = std::make_shared<Neuron>(1);
-        PNeuron neuron3 = std::make_shared<Neuron>(1);
-        PNeuron neuron4 = std::make_shared<Neuron>(2);
+        PNeuron neuron1 = std::make_unique<Neuron>(0);
+        PNeuron neuron2 = std::make_unique<Neuron>(1);
+        PNeuron neuron3 = std::make_unique<Neuron>(1);
+        PNeuron neuron4 = std::make_unique<Neuron>(2);
 
-        PConnection connection1 = std::make_shared<Connection>(neuron1, neuron2);
-        PConnection connection2 = std::make_shared<Connection>(neuron1, neuron3);
-        PConnection connection3 = std::make_shared<Connection>(neuron2, neuron4);
-        PConnection connection4 = std::make_shared<Connection>(neuron3, neuron4);
+        PConnection connection1 = std::make_unique<Connection>(neuron1, neuron2);
+        PConnection connection2 = std::make_unique<Connection>(neuron1, neuron3);
+        PConnection connection3 = std::make_unique<Connection>(neuron2, neuron4);
+        PConnection connection4 = std::make_unique<Connection>(neuron3, neuron4);
 
         Genotype connections;
         connections.insert(connection2);
@@ -118,15 +118,15 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
     }
 
     BOOST_FIXTURE_TEST_CASE(CrossoverConnectionTest, F) {
-        PNeuron neuron1 = std::make_shared<Neuron>(0);
-        PNeuron neuron2 = std::make_shared<Neuron>(1);
-        PNeuron neuron3 = std::make_shared<Neuron>(1);
-        PNeuron neuron4 = std::make_shared<Neuron>(2);
+        PNeuron neuron1 = std::make_unique<Neuron>(0);
+        PNeuron neuron2 = std::make_unique<Neuron>(1);
+        PNeuron neuron3 = std::make_unique<Neuron>(1);
+        PNeuron neuron4 = std::make_unique<Neuron>(2);
 
-        PConnection connection1 = std::make_shared<Connection>(neuron1, neuron2);
-        PConnection connection2 = std::make_shared<Connection>(neuron1, neuron3);
-        PConnection connection3 = std::make_shared<Connection>(neuron2, neuron4);
-        PConnection connection4 = std::make_shared<Connection>(neuron3, neuron4);
+        PConnection connection1 = std::make_unique<Connection>(neuron1, neuron2);
+        PConnection connection2 = std::make_unique<Connection>(neuron1, neuron3);
+        PConnection connection3 = std::make_unique<Connection>(neuron2, neuron4);
+        PConnection connection4 = std::make_unique<Connection>(neuron3, neuron4);
 
         Genotype connections1;
         connections1.insert(connection1);

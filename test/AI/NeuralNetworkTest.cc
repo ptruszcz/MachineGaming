@@ -26,10 +26,10 @@ BOOST_AUTO_TEST_SUITE(NeuralNetworkTest)
     }
 
     BOOST_FIXTURE_TEST_CASE(SameParentsCrossoverTest, F) {
-        PNeuralNetwork parentA = std::make_shared<NeuralNetwork>(5,5,5);
-        PNeuralNetwork parentB = std::make_shared<NeuralNetwork>(*parentA);
+        PNeuralNetwork parentA = std::make_unique<NeuralNetwork>(5,5,5);
+        PNeuralNetwork parentB = std::make_unique<NeuralNetwork>(*parentA);
 
-        PNeuralNetwork child = NeuralNetwork::crossover(parentA, parentB);
+        PNeuralNetwork child = NeuralNetwork::crossover(*parentA, *parentB);
 
         parentA->feedForward({1, 2, 3, 4, 5});
         parentB->feedForward({1, 2, 3, 4, 5});
@@ -40,11 +40,11 @@ BOOST_AUTO_TEST_SUITE(NeuralNetworkTest)
     }
 
     BOOST_FIXTURE_TEST_CASE(DifferentParentsCrossoverTest, F) {
-        PNeuralNetwork parentA = std::make_shared<NeuralNetwork>(5,5,5);
-        PNeuralNetwork parentB = std::make_shared<NeuralNetwork>(*parentA);
+        PNeuralNetwork parentA = std::make_unique<NeuralNetwork>(5,5,5);
+        PNeuralNetwork parentB = std::make_unique<NeuralNetwork>(*parentA);
         parentB->randomizeAllWeights();
 
-        PNeuralNetwork child = NeuralNetwork::crossover(parentA, parentB);
+        PNeuralNetwork child = NeuralNetwork::crossover(*parentA, *parentB);
 
         parentA->feedForward({1, 2, 3, 4, 5});
         parentB->feedForward({1, 2, 3, 4, 5});

@@ -4,5 +4,5 @@
 using namespace boost::python;
 
 BOOST_PYTHON_MODULE(NeuralNetwork_Ext) {
-        def("greet", greet);
+        //def("greet", greet);
 }
