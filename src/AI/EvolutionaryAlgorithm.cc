@@ -44,25 +44,25 @@ void EvolutionaryAlgorithm::breed() {
 }
 
 PNeuralNetwork EvolutionaryAlgorithm::crossover() {
-    NeuralNetwork* first_parent = &select();
-    NeuralNetwork* second_parent = &select();
+    NeuralNetwork* first_parent = select();
+    NeuralNetwork* second_parent = select();
 
     return NeuralNetwork::crossover(*first_parent, *second_parent);
 }
 
-NeuralNetwork& EvolutionaryAlgorithm::select() {
+NeuralNetwork* EvolutionaryAlgorithm::select() {
     int fitness_sum = 0;
-    for(const auto& individual : population_) {
+    for(const auto &individual : population_) {
         fitness_sum += individual->getFitness();
     }
 
     double random_value = random.next() * fitness_sum;
-    for(auto& individual : population_) {
+    for(const auto &individual : population_) {
         random_value -= individual->getFitness();
         if(random_value <= 0)
-            return *individual;
+            return individual.get();
     }
-    return *population_.front();
+    return population_.front().get();
 }
 
 void EvolutionaryAlgorithm::mutate(NeuralNetwork& neural_network) {

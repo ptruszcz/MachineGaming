@@ -33,7 +33,7 @@ private:
     double randomisation_probability_;
 
     void generateInitialPopulation(int input_size, int hidden_layers, int output_size);
-    NeuralNetwork& select();
+    NeuralNetwork* select();
     PNeuralNetwork crossover();
     void mutate(NeuralNetwork& neural_network);
 

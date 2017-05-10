@@ -35,23 +35,25 @@ void NeuralNetwork::mutate(const MutationType &mutation_type) {
     phenome_ = Phenome(genome_);
 }
 
-Matrix NeuralNetwork::feedForward(Matrix input) {
-    if (!compatible(input)) return Matrix();
+void NeuralNetwork::feedForward(const Matrix &input) {
+    if (!compatible(input))
+        return;
 
     phenome_.getNeurons()[0] = input;
     for (int i = 0; i < phenome_.getWeights().size(); ++i) {
         phenome_.getNeurons()[i + 1] = activationFunction(phenome_.getNeurons()[i]
                                                          * phenome_.getWeights()[i]);
     }
-    return getOutput();
+
+    output_ = phenome_.getNeurons().back();
 }
 
 bool NeuralNetwork::compatible(const Matrix &input) {
     return size(phenome_.getNeurons()[0]) == size(input);
 }
 
-Matrix &NeuralNetwork::getOutput() {
-    return phenome_.getNeurons().back();
+const Matrix &NeuralNetwork::getOutput() const {
+    return output_;
 }
 
 double NeuralNetwork::getFitness() const {

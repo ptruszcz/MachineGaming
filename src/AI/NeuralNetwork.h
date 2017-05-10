@@ -19,6 +19,7 @@ class NeuralNetwork {
 private:
     Genome genome_;
     Phenome phenome_;
+    Matrix output_;
     double fitness_ = 0;
 
     bool compatible(const Matrix &input);
@@ -34,9 +35,9 @@ public:
     void mutate(const MutationType &mutation_type);
 
     void randomizeAllWeights();
-    Matrix feedForward(Matrix input);
+    void feedForward(const Matrix &input);
 
-    Matrix &getOutput();
+    const Matrix &getOutput() const;
     double getFitness() const;
     void setFitness(double fitness);
 
