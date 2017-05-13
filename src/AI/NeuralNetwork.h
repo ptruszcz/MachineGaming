@@ -16,10 +16,12 @@ typedef std::unique_ptr<NeuralNetwork> PNeuralNetwork;
 typedef std::vector<PNeuralNetwork> NeuralNetworks;
 
 class NeuralNetwork {
+protected:
+    Matrix output_;
+
 private:
     Genome genome_;
     Phenome phenome_;
-    Matrix output_;
     double fitness_ = 0;
 
     bool compatible(const Matrix &input);

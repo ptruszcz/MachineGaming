@@ -6,7 +6,7 @@ File created by: Jakub Fajkowski
 #define MACHINEGAMING_NEURON_H
 
 #include <ostream>
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include "Counter.hpp"
 #include "Gene.h"
 
