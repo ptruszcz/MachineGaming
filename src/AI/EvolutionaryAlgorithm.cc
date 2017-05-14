@@ -47,7 +47,7 @@ PNeuralNetwork EvolutionaryAlgorithm::crossover() {
     NeuralNetwork* first_parent = select();
     NeuralNetwork* second_parent = select();
 
-    return std::move(NeuralNetwork::crossover(*first_parent, *second_parent));
+    return NeuralNetwork::crossover(*first_parent, *second_parent);
 }
 
 NeuralNetwork* EvolutionaryAlgorithm::select() {

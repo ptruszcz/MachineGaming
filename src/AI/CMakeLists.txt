@@ -4,15 +4,11 @@ file(GLOB SOURCES
         "*.hpp"
         )
 
-# Build our library
-add_library(NeuralNetwork SHARED ${SOURCES})
-
 # Define the wrapper library that wraps our library
-add_library(NeuralNetwork_Ext SHARED neuralnetwork_ext.cc
+add_library(EvolutionaryNeuralNetwork_Ext SHARED neuralnetwork_ext.cc evolutionaryalgorithm_ext.cc
         ${PYTHON_LIBRARIES}
         ${Boost_LIBRARIES})
 
-target_link_libraries(NeuralNetwork_Ext
-                      NeuralNetwork)
+target_link_libraries(EvolutionaryNeuralNetwork_Ext)
 # don't prepend wrapper library name with lib
-set_target_properties(NeuralNetwork_Ext PROPERTIES PREFIX "")
+set_target_properties(EvolutionaryNeuralNetwork_Ext PROPERTIES PREFIX "")
