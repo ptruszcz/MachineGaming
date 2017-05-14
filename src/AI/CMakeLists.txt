@@ -4,6 +4,6 @@ file(GLOB SOURCES
         "*.hpp"
         )
 
-add_library(EvolutionaryAlgorithm_Ext SHARED ${SOURCES})
+add_library(pyvolution SHARED ${SOURCES})
 
-set_target_properties(EvolutionaryAlgorithm_Ext PROPERTIES PREFIX "")
+set_target_properties(pyvolution PROPERTIES PREFIX "")
