@@ -47,7 +47,7 @@ PNeuralNetwork EvolutionaryAlgorithm::crossover() {
     NeuralNetwork* first_parent = select();
     NeuralNetwork* second_parent = select();
 
-    return NeuralNetwork::crossover(*first_parent, *second_parent);
+    return std::move(NeuralNetwork::crossover(*first_parent, *second_parent));
 }
 
 NeuralNetwork* EvolutionaryAlgorithm::select() {
@@ -84,4 +84,13 @@ void EvolutionaryAlgorithm::removeWeakestIndividuals() {
 
 const NeuralNetworks &EvolutionaryAlgorithm::getCurrentGeneration() const {
     return population_;
+}
+
+EvolutionaryAlgorithm::EvolutionaryAlgorithm(const EvolutionaryAlgorithm &eA) :
+        population_(eA.population_),
+        population_size_(eA.population_size_),
+        children_bred_per_generation_(eA.children_bred_per_generation_),
+        crossover_probability_(eA.crossover_probability_),
+        mutation_probability_(eA.mutation_probability_),
+        randomisation_probability_(eA.randomisation_probability_) {
 }

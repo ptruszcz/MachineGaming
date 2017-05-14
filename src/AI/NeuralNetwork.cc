@@ -61,7 +61,7 @@ double NeuralNetwork::getFitness() const {
 }
 
 void NeuralNetwork::setFitness(double fitness) {
-    NeuralNetwork::fitness_ = fitness;
+    fitness_ = fitness;
 }
 
 bool NeuralNetwork::operator==(const NeuralNetwork &rhs) const {

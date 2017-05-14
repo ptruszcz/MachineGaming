@@ -12,7 +12,7 @@ File created by: Jakub Fajkowski
 #include "Phenome.h"
 
 class NeuralNetwork;
-typedef std::unique_ptr<NeuralNetwork> PNeuralNetwork;
+typedef std::shared_ptr<NeuralNetwork> PNeuralNetwork;
 typedef std::vector<PNeuralNetwork> NeuralNetworks;
 
 class NeuralNetwork {

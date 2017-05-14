@@ -7,8 +7,8 @@ using namespace boost::python;
 
 BOOST_PYTHON_MODULE(EvolutionaryAlgorithm_Ext) {
 
-    class_<std::vector<double> >("vector_nn")
-            .def(vector_indexing_suite<std::vector<NeuralNetwork> >());
+    class_<std::vector<PNeuralNetwork> >("vector_nn")
+            .def(vector_indexing_suite<std::vector<PNeuralNetwork> >());
 
     class_<EvolutionaryAlgorithmParameters>("EvolutionaryAlgorithmParameters", no_init)
             .add_property("population_size", &EvolutionaryAlgorithmParameters::population_size)
@@ -22,9 +22,9 @@ BOOST_PYTHON_MODULE(EvolutionaryAlgorithm_Ext) {
             .add_property("output_size", &EvolutionaryAlgorithmParameters::output_size);
 
 
-    //class_<EvolutionaryAlgorithm>("EvolutionaryAlgorithm", init<EvolutionaryAlgorithmParameters>())
-            //.def("breed", &EvolutionaryAlgorithm::breed)
-            //.def("removeWeakestIndividuals", &EvolutionaryAlgorithm::removeWeakestIndividuals)
+    class_<EvolutionaryAlgorithm>("EvolutionaryAlgorithm", init<EvolutionaryAlgorithmParameters>())
+            .def("breed", &EvolutionaryAlgorithm::breed)
+            .def("removeWeakestIndividuals", &EvolutionaryAlgorithm::removeWeakestIndividuals)
             //.def("getCurrentGeneration", &EvolutionaryAlgorithm::getCurrentGeneration)
             ;
 

@@ -39,6 +39,7 @@ private:
 
 public:
     EvolutionaryAlgorithm(EvolutionaryAlgorithmParameters p);
+    EvolutionaryAlgorithm(const EvolutionaryAlgorithm &eA);
 
     void breed();
     void removeWeakestIndividuals();
