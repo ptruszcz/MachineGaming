@@ -4,12 +4,9 @@
 using namespace boost::python;
 
 BOOST_PYTHON_MODULE(pyvolution) {
-    class_<std::vector<double> >("vector_double")
-            .def(vector_indexing_suite<std::vector<double> >());
-
     class_<NeuralNetworkProxy>("NeuralNetwork", init<int, int, int>())
             .def("feed_forward_vector", &NeuralNetworkProxy::feedForwardUsingVector)
-            .def("feed_forward", &NeuralNetworkProxy::feedForwardUsingPyList)
+            .def("feed_forward", &NeuralNetworkProxy::feedForwardUsingList)
             .def("get_output_vector", &NeuralNetworkProxy::getOutputAsVector)
             .def("get_output", &NeuralNetworkProxy::getOutputAsList)
             .add_property("fitness", &NeuralNetworkProxy::getFitness, &NeuralNetworkProxy::setFitness);

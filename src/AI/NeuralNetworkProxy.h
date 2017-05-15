@@ -12,6 +12,15 @@ inline std::vector< T > to_std_vector(const py::list& iterable) {
     return std::vector<T>(py::stl_input_iterator<T>(iterable), py::stl_input_iterator<T>());
 }
 
+template<typename T>
+py::list to_py_list(const std::vector<T>& vector) {
+    py::list list;
+    for(const auto& e : vector)
+        list.append(e);
+    return list;
+}
+
+
 class NeuralNetworkProxy : public NeuralNetwork {
 public:
     NeuralNetworkProxy(int input_size, int hidden_layers, int output_size) :
@@ -20,7 +29,7 @@ public:
     const std::vector<double> getOutputAsVector();
     const py::list getOutputAsList();
     void feedForwardUsingVector(std::vector<double> &input);
-    void feedForwardUsingPyList(py::list &input);
+    void feedForwardUsingList(py::list &input);
 };
 
 
