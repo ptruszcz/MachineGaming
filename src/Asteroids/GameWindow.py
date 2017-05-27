@@ -27,10 +27,10 @@ SPAWN_MARGIN = 100
 
 class GameWindow:
     def __init__(self):
-        self._running = False
+        self.running = False
         self._screen = None
         self._clock = None
-        self._score = 0
+        self.score = 0
         self._pressed_buttons = set()
         self._asteroids = pygame.sprite.Group()
         self._missiles = pygame.sprite.Group()
@@ -42,12 +42,22 @@ class GameWindow:
         pygame.init()
         self._screen = pygame.display.set_mode((WINDOW_SIZE_X, WINDOW_SIZE_Y), pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._clock = pygame.time.Clock()
-        self._running = True
+        self.running = True
+
+    def restart(self):
+        self.score = 0
+        self._clock = pygame.time.Clock()
+        self._pressed_buttons = set()
+        self._asteroids = pygame.sprite.Group()
+        self._missiles = pygame.sprite.Group()
+        self._spaceship = Spaceship.Spaceship(Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2))
+        self._last_asteroid_spawn = 0
+        self._last_difficulty_increase = 0
 
     def run(self):
         self._init()
 
-        while self._running:
+        while self.running:
             self._clock.tick(60)
 
             for event in pygame.event.get():
@@ -68,7 +78,7 @@ class GameWindow:
             destroyed_asteroids = pygame.sprite.groupcollide(self._missiles, self._asteroids,
                                                              True, True)
             if destroyed_asteroids:
-                self._score += POINTS_FOR_ASTEROID
+                self.score += POINTS_FOR_ASTEROID
 
             if pygame.time.get_ticks() - self._last_asteroid_spawn > ASTEROIDS_SPAWN_INTERVAL \
                and len(self._asteroids.sprites()) < ASTEROIDS_MAX_ON_SCREEN:
@@ -89,7 +99,7 @@ class GameWindow:
             if self._pressed_buttons:
                 self._pressed_buttons.remove(event.key)
         elif event.type == pygame.QUIT:
-            self._running = False
+            self.running = False
 
     def _render(self):
         self._screen.fill(black)
@@ -115,7 +125,7 @@ class GameWindow:
 
     def _display_score(self):
         font = pygame.font.SysFont("Courier New", 30)
-        label = font.render("Score: " + str(self._score), 1, white)
+        label = font.render("Score: " + str(self.score), 1, white)
         self._screen.blit(label, (10, 10))
 
     def _spawn_asteroids(self, asteroids_number):

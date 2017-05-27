@@ -58,7 +58,7 @@ class pyvolutionTest(unittest.TestCase):
         ea = pv.EvolutionaryAlgorithm(p)
         self.trainXOR(ea.get_current_generation())
 
-        while ea.get_current_generation()[0].fitness < 3.99:
+        while ea.get_current_generation()[0].fitness < 3.50:
             ea.breed()
             self.trainXOR(ea.get_current_generation())
             ea.remove_weakest_individuals()
