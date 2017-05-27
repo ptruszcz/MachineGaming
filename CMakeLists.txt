@@ -22,5 +22,7 @@ link_libraries(${Boost_LIBRARIES} ${PYTHON_LIBRARIES} ${ARMADILLO_LIBRARIES})
 set(SOURCES_DIR ${MachineGaming_SOURCE_DIR}/src/AI)
 include_directories(${SOURCES_DIR})
 
+set(TEST_DIR ${MachineGaming_SOURCE_DIR}/test/AI)
+
 add_subdirectory(src)
 add_subdirectory(test)

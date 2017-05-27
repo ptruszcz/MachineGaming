@@ -28,16 +28,21 @@ class pyvolutionTest(unittest.TestCase):
         p.population_size = 10
         p.children_bred_per_generation = 2
         p.crossover_probability = 1
+        p.mutation_probability = 0.5
+        p.randomisation_probability = 0.1
+        p.input_size = 2
+        p.hidden_layers = 2
+        p.output_size = 1
 
         ea = pv.EvolutionaryAlgorithm(p)
-        self.assertEqual(p.population_size, ea.get_current_generation)
+        self.assertEqual(p.population_size, len(ea.get_current_generation()))
 
         ea.breed()
         self.assertEqual(p.population_size + p.children_bred_per_generation,
-                         len(ea.get_current_generation))
+                         len(ea.get_current_generation()))
 
         ea.remove_weakest_individuals()
-        self.assertEqual(p.population_size, ea.get_current_generation)
+        self.assertEqual(p.population_size, len(ea.get_current_generation()))
 
     def testImproveResults(self):
         p = pv.EvolutionaryAlgorithmParameters
@@ -85,3 +90,6 @@ class pyvolutionTest(unittest.TestCase):
                 print('--------------')
 
                 network.set_fitness(fitness)
+
+if __name__ == '__main__':
+    unittest.main()

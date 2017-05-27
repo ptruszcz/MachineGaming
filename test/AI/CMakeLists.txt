@@ -12,3 +12,6 @@ file(GLOB SOURCES
 
 add_executable(AITests ${TEST_SOURCES} ${SOURCES})
 add_test(AITests AITests)
+
+file(COPY pyvolutionTest.py DESTINATION .)
+add_test(NAME pyvolutionTest COMMAND ${PYTHON_EXECUTABLE} pyvolutionTest.py)

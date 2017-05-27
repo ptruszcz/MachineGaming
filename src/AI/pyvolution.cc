@@ -5,16 +5,31 @@ using namespace boost::python;
 
 class EvolutionaryAlgorithmWrapper : public EvolutionaryAlgorithm {
 public:
-    //EvolutionaryAlgorithmWrapper(object eap) :
-    //    EvolutionaryAlgorithm::EvolutionaryAlgorithm(extract<EvolutionaryAlgorithmParameters&>(eap)) {}
+    EvolutionaryAlgorithmWrapper(const object &eap) :
+        EvolutionaryAlgorithm::EvolutionaryAlgorithm(extractParams(eap)) {}
 
-    EvolutionaryAlgorithmWrapper(const EvolutionaryAlgorithmParameters eap) :
-            EvolutionaryAlgorithm::EvolutionaryAlgorithm(eap) {}
+    EvolutionaryAlgorithmParameters extractParams(const object &eap) {
+        EvolutionaryAlgorithmParameters params;
 
-    static boost::shared_ptr<EvolutionaryAlgorithmWrapper> initWrapper(object const & p) {
+        params.population_size = extract<int>(eap.attr("population_size"));
+        params.children_bred_per_generation = extract<int>(eap.attr("children_bred_per_generation"));
+        params.crossover_probability = extract<double>(eap.attr("crossover_probability"));
+        params.input_size = extract<int>(eap.attr("input_size"));
+        params.output_size = extract<int>(eap.attr("output_size"));
+        params.mutation_probability = extract<double>(eap.attr("mutation_probability"));
+        params.hidden_layers = extract<int>(eap.attr("hidden_layers"));
+        params.randomisation_probability = extract<double>(eap.attr("randomisation_probability"));
+
+        return params;
+    }
+
+    //EvolutionaryAlgorithmWrapper(const EvolutionaryAlgorithmParameters &eap) :
+    //        EvolutionaryAlgorithm::EvolutionaryAlgorithm(eap) {}
+
+    /*static boost::shared_ptr<EvolutionaryAlgorithmWrapper> initWrapper(object const & p) {
         EvolutionaryAlgorithmParameters eap = extract<EvolutionaryAlgorithmParameters>(p);
         return boost::shared_ptr<EvolutionaryAlgorithmWrapper>(new EvolutionaryAlgorithmWrapper(eap));
-    }
+    }*/
 
     const py::list getCurrentGenerationAsListOfNeuralNetworks() const {
         std::vector<PNeuralNetwork> pointers = getCurrentGeneration();
@@ -51,8 +66,8 @@ BOOST_PYTHON_MODULE(pyvolution) {
             .add_property("hidden_layers", &EvolutionaryAlgorithmParameters::hidden_layers)
             .add_property("output_size", &EvolutionaryAlgorithmParameters::output_size);
 
-    class_<EvolutionaryAlgorithmWrapper>("EvolutionaryAlgorithm", no_init)
-            .def("__init__", make_constructor(&EvolutionaryAlgorithmWrapper::initWrapper))
+    class_<EvolutionaryAlgorithmWrapper>("EvolutionaryAlgorithm", init<const object &>())
+            //.def("__init__", make_constructor(&EvolutionaryAlgorithmWrapper::initWrapper))
             .def("breed", &EvolutionaryAlgorithmWrapper::breed)
             .def("remove_weakest_individuals", &EvolutionaryAlgorithmWrapper::removeWeakestIndividuals)
             .def("get_current_generation_as_list_of_shared_ptr", &EvolutionaryAlgorithmWrapper::getCurrentGenerationAsListOfSharedPtr)
