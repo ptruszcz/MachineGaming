@@ -1,7 +1,7 @@
 #include <boost/test/unit_test.hpp>
-#include "NeuralNetworkProxy.h"
+#include "NeuralNetworkWrapper.h"
 
-BOOST_AUTO_TEST_SUITE(pyvolutionProxyTest)
+BOOST_AUTO_TEST_SUITE(pyvolutionWrapperTest)
     struct F {
         F() {
             Py_Initialize(); //necessary to avoid segfault
@@ -11,14 +11,14 @@ BOOST_AUTO_TEST_SUITE(pyvolutionProxyTest)
     };
 
     BOOST_FIXTURE_TEST_CASE(InitTest, F) {
-        NeuralNetworkProxy neuralNetwork(5,5,5);
+        NeuralNetworkWrapper neuralNetwork(5,5,5);
         std::vector<double> v(5, 2);
         neuralNetwork.feedForwardUsingVector(v);
         BOOST_CHECK_EQUAL(5, neuralNetwork.getOutput().n_elem);
     }
 
     BOOST_FIXTURE_TEST_CASE(getOutputAsVectorTest, F) {
-        NeuralNetworkProxy neuralNetwork(5,5,5);
+        NeuralNetworkWrapper neuralNetwork(5,5,5);
         std::vector<double> v(5, 2);
         neuralNetwork.feedForwardUsingVector(v);
         BOOST_CHECK_EQUAL(5, neuralNetwork.getOutputAsVector().size());
@@ -27,7 +27,7 @@ BOOST_AUTO_TEST_SUITE(pyvolutionProxyTest)
     }
 
     BOOST_FIXTURE_TEST_CASE(feedListTest, F) {
-        NeuralNetworkProxy neuralNetwork(5,5,5);
+        NeuralNetworkWrapper neuralNetwork(5,5,5);
         py::list v;
         for(int i = 0; i < 5; i++)
             v.append(2);
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_SUITE(pyvolutionProxyTest)
     }
 
     BOOST_FIXTURE_TEST_CASE(getOutputAsListTest, F) {
-        NeuralNetworkProxy neuralNetwork(5,5,5);
+        NeuralNetworkWrapper neuralNetwork(5,5,5);
         py::list v;
         for(int i = 0; i < 5; i++)
             v.append(2);

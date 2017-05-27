@@ -21,9 +21,9 @@ py::list to_py_list(const std::vector<T>& vector) {
 }
 
 
-class NeuralNetworkProxy : public NeuralNetwork {
+class NeuralNetworkWrapper : public NeuralNetwork {
 public:
-    NeuralNetworkProxy(int input_size, int hidden_layers, int output_size) :
+    NeuralNetworkWrapper(int input_size, int hidden_layers, int output_size) :
             NeuralNetwork::NeuralNetwork(input_size, hidden_layers, output_size) {}
 
     const std::vector<double> getOutputAsVector();
