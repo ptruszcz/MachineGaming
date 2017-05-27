@@ -13,27 +13,28 @@ def run_game():
 def live_plot():
     fig, ax_array = plt.subplots(2)
 
-    curr_gen_score = ax_array[0]
+    curr_score = ax_array[0]
     mean_gen_score = ax_array[1]
 
     x = []
     y = []
 
+    delta = 0.5
     seconds = 0
     while True:
-        if seconds % 5 == 0 and seconds != 0:
+        if seconds % 10 == 0 and seconds != 0:
             global current_game
             current_game.restart()
-            curr_gen_score.clear()
+            curr_score.clear()
             seconds = 0
             x = []
             y = []
 
         x.append(seconds)
         y.append(current_game.score)
-        curr_gen_score.plot(x, y)
-        plt.pause(1)
-        seconds += 1
+        curr_score.plot(x, y)
+        plt.pause(delta)
+        seconds += delta
 
 
 if __name__ == '__main__':

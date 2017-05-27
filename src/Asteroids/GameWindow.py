@@ -45,14 +45,19 @@ class GameWindow:
         self.running = True
 
     def restart(self):
+        self.running = False
         self.score = 0
         self._clock = pygame.time.Clock()
         self._pressed_buttons = set()
         self._asteroids = pygame.sprite.Group()
         self._missiles = pygame.sprite.Group()
-        self._spaceship = Spaceship.Spaceship(Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2))
+        self._spaceship = Spaceship.Spaceship(
+            coordinates=Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2),
+            velocity=Vector(0, 0)
+        )
         self._last_asteroid_spawn = 0
         self._last_difficulty_increase = 0
+        self.running = True
 
     def run(self):
         self._init()
