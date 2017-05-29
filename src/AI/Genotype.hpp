@@ -5,6 +5,7 @@ File created by: Jakub Fajkowski
 #ifndef MACHINEGAMING_GENOTYPE_H
 #define MACHINEGAMING_GENOTYPE_H
 
+#include <boost/serialization/vector.hpp>
 #include <ostream>
 #include "Gene.h"
 #include "Random.h"
@@ -18,13 +19,20 @@ using PGenotype = std::unique_ptr<Genotype<T>>;
 template <typename T>
 class Genotype {
 private:
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version)
+    {
+        ar & genes_;
+    }
+
     static Random random;
-    Genes genes_;
+    std::vector<std::shared_ptr<T>> genes_;
 
     static PGenotype<T> createChild(Genotype &parent_a, Genotype &parent_b);
     static size_t makeEqualSize(Genotype &parent_a, Genotype &parent_b);
-    static PGene chooseGene(const PGene &gene_a, const PGene &gene_b);
-    static PGene getRandomGene(const PGene &gene_a, const PGene &gene_b);
+    static std::shared_ptr<T> chooseGene(const std::shared_ptr<T> &gene_a, const std::shared_ptr<T> &gene_b);
+    static std::shared_ptr<T> getRandomGene(const std::shared_ptr<T> &gene_a, const std::shared_ptr<T> &gene_b);
     
 public:
     Genotype() {};
@@ -33,11 +41,11 @@ public:
 
     static PGenotype<T> crossover(Genotype &parent_a, Genotype &parent_b);
 
-    void insert(const PGene &gene);
-    void erase(const PGene &gene);
+    void insert(const std::shared_ptr<T> &gene);
+    void erase(const std::shared_ptr<T> &gene);
 
-    PGene & operator[](size_t index);
-    const PGene & operator[](size_t index) const;
+    std::shared_ptr<T> & operator[](size_t index);
+    const std::shared_ptr<T> & operator[](size_t index) const;
     bool operator==(const Genotype &rhs) const;
     bool operator!=(const Genotype &rhs) const;
 
@@ -51,7 +59,7 @@ template <typename T>
 Genotype<T>::Genotype(const Genotype &genotype) {
     for (auto gene: genotype.genes_) {
         if (gene) {
-            this->insert(gene->clone());
+            this->insert(std::static_pointer_cast<T>(gene->clone()));
         }
     }
 }
@@ -72,7 +80,7 @@ PGenotype<T> Genotype<T>::createChild(Genotype &parent_a, Genotype &parent_b) {
 
     PGenotype<T> child_genotype = std::make_unique<Genotype>();
     child_genotype->genes_.reserve(common_size);
-    PGene gene_a, gene_b, child_gene;
+    std::shared_ptr<T> gene_a, gene_b, child_gene;
 
     for (size_t i = 0; i < common_size; ++i) {
         gene_a = parent_a.genes_[i];
@@ -105,8 +113,8 @@ size_t Genotype<T>::makeEqualSize(Genotype &parent_a, Genotype &parent_b) {
 }
 
 template <typename T>
-PGene Genotype<T>::chooseGene(const PGene &gene_a, const PGene &gene_b) {
-    PGene child_gene;
+std::shared_ptr<T> Genotype<T>::chooseGene(const std::shared_ptr<T> &gene_a, const std::shared_ptr<T> &gene_b) {
+    std::shared_ptr<T> child_gene;
 
     if (gene_a && gene_b)
         child_gene = getRandomGene(gene_a, gene_b);
@@ -121,8 +129,8 @@ PGene Genotype<T>::chooseGene(const PGene &gene_a, const PGene &gene_b) {
 }
 
 template <typename T>
-PGene Genotype<T>::getRandomGene(const PGene &gene_a, const PGene &gene_b) {
-    PGene child_gene;
+std::shared_ptr<T> Genotype<T>::getRandomGene(const std::shared_ptr<T> &gene_a, const std::shared_ptr<T> &gene_b) {
+    std::shared_ptr<T> child_gene;
 
     if (random.next(0,1) == 0) {
         child_gene = gene_a;
@@ -135,27 +143,27 @@ PGene Genotype<T>::getRandomGene(const PGene &gene_a, const PGene &gene_b) {
 }
 
 template <typename T>
-void Genotype<T>::insert(const PGene &gene) {
+void Genotype<T>::insert(const std::shared_ptr<T> &gene) {
     size_t id = gene->getId();
     genes_.resize(id);
 
-    Genes::iterator it = genes_.begin();
+    typename std::vector<std::shared_ptr<T>>::iterator it = genes_.begin();
     genes_.insert(it + id, gene);
 }
 
 template <typename T>
-void Genotype<T>::erase(const PGene &gene) {
+void Genotype<T>::erase(const std::shared_ptr<T> &gene) {
     size_t id = gene->getId();
     genes_.at(id) = nullptr;
 }
 
 template <typename T>
-PGene &Genotype<T>::operator[](size_t index) {
+std::shared_ptr<T> &Genotype<T>::operator[](size_t index) {
     return genes_[index];
 }
 
 template <typename T>
-const PGene &Genotype<T>::operator[](size_t index) const {
+const std::shared_ptr<T> &Genotype<T>::operator[](size_t index) const {
     return genes_[index];
 }
 
@@ -182,9 +190,9 @@ template <typename T>
 std::vector<std::shared_ptr<T>> Genotype<T>::getGenes() const {
     std::vector<std::shared_ptr<T>> valid_genes;
 
-    for (PGene gene: genes_) {
+    for (std::shared_ptr<T> gene: genes_) {
         if (gene) {
-            valid_genes.push_back(std::static_pointer_cast<T>(gene));
+            valid_genes.push_back(gene);
         }
     }
 
