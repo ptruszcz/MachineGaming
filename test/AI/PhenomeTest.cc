@@ -1,3 +1,4 @@
+#define BOOST_TEST_MODULE "PhenomeTest"
 #include <boost/test/unit_test.hpp>
 #include "Genome.h"
 #include "Phenome.h"

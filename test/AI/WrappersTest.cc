@@ -1,8 +1,9 @@
+#define BOOST_TEST_MODULE "WrappersTest"
 #include <boost/test/unit_test.hpp>
 #include "NeuralNetworkWrapper.h"
 #include "EvolutionaryAlgorithmWrapper.h"
 
-BOOST_AUTO_TEST_SUITE(pyvolutionWrapperTest)
+BOOST_AUTO_TEST_SUITE(WrappersTest)
     struct F {
         F() {
             Py_Initialize(); //necessary to avoid segfault

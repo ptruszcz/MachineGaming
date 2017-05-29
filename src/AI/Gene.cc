@@ -1,5 +1,9 @@
 #include "Gene.h"
 
+Gene::Gene() {
+
+}
+
 Gene::Gene(size_t how_many) {
     this->id = how_many - 1;
 }

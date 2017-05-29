@@ -1,3 +1,4 @@
+#define BOOST_TEST_MODULE "EvolutionaryAlgorithmTest"
 #include <boost/test/unit_test.hpp>
 #include "EvolutionaryAlgorithm.h"
 

@@ -1,6 +1,8 @@
+#define BOOST_TEST_MODULE "GeneTest"
 #include <boost/test/unit_test.hpp>
-#include <Neuron.h>
-#include <Connection.h>
+
+#include "Neuron.h"
+#include "Connection.h"
 
 BOOST_AUTO_TEST_SUITE(GeneTest)
     struct F {
@@ -9,21 +11,6 @@ BOOST_AUTO_TEST_SUITE(GeneTest)
             Connection::resetCounter();
         }
     };
-
-    BOOST_FIXTURE_TEST_CASE(InheritedCounterTest, F) {
-        PNeuron neuron1 = std::make_shared<Neuron>(0);
-        PNeuron neuron2 = std::make_shared<Neuron>(0);
-        PGene neuron3 = neuron1->clone();
-
-        Connection connection(neuron1, neuron2);
-
-        BOOST_CHECK_EQUAL(2, Neuron::getCount());
-        BOOST_CHECK_EQUAL(0, neuron1->getId());
-        BOOST_CHECK_EQUAL(1, neuron2->getId());
-
-        BOOST_CHECK_EQUAL(1, Connection::getCount());
-        BOOST_CHECK_EQUAL(0, connection.getId());
-    }
 
     BOOST_FIXTURE_TEST_CASE(CloneConnectionTest, F) {
         PNeuron neuron1 = std::make_shared<Neuron>(0);

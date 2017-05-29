@@ -27,7 +27,6 @@ public:
     static void resetCounter();
 
     static size_t getCount();
-    static void setCount(size_t count);
 };
 
 template <typename T>
@@ -41,11 +40,6 @@ void Counter<T>::resetCounter() {
 template <typename T>
 size_t Counter<T>::getCount() {
     return count;
-}
-
-template <typename T>
-void Counter<T>::setCount(size_t count) {
-    Counter<T>::count = count;
 }
 
 #endif //MACHINEGAMING_COUNTER_HPP

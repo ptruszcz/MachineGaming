@@ -1,3 +1,4 @@
+#define BOOST_TEST_MODULE "GenotypeTest"
 #include <boost/test/unit_test.hpp>
 #include "Genotype.h"
 #include "Neuron.h"
