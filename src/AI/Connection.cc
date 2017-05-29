@@ -3,6 +3,10 @@
 Random Connection::random = Random();
 double Connection::weight_variance = 5.0;
 
+Connection::Connection() {
+
+}
+
 Connection::Connection(const PNeuron &input,
                        const PNeuron &output) : Counter(), Gene(getCount()) {
     this->input_ = input;
@@ -38,8 +42,8 @@ void Connection::randomizeWeight() {
 bool Connection::operator==(const Connection &rhs) const {
     return id == rhs.id &&
             weight_ == rhs.weight_ &&
-            input_ == rhs.input_ &&
-            output_ == rhs.output_;
+            *input_ == *rhs.input_ &&
+            *output_ == *rhs.output_;
 }
 
 bool Connection::operator!=(const Connection &rhs) const {

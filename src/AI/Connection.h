@@ -5,6 +5,9 @@ File created by: Jakub Fajkowski
 #ifndef MACHINEGAMING_CONNECTION_H
 #define MACHINEGAMING_CONNECTION_H
 
+#include <boost/serialization/shared_ptr.hpp>
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
 #include <ostream>
 #include "Neuron.h"
 #include "Random.h"
@@ -17,6 +20,16 @@ typedef std::vector<PConnection> Connections;
 
 class Connection : public Counter<Connection>, public Gene {
 private:
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version) {
+        ar & boost::serialization::base_object<Counter<Connection>>(*this);
+        ar & boost::serialization::base_object<Gene>(*this);
+        ar & input_;
+        ar & output_;
+        ar & weight_;
+    }
+
     static Random random;
 
     PNeuron input_;
@@ -27,7 +40,7 @@ private:
 public:
     static double weight_variance;
 
-    Connection() : Counter(), Gene(getCount()) {};
+    Connection();
     Connection(const PNeuron &input, const PNeuron &output);
     Connection(const Connection &connection);
     
