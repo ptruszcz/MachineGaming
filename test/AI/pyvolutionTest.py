@@ -63,33 +63,33 @@ class pyvolutionTest(unittest.TestCase):
             self.trainXOR(ea.get_current_generation())
             ea.remove_weakest_individuals()
 
-            print('Best fit: ' + ea.get_current_generation()[0].fitness)
+            print('Best fit: ' + str(ea.get_current_generation()[0].fitness))
 
     def trainXOR(self, neural_networks):
         for network in neural_networks:
-            if network.get_fitness() == 0:
+            if network.fitness == 0:
                 fitness = 0
 
                 network.feed_forward([0, 0])
                 fitness += 1 - abs(network.get_output()[0])
-                print('0 XOR 0 ~' + network.get_output()[0])
+                print('0 XOR 0 ~' + str(network.get_output()[0]))
 
                 network.feed_forward([0, 1])
                 fitness += network.get_output()[0]
-                print('0 XOR 1 ~' + network.get_output()[0])
+                print('0 XOR 1 ~' + str(network.get_output()[0]))
 
                 network.feed_forward([1, 0])
                 fitness += network.get_output()[0]
-                print('1 XOR 0 ~' + network.get_output()[0])
+                print('1 XOR 0 ~' + str(network.get_output()[0]))
 
                 network.feed_forward([1, 1])
-                fitness += 1 - abs(network.get_output()[0])
-                print('1 XOR 1 ~' + network.get_output()[0])
+                fitness += 1 - (abs(network.get_output()[0]))
+                print('1 XOR 1 ~' + str(network.get_output()[0]))
 
                 print('Fitness: ' + str(fitness))
                 print('--------------')
 
-                network.set_fitness(fitness)
+                network.fitness = fitness
 
 if __name__ == '__main__':
     unittest.main()

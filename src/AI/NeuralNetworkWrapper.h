@@ -21,15 +21,22 @@ py::list to_py_list(const std::vector<T>& vector) {
 }
 
 
-class NeuralNetworkWrapper : public NeuralNetwork {
+class NeuralNetworkWrapper {
+private:
+    std::shared_ptr<NeuralNetwork> pNeuralNetwork;
+
 public:
-    NeuralNetworkWrapper(int input_size, int hidden_layers, int output_size) :
-            NeuralNetwork::NeuralNetwork(input_size, hidden_layers, output_size) {}
+    NeuralNetworkWrapper(int input_size, int hidden_layers, int output_size);
+    NeuralNetworkWrapper(PNeuralNetwork pNeuralNetwork);
 
     const std::vector<double> getOutputAsVector();
     const py::list getOutputAsList();
     void feedForwardUsingVector(std::vector<double> &input);
     void feedForwardUsingList(py::list &input);
+
+    const Matrix &getOutput() const;
+    double getFitness() const;
+    void setFitness(double fitness);
 };
 
 
