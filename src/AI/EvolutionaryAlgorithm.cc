@@ -12,6 +12,7 @@ EvolutionaryAlgorithm::EvolutionaryAlgorithm(EvolutionaryAlgorithmParameters p)
           mutation_probability_(p.mutation_probability),
           randomisation_probability_(p.randomisation_probability),
           children_bred_per_generation_(p.children_bred_per_generation) {
+    Connection::weight_variance = p.weight_variance;
     generateInitialPopulation(p.input_size, p.hidden_layers, p.output_size);
 }
 
