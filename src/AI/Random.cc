@@ -1,6 +1,6 @@
 #include "Random.h"
 
-Random::Random() {}
+Random::Random() : generator_(std::random_device()()) {}
 
 double Random::next() {
     std::uniform_real_distribution<double> distribution(0.0, 1.0);
