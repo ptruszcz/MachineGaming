@@ -4,7 +4,7 @@ Random Connection::random = Random();
 double Connection::weight_variance = 5.0;
 
 Connection::Connection(const PNeuron &input,
-                       const PNeuron &output) : Counter(), Gene(howMany()) {
+                       const PNeuron &output) : Counter(), Gene(getCount()) {
     this->input_ = input;
     this->output_ = output;
     randomizeWeight();

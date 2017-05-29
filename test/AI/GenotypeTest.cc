@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
         std::vector<PGene> genes = child_neurons->getGenes();
 
         BOOST_CHECK_EQUAL(4, genes.size());
-        BOOST_CHECK_EQUAL(4, Neuron::howMany());
+        BOOST_CHECK_EQUAL(4, Neuron::getCount());
 
         BOOST_CHECK_EQUAL(neuron1, genes[0]);
         BOOST_CHECK_EQUAL(neuron2, genes[1]);
@@ -141,7 +141,7 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
         std::vector<PGene> genes = child_connections.getGenes();
 
         BOOST_CHECK_EQUAL(4, genes.size());
-        BOOST_CHECK_EQUAL(4, Connection::howMany());
+        BOOST_CHECK_EQUAL(4, Connection::getCount());
 
         BOOST_CHECK_EQUAL(connection1->getId(), genes[0]->getId());
         BOOST_CHECK_EQUAL(connection2->getId(), genes[1]->getId());

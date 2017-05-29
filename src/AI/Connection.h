@@ -27,7 +27,7 @@ private:
 public:
     static double weight_variance;
 
-    Connection() : Counter(), Gene(howMany()) {};
+    Connection() : Counter(), Gene(getCount()) {};
     Connection(const PNeuron &input, const PNeuron &output);
     Connection(const Connection &connection);
     

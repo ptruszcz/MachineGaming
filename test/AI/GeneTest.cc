@@ -17,11 +17,11 @@ BOOST_AUTO_TEST_SUITE(GeneTest)
 
         Connection connection(neuron1, neuron2);
 
-        BOOST_CHECK_EQUAL(2, Neuron::howMany());
+        BOOST_CHECK_EQUAL(2, Neuron::getCount());
         BOOST_CHECK_EQUAL(0, neuron1->getId());
         BOOST_CHECK_EQUAL(1, neuron2->getId());
 
-        BOOST_CHECK_EQUAL(1, Connection::howMany());
+        BOOST_CHECK_EQUAL(1, Connection::getCount());
         BOOST_CHECK_EQUAL(0, connection.getId());
     }
 
@@ -33,13 +33,13 @@ BOOST_AUTO_TEST_SUITE(GeneTest)
         PConnection connection2 = std::static_pointer_cast<Connection>(connection1.clone());
 
 
-        BOOST_CHECK_EQUAL(2, Neuron::howMany());
+        BOOST_CHECK_EQUAL(2, Neuron::getCount());
         BOOST_CHECK_EQUAL(0, neuron1->getId());
         BOOST_CHECK_EQUAL(1, neuron2->getId());
         BOOST_CHECK_EQUAL(0, connection1.getInput()->getId());
         BOOST_CHECK_EQUAL(1, connection1.getOutput()->getId());
 
-        BOOST_CHECK_EQUAL(1, Connection::howMany());
+        BOOST_CHECK_EQUAL(1, Connection::getCount());
         BOOST_CHECK_EQUAL(0, connection1.getId());
         BOOST_CHECK_EQUAL(0, connection2->getId());
 
