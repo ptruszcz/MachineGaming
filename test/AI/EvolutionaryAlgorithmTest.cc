@@ -102,7 +102,7 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
             trainXOR(evolutionaryAlgorithm.getCurrentGeneration());
             evolutionaryAlgorithm.removeWeakestIndividuals();
 
-            //std::cout << "Best fit: " << evolutionaryAlgorithm.getCurrentGeneration()[0]->getFitness() << std::endl;
+            std::cout << "Best fit: " << evolutionaryAlgorithm.getCurrentGeneration()[0]->getFitness() << std::endl;
         }
     }
 

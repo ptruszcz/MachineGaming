@@ -4,6 +4,11 @@ import unittest
 # before start copy latest pyvolution.so to the test directory
 class pyvolutionTest(unittest.TestCase):
 
+    @classmethod
+    def setUpClass(cls):
+        pv.Neuron.reset_counter()
+        pv.Connection.reset_counter()
+
     def testEvolutionaryAlgorithmParameters(self):
         eap = pv.EvolutionaryAlgorithmParameters
         eap.population_size = 5
@@ -52,7 +57,7 @@ class pyvolutionTest(unittest.TestCase):
         p.mutation_probability = 0.5
         p.randomisation_probability = 0.1
         p.input_size = 2
-        p.hidden_layers = 2
+        p.hidden_layers = 3
         p.output_size = 1
 
         ea = pv.EvolutionaryAlgorithm(p)

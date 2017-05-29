@@ -30,6 +30,10 @@ const py::list EvolutionaryAlgorithmWrapper::getCurrentGenerationAsListOfSharedP
     return to_py_list(pwnn);
 }
 
+const NeuralNetworks &EvolutionaryAlgorithmWrapper::getCurrentGeneration() const {
+    return evolutionaryAlgorithm.getCurrentGeneration();
+}
+
 void EvolutionaryAlgorithmWrapper::breed() {
     evolutionaryAlgorithm.breed();
 }

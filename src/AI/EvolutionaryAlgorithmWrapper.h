@@ -18,6 +18,7 @@ public:
     EvolutionaryAlgorithmParameters extractParams(const py::object &eap);
 
     const py::list getCurrentGenerationAsListOfSharedPtr() const;
+    const NeuralNetworks &getCurrentGeneration() const;
     void breed();
     void removeWeakestIndividuals();
 };

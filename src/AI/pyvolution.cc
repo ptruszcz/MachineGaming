@@ -28,4 +28,10 @@ BOOST_PYTHON_MODULE(pyvolution) {
             .def("breed", &EvolutionaryAlgorithmWrapper::breed)
             .def("remove_weakest_individuals", &EvolutionaryAlgorithmWrapper::removeWeakestIndividuals)
             .def("get_current_generation", &EvolutionaryAlgorithmWrapper::getCurrentGenerationAsListOfSharedPtr);
+    
+    class_<Neuron>("Neuron", no_init)
+            .def("reset_counter", &Neuron::resetCounter);
+
+    class_<Connection>("Connection", no_init)
+            .def("reset_counter", &Connection::resetCounter);
 }
