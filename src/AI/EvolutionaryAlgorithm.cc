@@ -76,10 +76,6 @@ void EvolutionaryAlgorithm::removeWeakestIndividuals() {
     while (population_.size() > population_size_) {
         population_.pop_back();
     }
-
-    // TODO RANDOMISATION HERE
-    //if (random.next() <= randomisation_probability_);
-        //population_.end()->get()->randomizeAllWeights();
 }
 
 const NeuralNetworks &EvolutionaryAlgorithm::getCurrentGeneration() const {
