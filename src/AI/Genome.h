@@ -12,7 +12,7 @@ Modified by: Piotr Truszczyński
 #include "Connection.h"
 #include "Random.h"
 #include "MutationType.h"
-#include "Genotype.h"
+#include "Genotype.hpp"
 
 class Genome;
 typedef std::unique_ptr<Genome> PGenome;
@@ -22,8 +22,8 @@ private:
     static Random random;
     static int layer_counter;
     
-    Genotype neurons_;
-    Genotype connections_;
+    Genotype<Neuron> neurons_;
+    Genotype<Connection> connections_;
 
     void addNeuron();
     PNeuron addNeuron(int layer_number);
@@ -45,7 +45,7 @@ private:
 
 public:
     Genome(int input_size, int hidden_layers, int output_size);
-    Genome(const Genotype &neurons, const Genotype &connections);
+    Genome(const Genotype<Neuron> &neurons, const Genotype<Connection> &connections);
     Genome(const Genome &genome);
 
     static PGenome crossover(Genome &parentA, Genome &parentB);

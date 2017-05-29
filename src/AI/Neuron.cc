@@ -1,6 +1,10 @@
 #include "Neuron.h"
 
-Neuron::Neuron(int layer_number) : Counter(), Gene(howMany()) {
+Neuron::Neuron() {
+
+}
+
+Neuron::Neuron(int layer_number) : Counter(), Gene(getCount()) {
     this->layer_number_ = layer_number;
 }
 

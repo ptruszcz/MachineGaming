@@ -5,6 +5,8 @@ File created by: Jakub Fajkowski
 #ifndef MACHINEGAMING_GENE_H
 #define MACHINEGAMING_GENE_H
 
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
 #include <cstddef>
 #include <memory>
 #include <vector>
@@ -16,10 +18,18 @@ typedef std::shared_ptr<Gene> PGene;
 typedef std::vector<PGene> Genes;
 
 class Gene {
+private:
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version) {
+        ar & id;
+    }
+
 protected:
     size_t id;
 
 public:
+    Gene();
     Gene(size_t how_many);
     Gene(const Gene &gene);
 

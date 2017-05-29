@@ -1,5 +1,6 @@
+#define BOOST_TEST_MODULE "GenotypeTest"
 #include <boost/test/unit_test.hpp>
-#include "Genotype.h"
+#include "Genotype.hpp"
 #include "Neuron.h"
 #include "Connection.h"
 
@@ -18,12 +19,12 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
         PNeuron neuron3 = std::make_unique<Neuron>(1);
         PNeuron neuron4 = std::make_unique<Neuron>(3);
 
-        Genotype neurons;
+        Genotype<Neuron> neurons;
         neurons.insert(neuron1);
         neurons.insert(neuron2);
         neurons.insert(neuron4);
 
-        std::vector<PGene> genes = neurons.getGenes();
+        Neurons genes = neurons.getGenes();
 
         BOOST_CHECK_EQUAL(3, genes.size());
     }
@@ -34,14 +35,14 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
         PNeuron neuron3 = std::make_unique<Neuron>(1);
         PNeuron neuron4 = std::make_unique<Neuron>(2);
 
-        Genotype neurons;
+        Genotype<Neuron> neurons;
         neurons.insert(neuron1);
         neurons.insert(neuron2);
         neurons.insert(neuron4);
 
         neurons.erase(neuron2);
 
-        std::vector<PGene> genes = neurons.getGenes();
+        Neurons genes = neurons.getGenes();
 
         BOOST_CHECK_EQUAL(2, genes.size());
     }
@@ -52,22 +53,22 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
         PNeuron neuron3 = std::make_unique<Neuron>(1);
         PNeuron neuron4 = std::make_unique<Neuron>(2);
 
-        Genotype neurons1;
+        Genotype<Neuron> neurons1;
         neurons1.insert(neuron1);
         neurons1.insert(neuron2);
         neurons1.insert(neuron4);
 
-        Genotype neurons2;
+        Genotype<Neuron> neurons2;
         neurons2.insert(neuron1);
         neurons2.insert(neuron3);
         neurons2.insert(neuron4);
 
-        PGenotype child_neurons = Genotype::crossover(neurons1, neurons2);
+        PGenotype<Neuron> child_neurons = Genotype<Neuron>::crossover(neurons1, neurons2);
 
-        std::vector<PGene> genes = child_neurons->getGenes();
+        Neurons genes = child_neurons->getGenes();
 
         BOOST_CHECK_EQUAL(4, genes.size());
-        BOOST_CHECK_EQUAL(4, Neuron::howMany());
+        BOOST_CHECK_EQUAL(4, Neuron::getCount());
 
         BOOST_CHECK_EQUAL(neuron1, genes[0]);
         BOOST_CHECK_EQUAL(neuron2, genes[1]);
@@ -86,11 +87,11 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
         PConnection connection3 = std::make_unique<Connection>(neuron2, neuron4);
         PConnection connection4 = std::make_unique<Connection>(neuron3, neuron4);
 
-        Genotype connections;
+        Genotype<Connection> connections;
         connections.insert(connection2);
         connections.insert(connection4);
 
-        std::vector<PGene> genes = connections.getGenes();
+        Connections genes = connections.getGenes();
 
         BOOST_CHECK_EQUAL(2, genes.size());
     }
@@ -106,13 +107,13 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
         PConnection connection3 = std::make_unique<Connection>(neuron2, neuron4);
         PConnection connection4 = std::make_unique<Connection>(neuron3, neuron4);
 
-        Genotype connections;
+        Genotype<Connection> connections;
         connections.insert(connection2);
         connections.insert(connection4);
 
         connections.erase(connection2);
 
-        std::vector<PGene> genes = connections.getGenes();
+        Connections genes = connections.getGenes();
 
         BOOST_CHECK_EQUAL(1, genes.size());
     }
@@ -128,20 +129,20 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
         PConnection connection3 = std::make_unique<Connection>(neuron2, neuron4);
         PConnection connection4 = std::make_unique<Connection>(neuron3, neuron4);
 
-        Genotype connections1;
+        Genotype<Connection> connections1;
         connections1.insert(connection1);
         connections1.insert(connection3);
 
-        Genotype connections2;
+        Genotype<Connection> connections2;
         connections2.insert(connection2);
         connections2.insert(connection4);
 
-        Genotype child_connections = *Genotype::crossover(connections1, connections2)->clone();
+        Genotype<Connection> child_connections = *Genotype<Connection>::crossover(connections1, connections2)->clone();
 
-        std::vector<PGene> genes = child_connections.getGenes();
+        Connections genes = child_connections.getGenes();
 
         BOOST_CHECK_EQUAL(4, genes.size());
-        BOOST_CHECK_EQUAL(4, Connection::howMany());
+        BOOST_CHECK_EQUAL(4, Connection::getCount());
 
         BOOST_CHECK_EQUAL(connection1->getId(), genes[0]->getId());
         BOOST_CHECK_EQUAL(connection2->getId(), genes[1]->getId());

@@ -17,7 +17,7 @@ struct EvolutionaryAlgorithmParameters {
     int input_size = 1;
     int hidden_layers = 1;
     int output_size = 1;
-
+    double weight_variance = 10.0;
 };
 
 class EvolutionaryAlgorithm {

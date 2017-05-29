@@ -1,3 +1,4 @@
+#define BOOST_TEST_MODULE "EvolutionaryAlgorithmTest"
 #include <boost/test/unit_test.hpp>
 #include "EvolutionaryAlgorithm.h"
 
@@ -103,17 +104,23 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         p.input_size = 2;
         p.hidden_layers = 2;
         p.output_size = 1;
+        p.weight_variance = 50.0;
 
         EvolutionaryAlgorithm evolutionaryAlgorithm(p);
         trainXOR(evolutionaryAlgorithm.getCurrentGeneration());
 
-        while (evolutionaryAlgorithm.getCurrentGeneration()[0]->getFitness() < 3.50) {
+        int i = 0;
+        while (evolutionaryAlgorithm.getCurrentGeneration()[0]->getFitness() < 3.99) {
             evolutionaryAlgorithm.breed();
             trainXOR(evolutionaryAlgorithm.getCurrentGeneration());
             evolutionaryAlgorithm.removeWeakestIndividuals();
 
-            std::cout << "Best fit: " << evolutionaryAlgorithm.getCurrentGeneration()[0]->getFitness() << std::endl;
+            if (++i % 50 == 0) {
+                std::cout << "\rBest fit: " << evolutionaryAlgorithm.getCurrentGeneration()[0]->getFitness() << std::flush;
+            }
         }
+
+        std::cout << "\rBest fit: " << evolutionaryAlgorithm.getCurrentGeneration()[0]->getFitness() << std::flush;
     }
 
 BOOST_AUTO_TEST_SUITE_END()
