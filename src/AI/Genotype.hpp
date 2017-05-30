@@ -5,6 +5,8 @@ File created by: Jakub Fajkowski
 #ifndef MACHINEGAMING_GENOTYPE_H
 #define MACHINEGAMING_GENOTYPE_H
 
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
 #include <boost/serialization/vector.hpp>
 #include <ostream>
 #include "Gene.h"
@@ -21,8 +23,7 @@ class Genotype {
 private:
     friend class boost::serialization::access;
     template<class Archive>
-    void serialize(Archive & ar, const unsigned int version)
-    {
+    void serialize(Archive & ar, const unsigned int version) {
         ar & genes_;
     }
 
