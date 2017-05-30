@@ -1,5 +1,9 @@
 #include "EvolutionaryAlgorithmWrapper.h"
 
+EvolutionaryAlgorithmWrapper::EvolutionaryAlgorithmWrapper() {
+
+}
+
 EvolutionaryAlgorithmWrapper::EvolutionaryAlgorithmWrapper(EvolutionaryAlgorithmParameters parameters)
         : evolutionaryAlgorithm(parameters) {}
 
@@ -40,4 +44,12 @@ void EvolutionaryAlgorithmWrapper::breed() {
 
 void EvolutionaryAlgorithmWrapper::removeWeakestIndividuals() {
     evolutionaryAlgorithm.removeWeakestIndividuals();
+}
+
+void EvolutionaryAlgorithmWrapper::save(py::str filename) {
+    evolutionaryAlgorithm.save(boost::python::extract<std::string>(filename));
+}
+
+void EvolutionaryAlgorithmWrapper::load(py::str filename) {
+    evolutionaryAlgorithm.load(boost::python::extract<std::string>(filename));
 }

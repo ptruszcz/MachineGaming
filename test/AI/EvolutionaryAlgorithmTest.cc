@@ -3,8 +3,6 @@
 #include "EvolutionaryAlgorithm.h"
 
 BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
-    typedef std::unique_ptr<EvolutionaryAlgorithm> PEvolutionaryAlgorithm;
-
     struct F {
         F() {
             Neuron::resetCounter();
@@ -19,21 +17,6 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
             close = true;
         }
         return close;
-    }
-
-    static void serialize(PEvolutionaryAlgorithm &evolutionary_algorithm,
-                          std::string filename) {
-        std::ofstream ofs(filename);
-        boost::archive::text_oarchive oa(ofs);
-        oa << *evolutionary_algorithm;
-    }
-
-    static PEvolutionaryAlgorithm deserialize(std::string filename) {
-        PEvolutionaryAlgorithm evolutionary_algorithm = std::make_unique<EvolutionaryAlgorithm>();
-        std::ifstream ifs(filename);
-        boost::archive::text_iarchive ia(ifs);
-        ia >> *evolutionary_algorithm;
-        return std::move(evolutionary_algorithm);
     }
 
     void trainXOR(const NeuralNetworks &networks) {
@@ -161,16 +144,15 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         p.output_size = 5;
         p.weight_variance = 50.0;
 
-        PEvolutionaryAlgorithm serialized_ea =
-                std::make_unique<EvolutionaryAlgorithm>(p);
+        EvolutionaryAlgorithm serialized_ea(p);
 
-        serialize(serialized_ea, "EvolutionaryAlgorithmTest.mg");
+        serialized_ea.save("EvolutionaryAlgorithmTest.mg");
 
-        PEvolutionaryAlgorithm deserialized_ea =
-                deserialize("EvolutionaryAlgorithmTest.mg");
+        EvolutionaryAlgorithm deserialized_ea;
+        deserialized_ea.load("EvolutionaryAlgorithmTest.mg");
 
-        NeuralNetworks serialized_nn = serialized_ea->getCurrentGeneration();
-        NeuralNetworks deserialized_nn = deserialized_ea->getCurrentGeneration();
+        NeuralNetworks serialized_nn = serialized_ea.getCurrentGeneration();
+        NeuralNetworks deserialized_nn = deserialized_ea.getCurrentGeneration();
 
         Matrix input = {1, 1, 1, 1, 1};
         for (int i = 0; i < p.population_size; ++i) {

@@ -11,6 +11,7 @@ File created by: Piotr Truszczyński
 #include <boost/serialization/unique_ptr.hpp>
 #include <boost/serialization/vector.hpp>
 #include <vector>
+#include <fstream>
 #include "NeuralNetwork.h"
 
 struct EvolutionaryAlgorithmParameters {
@@ -39,7 +40,7 @@ private:
         ar & weight_variance_;
         Connection::weight_variance = weight_variance_;
     }
-    
+
     static Random random;
     static bool compareNeuralNetworks(const PNeuralNetwork &p1, const PNeuralNetwork &p2); //fitness_ comparison
 
@@ -63,6 +64,9 @@ public:
 
     void breed();
     void removeWeakestIndividuals();
+
+    void save(std::string filename);
+    void load(std::string filename);
 
     const NeuralNetworks &getCurrentGeneration() const;
 };

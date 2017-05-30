@@ -24,10 +24,13 @@ BOOST_PYTHON_MODULE(pyvolution) {
             .add_property("hidden_layers", &EvolutionaryAlgorithmParameters::hidden_layers)
             .add_property("output_size", &EvolutionaryAlgorithmParameters::output_size);
 
-    class_<EvolutionaryAlgorithmWrapper>("EvolutionaryAlgorithm", init<const object &>())
+    class_<EvolutionaryAlgorithmWrapper>("EvolutionaryAlgorithm")
+            .def(init<const object &>())
             .def("breed", &EvolutionaryAlgorithmWrapper::breed)
             .def("remove_weakest_individuals", &EvolutionaryAlgorithmWrapper::removeWeakestIndividuals)
-            .def("get_current_generation", &EvolutionaryAlgorithmWrapper::getCurrentGenerationAsListOfSharedPtr);
+            .def("get_current_generation", &EvolutionaryAlgorithmWrapper::getCurrentGenerationAsListOfSharedPtr)
+            .def("save", &EvolutionaryAlgorithmWrapper::save)
+            .def("load", &EvolutionaryAlgorithmWrapper::load);
     
     class_<Neuron>("Neuron", no_init)
             .def("reset_counter", &Neuron::resetCounter);

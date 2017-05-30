@@ -20,6 +20,15 @@ EvolutionaryAlgorithm::EvolutionaryAlgorithm(EvolutionaryAlgorithmParameters p)
     generateInitialPopulation(p.input_size, p.hidden_layers, p.output_size);
 }
 
+EvolutionaryAlgorithm::EvolutionaryAlgorithm(const EvolutionaryAlgorithm &eA) :
+        population_(eA.population_),
+        population_size_(eA.population_size_),
+        children_bred_per_generation_(eA.children_bred_per_generation_),
+        crossover_probability_(eA.crossover_probability_),
+        mutation_probability_(eA.mutation_probability_),
+        randomisation_probability_(eA.randomisation_probability_) {
+}
+
 void EvolutionaryAlgorithm::generateInitialPopulation(int input_size, int hidden_layers, int output_size) {
     PNeuralNetwork ancestor = std::make_unique<NeuralNetwork>(input_size, hidden_layers, output_size);
     PNeuralNetwork descendant;
@@ -87,11 +96,16 @@ const NeuralNetworks &EvolutionaryAlgorithm::getCurrentGeneration() const {
     return population_;
 }
 
-EvolutionaryAlgorithm::EvolutionaryAlgorithm(const EvolutionaryAlgorithm &eA) :
-        population_(eA.population_),
-        population_size_(eA.population_size_),
-        children_bred_per_generation_(eA.children_bred_per_generation_),
-        crossover_probability_(eA.crossover_probability_),
-        mutation_probability_(eA.mutation_probability_),
-        randomisation_probability_(eA.randomisation_probability_) {
+void EvolutionaryAlgorithm::save(std::string filename) {
+    std::ofstream ofs(filename);
+    boost::archive::text_oarchive oa(ofs);
+    oa << *this;
+    ofs.close();
+}
+
+void EvolutionaryAlgorithm::load(std::string filename) {
+    std::ifstream ifs(filename);
+    boost::archive::text_iarchive ia(ifs);
+    ia >> *this;
+    ifs.close();
 }
