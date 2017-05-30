@@ -24,7 +24,6 @@ BOOST_AUTO_TEST_SUITE(GenotypeTest)
 
     static void deserialize(Genotype<Connection> genotypes[],
                                       std::string filename) {
-
         std::ifstream ifs(filename);
         boost::archive::text_iarchive ia(ifs);
         ia >> genotypes[0];

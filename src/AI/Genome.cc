@@ -3,6 +3,10 @@
 Random Genome::random = Random();
 int Genome::layer_counter = 0;
 
+Genome::Genome() {
+
+}
+
 Genome::Genome(int input_size, int hidden_layers, int output_size) {
     layer_counter = 0;
     addLayer(input_size);
@@ -194,9 +198,16 @@ PConnection Genome::getRandomConnection() {
 }
 
 bool Genome::operator==(const Genome &rhs) const {
+    Connections connections = getConnections();
+    Connections rhs_connections = rhs.getConnections();
+
+    bool connections_equal = std::equal(connections.begin(), connections.end(),
+                    rhs_connections.begin(), rhs_connections.end(),
+                    [](const PConnection lhs, const PConnection rhs){ return *lhs == *rhs; });
+
     return layer_counter == rhs.layer_counter &&
            neurons_ == rhs.neurons_ &&
-           connections_ == rhs.connections_;
+           connections_equal;
 }
 
 bool Genome::operator!=(const Genome &rhs) const {

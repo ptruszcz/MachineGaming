@@ -6,6 +6,9 @@ Modified by: Piotr Truszczyński
 #ifndef MACHINEGAMING_GENOME_H
 #define MACHINEGAMING_GENOME_H
 
+
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
 #include <armadillo>
 #include <ostream>
 #include "Neuron.h"
@@ -19,6 +22,13 @@ typedef std::unique_ptr<Genome> PGenome;
 
 class Genome {
 private:
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version) {
+        ar & neurons_;
+        ar & connections_;
+    }
+
     static Random random;
     static int layer_counter;
     
@@ -44,6 +54,7 @@ private:
     PConnection getRandomConnection();
 
 public:
+    Genome();
     Genome(int input_size, int hidden_layers, int output_size);
     Genome(const Genotype<Neuron> &neurons, const Genotype<Connection> &connections);
     Genome(const Genome &genome);
