@@ -39,7 +39,6 @@ BOOST_AUTO_TEST_SUITE(GeneTest)
 
     static void deserializeConnection(PConnection connections[],
                                       std::string filename) {
-
         std::ifstream ifs(filename);
         boost::archive::text_iarchive ia(ifs);
         ia >> connections[0];

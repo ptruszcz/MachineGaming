@@ -12,6 +12,7 @@ private:
     EvolutionaryAlgorithm evolutionaryAlgorithm;
 
 public:
+    EvolutionaryAlgorithmWrapper();
     EvolutionaryAlgorithmWrapper(EvolutionaryAlgorithmParameters parameters);
     EvolutionaryAlgorithmWrapper(const py::object &eap);
 
@@ -21,6 +22,9 @@ public:
     const NeuralNetworks &getCurrentGeneration() const;
     void breed();
     void removeWeakestIndividuals();
+
+    void save(py::str filename);
+    void load(py::str filename);
 };
 
 

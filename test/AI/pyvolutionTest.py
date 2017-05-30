@@ -96,5 +96,36 @@ class pyvolutionTest(unittest.TestCase):
 
                 network.fitness = fitness
 
+    def testSerialization(self):
+        p = pv.EvolutionaryAlgorithmParameters
+        p.population_size = 10
+        p.children_bred_per_generation = 5
+        p.crossover_probability = 1
+        p.mutation_probability = 0.5
+        p.randomisation_probability = 0.1
+        p.input_size = 5
+        p.hidden_layers = 5
+        p.output_size = 5
+
+        serialized_ea = pv.EvolutionaryAlgorithm(p)
+        serialized_ea.save("EvolutionaryAlgorithmPythonTest.mg")
+
+        deserialized_ea = pv.EvolutionaryAlgorithm()
+        deserialized_ea.load("EvolutionaryAlgorithmPythonTest.mg")
+
+        serialized_nn = serialized_ea.get_current_generation()
+        deserialized_nn = deserialized_ea.get_current_generation()
+
+        input = [1, 1, 1, 1, 1]
+        for i in range(p.population_size):
+            serialized_nn[i].feed_forward(input)
+            deserialized_nn[i].feed_forward(input)
+
+            expected = serialized_nn[i].get_output()
+            actual = deserialized_nn[i].get_output()
+
+            self.assertEqual(expected, actual)
+
+
 if __name__ == '__main__':
     unittest.main()

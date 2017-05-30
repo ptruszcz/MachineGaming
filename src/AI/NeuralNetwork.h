@@ -5,6 +5,9 @@ File created by: Jakub Fajkowski
 #ifndef PROJECT_NEURALNETWORK_H
 #define PROJECT_NEURALNETWORK_H
 
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/serialization/unique_ptr.hpp>
 #include <vector>
 #include <armadillo>
 #include <cstdlib>
@@ -16,19 +19,27 @@ typedef std::shared_ptr<NeuralNetwork> PNeuralNetwork;
 typedef std::vector<PNeuralNetwork> NeuralNetworks;
 
 class NeuralNetwork {
-protected:
-    Matrix output_;
-
 private:
-    Genome genome_;
-    Phenome phenome_;
+    friend class boost::serialization::access;
+    template<class Archive>
+    void serialize(Archive & ar, const unsigned int version) {
+        ar & genome_;
+        phenome_ = std::make_unique<Phenome>(*genome_);
+        ar & fitness_;
+    }
+
+    PGenome genome_;
+    PPhenome phenome_;
+
     double fitness_ = 0;
+    Matrix output_;
 
     bool compatible(const Matrix &input);
 
     Matrix activationFunction(Matrix z);
 
 public:
+    NeuralNetwork();
     NeuralNetwork(int input_size, int hidden_layers, int output_size);
     NeuralNetwork(const NeuralNetwork &neural_network);
     NeuralNetwork(const Genome &genome);

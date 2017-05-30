@@ -20,6 +20,21 @@ BOOST_AUTO_TEST_SUITE(NeuralNetworkTest)
         return close;
     }
 
+    static void serialize(PNeuralNetwork &neural_network,
+                          std::string filename) {
+        std::ofstream ofs(filename);
+        boost::archive::text_oarchive oa(ofs);
+        oa << *neural_network;
+    }
+
+    static PNeuralNetwork deserialize(std::string filename) {
+        PNeuralNetwork neural_network = std::make_unique<NeuralNetwork>();
+        std::ifstream ifs(filename);
+        boost::archive::text_iarchive ia(ifs);
+        ia >> *neural_network;
+        return std::move(neural_network);
+    }
+
     BOOST_FIXTURE_TEST_CASE(InitTest, F) {
         NeuralNetwork neuralNetwork(5,5,5);
         neuralNetwork.feedForward({1, 2, 3, 4, 5});
@@ -66,6 +81,21 @@ BOOST_AUTO_TEST_SUITE(NeuralNetworkTest)
         unmodified.feedForward({1, 2, 3, 4, 5});
 
         BOOST_ASSERT(!is_close(modified.getOutput(), unmodified.getOutput(), 0.0001));
+    }
+
+    BOOST_FIXTURE_TEST_CASE(SerializationTest, F) {
+        Matrix input = {1, 1, 1, 1, 1};
+
+        PNeuralNetwork serialized_neural_network = std::make_unique<NeuralNetwork>(5, 5, 5);
+        serialized_neural_network->feedForward(input);
+        Matrix expected = serialized_neural_network->getOutput();
+        serialize(serialized_neural_network, "NeuralNetworkTest.mg");
+
+        PNeuralNetwork deserialized_neural_network = deserialize("NeuralNetworkTest.mg");
+        deserialized_neural_network->feedForward(input);
+        Matrix actual = deserialized_neural_network->getOutput();
+
+        BOOST_ASSERT(is_close(expected, actual, 0.001));
     }
 
 BOOST_AUTO_TEST_SUITE_END()

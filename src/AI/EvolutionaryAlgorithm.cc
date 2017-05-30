@@ -5,15 +5,28 @@ bool EvolutionaryAlgorithm::compareNeuralNetworks(const PNeuralNetwork &p1, cons
     return p1->getFitness() > p2->getFitness();
 }
 
+EvolutionaryAlgorithm::EvolutionaryAlgorithm() {
+
+}
 
 EvolutionaryAlgorithm::EvolutionaryAlgorithm(EvolutionaryAlgorithmParameters p)
         : population_size_(p.population_size),
           crossover_probability_(p.crossover_probability),
           mutation_probability_(p.mutation_probability),
           randomisation_probability_(p.randomisation_probability),
-          children_bred_per_generation_(p.children_bred_per_generation) {
+          children_bred_per_generation_(p.children_bred_per_generation),
+          weight_variance_(p.weight_variance) {
     Connection::weight_variance = p.weight_variance;
     generateInitialPopulation(p.input_size, p.hidden_layers, p.output_size);
+}
+
+EvolutionaryAlgorithm::EvolutionaryAlgorithm(const EvolutionaryAlgorithm &eA) :
+        population_(eA.population_),
+        population_size_(eA.population_size_),
+        children_bred_per_generation_(eA.children_bred_per_generation_),
+        crossover_probability_(eA.crossover_probability_),
+        mutation_probability_(eA.mutation_probability_),
+        randomisation_probability_(eA.randomisation_probability_) {
 }
 
 void EvolutionaryAlgorithm::generateInitialPopulation(int input_size, int hidden_layers, int output_size) {
@@ -83,11 +96,16 @@ const NeuralNetworks &EvolutionaryAlgorithm::getCurrentGeneration() const {
     return population_;
 }
 
-EvolutionaryAlgorithm::EvolutionaryAlgorithm(const EvolutionaryAlgorithm &eA) :
-        population_(eA.population_),
-        population_size_(eA.population_size_),
-        children_bred_per_generation_(eA.children_bred_per_generation_),
-        crossover_probability_(eA.crossover_probability_),
-        mutation_probability_(eA.mutation_probability_),
-        randomisation_probability_(eA.randomisation_probability_) {
+void EvolutionaryAlgorithm::save(std::string filename) {
+    std::ofstream ofs(filename);
+    boost::archive::text_oarchive oa(ofs);
+    oa << *this;
+    ofs.close();
+}
+
+void EvolutionaryAlgorithm::load(std::string filename) {
+    std::ifstream ifs(filename);
+    boost::archive::text_iarchive ia(ifs);
+    ia >> *this;
+    ifs.close();
 }
