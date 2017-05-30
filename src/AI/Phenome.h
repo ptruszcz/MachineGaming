@@ -10,6 +10,8 @@ File created by: Jakub Fajkowski
 #include <ostream>
 #include "Genome.h"
 
+class Phenome;
+typedef std::unique_ptr<Phenome> PPhenome;
 typedef std::pair<int, int> Coordinates;
 typedef std::vector<std::vector<PNeuron>> NeuronLayers;
 typedef arma::mat Matrix;
@@ -27,6 +29,7 @@ private:
     Coordinates findNeuronCoordinates(const Neuron &neuron, const NeuronLayers &neuron_layers);
 
 public:
+    Phenome();
     Phenome(const Genome &genome);
 
     bool operator==(const Phenome &rhs) const;

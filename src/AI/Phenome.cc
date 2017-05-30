@@ -1,5 +1,9 @@
 #include "Phenome.h"
 
+Phenome::Phenome() {
+
+}
+
 Phenome::Phenome(const Genome &genome) {
     NeuronLayers neurons = createNeuronLayers(genome.getNeurons());
     generateNeuronMatrices(neurons);

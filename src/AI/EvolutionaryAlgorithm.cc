@@ -5,13 +5,17 @@ bool EvolutionaryAlgorithm::compareNeuralNetworks(const PNeuralNetwork &p1, cons
     return p1->getFitness() > p2->getFitness();
 }
 
+EvolutionaryAlgorithm::EvolutionaryAlgorithm() {
+
+}
 
 EvolutionaryAlgorithm::EvolutionaryAlgorithm(EvolutionaryAlgorithmParameters p)
         : population_size_(p.population_size),
           crossover_probability_(p.crossover_probability),
           mutation_probability_(p.mutation_probability),
           randomisation_probability_(p.randomisation_probability),
-          children_bred_per_generation_(p.children_bred_per_generation) {
+          children_bred_per_generation_(p.children_bred_per_generation),
+          weight_variance_(p.weight_variance) {
     Connection::weight_variance = p.weight_variance;
     generateInitialPopulation(p.input_size, p.hidden_layers, p.output_size);
 }

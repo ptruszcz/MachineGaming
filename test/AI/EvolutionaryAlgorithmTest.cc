@@ -3,12 +3,38 @@
 #include "EvolutionaryAlgorithm.h"
 
 BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
+    typedef std::unique_ptr<EvolutionaryAlgorithm> PEvolutionaryAlgorithm;
+
     struct F {
         F() {
             Neuron::resetCounter();
             Connection::resetCounter();
         }
     };
+
+    bool is_close(const Matrix &X, const Matrix &Y, double tol) {
+        bool close = false;
+        if(arma::max(arma::max(arma::abs(X-Y))) < tol)
+        {
+            close = true;
+        }
+        return close;
+    }
+
+    static void serialize(PEvolutionaryAlgorithm &evolutionary_algorithm,
+                          std::string filename) {
+        std::ofstream ofs(filename);
+        boost::archive::text_oarchive oa(ofs);
+        oa << *evolutionary_algorithm;
+    }
+
+    static PEvolutionaryAlgorithm deserialize(std::string filename) {
+        PEvolutionaryAlgorithm evolutionary_algorithm = std::make_unique<EvolutionaryAlgorithm>();
+        std::ifstream ifs(filename);
+        boost::archive::text_iarchive ia(ifs);
+        ia >> *evolutionary_algorithm;
+        return std::move(evolutionary_algorithm);
+    }
 
     void trainXOR(const NeuralNetworks &networks) {
         double fitness;
@@ -121,6 +147,42 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         }
 
         std::cout << "\rBest fit: " << evolutionaryAlgorithm.getCurrentGeneration()[0]->getFitness() << std::flush;
+    }
+
+    BOOST_FIXTURE_TEST_CASE(SerializationTest, F) {
+        EvolutionaryAlgorithmParameters p;
+        p.population_size = 10;
+        p.children_bred_per_generation = 5;
+        p.crossover_probability = 1;
+        p.mutation_probability = 0.5;
+        p.randomisation_probability = 0.1;
+        p.input_size = 5;
+        p.hidden_layers = 5;
+        p.output_size = 5;
+        p.weight_variance = 50.0;
+
+        PEvolutionaryAlgorithm serialized_ea =
+                std::make_unique<EvolutionaryAlgorithm>(p);
+
+        serialize(serialized_ea, "EvolutionaryAlgorithmTest.mg");
+
+        PEvolutionaryAlgorithm deserialized_ea =
+                deserialize("EvolutionaryAlgorithmTest.mg");
+
+        NeuralNetworks serialized_nn = serialized_ea->getCurrentGeneration();
+        NeuralNetworks deserialized_nn = deserialized_ea->getCurrentGeneration();
+
+        Matrix input = {1, 1, 1, 1, 1};
+        for (int i = 0; i < p.population_size; ++i) {
+            serialized_nn[i]->feedForward(input);
+            deserialized_nn[i]->feedForward(input);
+
+            Matrix expected = serialized_nn[i]->getOutput();
+            Matrix actual = deserialized_nn[i]->getOutput();
+
+            BOOST_ASSERT(is_close(expected, actual, 0.0001));
+        }
+
     }
 
 BOOST_AUTO_TEST_SUITE_END()
