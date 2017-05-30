@@ -13,7 +13,9 @@ if sys.version_info[0] < 3:
 else:
     import tkinter as tk
 
-style.use('ggplot')
+from MachineGamingController import MachineGamingController
+
+style.use('dark_background')
 
 
 def run_game():
@@ -28,6 +30,8 @@ class MachineGaming(tk.Tk):
         self.current_game_time = 0.0
         self.x = []
         self.y = []
+        self.mgc = MachineGamingController()
+
         self.fig = Figure(figsize=(5, 5), dpi=100)
         self.curr_score = self.fig.add_subplot(2, 1, 1)
         self.mean_gen_score = self.fig.add_subplot(2, 1, 2)
@@ -51,7 +55,7 @@ class MachineGaming(tk.Tk):
         load_button = tk.Button(self, text='LOAD')
         load_button.grid(row=1, column=1, sticky='nw')
 
-        new_button = tk.Button(self, text='NEW')
+        new_button = tk.Button(self, text='NEW', command=self.enter_parameters)
         new_button.grid(row=2, column=0, sticky='nw')
 
         exit_button = tk.Button(self, text='EXIT', command=self._quit)
@@ -59,22 +63,14 @@ class MachineGaming(tk.Tk):
 
     def add_stats(self):
         label_frame = tk.LabelFrame(self, text='Statistics')
-        label_frame.grid(row=0, column=3, rowspan=3, columnspan=2)
+        label_frame.grid(row=0, column=2, rowspan=3, columnspan=3, sticky='nw')
 
-        current_generation_label = tk.Label(label_frame, text='Current generation: ')
-        current_generation_label.pack(anchor='nw')
+        label_texts = ['Current generation: ', 'Current fitness: ', 'Neuron layers: ', 'Input: ', 'Output button: ']
+        labels = []
 
-        current_fitness_label = tk.Label(label_frame, text='Current fitness: ')
-        current_fitness_label.pack(anchor='nw')
-
-        neuron_layers_label = tk.Label(label_frame, text='Neuron layers: ')
-        neuron_layers_label.pack(anchor='nw')
-
-        input_label = tk.Label(label_frame, text='Input: ')
-        input_label.pack(anchor='nw')
-
-        output_label = tk.Label(label_frame, text='Output button: ')
-        output_label.pack(anchor='nw')
+        for i in range(len(label_texts)):
+            labels.append(tk.Label(label_frame, text=label_texts[i]))
+            labels[i].pack(anchor='nw')
 
     def add_plot(self):
         canvas = FigureCanvasTkAgg(self.fig, self)
@@ -90,6 +86,25 @@ class MachineGaming(tk.Tk):
             self.current_game_time += 1.0
         else:
             self.current_game_time = 0.0
+
+    def enter_parameters(self):
+        param_frame = tk.Toplevel()
+
+        label_texts = ["Population size", "Children bred per generation", "Crossover probability",
+                       "Mutation probability", "Randomisation probability", "Hidden layers"]  # add output size?
+        default_values = [10, 4, 1, 0.5, 0.1, 3]
+        entries = []
+
+        for i in range(len(label_texts)):
+            label = tk.Label(param_frame, text=label_texts[i])
+            entries.append(tk.Entry(param_frame))
+            label.grid(row=i, column=0)
+            entries[i].insert(0, default_values[i])
+            entries[i].grid(row=i, column=1)
+
+        create_button = tk.Button(param_frame, text="CREATE",
+                                  command=lambda: [self.mgc.initialize_EA(entries), param_frame.destroy()])
+        create_button.grid(row=10, column=0, columnspan=2)
 
     def run(self):
         self.mainloop()
