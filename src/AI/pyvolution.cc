@@ -19,10 +19,10 @@ BOOST_PYTHON_MODULE(pyvolution) {
                           &EvolutionaryAlgorithmParameters::children_bred_per_generation)
             .add_property("crossover_probability", &EvolutionaryAlgorithmParameters::crossover_probability)
             .add_property("mutation_probability", &EvolutionaryAlgorithmParameters::mutation_probability)
-            .add_property("randomisation_probability", &EvolutionaryAlgorithmParameters::randomisation_probability)
             .add_property("input_size", &EvolutionaryAlgorithmParameters::input_size)
             .add_property("hidden_layers", &EvolutionaryAlgorithmParameters::hidden_layers)
-            .add_property("output_size", &EvolutionaryAlgorithmParameters::output_size);
+            .add_property("output_size", &EvolutionaryAlgorithmParameters::output_size)
+            .add_property("weight_variance", &EvolutionaryAlgorithmParameters::weight_variance);
 
     class_<EvolutionaryAlgorithmWrapper>("EvolutionaryAlgorithm")
             .def(init<const object &>())

@@ -20,7 +20,7 @@ EvolutionaryAlgorithmParameters EvolutionaryAlgorithmWrapper::extractParams(cons
     params.output_size = py::extract<int>(eap.attr("output_size"));
     params.mutation_probability = py::extract<double>(eap.attr("mutation_probability"));
     params.hidden_layers = py::extract<int>(eap.attr("hidden_layers"));
-    params.randomisation_probability = py::extract<double>(eap.attr("randomisation_probability"));
+    params.weight_variance = py::extract<double>(eap.attr("weight_variance"));
 
     return params;
 }

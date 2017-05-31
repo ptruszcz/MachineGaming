@@ -36,8 +36,8 @@ class MachineGaming(tk.Tk):
         self.mgc = MachineGamingController()
 
         self.fig = Figure(figsize=(5, 5), dpi=100, tight_layout={'h_pad': 3})
-        self.curr_score = self.fig.add_subplot(2, 1, 1, title='Current score', xlabel='time [s]')
-        self.mean_gen_score = self.fig.add_subplot(2, 1, 2, title='Mean generation score', xlabel='generation')
+        self.curr_score = self.fig.add_subplot(2, 1, 1, title='Wynik sieci', xlabel='czas [s]')
+        self.mean_gen_score = self.fig.add_subplot(2, 1, 2, title='Średni wynik generacji', xlabel='generacja')
         # TODO: find out why titles and labels disappear after plot update
         self.curr_score_x = []
         self.curr_score_y = []
@@ -53,7 +53,7 @@ class MachineGaming(tk.Tk):
     def add_buttons(self):
         button_frame = tk.Frame(self)
         button_frame.grid(row=0, column=3, rowspan=3, columnspan=2, sticky='swe')
-        button_texts = ['START', 'PAUSE', 'SAVE', 'LOAD', 'NEW', 'EXIT']
+        button_texts = ['START', 'PAUZA', 'ZAPISZ', 'WCZYTAJ', 'NOWY', 'WYJŚCIE']
         button_callbacks = [run_game, None, self.set_filename_and_save, None, self.enter_parameters, self._quit]
         buttons = []
 
@@ -63,11 +63,11 @@ class MachineGaming(tk.Tk):
             buttons[i].grid(row=(math.floor(i/2)), column=(i % 2), sticky='nw')
 
     def add_stats(self):
-        label_frame = tk.LabelFrame(self, text='Statistics')
+        label_frame = tk.LabelFrame(self, text='Statystyki')
         label_frame.grid(row=0, column=0, rowspan=3, columnspan=3, sticky='nwe')
 
-        label_texts = ['Current generation: ', 'Current network: ', 'Current fitness: ',
-                       'Neuron layers: ', 'Input: ', 'Output button: ']
+        label_texts = ['Generacja: ', 'Sieć: ', 'Wynik sieci: ',
+                       'Liczba warstw neuronów: ', 'Wektor wejściowy: ', 'Przycisk: ']
         labels = []
 
         for i in range(len(label_texts)):
@@ -94,9 +94,9 @@ class MachineGaming(tk.Tk):
     def enter_parameters(self):
         param_frame = tk.Toplevel()
 
-        label_texts = ["Population size", "Children bred per generation", "Crossover probability",
-                       "Mutation probability", "Randomisation probability", "Hidden layers"]  # add output size?
-        default_values = [10, 4, 1, 0.5, 0.1, 3]
+        label_texts = ["Rozmiar populacji", "Liczba dzieci na generację", "Prawdopodobieństwo skrzyżowania",
+                       "Prawdopodobieństwo mutacji", "Liczba ukrytych warstw", "Wariancja wag połączeń"]  # add output size?
+        default_values = [10, 4, 1, 0.5, 3, 10.0]
         entries = []
 
         for i in range(len(label_texts)):
@@ -106,18 +106,18 @@ class MachineGaming(tk.Tk):
             entries[i].insert(0, default_values[i])
             entries[i].grid(row=i, column=1)
 
-        create_button = tk.Button(param_frame, text="CREATE",
+        create_button = tk.Button(param_frame, text="UTWÓRZ",
                                   command=lambda: [self.mgc.initialize_EA(entries), param_frame.destroy()])
         create_button.grid(row=10, column=0, columnspan=2)
 
     def set_filename_and_save(self):
         save_frame = tk.Toplevel()
-        label = tk.Label(save_frame, text="Save as: ")
+        label = tk.Label(save_frame, text="Zapisz jako: ")
         entry = tk.Entry(save_frame)
         entry.insert(0, 'generation.mg')
         label.grid(row=0, column=0)
         entry.grid(row=0, column=1)
-        create_button = tk.Button(save_frame, text="SAVE",
+        create_button = tk.Button(save_frame, text="ZAPISZ",
                                   command=lambda: [self.mgc.save(entry.get()), save_frame.destroy()])
         create_button.grid(row=1, column=0, columnspan=2)
 
