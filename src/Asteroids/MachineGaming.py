@@ -1,3 +1,4 @@
+import math
 import matplotlib
 matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
@@ -19,6 +20,10 @@ style.use('dark_background')
 
 
 def run_game():
+    global current_game
+    global current_game_thread
+    current_game = GameWindow()
+    current_game_thread = threading.Thread(target=current_game.run)
     current_game_thread.start()
     return
 
@@ -28,13 +33,16 @@ class MachineGaming(tk.Tk):
         tk.Tk.__init__(self)
         self.root = tk.Frame(self)
         self.current_game_time = 0.0
-        self.x = []
-        self.y = []
         self.mgc = MachineGamingController()
 
-        self.fig = Figure(figsize=(5, 5), dpi=100)
-        self.curr_score = self.fig.add_subplot(2, 1, 1)
-        self.mean_gen_score = self.fig.add_subplot(2, 1, 2)
+        self.fig = Figure(figsize=(5, 5), dpi=100, tight_layout={'h_pad': 3})
+        self.curr_score = self.fig.add_subplot(2, 1, 1, title='Current score', xlabel='time [s]')
+        self.mean_gen_score = self.fig.add_subplot(2, 1, 2, title='Mean generation score', xlabel='generation')
+        # TODO: find out why titles and labels disappear after plot update
+        self.curr_score_x = []
+        self.curr_score_y = []
+        self.mean_gen_score_x = []
+        self.mean_gen_score_y = []
 
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
@@ -43,29 +51,23 @@ class MachineGaming(tk.Tk):
         self.add_plot()
 
     def add_buttons(self):
-        start_button = tk.Button(self, text='START', command=run_game)
-        start_button.grid(row=0, column=0, sticky='nw')
+        button_frame = tk.Frame(self)
+        button_frame.grid(row=0, column=3, rowspan=3, columnspan=2, sticky='swe')
+        button_texts = ['START', 'PAUSE', 'SAVE', 'LOAD', 'NEW', 'EXIT']
+        button_callbacks = [run_game, None, self.set_filename_and_save, None, self.enter_parameters, self._quit]
+        buttons = []
 
-        pause_button = tk.Button(self, text='PAUSE')
-        pause_button.grid(row=0, column=1, sticky='nw')
-
-        save_button = tk.Button(self, text='SAVE')
-        save_button.grid(row=1, column=0, sticky='nw')
-
-        load_button = tk.Button(self, text='LOAD')
-        load_button.grid(row=1, column=1, sticky='nw')
-
-        new_button = tk.Button(self, text='NEW', command=self.enter_parameters)
-        new_button.grid(row=2, column=0, sticky='nw')
-
-        exit_button = tk.Button(self, text='EXIT', command=self._quit)
-        exit_button.grid(row=2, column=1, sticky='nw')
+        for i in range(len(button_texts)):
+            buttons.append(tk.Button(button_frame, text=button_texts[i], padx=10, pady=10, width=10,
+                                     command=button_callbacks[i]))
+            buttons[i].grid(row=(math.floor(i/2)), column=(i % 2), sticky='nw')
 
     def add_stats(self):
         label_frame = tk.LabelFrame(self, text='Statistics')
-        label_frame.grid(row=0, column=2, rowspan=3, columnspan=3, sticky='nw')
+        label_frame.grid(row=0, column=0, rowspan=3, columnspan=3, sticky='nwe')
 
-        label_texts = ['Current generation: ', 'Current fitness: ', 'Neuron layers: ', 'Input: ', 'Output button: ']
+        label_texts = ['Current generation: ', 'Current network: ', 'Current fitness: ',
+                       'Neuron layers: ', 'Input: ', 'Output button: ']
         labels = []
 
         for i in range(len(label_texts)):
@@ -79,13 +81,15 @@ class MachineGaming(tk.Tk):
 
     def animate_plot(self, i):
         if current_game.running:
-            self.x.append(self.current_game_time)
-            self.y.append(current_game.score)
+            self.curr_score_x.append(self.current_game_time)
+            self.curr_score_y.append(current_game.score)
             self.curr_score.clear()
-            self.curr_score.plot(self.x, self.y)
+            self.curr_score.plot(self.curr_score_x, self.curr_score_y)
             self.current_game_time += 1.0
         else:
             self.current_game_time = 0.0
+            self.curr_score_x.clear()
+            self.curr_score_y.clear()
 
     def enter_parameters(self):
         param_frame = tk.Toplevel()
@@ -106,6 +110,17 @@ class MachineGaming(tk.Tk):
                                   command=lambda: [self.mgc.initialize_EA(entries), param_frame.destroy()])
         create_button.grid(row=10, column=0, columnspan=2)
 
+    def set_filename_and_save(self):
+        save_frame = tk.Toplevel()
+        label = tk.Label(save_frame, text="Save as: ")
+        entry = tk.Entry(save_frame)
+        entry.insert(0, 'generation.mg')
+        label.grid(row=0, column=0)
+        entry.grid(row=0, column=1)
+        create_button = tk.Button(save_frame, text="SAVE",
+                                  command=lambda: [self.mgc.save(entry.get()), save_frame.destroy()])
+        create_button.grid(row=1, column=0, columnspan=2)
+
     def run(self):
         self.mainloop()
 
@@ -116,7 +131,7 @@ class MachineGaming(tk.Tk):
 current_game = GameWindow()
 machine_gaming = MachineGaming()
 current_game_thread = threading.Thread(target=current_game.run)
-animFunc = animation.FuncAnimation(fig=machine_gaming.fig, func=machine_gaming.animate_plot, interval=1000)
+animFunc = animation.FuncAnimation(fig=machine_gaming.fig, func=machine_gaming.animate_plot, interval=1000, blit=False)
 
 if __name__ == '__main__':
     machine_gaming.run()

@@ -4,7 +4,6 @@ import pyvolution as pv
 class MachineGamingController:
     def __init__(self):
         self.ea = None
-        return
 
     def initialize_EA(self, entries):
         p = pv.EvolutionaryAlgorithmParameters
@@ -17,3 +16,12 @@ class MachineGamingController:
         p.hidden_layers = int(entries[5].get())
         p.output_size = 1
         self.ea = pv.EvolutionaryAlgorithm(p)
+
+    def save(self, filename):
+        if self.ea:
+            self.ea.save(filename)
+        else:
+            print('Evolutionary Algorithm has not been created yet!')  # TODO: find better way of signalizing
+
+    def load(self, filename):
+        print('Not implemented yet.')
