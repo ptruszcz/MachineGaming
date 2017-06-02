@@ -29,8 +29,6 @@ class GameController:
     def calculate_buttons(self, neural_network, input_vector):
         neural_network.feed_forward(input_vector)
         output_vector = neural_network.get_output()
-        print(input_vector)
-        print(output_vector)
         return set([self._key_mappings[i]
                     for i in range(len(output_vector))
                     if output_vector[i] > self._key_threshold])

@@ -152,10 +152,10 @@ class MachineGaming(tk.Tk):
                          (obstacle.coordinates.y - player.coordinates.y) ** 2)
 
 machine_gaming = MachineGaming()
-# animation_func = animation.FuncAnimation(fig=machine_gaming.fig,
-#                                          func=machine_gaming.animate_plot,
-#                                          interval=1000,
-#                                          blit=False)
+animation_func = animation.FuncAnimation(fig=machine_gaming.fig,
+                                         func=machine_gaming.animate_plot,
+                                         interval=1000,
+                                         blit=False)
 
 
 if __name__ == '__main__':

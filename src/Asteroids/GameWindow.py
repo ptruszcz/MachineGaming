@@ -130,16 +130,12 @@ class GameWindow:
         pygame.display.update()
 
     def _increase_difficulty(self):
-        global ASTEROIDS_SPAWN_INTERVAL
-        global ASTEROIDS_PER_SPAWN
-        global ASTEROIDS_MAX_ON_SCREEN
-
-        if ASTEROIDS_SPAWN_INTERVAL > 0:
-            ASTEROIDS_SPAWN_INTERVAL -= SPAWN_INTERVAL_DECREASE
-        elif ASTEROIDS_PER_SPAWN < 10:
-            ASTEROIDS_PER_SPAWN += 1
-        elif ASTEROIDS_MAX_ON_SCREEN < 30:
-            ASTEROIDS_MAX_ON_SCREEN += 1
+        if self.asteroids_spawn_interval > 0:
+            self.asteroids_spawn_interval -= SPAWN_INTERVAL_DECREASE
+        elif self.asteroids_per_spawn < 10:
+            self.asteroids_per_spawn += 1
+        elif self.asteroids_max_on_screen < 30:
+            self.asteroids_max_on_screen += 1
 
         self._last_difficulty_increase = pygame.time.get_ticks()
 
