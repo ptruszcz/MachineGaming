@@ -146,11 +146,6 @@ class MachineGaming(tk.Tk):
         return self.game_controller.calculate_buttons(neural_network=neural_network,
                                                       input_vector=screen_state)
 
-    @staticmethod
-    def _calculate_distance(player, obstacle):
-        return math.sqrt((obstacle.coordinates.x - player.coordinates.x) ** 2 +
-                         (obstacle.coordinates.y - player.coordinates.y) ** 2)
-
 machine_gaming = MachineGaming()
 animation_func = animation.FuncAnimation(fig=machine_gaming.fig,
                                          func=machine_gaming.animate_plot,

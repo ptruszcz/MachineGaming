@@ -32,6 +32,7 @@ class GameWindow:
         self._clock = None
         self.score = 0
         self._pressed_buttons = set()
+        self._tracked_asteroids = None
         self._asteroids = pygame.sprite.Group()
         self._missiles = pygame.sprite.Group()
         self._spaceship = Spaceship.Spaceship(Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2))
@@ -70,15 +71,18 @@ class GameWindow:
         self._init()
 
         while self.running:
-            self._clock.tick(600)
+            self._clock.tick(60)
 
             for event in pygame.event.get():
                 self._handle_event(event)
             if self._screen_update_listener is not None:
+                asteroids = [a for a in self._asteroids]
+                asteroids.sort(key=lambda a: calculate_distance(self._spaceship, a), reverse=True)
+                self._tracked_asteroids = asteroids[-5:]
                 #TODO pass five closest obstacles
                 self._pressed_buttons = self._screen_update_listener.on_screen_update(
                     player=self._spaceship,
-                    obstacles=[a for a in self._asteroids])
+                    obstacles=self._tracked_asteroids)
 
             for key in self._pressed_buttons:
                 if key == pygame.K_RETURN:
@@ -127,6 +131,7 @@ class GameWindow:
         self._asteroids.update(self._screen)
         self._missiles.update(self._screen)
         self._display_score()
+        self._display_tracking_rays()
         pygame.display.update()
 
     def _increase_difficulty(self):
@@ -156,6 +161,12 @@ class GameWindow:
         self._asteroids.add(Asteroid(position, velocity))
         self._last_asteroid_spawn = pygame.time.get_ticks()
 
+    def _display_tracking_rays(self):
+        for asteroid in self._tracked_asteroids:
+            pygame.draw.line(self._screen,
+                             (255, 0, 0),
+                             (self._spaceship.coordinates.x, self._spaceship.coordinates.y),
+                             (asteroid.coordinates.x, asteroid.coordinates.y))
 
 def _randomize_spawn_point():
     border_number = random.randint(1, 4)
@@ -187,3 +198,8 @@ def _create_vector_towards_screen(origin_coordinates):
     direction = (distance[0] / norm, distance[1] / norm)
 
     return Vector(direction[0] * max_vel_sqrt, direction[1] * max_vel_sqrt)
+
+
+def calculate_distance(player, obstacle):
+    return math.sqrt((obstacle.coordinates.x - player.coordinates.x) ** 2 +
+                     (obstacle.coordinates.y - player.coordinates.y) ** 2)
