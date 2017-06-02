@@ -123,6 +123,32 @@ class MachineGaming(tk.Tk):
         self.current_game_time = 0.0
         self.curr_score_x.clear()
         self.curr_score_y.clear()
+        self.machine_gaming_controller.process()
+
+    def on_screen_update(self, player, obstacles):
+        neural_network = self.machine_gaming_controller.neural_network
+        if neural_network is None:
+            return
+
+        screen_state = [player.direction]
+
+        for obstacle in obstacles:
+            screen_state.append(obstacle.coordinates.x - player.coordinates.x)
+            screen_state.append(obstacle.coordinates.y - player.coordinates.y)
+            screen_state.append(obstacle.velocity.x - player.velocity.x)
+            screen_state.append(obstacle.velocity.y - player.velocity.y)
+
+        screen_state_size = len(screen_state)
+        if screen_state_size < 21:
+            screen_state += [0] * (21 - screen_state_size)
+
+        return self.game_controller.calculate_buttons(neural_network=neural_network,
+                                                      input_vector=screen_state)
+
+    @staticmethod
+    def _calculate_distance(player, obstacle):
+        return math.sqrt((obstacle.coordinates.x - player.coordinates.x) ** 2 +
+                         (obstacle.coordinates.y - player.coordinates.y) ** 2)
 
 machine_gaming = MachineGaming()
 animation_func = animation.FuncAnimation(fig=machine_gaming.fig,

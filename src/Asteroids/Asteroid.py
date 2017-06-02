@@ -10,7 +10,7 @@ Modified by: Jakub Fajkowski
 
 
 class Asteroid(MovingObject):
-    def __init__(self, coordinates, velocity=Vector(0, 0), scale=0.25, rotation_rate=-0.5):
+    def __init__(self, coordinates, velocity=Vector(0, 0), scale=0.20, rotation_rate=-0.5):
         fullname = os.path.join('../../res/Asteroids/sprites', 'asteroid.png')
         image = pygame.image.load(fullname)
 
@@ -27,4 +27,4 @@ class Asteroid(MovingObject):
         MovingObject.move(self)
 
     def _rotate(self, value):
-        self._direction = (value + self._direction) % 360
+        self.direction = (value + self.direction) % 360

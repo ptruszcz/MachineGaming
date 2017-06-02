@@ -11,8 +11,8 @@ File created by: Piotr Truszczynski
 Modified by: Jakub Fajkowski
 """
 
-WINDOW_SIZE_X = 1024
-WINDOW_SIZE_Y = 768
+WINDOW_SIZE_X = 800
+WINDOW_SIZE_Y = 600
 white = (255, 255, 255)
 black = (0, 0, 0)
 ASTEROIDS_MAX_VELOCITY = 5
@@ -26,7 +26,7 @@ SPAWN_MARGIN = 100
 
 
 class GameWindow:
-    def __init__(self, game_over_listener=None):
+    def __init__(self, game_over_listener=None, screen_update_listener=None):
         self.running = False
         self._screen = None
         self._clock = None
@@ -38,10 +38,11 @@ class GameWindow:
         self._last_asteroid_spawn = 0
         self._last_difficulty_increase = 0
         self._game_over_listener = game_over_listener
+        self._screen_update_listener = screen_update_listener
 
     def _init(self):
         pygame.init()
-        self._screen = pygame.display.set_mode((WINDOW_SIZE_X, WINDOW_SIZE_Y), pygame.HWSURFACE | pygame.DOUBLEBUF)
+        self._screen = pygame.display.set_mode((WINDOW_SIZE_X, WINDOW_SIZE_Y), pygame.HWSURFACE | pygame.DOUBLEBUF | pygame.NOFRAME)
         self._clock = pygame.time.Clock()
         self.running = True
 
@@ -63,10 +64,16 @@ class GameWindow:
         self._init()
 
         while self.running:
-            self._clock.tick(120)
+            self._clock.tick(60)
 
             for event in pygame.event.get():
                 self._handle_event(event)
+            if self._screen_update_listener is not None:
+                #TODO pass five closest obstacles
+                self._pressed_buttons = self._screen_update_listener.on_screen_update(
+                    player=self._spaceship,
+                    obstacles=[a for a in self._asteroids])
+
             for key in self._pressed_buttons:
                 if key == pygame.K_RETURN:
                     if pygame.time.get_ticks() - self._spaceship.last_shot > Spaceship.MISSILE_RELOAD_TIME:

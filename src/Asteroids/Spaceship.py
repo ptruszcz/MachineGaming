@@ -24,7 +24,7 @@ class Spaceship(MovingObject):
         fullname = os.path.join('../../res/Asteroids/sprites', 'spaceship.png')
         image = pygame.image.load(fullname)
 
-        MovingObject.__init__(self, image, coordinates, velocity, direction, image_scale=0.5)
+        MovingObject.__init__(self, image, coordinates, velocity, direction, image_scale=0.25)
 
         self.last_shot = 0
         self._slows_down_after_bounce = True
@@ -44,23 +44,23 @@ class Spaceship(MovingObject):
             self._rotate(-SIDE_BOOSTER_POWER)
 
     def fire(self):
-        spaceship_speed = math.sqrt(self._velocity.x ** 2 + self._velocity.y ** 2)
+        spaceship_speed = math.sqrt(self.velocity.x ** 2 + self.velocity.y ** 2)
         out_velocity = Vector()
-        out_velocity.x = math.cos(math.radians(self._direction)) * (FIRE_POWER + spaceship_speed)
-        out_velocity.y = math.sin(math.radians(self._direction)) * (FIRE_POWER + spaceship_speed)
+        out_velocity.x = math.cos(math.radians(self.direction)) * (FIRE_POWER + spaceship_speed)
+        out_velocity.y = math.sin(math.radians(self.direction)) * (FIRE_POWER + spaceship_speed)
         self.last_shot = pygame.time.get_ticks()
-        return Missile(Coordinates(self._coordinates.x, self._coordinates.y), out_velocity, self._direction)
+        return Missile(Coordinates(self.coordinates.x, self.coordinates.y), out_velocity, self.direction)
 
     def _slow_down(self):
-        if abs(self._velocity.x) > SLOW_DOWN_RATE or abs(self._velocity.y) > SLOW_DOWN_RATE:
-            self._velocity.x -= math.copysign(SLOW_DOWN_RATE, self._velocity.x)
-            self._velocity.y -= math.copysign(SLOW_DOWN_RATE, self._velocity.y)
+        if abs(self.velocity.x) > SLOW_DOWN_RATE or abs(self.velocity.y) > SLOW_DOWN_RATE:
+            self.velocity.x -= math.copysign(SLOW_DOWN_RATE, self.velocity.x)
+            self.velocity.y -= math.copysign(SLOW_DOWN_RATE, self.velocity.y)
 
     def _accelerate(self, value):
-        spaceship_speed = math.sqrt(self._velocity.x ** 2 + self._velocity.y ** 2)
+        spaceship_speed = math.sqrt(self.velocity.x ** 2 + self.velocity.y ** 2)
         if spaceship_speed < MAX_SPEED:
-            self._velocity.x += math.cos(math.radians(self._direction)) * value
-            self._velocity.y += math.sin(math.radians(self._direction)) * value
+            self.velocity.x += math.cos(math.radians(self.direction)) * value
+            self.velocity.y += math.sin(math.radians(self.direction)) * value
 
     def _rotate(self, value):
-        self._direction = (value + self._direction) % 360
+        self.direction = (value + self.direction) % 360

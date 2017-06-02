@@ -23,17 +23,17 @@ class MovingObject(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self._image = scale_image(image, image_scale)
         self.rect = self._image.get_rect()
-        self._coordinates = coordinates
-        self._velocity = velocity
-        self._direction = direction  # from 0 to 359 where 0 is right and 90 is down
+        self.coordinates = coordinates
+        self.velocity = velocity
+        self.direction = direction  # from 0 to 359 where 0 is right and 90 is down
         self._does_it_bounce = True
         self._slows_down_after_bounce = False
 
     def update(self, surface):
         # minus before self._direction is because transform.rotate counts rotation in counter-clockwise direction
-        rotated = self.rotate_image(-self._direction)
-        topleft = (self._coordinates.x - self._image.get_width() / 2,
-                   self._coordinates.y - self._image.get_height() / 2)
+        rotated = self.rotate_image(-self.direction)
+        topleft = (self.coordinates.x - self._image.get_width() / 2,
+                   self.coordinates.y - self._image.get_height() / 2)
         surface.blit(rotated, topleft)
         # draw collision detection border
         self.rect.topleft = topleft
@@ -54,21 +54,21 @@ class MovingObject(pygame.sprite.Sprite):
     def _update_coordinates(self):
         # bounce only objects on the screen
         if self._does_it_bounce and self.is_on_screen():
-            next_x = self._coordinates.x + self._velocity.x
-            next_y = self._coordinates.y + self._velocity.y
+            next_x = self.coordinates.x + self.velocity.x
+            next_y = self.coordinates.y + self.velocity.y
 
             if next_x <= 0 or next_x >= GameWindow.WINDOW_SIZE_X:
-                self._velocity.x = -self._velocity.x
+                self.velocity.x = -self.velocity.x
                 if self._slows_down_after_bounce:
-                    self._velocity.x *= SPEED_AFTER_BOUNCE
+                    self.velocity.x *= SPEED_AFTER_BOUNCE
 
             if next_y <= 0 or next_y >= GameWindow.WINDOW_SIZE_Y:
-                self._velocity.y = -self._velocity.y
+                self.velocity.y = -self.velocity.y
                 if self._slows_down_after_bounce:
-                    self._velocity.y *= SPEED_AFTER_BOUNCE
+                    self.velocity.y *= SPEED_AFTER_BOUNCE
 
-        self._coordinates.x += self._velocity.x
-        self._coordinates.y += self._velocity.y
+        self.coordinates.x += self.velocity.x
+        self.coordinates.y += self.velocity.y
 
     def is_on_screen(self):
-        return 0 < self._coordinates.x < GameWindow.WINDOW_SIZE_X and 0 < self._coordinates.y < GameWindow.WINDOW_SIZE_Y
+        return 0 < self.coordinates.x < GameWindow.WINDOW_SIZE_X and 0 < self.coordinates.y < GameWindow.WINDOW_SIZE_Y
