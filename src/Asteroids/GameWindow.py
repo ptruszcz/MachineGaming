@@ -32,10 +32,13 @@ class GameWindow:
         self._clock = None
         self.score = 0
         self._pressed_buttons = set()
-        self._tracked_asteroids = None
+        self._tracked_asteroids = []
         self._asteroids = pygame.sprite.Group()
         self._missiles = pygame.sprite.Group()
-        self._spaceship = Spaceship.Spaceship(Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2))
+        self._spaceship = Spaceship.Spaceship(
+            coordinates=Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2),
+            velocity=Vector(0, 0),
+            direction=random.randint(0, 360))
         self._last_asteroid_spawn = 0
         self.asteroids_spawn_interval = ASTEROIDS_SPAWN_INTERVAL
         self.asteroids_per_spawn = ASTEROIDS_PER_SPAWN
@@ -58,8 +61,8 @@ class GameWindow:
         self._missiles = pygame.sprite.Group()
         self._spaceship = Spaceship.Spaceship(
             coordinates=Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2),
-            velocity=Vector(0, 0)
-        )
+            velocity=Vector(0, 0),
+            direction=random.randint(0, 360))
         self._last_asteroid_spawn = 0
         self.asteroids_spawn_interval = ASTEROIDS_SPAWN_INTERVAL
         self.asteroids_per_spawn = ASTEROIDS_PER_SPAWN
@@ -71,7 +74,7 @@ class GameWindow:
         self._init()
 
         while self.running:
-            self._clock.tick(60)
+            self._clock.tick(600)
 
             for event in pygame.event.get():
                 self._handle_event(event)

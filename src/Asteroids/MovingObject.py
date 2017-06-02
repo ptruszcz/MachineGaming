@@ -31,7 +31,7 @@ class MovingObject(pygame.sprite.Sprite):
 
     def update(self, surface):
         # minus before self._direction is because transform.rotate counts rotation in counter-clockwise direction
-        rotated = self.rotate_image(-self.direction)
+        rotated = self.rotate_image(self.direction)
         topleft = (self.coordinates.x - self._image.get_width() / 2,
                    self.coordinates.y - self._image.get_height() / 2)
         surface.blit(rotated, topleft)

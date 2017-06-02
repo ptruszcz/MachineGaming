@@ -134,23 +134,39 @@ class MachineGaming(tk.Tk):
         screen_state = [player.direction]
 
         for obstacle in obstacles:
-            screen_state.append(obstacle.coordinates.x - player.coordinates.x)
-            screen_state.append(obstacle.coordinates.y - player.coordinates.y)
-            screen_state.append(obstacle.velocity.x - player.velocity.x)
-            screen_state.append(obstacle.velocity.y - player.velocity.y)
+            delta_x = obstacle.coordinates.x - player.coordinates.x
+            delta_y = - (obstacle.coordinates.y - player.coordinates.y) # because cartesian but upside down
+
+            obstacle_direction = 0
+            if delta_x >= 0 and delta_y >= 0:
+                obstacle_direction = math.degrees(math.atan(delta_y/delta_x))
+            elif delta_x < 0 and delta_y >= 0:
+                obstacle_direction = 180 + math.degrees(math.atan(delta_y/delta_x))
+            elif delta_x < 0 and delta_y < 0:
+                obstacle_direction = 180 + math.degrees(math.atan(delta_y/delta_x))
+            elif delta_x >= 0 and delta_y < 0:
+                obstacle_direction = 360 + math.degrees(math.atan(delta_y/delta_x))
+
+            delta_direction = obstacle_direction - player.direction
+
+            screen_state.append(delta_x)
+            screen_state.append(delta_y)
+            screen_state.append(delta_direction)
+            #screen_state.append(obstacle.velocity.x - player.velocity.x)
+            #screen_state.append(obstacle.velocity.y - player.velocity.y)
 
         screen_state_size = len(screen_state)
-        if screen_state_size < 21:
-            screen_state += [0] * (21 - screen_state_size)
+        if screen_state_size < 16:
+            screen_state += [0] * (16 - screen_state_size)
 
         return self.game_controller.calculate_buttons(neural_network=neural_network,
                                                       input_vector=screen_state)
 
 machine_gaming = MachineGaming()
-animation_func = animation.FuncAnimation(fig=machine_gaming.fig,
-                                         func=machine_gaming.animate_plot,
-                                         interval=1000,
-                                         blit=False)
+# animation_func = animation.FuncAnimation(fig=machine_gaming.fig,
+#                                          func=machine_gaming.animate_plot,
+#                                          interval=1000,
+#                                          blit=False)
 
 
 if __name__ == '__main__':
