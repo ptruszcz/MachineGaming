@@ -1,13 +1,10 @@
 import math
 import matplotlib
-matplotlib.use('TkAgg')
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 import matplotlib.animation as animation
 from matplotlib import style
 
-from GameWindow import GameWindow
-import threading
 import sys
 if sys.version_info[0] < 3:
     import Tkinter as tk
@@ -15,17 +12,10 @@ else:
     import tkinter as tk
 
 from MachineGamingController import MachineGamingController
+from GameController import GameController
 
+matplotlib.use('TkAgg')
 style.use('dark_background')
-
-
-def run_game():
-    global current_game
-    global current_game_thread
-    current_game = GameWindow()
-    current_game_thread = threading.Thread(target=current_game.run)
-    current_game_thread.start()
-    return
 
 
 class MachineGaming(tk.Tk):
@@ -33,7 +23,8 @@ class MachineGaming(tk.Tk):
         tk.Tk.__init__(self)
         self.root = tk.Frame(self)
         self.current_game_time = 0.0
-        self.mgc = MachineGamingController()
+        self.machine_gaming_controller = MachineGamingController(stats_window=self)
+        self.game_controller = GameController(stats_window=self)
 
         self.fig = Figure(figsize=(5, 5), dpi=100, tight_layout={'h_pad': 3})
         self.curr_score = self.fig.add_subplot(2, 1, 1, title='Wynik sieci', xlabel='czas [s]')
@@ -53,8 +44,8 @@ class MachineGaming(tk.Tk):
     def add_buttons(self):
         button_frame = tk.Frame(self)
         button_frame.grid(row=0, column=3, rowspan=3, columnspan=2, sticky='swe')
-        button_texts = ['START', 'PAUZA', 'ZAPISZ', 'WCZYTAJ', 'NOWY', 'WYJŚCIE']
-        button_callbacks = [run_game, None, self.set_filename_and_save, None, self.enter_parameters, self._quit]
+        button_texts = ['START', 'STOP', 'ZAPISZ', 'WCZYTAJ', 'NOWY', 'WYJŚCIE']
+        button_callbacks = [self.game_controller.start, self.game_controller.stop, self.set_filename_and_save, None, self.enter_parameters, self._quit]
         buttons = []
 
         for i in range(len(button_texts)):
@@ -80,16 +71,12 @@ class MachineGaming(tk.Tk):
         canvas.get_tk_widget().grid(row=3, column=0, columnspan=4)
 
     def animate_plot(self, i):
-        if current_game.running:
+        if self.game_controller.current_game is not None:
             self.curr_score_x.append(self.current_game_time)
-            self.curr_score_y.append(current_game.score)
+            self.curr_score_y.append(self.game_controller.current_game.score)
             self.curr_score.clear()
             self.curr_score.plot(self.curr_score_x, self.curr_score_y)
             self.current_game_time += 1.0
-        else:
-            self.current_game_time = 0.0
-            self.curr_score_x.clear()
-            self.curr_score_y.clear()
 
     def enter_parameters(self):
         param_frame = tk.Toplevel()
@@ -106,8 +93,10 @@ class MachineGaming(tk.Tk):
             entries[i].insert(0, default_values[i])
             entries[i].grid(row=i, column=1)
 
-        create_button = tk.Button(param_frame, text="UTWÓRZ",
-                                  command=lambda: [self.mgc.initialize_EA(entries), param_frame.destroy()])
+        create_button = tk.Button(param_frame,
+                                  text="UTWÓRZ",
+                                  command=lambda: [self.machine_gaming_controller.initialize_ea(entries),
+                                                   param_frame.destroy()])
         create_button.grid(row=10, column=0, columnspan=2)
 
     def set_filename_and_save(self):
@@ -117,8 +106,10 @@ class MachineGaming(tk.Tk):
         entry.insert(0, 'generation.mg')
         label.grid(row=0, column=0)
         entry.grid(row=0, column=1)
-        create_button = tk.Button(save_frame, text="ZAPISZ",
-                                  command=lambda: [self.mgc.save(entry.get()), save_frame.destroy()])
+        create_button = tk.Button(save_frame,
+                                  text="ZAPISZ",
+                                  command=lambda: [self.machine_gaming_controller.save(entry.get()),
+                                                   save_frame.destroy()])
         create_button.grid(row=1, column=0, columnspan=2)
 
     def run(self):
@@ -128,10 +119,17 @@ class MachineGaming(tk.Tk):
         self.quit()     # stops mainloop
         self.destroy()  # this is necessary on Windows to prevent Fatal Python Error
 
-current_game = GameWindow()
+    def on_game_over(self): # listener for spaceship crashes
+        self.current_game_time = 0.0
+        self.curr_score_x.clear()
+        self.curr_score_y.clear()
+
 machine_gaming = MachineGaming()
-current_game_thread = threading.Thread(target=current_game.run)
-animFunc = animation.FuncAnimation(fig=machine_gaming.fig, func=machine_gaming.animate_plot, interval=1000, blit=False)
+animation_func = animation.FuncAnimation(fig=machine_gaming.fig,
+                                         func=machine_gaming.animate_plot,
+                                         interval=1000,
+                                         blit=False)
+
 
 if __name__ == '__main__':
     machine_gaming.run()

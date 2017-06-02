@@ -26,7 +26,7 @@ SPAWN_MARGIN = 100
 
 
 class GameWindow:
-    def __init__(self):
+    def __init__(self, game_over_listener=None):
         self.running = False
         self._screen = None
         self._clock = None
@@ -37,6 +37,7 @@ class GameWindow:
         self._spaceship = Spaceship.Spaceship(Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2))
         self._last_asteroid_spawn = 0
         self._last_difficulty_increase = 0
+        self._game_over_listener = game_over_listener
 
     def _init(self):
         pygame.init()
@@ -48,7 +49,6 @@ class GameWindow:
         self.running = False
         self.score = 0
         self._clock = pygame.time.Clock()
-        self._pressed_buttons = set()
         self._asteroids = pygame.sprite.Group()
         self._missiles = pygame.sprite.Group()
         self._spaceship = Spaceship.Spaceship(
@@ -63,7 +63,7 @@ class GameWindow:
         self._init()
 
         while self.running:
-            self._clock.tick(60)
+            self._clock.tick(120)
 
             for event in pygame.event.get():
                 self._handle_event(event)
@@ -78,7 +78,9 @@ class GameWindow:
             self._spaceship.move()
             spaceship_crashed = pygame.sprite.spritecollideany(self._spaceship, self._asteroids)
             if spaceship_crashed:
-                print("BUM")
+                if self._game_over_listener is not None:
+                    self._game_over_listener.on_game_over()
+                self.restart()
 
             destroyed_asteroids = pygame.sprite.groupcollide(self._missiles, self._asteroids,
                                                              True, True)
