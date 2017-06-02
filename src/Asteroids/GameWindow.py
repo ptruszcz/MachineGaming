@@ -17,11 +17,11 @@ white = (255, 255, 255)
 black = (0, 0, 0)
 ASTEROIDS_MAX_VELOCITY = 5
 POINTS_FOR_ASTEROID = 10
-ASTEROIDS_PER_SPAWN = 2
+ASTEROIDS_PER_SPAWN = 1
 ASTEROIDS_SPAWN_INTERVAL = 1000  # no idea how much should it be
 DIFFICULTY_INCREASE_INTERVAL = 10000
 SPAWN_INTERVAL_DECREASE = 20
-ASTEROIDS_MAX_ON_SCREEN = 15
+ASTEROIDS_MAX_ON_SCREEN = 5
 SPAWN_MARGIN = 100
 
 
@@ -36,6 +36,9 @@ class GameWindow:
         self._missiles = pygame.sprite.Group()
         self._spaceship = Spaceship.Spaceship(Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2))
         self._last_asteroid_spawn = 0
+        self.asteroids_spawn_interval = ASTEROIDS_SPAWN_INTERVAL
+        self.asteroids_per_spawn = ASTEROIDS_PER_SPAWN
+        self.asteroids_max_on_screen = ASTEROIDS_MAX_ON_SCREEN
         self._last_difficulty_increase = 0
         self._game_over_listener = game_over_listener
         self._screen_update_listener = screen_update_listener
@@ -57,6 +60,9 @@ class GameWindow:
             velocity=Vector(0, 0)
         )
         self._last_asteroid_spawn = 0
+        self.asteroids_spawn_interval = ASTEROIDS_SPAWN_INTERVAL
+        self.asteroids_per_spawn = ASTEROIDS_PER_SPAWN
+        self.asteroids_max_on_screen = ASTEROIDS_MAX_ON_SCREEN
         self._last_difficulty_increase = 0
         self.running = True
 
@@ -64,7 +70,7 @@ class GameWindow:
         self._init()
 
         while self.running:
-            self._clock.tick(60)
+            self._clock.tick(600)
 
             for event in pygame.event.get():
                 self._handle_event(event)

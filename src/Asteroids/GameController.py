@@ -28,10 +28,12 @@ class GameController:
 
     def calculate_buttons(self, neural_network, input_vector):
         neural_network.feed_forward(input_vector)
-        output = neural_network.get_output()
+        output_vector = neural_network.get_output()
+        print(input_vector)
+        print(output_vector)
         return set([self._key_mappings[i]
-                    for i in range(len(output))
-                    if output[i] > self._key_threshold])
+                    for i in range(len(output_vector))
+                    if output_vector[i] > self._key_threshold])
 
     def add_key_mapping(self, key):
         self._key_mappings.append(key)

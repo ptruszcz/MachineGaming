@@ -123,6 +123,7 @@ class MachineGaming(tk.Tk):
         self.current_game_time = 0.0
         self.curr_score_x.clear()
         self.curr_score_y.clear()
+        self.machine_gaming_controller.neural_network.fitness = self.game_controller.current_game.score
         self.machine_gaming_controller.process()
 
     def on_screen_update(self, player, obstacles):
@@ -151,10 +152,10 @@ class MachineGaming(tk.Tk):
                          (obstacle.coordinates.y - player.coordinates.y) ** 2)
 
 machine_gaming = MachineGaming()
-animation_func = animation.FuncAnimation(fig=machine_gaming.fig,
-                                         func=machine_gaming.animate_plot,
-                                         interval=1000,
-                                         blit=False)
+# animation_func = animation.FuncAnimation(fig=machine_gaming.fig,
+#                                          func=machine_gaming.animate_plot,
+#                                          interval=1000,
+#                                          blit=False)
 
 
 if __name__ == '__main__':
