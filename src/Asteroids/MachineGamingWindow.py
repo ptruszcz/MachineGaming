@@ -125,9 +125,13 @@ class MachineGaming(tk.Tk):
         for i in range(len(entries)):
             self.eap_label_vars[i].set(GUILabels.params_texts[i] + entries[i].get())
 
-    def update_stats(self):
+    def update_stats(self, current_gen_num, current_nn_num, current_score):
+        current_stats = [current_gen_num,
+                         current_nn_num,
+                         current_score]
+
         for i in range(len(self.stat_label_vars)):
-            self.stat_label_vars[i].set(GUILabels.stat_texts[i]) # TODO: get stats to update
+            self.stat_label_vars[i].set(GUILabels.stats_texts[i] + str(current_stats[i]))
 
     def set_filename_and_save(self):
         save_frame = tk.Toplevel()
@@ -174,6 +178,10 @@ class MachineGaming(tk.Tk):
         screen_state_size = len(screen_state)
         if screen_state_size < 16:
             screen_state += [0] * (16 - screen_state_size)
+
+        self.update_stats(self.machine_gaming_controller.current_generation_number+1,
+                          self.machine_gaming_controller.next_nn_number,
+                          self.game_controller.current_game.score)
 
         return self.game_controller.calculate_buttons(neural_network=neural_network,
                                                       input_vector=screen_state)

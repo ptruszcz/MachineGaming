@@ -4,7 +4,8 @@ import pyvolution as pv
 class MachineGamingController:
     def __init__(self, stats_window):
         self.stats_window = stats_window
-        self._next_nn_number = 0
+        self.next_nn_number = 0
+        self.current_generation_number = 0
         self.neural_network = None
         self.ea = None
 
@@ -24,11 +25,12 @@ class MachineGamingController:
     def process(self):
         generation = self.ea.get_current_generation()
 
-        if self._next_nn_number < len(generation):
-            self.neural_network = generation[self._next_nn_number]
-            self._next_nn_number += 1
+        if self.next_nn_number < len(generation):
+            self.neural_network = generation[self.next_nn_number]
+            self.next_nn_number += 1
         else:
-            self._next_nn_number = 0
+            self.next_nn_number = 0
+            self.current_generation_number += 1
             self.ea.breed()
             self.ea.remove_weakest_individuals()
 
