@@ -4,7 +4,8 @@ import pyvolution as pv
 class MachineGamingController:
     def __init__(self, stats_window):
         self.stats_window = stats_window
-        self._next_nn_number = 0
+        self.next_nn_number = 0
+        self.current_generation_number = 0
         self.neural_network = None
         self.ea = None
 
