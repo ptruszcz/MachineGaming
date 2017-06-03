@@ -7,7 +7,7 @@ class GameController:
     def __init__(self, stats_window, key_threshold=0.75):
         self.stats_window = stats_window
         self.current_game = None
-        self._current_game_thread = None
+        self.current_game_thread = None
         self._key_threshold = key_threshold
         self._key_mappings = [pygame.K_w,
                               pygame.K_s,
@@ -19,8 +19,8 @@ class GameController:
         if self.current_game is None:
             self.current_game = GameWindow(game_over_listener=self.stats_window,
                                            screen_update_listener=self.stats_window)
-            self._current_game_thread = threading.Thread(target=self.current_game.run)
-            self._current_game_thread.start()
+            self.current_game_thread = threading.Thread(target=self.current_game.run)
+            self.current_game_thread.start()
 
     def stop(self):
         if self.current_game is not None:
