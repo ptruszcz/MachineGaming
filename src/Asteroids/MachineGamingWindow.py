@@ -37,6 +37,7 @@ class MachineGaming(tk.Tk):
         self.mean_gen_score_y = []
         self.best_gen_score_x = []
         self.best_gen_score_y = []
+        self.best_score_overall = 0
         self.curr_gen_best = 0
         self.curr_gen_total_score = 0
         self.total_nn_number = 0
@@ -143,7 +144,8 @@ class MachineGaming(tk.Tk):
     def update_stats(self, current_gen_num, current_nn_num, current_score):
         current_stats = [current_gen_num,
                          current_nn_num,
-                         current_score]
+                         current_score,
+                         self.best_score_overall]
 
         for i in range(len(self.stat_label_vars)):
             self.stat_label_vars[i].set(GUILabels.stats_texts[i] + str(current_stats[i]))
@@ -227,6 +229,8 @@ class MachineGaming(tk.Tk):
     def update_scores(self, score):
         if score > self.curr_gen_best:
             self.curr_gen_best = score
+        if score > self.best_score_overall:
+            self.best_score_overall = score
         self.curr_gen_total_score += score
 
         if self.machine_gaming_controller.get_current_network() == self.total_nn_number:
@@ -260,3 +264,5 @@ machine_gaming = MachineGaming()
 
 if __name__ == '__main__':
     machine_gaming.run()
+    machine_gaming.game_controller.current_game_thread.join(1)  # prevents from exception and freezing after quit
+    # TODO: find out why it doesn't work
