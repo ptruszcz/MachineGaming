@@ -1,6 +1,9 @@
-/*
-File created by: Jakub Fajkowski
-*/
+/**
+ * @enum MutationType
+ * @brief Represents different mutation types.
+ * @details This enum is passed in mutate methods.
+ * @author Jakub Fajkowski
+ */
 
 #ifndef MACHINEGAMING_MUTATIONTYPE_H
 #define MACHINEGAMING_MUTATIONTYPE_H

@@ -1,11 +1,12 @@
 /**
  * @class Genotype
  * @brief Represents genotype.
- * @details It is a collection of unique genes, that are placed using their id.
+ * @details It is a collection of unique genes, that are placed by their id.
  * Represents single chain of genes. If there is no gene of specified number
  * it stores nullptr. Provides serialization.
  * @author Jakub Fajkowski
  */
+
 #ifndef MACHINEGAMING_GENOTYPE_H
 #define MACHINEGAMING_GENOTYPE_H
 

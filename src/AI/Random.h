@@ -1,6 +1,10 @@
-/*
-File created by: Jakub Fajkowski
-*/
+/**
+ * @class Random
+ * @brief Basic random number generator.
+ * @details It was inspired by C# like random generator,
+ * therefore it is simple and intuitive.
+ * @author Jakub Fajkowski
+ */
 
 #ifndef MACHINEGAMING_RANDOM_H
 #define MACHINEGAMING_RANDOM_H

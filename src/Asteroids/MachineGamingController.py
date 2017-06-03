@@ -14,7 +14,7 @@ class MachineGamingController:
         p.crossover_probability = float(parameters[2])
         p.mutation_probability = float(parameters[3])
         p.hidden_layers = int(parameters[4])
-        p.input_size = 16
+        p.input_size = 18
         p.output_size = 5
         p.weight_variance = float(parameters[5])
         self.ea = pv.EvolutionaryAlgorithm(p)

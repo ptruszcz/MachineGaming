@@ -1,14 +1,10 @@
 import pygame
+import Config as c
 from Vector import Vector
-import GameWindow
 
 """
 File created by: Jakub Fajkowski
 """
-
-
-red = (255, 0, 0)
-SPEED_AFTER_BOUNCE = 0.7
 
 
 def scale_image(image, scale):
@@ -55,18 +51,18 @@ class MovingObject(pygame.sprite.Sprite):
             next_x = self.coordinates.x + self.velocity.x
             next_y = self.coordinates.y + self.velocity.y
 
-            if next_x <= 0 or next_x >= GameWindow.WINDOW_SIZE_X:
+            if next_x <= 0 or next_x >= c.WINDOW_SIZE_X:
                 self.velocity.x = -self.velocity.x
                 if self._slows_down_after_bounce:
-                    self.velocity.x *= SPEED_AFTER_BOUNCE
+                    self.velocity.x *= c.SPEED_AFTER_BOUNCE
 
-            if next_y <= 0 or next_y >= GameWindow.WINDOW_SIZE_Y:
+            if next_y <= 0 or next_y >= c.WINDOW_SIZE_Y:
                 self.velocity.y = -self.velocity.y
                 if self._slows_down_after_bounce:
-                    self.velocity.y *= SPEED_AFTER_BOUNCE
+                    self.velocity.y *= c.SPEED_AFTER_BOUNCE
 
         self.coordinates.x += self.velocity.x
         self.coordinates.y += self.velocity.y
 
     def is_on_screen(self):
-        return 0 < self.coordinates.x < GameWindow.WINDOW_SIZE_X and 0 < self.coordinates.y < GameWindow.WINDOW_SIZE_Y
+        return 0 < self.coordinates.x < c.WINDOW_SIZE_X and 0 < self.coordinates.y < c.WINDOW_SIZE_Y

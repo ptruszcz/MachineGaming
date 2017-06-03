@@ -1,3 +1,11 @@
+/**
+ * @class NeuralNetworkWrapper
+ * @brief Wrapper for NeuralNetwork.
+ * @details It makes NeuralNetwork class public methods
+ * fully accessible in Python.
+ * @author Piotr Truszczynski
+ */
+
 #ifndef MACHINEGAMING_NEURALNETWORKPROXY_H
 #define MACHINEGAMING_NEURALNETWORKPROXY_H
 

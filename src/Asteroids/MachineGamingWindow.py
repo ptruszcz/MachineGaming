@@ -1,5 +1,6 @@
 import math
 import matplotlib
+import Config as c
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from matplotlib import style
@@ -180,7 +181,9 @@ class MachineGaming(tk.Tk):
         if neural_network is None:
             return
 
-        screen_state = [player.direction]
+        screen_state = [player.direction,
+                        player.coordinates.x - c.CENTER_POINT.x,
+                        player.coordinates.y - c.CENTER_POINT.y]
 
         for obstacle in obstacles:
             delta_x = obstacle.coordinates.x - player.coordinates.x
@@ -194,13 +197,13 @@ class MachineGaming(tk.Tk):
             screen_state.append(delta_direction)
 
         screen_state_size = len(screen_state)
-        if screen_state_size < 16:
-            screen_state += [0] * (16 - screen_state_size)
+        if screen_state_size < 18:
+            screen_state += [0] * (18 - screen_state_size)
 
         if self.game_controller.current_game is not None:
             self.update_stats(self.machine_gaming_controller.get_current_generation(),
-                                  self.machine_gaming_controller.get_current_network(),
-                                  self.game_controller.current_game.score)
+                              self.machine_gaming_controller.get_current_network(),
+                              self.game_controller.current_game.score)
 
         return self.game_controller.calculate_buttons(neural_network=neural_network,
                                                       input_vector=screen_state)

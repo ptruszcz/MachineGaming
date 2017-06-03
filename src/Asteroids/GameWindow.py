@@ -1,34 +1,16 @@
 import pygame
-import Spaceship
 import math
 import random
+import Config as c
 from Coordinates import Coordinates
 from Vector import Vector
 from Asteroid import Asteroid
+from Spaceship import Spaceship
 
 """
 File created by: Piotr Truszczynski
 Modified by: Jakub Fajkowski
 """
-
-WINDOW_SIZE_X = 800
-WINDOW_SIZE_Y = 600
-DEFAULT_SPEED = 1
-DEFAULT_TRACKED_ASTEROIDS = 5
-
-COLOR_WHITE = (255, 255, 255)
-COLOR_BLACK = (0, 0, 0)
-COLOR_GREEN = (0, 255, 0)
-COLOR_RED = (255, 0, 0)
-
-ASTEROIDS_MAX_VELOCITY = 5
-ASTEROIDS_POINTS_PER_HIT = 100
-ASTEROIDS_PER_SPAWN = 1
-ASTEROIDS_SPAWN_INTERVAL = 1000
-ASTEROIDS_MAX_ON_SCREEN = 5
-DIFFICULTY_INCREASE_INTERVAL = 10000
-SPAWN_INTERVAL_DECREASE = 20
-SPAWN_MARGIN = 100
 
 
 class GameWindow:
@@ -37,7 +19,7 @@ class GameWindow:
         self._screen_update_listener = screen_update_listener
 
         self.score = 0
-        self.speed = DEFAULT_SPEED
+        self.speed = c.DEFAULT_SPEED
         self.lines = False
         self.running = False
 
@@ -47,17 +29,18 @@ class GameWindow:
         self._asteroids = pygame.sprite.Group()
         self._tracked_asteroids = []
         self._missiles = pygame.sprite.Group()
-        self._spaceship = Spaceship.Spaceship(
-            coordinates=Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2))
+        self._spaceship = Spaceship(x=c.CENTER_POINT.x,
+                                    y=c.CENTER_POINT.y)
         self._last_asteroid_spawn = 0
-        self._asteroids_spawn_interval = ASTEROIDS_SPAWN_INTERVAL
-        self._asteroids_per_spawn = ASTEROIDS_PER_SPAWN
-        self._asteroids_max_on_screen = ASTEROIDS_MAX_ON_SCREEN
+        self._asteroids_spawn_interval = c.ASTEROIDS_SPAWN_INTERVAL
+        self._asteroids_per_spawn = c.ASTEROIDS_PER_SPAWN
+        self._asteroids_max_on_screen = c.ASTEROIDS_MAX_ON_SCREEN
         self._last_difficulty_increase = 0
 
     def _init(self):
         pygame.init()
-        self._screen = pygame.display.set_mode((WINDOW_SIZE_X, WINDOW_SIZE_Y), pygame.HWSURFACE | pygame.DOUBLEBUF)
+        self._screen = pygame.display.set_mode((c.WINDOW_SIZE_X, c.WINDOW_SIZE_Y),
+                                               pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._clock = pygame.time.Clock()
         self.running = True
 
@@ -66,12 +49,12 @@ class GameWindow:
         self._clock = pygame.time.Clock()
         self._asteroids = pygame.sprite.Group()
         self._missiles = pygame.sprite.Group()
-        self._spaceship = Spaceship.Spaceship(
-            coordinates=Coordinates(WINDOW_SIZE_X/2, WINDOW_SIZE_Y/2))
+        self._spaceship = Spaceship(x=c.CENTER_POINT.x,
+                                    y=c.CENTER_POINT.y)
         self._last_asteroid_spawn = 0
-        self._asteroids_spawn_interval = ASTEROIDS_SPAWN_INTERVAL
-        self._asteroids_per_spawn = ASTEROIDS_PER_SPAWN
-        self._asteroids_max_on_screen = ASTEROIDS_MAX_ON_SCREEN
+        self._asteroids_spawn_interval = c.ASTEROIDS_SPAWN_INTERVAL
+        self._asteroids_per_spawn = c.ASTEROIDS_PER_SPAWN
+        self._asteroids_max_on_screen = c.ASTEROIDS_MAX_ON_SCREEN
         self._last_difficulty_increase = 0
 
     def run(self):
@@ -86,15 +69,17 @@ class GameWindow:
                     self._handle_event(event)
             if self._screen_update_listener is not None:
                 asteroids = [a for a in self._asteroids]
-                asteroids.sort(key=lambda a: calculate_distance(self._spaceship, a), reverse=False)
-                self._tracked_asteroids = asteroids[:DEFAULT_TRACKED_ASTEROIDS]
+                asteroids.sort(key=lambda a:
+                               self._spaceship.coordinates.calculate_distance(a.coordinates),
+                               reverse=False)
+                self._tracked_asteroids = asteroids[:c.DEFAULT_TRACKED_ASTEROIDS]
                 self._pressed_buttons = self._screen_update_listener.on_screen_update(
                     player=self._spaceship,
                     obstacles=self._tracked_asteroids)
 
             for key in self._pressed_buttons:
                 if key == pygame.K_RETURN:
-                    if pygame.time.get_ticks() - self._spaceship.last_shot > Spaceship.MISSILE_RELOAD_TIME:
+                    if pygame.time.get_ticks() - self._spaceship.last_shot > c.MISSILE_RELOAD_TIME:
                         missile = self._spaceship.fire()
                         self._missiles.add(missile)
                 else:
@@ -110,14 +95,14 @@ class GameWindow:
             destroyed_asteroids = pygame.sprite.groupcollide(self._missiles, self._asteroids,
                                                              True, True)
             if destroyed_asteroids:
-                self.score += ASTEROIDS_POINTS_PER_HIT
+                self.score += c.ASTEROIDS_POINTS_PER_HIT
 
-            if pygame.time.get_ticks() - self._last_asteroid_spawn > ASTEROIDS_SPAWN_INTERVAL \
-               and len(self._asteroids.sprites()) < ASTEROIDS_MAX_ON_SCREEN:
-                self._spawn_asteroids(ASTEROIDS_PER_SPAWN)
+            if pygame.time.get_ticks() - self._last_asteroid_spawn > c.ASTEROIDS_SPAWN_INTERVAL \
+               and len(self._asteroids.sprites()) < c.ASTEROIDS_MAX_ON_SCREEN:
+                self._spawn_asteroids(c.ASTEROIDS_PER_SPAWN)
 
             # time based difficulty - can easily be changed to score based
-            if pygame.time.get_ticks() - self._last_difficulty_increase > DIFFICULTY_INCREASE_INTERVAL:
+            if pygame.time.get_ticks() - self._last_difficulty_increase > c.DIFFICULTY_INCREASE_INTERVAL:
                 self._increase_difficulty()
 
             self._render()
@@ -137,7 +122,7 @@ class GameWindow:
             self.running = False
 
     def _render(self):
-        self._screen.fill(COLOR_BLACK)
+        self._screen.fill(c.COLOR_BLACK)
         if self.lines:
             self._display_tracking_rays()
             self._display_crosshair()
@@ -150,7 +135,7 @@ class GameWindow:
 
     def _increase_difficulty(self):
         if self._asteroids_spawn_interval > 0:
-            self._asteroids_spawn_interval -= SPAWN_INTERVAL_DECREASE
+            self._asteroids_spawn_interval -= c.SPAWN_INTERVAL_DECREASE
         elif self._asteroids_per_spawn < 10:
             self._asteroids_per_spawn += 1
         elif self._asteroids_max_on_screen < 30:
@@ -160,12 +145,12 @@ class GameWindow:
 
     def _display_score(self):
         font = pygame.font.SysFont("Courier New", 20)
-        label = font.render("Score: " + str(self.score), 1, COLOR_WHITE)
+        label = font.render("Score: " + str(self.score), 1, c.COLOR_WHITE)
         self._screen.blit(label, (10, 10))
 
     def _display_fps(self):
         font = pygame.font.SysFont("Courier New", 20)
-        label = font.render("FPS: " + str(int(self._clock.get_fps())), 1, COLOR_WHITE)
+        label = font.render("FPS: " + str(int(self._clock.get_fps())), 1, c.COLOR_WHITE)
         self._screen.blit(label, (10, 30))
 
     def _spawn_asteroids(self, asteroids_number):
@@ -183,7 +168,7 @@ class GameWindow:
     def _display_tracking_rays(self):
         for asteroid in self._tracked_asteroids:
             pygame.draw.line(self._screen,
-                             COLOR_RED,
+                             c.COLOR_RED,
                              (self._spaceship.coordinates.x, self._spaceship.coordinates.y),
                              (asteroid.coordinates.x, asteroid.coordinates.y))
 
@@ -191,12 +176,12 @@ class GameWindow:
         endpoint_x = math.cos(math.radians(self._spaceship.direction)) * 1000000
         endpoint_y = - math.sin(math.radians(self._spaceship.direction)) * 1000000
         pygame.draw.line(self._screen,
-                         COLOR_GREEN,
+                         c.COLOR_GREEN,
                          (self._spaceship.coordinates.x, self._spaceship.coordinates.y),
                          (endpoint_x, endpoint_y))
 
     def _create_vector_towards_screen(self, origin_coordinates):
-        max_vel_sqrt = math.sqrt(ASTEROIDS_MAX_VELOCITY)
+        max_vel_sqrt = math.sqrt(c.ASTEROIDS_MAX_VELOCITY)
 
         # distance between spawn point and player point
         distance = (self._spaceship.coordinates.x - origin_coordinates.x,
@@ -212,21 +197,18 @@ def _randomize_spawn_point():
     border_number = random.randint(1, 4)
     # get random point on outer rectangle (bigger than screen by SPAWN_MARGIN in every direction)
     if border_number == 1:
-        position = Coordinates(-SPAWN_MARGIN,
-                               random.randint(-SPAWN_MARGIN, WINDOW_SIZE_Y + SPAWN_MARGIN))
+        position = Coordinates(-c.SPAWN_MARGIN,
+                               random.randint(-c.SPAWN_MARGIN, c.WINDOW_SIZE_Y + c.SPAWN_MARGIN))
     elif border_number == 2:
-        position = Coordinates(WINDOW_SIZE_X + SPAWN_MARGIN,
-                               random.randint(-SPAWN_MARGIN, WINDOW_SIZE_Y + SPAWN_MARGIN))
+        position = Coordinates(c.WINDOW_SIZE_X + c.SPAWN_MARGIN,
+                               random.randint(-c.SPAWN_MARGIN, c.WINDOW_SIZE_Y + c.SPAWN_MARGIN))
     elif border_number == 3:
-        position = Coordinates(random.randint(-SPAWN_MARGIN, WINDOW_SIZE_X + SPAWN_MARGIN),
-                               -SPAWN_MARGIN)
+        position = Coordinates(random.randint(-c.SPAWN_MARGIN, c.WINDOW_SIZE_X + c.SPAWN_MARGIN),
+                               -c.SPAWN_MARGIN)
     else:
-        position = Coordinates(random.randint(-SPAWN_MARGIN, WINDOW_SIZE_X + SPAWN_MARGIN),
-                               WINDOW_SIZE_Y + SPAWN_MARGIN)
+        position = Coordinates(random.randint(-c.SPAWN_MARGIN, c.WINDOW_SIZE_X + c.SPAWN_MARGIN),
+                               c.WINDOW_SIZE_Y + c.SPAWN_MARGIN)
 
     return position
 
 
-def calculate_distance(point_a, point_b):
-    return math.sqrt((point_b.coordinates.x - point_a.coordinates.x) ** 2 +
-                     (point_b.coordinates.y - point_a.coordinates.y) ** 2)
