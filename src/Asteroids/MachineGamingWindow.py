@@ -5,12 +5,12 @@ from matplotlib.figure import Figure
 from matplotlib import style
 from MachineGamingController import MachineGamingController
 from GameController import GameController
+import GUILabels
 import sys
 if sys.version_info[0] < 3:
     import Tkinter as tk
 else:
     import tkinter as tk
-
 
 matplotlib.rcParams.update({'font.size': 8})
 matplotlib.use('TkAgg')
@@ -31,60 +31,63 @@ class MachineGaming(tk.Tk):
         self.mean_gen_score_x = []
         self.mean_gen_score_y = []
         self.eap_label_vars = []
+        self.stat_label_vars = []
 
         frame = tk.Frame(self)
         frame.pack(side=tk.TOP, anchor='w')
-        self.add_controls(frame)
-        self.add_infos(frame)
-        self.add_sliders(frame)
+
+        self.controls_frame = tk.Frame(frame)
+        self.controls_frame.pack(side=tk.LEFT)
+        self.infos_frame = tk.Frame(frame)
+        self.infos_frame.pack(side=tk.TOP, anchor='e')
+        self.sliders_frame = tk.Frame(frame)
+        self.sliders_frame.pack(side=tk.BOTTOM)
+
+        self.add_controls()
+        self.add_infos()
+        self.add_sliders()
         self.add_plot()
 
-    def add_controls(self, frame):
-        controls_frame = tk.Frame(frame)
-        controls_frame.pack(side=tk.LEFT)
-        buttons_texts = ['START', 'STOP',
-                         'LINIE',
-                         'NOWY', 'ZAPISZ',
-                         'WCZYTAJ', 'WYJŚCIE']
+    def add_controls(self):
         buttons_callbacks = [self.game_controller.start, self.game_controller.stop,
                              self.game_controller.change_lines,
                              self.enter_parameters, self.set_filename_and_save,
                              None, self._quit]
 
-        for i in range(len(buttons_texts)):
-            button = tk.Button(controls_frame, text=buttons_texts[i],
+        for i in range(len(GUILabels.buttons_texts)):
+            button = tk.Button(self.controls_frame, text=GUILabels.buttons_texts[i],
                                padx=8, pady=8, width=6, height=1, command=buttons_callbacks[i])
             button.pack(side=tk.TOP)
 
-    def add_infos(self, frame):
-        infos_frame = tk.Frame(frame)
-        infos_frame.pack(side=tk.TOP, anchor='e')
-
-        stats_frame = tk.LabelFrame(infos_frame, text='Statystyki')
+    def add_infos(self):
+        stats_frame = tk.LabelFrame(self.infos_frame, text='Statystyki')
         stats_frame.pack(side=tk.TOP, anchor='e')
-        stats_texts = ['Generacja: ', 'Sieć: ', 'Wynik sieci: ']
         stats_labels = []
-        for i in range(len(stats_texts)):
-            stats_labels.append(tk.Label(stats_frame, text=stats_texts[i],
+
+        for i in range(len(GUILabels.stats_texts)):
+            self.stat_label_vars.append(tk.StringVar())
+            self.stat_label_vars[i].set(GUILabels.stats_texts[i])
+
+        for i in range(len(GUILabels.stats_texts)):
+            stats_labels.append(tk.Label(stats_frame, textvariable=self.stat_label_vars[i],
                                          width=50, anchor="w"))
             stats_labels[i].pack(side=tk.TOP, anchor='w')
 
-        params_frame = tk.LabelFrame(infos_frame, text='Parametry')
+        params_frame = tk.LabelFrame(self.infos_frame, text='Parametry')
         params_frame.pack(side=tk.TOP, anchor='e')
-        params_texts = ["Rozmiar populacji: ",
-                       "Liczba dzieci na generację: ", "Prawdopodobieństwo skrzyżowania: ",
-                       "Prawdopodobieństwo mutacji: ", "Liczba ukrytych warstw: ", "Wariancja wag połączeń: "]
+
+        for i in range(len(GUILabels.params_texts)):
+            self.eap_label_vars.append(tk.StringVar())
+            self.eap_label_vars[i].set(GUILabels.params_texts[i])
+
         param_labels = []
-        for i in range(len(params_texts)):
-            param_labels.append(tk.Label(params_frame, text=params_texts[i],
+        for i in range(len(GUILabels.params_texts)):
+            param_labels.append(tk.Label(params_frame, textvariable=self.eap_label_vars[i],
                                          width=50, anchor="w"))
             param_labels[i].pack(anchor='nw')
 
-    def add_sliders(self, frame):
-        sliders_frame = tk.Frame(frame)
-        sliders_frame.pack(side=tk.BOTTOM)
-
-        speed_slider_frame = tk.Frame(sliders_frame)
+    def add_sliders(self):
+        speed_slider_frame = tk.Frame(self.sliders_frame)
         speed_slider_frame.pack(side=tk.LEFT)
         speed_label = tk.Label(speed_slider_frame, text="Prędkość symulacji")
         speed_label.pack(side=tk.BOTTOM)
@@ -99,17 +102,13 @@ class MachineGaming(tk.Tk):
 
     def enter_parameters(self):
         param_frame = tk.Toplevel()
-
-        label_texts = ["Rozmiar populacji", "Liczba dzieci na generację",
-                       "Prawdopodobieństwo skrzyżowania", "Prawdopodobieństwo mutacji",
-                       "Liczba ukrytych warstw", "Wariancja wag połączeń"]
         default_values = [10, 4,
                           1, 0.5,
                           3, 10.0]
         entries = []
 
-        for i in range(len(label_texts)):
-            label = tk.Label(param_frame, text=label_texts[i])
+        for i in range(len(GUILabels.params_texts)):
+            label = tk.Label(param_frame, text=GUILabels.params_texts[i])
             entries.append(tk.Entry(param_frame))
             label.grid(row=i, column=0)
             entries[i].insert(0, default_values[i])
@@ -123,7 +122,12 @@ class MachineGaming(tk.Tk):
         create_button.grid(row=10, column=0, columnspan=2)
 
     def update_ea_parameters(self, entries):
-        pass
+        for i in range(len(entries)):
+            self.eap_label_vars[i].set(GUILabels.params_texts[i] + entries[i].get())
+
+    def update_stats(self):
+        for i in range(len(self.stat_label_vars)):
+            self.stat_label_vars[i].set(GUILabels.stat_texts[i]) # TODO: get stats to update
 
     def set_filename_and_save(self):
         save_frame = tk.Toplevel()
