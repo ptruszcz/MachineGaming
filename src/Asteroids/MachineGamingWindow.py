@@ -9,8 +9,12 @@ import GUILabels
 import sys
 if sys.version_info[0] < 3:
     import Tkinter as tk
+    from Tkinter import filedialog
+    from Tkinter import messagebox
 else:
     import tkinter as tk
+    from tkinter import filedialog
+    from tkinter import messagebox
 
 matplotlib.rcParams.update({'font.size': 8})
 matplotlib.use('TkAgg')
@@ -26,7 +30,6 @@ class MachineGaming(tk.Tk):
         self.fig = Figure(figsize=(5, 5), dpi=100, tight_layout={'h_pad': 3})
         self.overall_best = self.fig.add_subplot(3, 1, 1, title='Najlepszy', xlabel='czas [s]')
         self.overall_best_x = []
-        self
 
         self.curr_gen_best = self.fig.add_subplot(3, 1, 2, title='Najlepszy w obecnej generacji', xlabel='czas [t]')
         self.mean_gen_score = self.fig.add_subplot(3, 1, 3, title='Średni wynik generacji', xlabel='generacja')
@@ -51,10 +54,10 @@ class MachineGaming(tk.Tk):
         self.add_plot()
 
     def add_controls(self):
-        buttons_callbacks = [self.game_controller.start, self.game_controller.stop,
+        buttons_callbacks = [self.start_if_ready, self.game_controller.stop,
                              self.game_controller.change_lines,
-                             self.enter_parameters, self.set_filename_and_save,
-                             None, self._quit]
+                             self.enter_parameters, self.set_path_and_save,
+                             self.set_path_and_load, self._quit]
 
         for i in range(len(GUILabels.buttons_texts)):
             button = tk.Button(self.controls_frame, text=GUILabels.buttons_texts[i],
@@ -116,16 +119,15 @@ class MachineGaming(tk.Tk):
             entries[i].insert(0, default_values[i])
             entries[i].grid(row=i, column=1)
 
-        create_button = tk.Button(param_frame,
-                                  text="UTWÓRZ",
-                                  command=lambda: [self.machine_gaming_controller.initialize_ea(entries),
-                                                   self.update_ea_parameters(entries),
-                                                   param_frame.destroy()])
+        parameters = [e.get() for e in entries]
+        create_button = tk.Button(param_frame, text="UTWÓRZ",
+                                  command=lambda: [self.machine_gaming_controller.initialize_ea(parameters),
+                                                   self.update_ea_parameters(parameters), param_frame.destroy()])
         create_button.grid(row=10, column=0, columnspan=2)
 
-    def update_ea_parameters(self, entries):
-        for i in range(len(entries)):
-            self.eap_label_vars[i].set(GUILabels.params_texts[i] + entries[i].get())
+    def update_ea_parameters(self, parameters):
+        for i in range(len(parameters)):
+            self.eap_label_vars[i].set(GUILabels.params_texts[i] + str(parameters[i]))
 
     def update_stats(self, current_gen_num, current_nn_num, current_score):
         current_stats = [current_gen_num,
@@ -135,18 +137,31 @@ class MachineGaming(tk.Tk):
         for i in range(len(self.stat_label_vars)):
             self.stat_label_vars[i].set(GUILabels.stats_texts[i] + str(current_stats[i]))
 
-    def set_filename_and_save(self):
-        save_frame = tk.Toplevel()
-        label = tk.Label(save_frame, text="Zapisz jako: ")
-        entry = tk.Entry(save_frame)
-        entry.insert(0, 'generation.mg')
-        label.grid(row=0, column=0)
-        entry.grid(row=0, column=1)
-        create_button = tk.Button(save_frame,
-                                  text="ZAPISZ",
-                                  command=lambda: [self.machine_gaming_controller.save(entry.get()),
-                                                   save_frame.destroy()])
-        create_button.grid(row=1, column=0, columnspan=2)
+    def start_if_ready(self):
+        if self.machine_gaming_controller.ea is not None:
+            self.game_controller.start()
+        else:
+            messagebox.showwarning('Start', 'Create new Evolutionary Algorithm first!')
+
+    def set_path_and_save(self):
+        path = filedialog.asksaveasfilename(filetypes=[("Machine Gaming Files", "*.mg")], initialfile='algorithm')
+        if len(path) is 0:  # dialog closed with "cancel".
+            return
+        if self.machine_gaming_controller.save(path):
+            messagebox.showinfo('Save', 'Saved successfully!')
+        else:
+            messagebox.showwarning('Save', 'Cannot save! Create new Evolutionary Algorithm first.')
+
+    def set_path_and_load(self):
+        path = filedialog.askopenfilename(filetypes=[("Machine Gaming Files", "*.mg")])
+        if len(path) is 0:  # dialog closed with "cancel".
+            return
+        success, parameters = self.machine_gaming_controller.load(path)
+        if success:
+            self.update_ea_parameters(parameters)
+            messagebox.showinfo('Load', 'Loaded successfully!')
+        else:
+            messagebox.showwarning('Load', 'Loading failed!')
 
     def run(self):
         self.mainloop()
@@ -154,6 +169,7 @@ class MachineGaming(tk.Tk):
     def _quit(self):
         self.quit()     # stops mainloop
         self.destroy()  # this is necessary on Windows to prevent Fatal Python Error
+        self.game_controller.stop()  # TODO: create and change to quit method
 
     def on_game_over(self): # listener for spaceship crashes
         self.machine_gaming_controller.neural_network.fitness = self.game_controller.current_game.score
@@ -181,8 +197,8 @@ class MachineGaming(tk.Tk):
         if screen_state_size < 16:
             screen_state += [0] * (16 - screen_state_size)
 
-        self.update_stats(self.machine_gaming_controller.current_generation(),
-                          self.machine_gaming_controller.current_network(),
+        self.update_stats(self.machine_gaming_controller.get_current_generation(),
+                          self.machine_gaming_controller.get_current_network(),
                           self.game_controller.current_game.score)
 
         return self.game_controller.calculate_buttons(neural_network=neural_network,

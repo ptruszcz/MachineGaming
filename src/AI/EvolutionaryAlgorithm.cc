@@ -11,6 +11,7 @@ EvolutionaryAlgorithm::EvolutionaryAlgorithm(EvolutionaryAlgorithmParameters p)
           crossover_probability_(p.crossover_probability),
           mutation_probability_(p.mutation_probability),
           children_bred_per_generation_(p.children_bred_per_generation),
+          hidden_layers_(p.hidden_layers),
           weight_variance_(p.weight_variance) {
     Connection::weight_variance = p.weight_variance;
     generateInitialPopulation(p.input_size, p.hidden_layers, p.output_size);
@@ -87,15 +88,15 @@ void EvolutionaryAlgorithm::removeWeakestIndividuals() {
     }
 }
 
-void EvolutionaryAlgorithm::save(std::string filename) {
-    std::ofstream ofs(filename);
+void EvolutionaryAlgorithm::save(std::string path) {
+    std::ofstream ofs(path);
     boost::archive::text_oarchive oa(ofs);
     oa << *this;
     ofs.close();
 }
 
-void EvolutionaryAlgorithm::load(std::string filename) {
-    std::ifstream ifs(filename);
+void EvolutionaryAlgorithm::load(std::string path) {
+    std::ifstream ifs(path);
     boost::archive::text_iarchive ia(ifs);
     ia >> *this;
     ifs.close();
@@ -141,6 +142,10 @@ double EvolutionaryAlgorithm::getCrossoverProbability() const {
 
 double EvolutionaryAlgorithm::getMutationProbability() const {
     return mutation_probability_;
+}
+
+int EvolutionaryAlgorithm::getHiddenLayers() const {
+    return hidden_layers_;
 }
 
 double EvolutionaryAlgorithm::getWeightVariance() const {

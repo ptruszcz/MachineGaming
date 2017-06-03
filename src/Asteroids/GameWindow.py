@@ -81,7 +81,8 @@ class GameWindow:
             self._clock.tick(60 * self.speed)
 
             for event in pygame.event.get():
-                self._handle_event(event)
+                if event is not pygame.MOUSEMOTION:
+                    self._handle_event(event)
             if self._screen_update_listener is not None:
                 asteroids = [a for a in self._asteroids]
                 asteroids.sort(key=lambda a: calculate_distance(self._spaceship, a), reverse=False)

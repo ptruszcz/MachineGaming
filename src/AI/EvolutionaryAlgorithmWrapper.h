@@ -34,10 +34,11 @@ public:
     int getChildrenBredPerGeneration() const;
     double getCrossoverProbability() const;
     double getMutationProbability() const;
+    int getHiddenLayers() const;
     double getWeightVariance() const;
 
-    void save(py::str filename);
-    void load(py::str filename);
+    void save(py::str path);
+    void load(py::str path);
 };
 
 

@@ -46,12 +46,12 @@ int EvolutionaryAlgorithmWrapper::getCurrentGeneration() const {
     return evolutionaryAlgorithm.getCurrentGeneration();
 }
 
-void EvolutionaryAlgorithmWrapper::save(py::str filename) {
-    evolutionaryAlgorithm.save(boost::python::extract<std::string>(filename));
+void EvolutionaryAlgorithmWrapper::save(py::str path) {
+    evolutionaryAlgorithm.save(boost::python::extract<std::string>(path));
 }
 
-void EvolutionaryAlgorithmWrapper::load(py::str filename) {
-    evolutionaryAlgorithm.load(boost::python::extract<std::string>(filename));
+void EvolutionaryAlgorithmWrapper::load(py::str path) {
+    evolutionaryAlgorithm.load(boost::python::extract<std::string>(path));
 }
 
 int EvolutionaryAlgorithmWrapper::getPopulationSize() const {
@@ -68,6 +68,10 @@ double EvolutionaryAlgorithmWrapper::getCrossoverProbability() const {
 
 double EvolutionaryAlgorithmWrapper::getMutationProbability() const {
     return evolutionaryAlgorithm.getMutationProbability();
+}
+
+int EvolutionaryAlgorithmWrapper::getHiddenLayers() const {
+    return evolutionaryAlgorithm.getHiddenLayers();
 }
 
 double EvolutionaryAlgorithmWrapper::getWeightVariance() const {

@@ -43,6 +43,7 @@ private:
         ar & children_bred_per_generation_;
         ar & crossover_probability_;
         ar & mutation_probability_;
+        ar & hidden_layers_;
         ar & weight_variance_;
         Connection::weight_variance = weight_variance_;
     }
@@ -56,6 +57,7 @@ private:
     int children_bred_per_generation_;
     double crossover_probability_;
     double mutation_probability_;
+    int hidden_layers_;
     double weight_variance_;
 
     void generateInitialPopulation(int input_size, int hidden_layers, int output_size);
@@ -70,8 +72,8 @@ public:
     EvolutionaryAlgorithm(EvolutionaryAlgorithmParameters p);
     EvolutionaryAlgorithm(const EvolutionaryAlgorithm &eA);
 
-    void save(std::string filename);
-    void load(std::string filename);
+    void save(std::string path);
+    void load(std::string path);
 
     PNeuralNetwork getNext();
     int getCurrentNetwork() const;
@@ -81,6 +83,7 @@ public:
     int getChildrenBredPerGeneration() const;
     double getCrossoverProbability() const;
     double getMutationProbability() const;
+    int getHiddenLayers() const;
     double getWeightVariance() const;
 };
 
