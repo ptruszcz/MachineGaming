@@ -59,17 +59,17 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         p.weight_variance = 10;
 
         EvolutionaryAlgorithm evolutionaryAlgorithm(p);
-        BOOST_CHECK_EQUAL(p.population_size, evolutionaryAlgorithm.getCurrentGeneration().size());
+        BOOST_CHECK_EQUAL(p.population_size, evolutionaryAlgorithm.getPopulation().size());
 
 
         for (int i = 0; i < p.population_size; ++i) {
             evolutionaryAlgorithm.getNext();
-            BOOST_CHECK_EQUAL(p.population_size, evolutionaryAlgorithm.getCurrentGeneration().size());
+            BOOST_CHECK_EQUAL(p.population_size, evolutionaryAlgorithm.getPopulation().size());
         }
 
         for (int i = 0; i < p.children_bred_per_generation; ++i) {
             evolutionaryAlgorithm.getNext();
-            BOOST_CHECK_EQUAL(p.population_size + p.children_bred_per_generation, evolutionaryAlgorithm.getCurrentGeneration().size());
+            BOOST_CHECK_EQUAL(p.population_size + p.children_bred_per_generation, evolutionaryAlgorithm.getPopulation().size());
         }
     }
 
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
 
         bool contains_eight = false;
         bool contains_nine = false;
-        for (auto& individual: evolutionaryAlgorithm.getCurrentGeneration()) {
+        for (auto& individual: evolutionaryAlgorithm.getPopulation()) {
             contains_eight = contains_eight || individual->getFitness() == 8;
             contains_nine = contains_nine || individual->getFitness() == 9;
         }
@@ -121,11 +121,11 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
             current = evolutionaryAlgorithm.getNext();
 
             if (++i % 500 == 0) {
-                std::cout << "\rBest fit: " << evolutionaryAlgorithm.getCurrentGeneration()[0]->getFitness() << std::flush;
+                std::cout << "\rBest fit: " << evolutionaryAlgorithm.getPopulation()[0]->getFitness() << std::flush;
             }
         }
 
-        std::cout << "\rBest fit: " << evolutionaryAlgorithm.getCurrentGeneration()[0]->getFitness() << std::flush;
+        std::cout << "\rBest fit: " << evolutionaryAlgorithm.getPopulation()[0]->getFitness() << std::flush;
     }
 
     BOOST_FIXTURE_TEST_CASE(SerializationTest, F) {
@@ -146,8 +146,8 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         EvolutionaryAlgorithm deserialized_ea;
         deserialized_ea.load("EvolutionaryAlgorithmTest.mg");
 
-        NeuralNetworks serialized_nn = serialized_ea.getCurrentGeneration();
-        NeuralNetworks deserialized_nn = deserialized_ea.getCurrentGeneration();
+        NeuralNetworks serialized_nn = serialized_ea.getPopulation();
+        NeuralNetworks deserialized_nn = deserialized_ea.getPopulation();
 
         Matrix input = {1, 1, 1, 1, 1};
         for (int i = 0; i < p.population_size; ++i) {

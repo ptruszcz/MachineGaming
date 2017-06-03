@@ -26,8 +26,10 @@ public:
 
     EvolutionaryAlgorithmParameters extractParams(const py::object &eap);
 
-    const py::list getCurrentGeneration() const;
+    const py::list getPopulation() const;
     const NeuralNetworkWrapper getNext();
+    int getCurrentNetwork() const;
+    int getCurrentGeneration() const;
 
     void save(py::str filename);
     void load(py::str filename);

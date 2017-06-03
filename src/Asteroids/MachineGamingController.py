@@ -4,8 +4,6 @@ import pyvolution as pv
 class MachineGamingController:
     def __init__(self, stats_window):
         self.stats_window = stats_window
-        self.next_nn_number = 0
-        self.current_generation_number = 0
         self.neural_network = None
         self.ea = None
 
@@ -21,6 +19,12 @@ class MachineGamingController:
         p.weight_variance = float(entries[5].get())
         self.ea = pv.EvolutionaryAlgorithm(p)
         self.process()
+
+    def current_network(self):
+        return self.ea.current_network()
+
+    def current_generation(self):
+        return self.ea.current_generation()
 
     def process(self):
         self.neural_network = self.ea.get_next()

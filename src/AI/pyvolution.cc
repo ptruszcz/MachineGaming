@@ -25,7 +25,9 @@ BOOST_PYTHON_MODULE(pyvolution) {
     class_<EvolutionaryAlgorithmWrapper>("EvolutionaryAlgorithm")
             .def(init<const object &>())
             .def("get_next", &EvolutionaryAlgorithmWrapper::getNext)
-            .def("get_current_generation", &EvolutionaryAlgorithmWrapper::getCurrentGeneration)
+            .def("get_population", &EvolutionaryAlgorithmWrapper::getPopulation)
+            .def("current_network", &EvolutionaryAlgorithmWrapper::getCurrentNetwork)
+            .def("current_generation", &EvolutionaryAlgorithmWrapper::getCurrentGeneration)
             .def("save", &EvolutionaryAlgorithmWrapper::save)
             .def("load", &EvolutionaryAlgorithmWrapper::load);
     

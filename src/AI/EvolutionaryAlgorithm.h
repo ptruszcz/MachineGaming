@@ -36,6 +36,8 @@ private:
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version) {
+        ar & current_network_;
+        ar & current_generation_;
         ar & population_;
         ar & population_size_;
         ar & children_bred_per_generation_;
@@ -48,6 +50,7 @@ private:
     static Random random;
 
     int current_network_ = 0;
+    int current_generation_ = 1;
     NeuralNetworks population_;
     int population_size_;
     int children_bred_per_generation_;
@@ -70,8 +73,10 @@ public:
     void save(std::string filename);
     void load(std::string filename);
 
-    const NeuralNetworks &getCurrentGeneration() const;
+    const NeuralNetworks &getPopulation() const;
     PNeuralNetwork getNext();
+    int getCurrentNetwork() const;
+    int getCurrentGeneration() const;
 };
 
 #endif //MACHINEGAMING_EVOLUTIONARYALGORITHM_H

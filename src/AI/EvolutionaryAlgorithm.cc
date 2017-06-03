@@ -101,7 +101,7 @@ void EvolutionaryAlgorithm::load(std::string filename) {
     ifs.close();
 }
 
-const NeuralNetworks &EvolutionaryAlgorithm::getCurrentGeneration() const {
+const NeuralNetworks &EvolutionaryAlgorithm::getPopulation() const {
     return population_;
 }
 
@@ -113,7 +113,16 @@ PNeuralNetwork EvolutionaryAlgorithm::getNext() {
     if (current_network_ == population_size_ + children_bred_per_generation_) {
         removeWeakestIndividuals();
         current_network_ = 0;
+        ++current_generation_;
     }
 
     return population_[current_network_++];
+}
+
+int EvolutionaryAlgorithm::getCurrentNetwork() const {
+    return current_network_;
+}
+
+int EvolutionaryAlgorithm::getCurrentGeneration() const {
+    return current_generation_;
 }
