@@ -43,11 +43,11 @@ class pyvolutionTest(unittest.TestCase):
 
         for i in range(p.population_size):
             ea.get_next()
-            self.assertEqual(p.population_size, len(ea.get_current_generation()))
+            self.assertEqual(p.population_size, len(ea.get_population()))
 
         for i in range(p.children_bred_per_generation):
             ea.get_next()
-            self.assertEqual(p.population_size + p.children_bred_per_generation, len(ea.get_current_generation()))
+            self.assertEqual(p.population_size + p.children_bred_per_generation, len(ea.get_population()))
 
     def testImproveResults(self):
         p = pv.EvolutionaryAlgorithmParameters
@@ -67,7 +67,7 @@ class pyvolutionTest(unittest.TestCase):
             self.trainXOR(current)
             current = ea.get_next()
 
-        print('Best fit: ' + str(ea.get_current_generation()[0].fitness))
+        print('Best fit: ' + str(ea.get_population()[0].fitness))
 
     def trainXOR(self, network):
         if network.fitness == 0:
@@ -111,8 +111,8 @@ class pyvolutionTest(unittest.TestCase):
         deserialized_ea = pv.EvolutionaryAlgorithm()
         deserialized_ea.load("EvolutionaryAlgorithmPythonTest.mg")
 
-        serialized_nn = serialized_ea.get_current_generation()
-        deserialized_nn = deserialized_ea.get_current_generation()
+        serialized_nn = serialized_ea.get_population()
+        deserialized_nn = deserialized_ea.get_population()
 
         input = [1, 1, 1, 1, 1]
         for i in range(p.population_size):
