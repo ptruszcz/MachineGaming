@@ -82,7 +82,6 @@ class GameWindow:
                 asteroids = [a for a in self._asteroids]
                 asteroids.sort(key=lambda a: calculate_distance(self._spaceship, a), reverse=True)
                 self._tracked_asteroids = asteroids[-5:]
-                #TODO pass five closest obstacles
                 self._pressed_buttons = self._screen_update_listener.on_screen_update(
                     player=self._spaceship,
                     obstacles=self._tracked_asteroids)
@@ -135,6 +134,7 @@ class GameWindow:
         self._missiles.update(self._screen)
         self._display_score()
         self._display_tracking_rays()
+        self._display_crosshair()
         pygame.display.update()
 
     def _increase_difficulty(self):
@@ -170,6 +170,15 @@ class GameWindow:
                              (255, 0, 0),
                              (self._spaceship.coordinates.x, self._spaceship.coordinates.y),
                              (asteroid.coordinates.x, asteroid.coordinates.y))
+
+    def _display_crosshair(self):
+        endpoint_x = math.cos(math.radians(self._spaceship.direction)) * 1000000
+        endpoint_y = - math.sin(math.radians(self._spaceship.direction)) * 1000000
+        pygame.draw.line(self._screen,
+                         (0, 255, 0),
+                         (self._spaceship.coordinates.x, self._spaceship.coordinates.y),
+                         (endpoint_x, endpoint_y))
+
 
 def _randomize_spawn_point():
     border_number = random.randint(1, 4)

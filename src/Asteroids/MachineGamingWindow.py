@@ -34,6 +34,7 @@ class MachineGaming(tk.Tk):
         self.curr_score_y = []
         self.mean_gen_score_x = []
         self.mean_gen_score_y = []
+        self.eap_label_vars = []
 
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
@@ -43,7 +44,7 @@ class MachineGaming(tk.Tk):
 
     def add_buttons(self):
         button_frame = tk.Frame(self)
-        button_frame.grid(row=0, column=3, rowspan=3, columnspan=2, sticky='swe')
+        button_frame.grid(row=0, column=10, rowspan=3, columnspan=2, sticky='swe')
         button_texts = ['START', 'STOP', 'ZAPISZ', 'WCZYTAJ', 'NOWY', 'WYJŚCIE']
         button_callbacks = [self.game_controller.start, self.game_controller.stop, self.set_filename_and_save, None, self.enter_parameters, self._quit]
         buttons = []
@@ -57,13 +58,26 @@ class MachineGaming(tk.Tk):
         label_frame = tk.LabelFrame(self, text='Statystyki')
         label_frame.grid(row=0, column=0, rowspan=3, columnspan=3, sticky='nwe')
 
-        label_texts = ['Generacja: ', 'Sieć: ', 'Wynik sieci: ',
-                       'Liczba warstw neuronów: ', 'Wektor wejściowy: ', 'Przycisk: ']
+        eap_frame = tk.LabelFrame(self, text='Parametry')
+        eap_frame.grid(row=0, column=3, rowspan=3, columnspan=3, sticky='nwe')
+
+        label_texts = ['Generacja: ', 'Sieć: ', 'Wynik sieci: ']
+        eap_label_texts = ["Rozmiar populacji: ",
+                       "Liczba dzieci na generację: ", "Prawdopodobieństwo skrzyżowania: ",
+                       "Prawdopodobieństwo mutacji: ", "Liczba ukrytych warstw: ", "Wariancja wag połączeń: "]
         labels = []
+        eaplabels = []
+
+        for label in eap_label_texts:
+            self.eap_label_vars.append(tk.StringVar())
 
         for i in range(len(label_texts)):
             labels.append(tk.Label(label_frame, text=label_texts[i]))
             labels[i].pack(anchor='nw')
+
+            for i in range(len(label_texts)):
+                labels.append(tk.Label(eap_frame, text=label_texts[i], textvariable=self.eap_label_vars[i]))
+                labels[i].pack(anchor='nw')
 
     def add_plot(self):
         canvas = FigureCanvasTkAgg(self.fig, self)
@@ -82,7 +96,7 @@ class MachineGaming(tk.Tk):
         param_frame = tk.Toplevel()
 
         label_texts = ["Rozmiar populacji", "Liczba dzieci na generację", "Prawdopodobieństwo skrzyżowania",
-                       "Prawdopodobieństwo mutacji", "Liczba ukrytych warstw", "Wariancja wag połączeń"]  # add output size?
+                       "Prawdopodobieństwo mutacji", "Liczba ukrytych warstw", "Wariancja wag połączeń"]
         default_values = [10, 4, 1, 0.5, 3, 10.0]
         entries = []
 
@@ -96,8 +110,12 @@ class MachineGaming(tk.Tk):
         create_button = tk.Button(param_frame,
                                   text="UTWÓRZ",
                                   command=lambda: [self.machine_gaming_controller.initialize_ea(entries),
+                                                   self.update_ea_parameters(entries),
                                                    param_frame.destroy()])
         create_button.grid(row=10, column=0, columnspan=2)
+
+    def update_ea_parmeters(self, entries):
+        pass
 
     def set_filename_and_save(self):
         save_frame = tk.Toplevel()
@@ -152,8 +170,6 @@ class MachineGaming(tk.Tk):
             screen_state.append(delta_x)
             screen_state.append(delta_y)
             screen_state.append(delta_direction)
-            #screen_state.append(obstacle.velocity.x - player.velocity.x)
-            #screen_state.append(obstacle.velocity.y - player.velocity.y)
 
         screen_state_size = len(screen_state)
         if screen_state_size < 16:

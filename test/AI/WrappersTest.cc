@@ -79,14 +79,7 @@ BOOST_AUTO_TEST_SUITE(WrappersTest)
 
     BOOST_FIXTURE_TEST_CASE(ImproveResultsTest, F) {
         EvolutionaryAlgorithmParameters p;
-        p.population_size = 10;
-        p.children_bred_per_generation = 5;
-        p.crossover_probability = 1;
-        p.mutation_probability = 0.5;
-        p.randomisation_probability = 0.1;
         p.input_size = 2;
-        p.hidden_layers = 2;
-        p.output_size = 1;
 
         EvolutionaryAlgorithmWrapper evolutionaryAlgorithm(p);
         trainXOR(evolutionaryAlgorithm.getCurrentGeneration());

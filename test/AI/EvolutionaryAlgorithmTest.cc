@@ -55,10 +55,10 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         p.children_bred_per_generation = 2;
         p.crossover_probability = 1;
         p.mutation_probability = 0.5;
-        p.randomisation_probability = 0.1;
         p.input_size = 2;
         p.hidden_layers = 2;
         p.output_size = 1;
+        p.weight_variance = 10;
 
         EvolutionaryAlgorithm evolutionaryAlgorithm(p);
         BOOST_CHECK_EQUAL(p.population_size, evolutionaryAlgorithm.getCurrentGeneration().size());
@@ -77,10 +77,10 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         p.children_bred_per_generation = 8;
         p.crossover_probability = 1;
         p.mutation_probability = 0.5;
-        p.randomisation_probability = 0.1;
         p.input_size = 2;
         p.hidden_layers = 2;
         p.output_size = 1;
+        p.weight_variance = 10;
 
         EvolutionaryAlgorithm evolutionaryAlgorithm(p);
         evolutionaryAlgorithm.breed();
@@ -109,7 +109,6 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         p.children_bred_per_generation = 5;
         p.crossover_probability = 1;
         p.mutation_probability = 0.5;
-        p.randomisation_probability = 0.1;
         p.input_size = 2;
         p.hidden_layers = 2;
         p.output_size = 1;
@@ -138,7 +137,6 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         p.children_bred_per_generation = 5;
         p.crossover_probability = 1;
         p.mutation_probability = 0.5;
-        p.randomisation_probability = 0.1;
         p.input_size = 5;
         p.hidden_layers = 5;
         p.output_size = 5;
