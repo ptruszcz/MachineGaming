@@ -1,6 +1,10 @@
-/*
-File created by: Jakub Fajkowski
-*/
+/**
+ * @class Counter
+ * @brief Template class used to count genes.
+ * @details It helps to assign id numbers to genes
+ * providing independent counters for Connections and Neurons.
+ * @author Jakub Fajkowski
+ */
 
 #ifndef MACHINEGAMING_COUNTER_HPP
 #define MACHINEGAMING_COUNTER_HPP

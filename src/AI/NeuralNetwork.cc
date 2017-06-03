@@ -78,3 +78,7 @@ bool NeuralNetwork::operator==(const NeuralNetwork &rhs) const {
 bool NeuralNetwork::operator!=(const NeuralNetwork &rhs) const {
     return !(rhs == *this);
 }
+
+bool NeuralNetwork::compare(const PNeuralNetwork &p1, const PNeuralNetwork &p2) {
+    return p1->getFitness() > p2->getFitness();
+}

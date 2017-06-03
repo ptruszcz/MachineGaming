@@ -1,6 +1,12 @@
-/*
-File created by: Piotr Truszczyński
-*/
+/**
+ * @class EvolutionaryAlgorithm
+ * @brief Main library class controlling evolutionary algorithm process.
+ * @details Stores collection of neural networks and using EvolutionaryAlgorithmParameters
+ * decides whether it should crossover or mutate individuals. User can determine shape
+ * of neural networks, crossover and mutation probabilities, weight variance, population size
+ * and how many children should be bred per generation.
+ * @authors Piotr Truszczynski, Jakub Fajkowski
+ */
 
 #ifndef MACHINEGAMING_EVOLUTIONARYALGORITHM_H
 #define MACHINEGAMING_EVOLUTIONARYALGORITHM_H
@@ -11,7 +17,7 @@ File created by: Piotr Truszczyński
 #include <boost/serialization/unique_ptr.hpp>
 #include <boost/serialization/vector.hpp>
 #include <vector>
-#include <fstream>
+
 #include "NeuralNetwork.h"
 
 struct EvolutionaryAlgorithmParameters {
@@ -40,7 +46,6 @@ private:
     }
 
     static Random random;
-    static bool compareNeuralNetworks(const PNeuralNetwork &p1, const PNeuralNetwork &p2); //fitness_ comparison
 
     NeuralNetworks population_;
     int population_size_;
@@ -50,7 +55,7 @@ private:
     double weight_variance_;
 
     void generateInitialPopulation(int input_size, int hidden_layers, int output_size);
-    NeuralNetwork* select();
+    PNeuralNetwork select();
     PNeuralNetwork crossover();
     void mutate(NeuralNetwork& neural_network);
 

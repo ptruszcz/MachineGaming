@@ -16,15 +16,24 @@ class GameController:
                               pygame.K_RETURN]
 
     def start(self):
-        self.current_game = GameWindow(game_over_listener=self.stats_window,
-                                       screen_update_listener=self.stats_window)
-        self._current_game_thread = threading.Thread(target=self.current_game.run)
-        self._current_game_thread.start()
-        return        
+        if self.current_game is None:
+            self.current_game = GameWindow(game_over_listener=self.stats_window,
+                                           screen_update_listener=self.stats_window)
+            self._current_game_thread = threading.Thread(target=self.current_game.run)
+            self._current_game_thread.start()
 
     def stop(self):
-        self.current_game.running = False
-        return
+        if self.current_game is not None:
+            self.current_game.running = False
+            self.current_game = None
+
+    def change_speed(self, speed):
+        if self.current_game is not None:
+            self.current_game.speed = float(speed)
+
+    def change_lines(self,):
+        if self.current_game is not None:
+            self.current_game.lines = not self.current_game.lines
 
     def calculate_buttons(self, neural_network, input_vector):
         neural_network.feed_forward(input_vector)

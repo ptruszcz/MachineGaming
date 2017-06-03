@@ -1,9 +1,6 @@
 #include "EvolutionaryAlgorithm.h"
 
 Random EvolutionaryAlgorithm::random = Random();
-bool EvolutionaryAlgorithm::compareNeuralNetworks(const PNeuralNetwork &p1, const PNeuralNetwork &p2) {
-    return p1->getFitness() > p2->getFitness();
-}
 
 EvolutionaryAlgorithm::EvolutionaryAlgorithm() {
 
@@ -39,7 +36,7 @@ void EvolutionaryAlgorithm::generateInitialPopulation(int input_size, int hidden
 }
 
 void EvolutionaryAlgorithm::breed() {
-    std::sort(population_.begin(), population_.end(), compareNeuralNetworks);
+    std::sort(population_.begin(), population_.end(), NeuralNetwork::compare);
 
     for(int i = 0; i < children_bred_per_generation_; ++i) {
         double random_value = random.next();
@@ -56,13 +53,13 @@ void EvolutionaryAlgorithm::breed() {
 }
 
 PNeuralNetwork EvolutionaryAlgorithm::crossover() {
-    NeuralNetwork* first_parent = select();
-    NeuralNetwork* second_parent = select();
+    PNeuralNetwork first_parent = select();
+    PNeuralNetwork second_parent = select();
 
     return NeuralNetwork::crossover(*first_parent, *second_parent);
 }
 
-NeuralNetwork* EvolutionaryAlgorithm::select() {
+PNeuralNetwork EvolutionaryAlgorithm::select() {
     int fitness_sum = 0;
     for(const auto &individual : population_) {
         fitness_sum += individual->getFitness();
@@ -72,9 +69,9 @@ NeuralNetwork* EvolutionaryAlgorithm::select() {
     for(const auto &individual : population_) {
         random_value -= individual->getFitness();
         if(random_value <= 0)
-            return individual.get();
+            return individual;
     }
-    return population_.front().get();
+    return population_.front();
 }
 
 void EvolutionaryAlgorithm::mutate(NeuralNetwork& neural_network) {
@@ -83,7 +80,7 @@ void EvolutionaryAlgorithm::mutate(NeuralNetwork& neural_network) {
 }
 
 void EvolutionaryAlgorithm::removeWeakestIndividuals() {
-    std::sort(population_.begin(), population_.end(), compareNeuralNetworks);
+    std::sort(population_.begin(), population_.end(), NeuralNetwork::compare);
 
     while (population_.size() > population_size_) {
         population_.pop_back();

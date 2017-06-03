@@ -1,6 +1,7 @@
 import os
 import pygame
 import math
+import random
 from MovingObject import MovingObject
 from Vector import Vector
 from Missile import Missile
@@ -20,11 +21,15 @@ MAX_SPEED = 7
 
 
 class Spaceship(MovingObject):
-    def __init__(self, coordinates, velocity=Vector(0, 0), direction=0):
+    def __init__(self, coordinates):
         fullname = os.path.join('../../res/Asteroids/sprites', 'spaceship.png')
         image = pygame.image.load(fullname)
 
-        MovingObject.__init__(self, image, coordinates, velocity, direction, image_scale=0.25)
+        MovingObject.__init__(self, image=image,
+                              coordinates=coordinates,
+                              velocity=Vector(0, 0),
+                              direction=random.randint(0, 360),
+                              image_scale=0.25)
 
         self.last_shot = 0
         self._slows_down_after_bounce = True

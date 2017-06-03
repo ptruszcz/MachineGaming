@@ -30,6 +30,7 @@ class MachineGamingController:
         else:
             self._next_nn_number = 0
             self.ea.breed()
+            self.ea.remove_weakest_individuals()
 
     def save(self, filename):
         if self.ea:

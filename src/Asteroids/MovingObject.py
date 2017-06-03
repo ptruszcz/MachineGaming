@@ -35,9 +35,7 @@ class MovingObject(pygame.sprite.Sprite):
         topleft = (self.coordinates.x - self._image.get_width() / 2,
                    self.coordinates.y - self._image.get_height() / 2)
         surface.blit(rotated, topleft)
-        # draw collision detection border
         self.rect.topleft = topleft
-        pygame.draw.rect(surface, red, self.rect, 1)
 
     def rotate_image(self, angle):
         """rotate an image while keeping its center and size"""

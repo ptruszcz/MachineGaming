@@ -1,3 +1,11 @@
+/**
+ * @class EvolutionaryAlgorithmWrapper
+ * @brief Wrapper for EvolutionaryAlgorithm.
+ * @details It makes EvolutionaryAlgorithm class public methods
+ * fully accessible in Python.
+ * @author Piotr Truszczynski
+ */
+
 #ifndef MACHINEGAMING_EVOLUTIONARYALGORITHMWRAPPER_H
 #define MACHINEGAMING_EVOLUTIONARYALGORITHMWRAPPER_H
 

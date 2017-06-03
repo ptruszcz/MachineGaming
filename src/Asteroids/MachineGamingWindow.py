@@ -2,18 +2,17 @@ import math
 import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
-import matplotlib.animation as animation
 from matplotlib import style
-
+from MachineGamingController import MachineGamingController
+from GameController import GameController
 import sys
 if sys.version_info[0] < 3:
     import Tkinter as tk
 else:
     import tkinter as tk
 
-from MachineGamingController import MachineGamingController
-from GameController import GameController
 
+matplotlib.rcParams.update({'font.size': 8})
 matplotlib.use('TkAgg')
 style.use('dark_background')
 
@@ -21,83 +20,92 @@ style.use('dark_background')
 class MachineGaming(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
-        self.root = tk.Frame(self)
-        self.current_game_time = 0.0
         self.machine_gaming_controller = MachineGamingController(stats_window=self)
         self.game_controller = GameController(stats_window=self)
 
         self.fig = Figure(figsize=(5, 5), dpi=100, tight_layout={'h_pad': 3})
-        self.curr_score = self.fig.add_subplot(2, 1, 1, title='Wynik sieci', xlabel='czas [s]')
-        self.mean_gen_score = self.fig.add_subplot(2, 1, 2, title='Średni wynik generacji', xlabel='generacja')
-        # TODO: find out why titles and labels disappear after plot update
-        self.curr_score_x = []
-        self.curr_score_y = []
+        self.overall_best = self.fig.add_subplot(3, 1, 1, title='Najlepszy', xlabel='czas [s]')
+        self.curr_gen_best = self.fig.add_subplot(3, 1, 2, title='Najlepszy w obecnej generacji', xlabel='czas [t]')
+        self.mean_gen_score = self.fig.add_subplot(3, 1, 3, title='Średni wynik generacji', xlabel='generacja')
+
         self.mean_gen_score_x = []
         self.mean_gen_score_y = []
         self.eap_label_vars = []
 
-        self.root.grid_rowconfigure(0, weight=1)
-        self.root.grid_columnconfigure(0, weight=1)
-        self.add_buttons()
-        self.add_stats()
+        frame = tk.Frame(self)
+        frame.pack(side=tk.TOP, anchor='w')
+        self.add_controls(frame)
+        self.add_infos(frame)
+        self.add_sliders(frame)
         self.add_plot()
 
-    def add_buttons(self):
-        button_frame = tk.Frame(self)
-        button_frame.grid(row=0, column=10, rowspan=3, columnspan=2, sticky='swe')
-        button_texts = ['START', 'STOP', 'ZAPISZ', 'WCZYTAJ', 'NOWY', 'WYJŚCIE']
-        button_callbacks = [self.game_controller.start, self.game_controller.stop, self.set_filename_and_save, None, self.enter_parameters, self._quit]
-        buttons = []
+    def add_controls(self, frame):
+        controls_frame = tk.Frame(frame)
+        controls_frame.pack(side=tk.LEFT)
+        buttons_texts = ['START', 'STOP',
+                         'LINIE',
+                         'NOWY', 'ZAPISZ',
+                         'WCZYTAJ', 'WYJŚCIE']
+        buttons_callbacks = [self.game_controller.start, self.game_controller.stop,
+                             self.game_controller.change_lines,
+                             self.enter_parameters, self.set_filename_and_save,
+                             None, self._quit]
 
-        for i in range(len(button_texts)):
-            buttons.append(tk.Button(button_frame, text=button_texts[i], padx=10, pady=10, width=10,
-                                     command=button_callbacks[i]))
-            buttons[i].grid(row=(math.floor(i/2)), column=(i % 2), sticky='nw')
+        for i in range(len(buttons_texts)):
+            button = tk.Button(controls_frame, text=buttons_texts[i],
+                               padx=8, pady=8, width=6, height=1, command=buttons_callbacks[i])
+            button.pack(side=tk.TOP)
 
-    def add_stats(self):
-        label_frame = tk.LabelFrame(self, text='Statystyki')
-        label_frame.grid(row=0, column=0, rowspan=3, columnspan=3, sticky='nwe')
+    def add_infos(self, frame):
+        infos_frame = tk.Frame(frame)
+        infos_frame.pack(side=tk.TOP, anchor='e')
 
-        eap_frame = tk.LabelFrame(self, text='Parametry')
-        eap_frame.grid(row=0, column=3, rowspan=3, columnspan=3, sticky='nwe')
+        stats_frame = tk.LabelFrame(infos_frame, text='Statystyki')
+        stats_frame.pack(side=tk.TOP, anchor='e')
+        stats_texts = ['Generacja: ', 'Sieć: ', 'Wynik sieci: ']
+        stats_labels = []
+        for i in range(len(stats_texts)):
+            stats_labels.append(tk.Label(stats_frame, text=stats_texts[i],
+                                         width=50, anchor="w"))
+            stats_labels[i].pack(side=tk.TOP, anchor='w')
 
-        label_texts = ['Generacja: ', 'Sieć: ', 'Wynik sieci: ']
-        eap_label_texts = ["Rozmiar populacji: ",
+        params_frame = tk.LabelFrame(infos_frame, text='Parametry')
+        params_frame.pack(side=tk.TOP, anchor='e')
+        params_texts = ["Rozmiar populacji: ",
                        "Liczba dzieci na generację: ", "Prawdopodobieństwo skrzyżowania: ",
                        "Prawdopodobieństwo mutacji: ", "Liczba ukrytych warstw: ", "Wariancja wag połączeń: "]
-        labels = []
-        eaplabels = []
+        param_labels = []
+        for i in range(len(params_texts)):
+            param_labels.append(tk.Label(params_frame, text=params_texts[i],
+                                         width=50, anchor="w"))
+            param_labels[i].pack(anchor='nw')
 
-        for label in eap_label_texts:
-            self.eap_label_vars.append(tk.StringVar())
+    def add_sliders(self, frame):
+        sliders_frame = tk.Frame(frame)
+        sliders_frame.pack(side=tk.BOTTOM)
 
-        for i in range(len(label_texts)):
-            labels.append(tk.Label(label_frame, text=label_texts[i]))
-            labels[i].pack(anchor='nw')
-
-            for i in range(len(label_texts)):
-                labels.append(tk.Label(eap_frame, text=label_texts[i], textvariable=self.eap_label_vars[i]))
-                labels[i].pack(anchor='nw')
+        speed_slider_frame = tk.Frame(sliders_frame)
+        speed_slider_frame.pack(side=tk.LEFT)
+        speed_label = tk.Label(speed_slider_frame, text="Prędkość symulacji")
+        speed_label.pack(side=tk.BOTTOM)
+        speed = tk.Scale(speed_slider_frame, orient='horizontal', length=200,
+                         from_=1, to=10, resolution=0.1, command=self.game_controller.change_speed)
+        speed.pack(side=tk.BOTTOM)
 
     def add_plot(self):
         canvas = FigureCanvasTkAgg(self.fig, self)
         canvas.show()
-        canvas.get_tk_widget().grid(row=3, column=0, columnspan=4)
-
-    def animate_plot(self, i):
-        if self.game_controller.current_game is not None:
-            self.curr_score_x.append(self.current_game_time)
-            self.curr_score_y.append(self.game_controller.current_game.score)
-            self.curr_score.clear()
-            self.curr_score.plot(self.curr_score_x, self.curr_score_y)
-            self.current_game_time += 1.0
+        canvas.get_tk_widget().pack(side=tk.BOTTOM)
 
     def enter_parameters(self):
         param_frame = tk.Toplevel()
 
-        label_texts = ["Rozmiar populacji", "Liczba dzieci na generację", "Prawdopodobieństwo skrzyżowania",
-                       "Prawdopodobieństwo mutacji", "Liczba ukrytych warstw", "Wariancja wag połączeń"]
-        default_values = [10, 4, 1, 0.5, 3, 10.0]
+        label_texts = ["Rozmiar populacji", "Liczba dzieci na generację",
+                       "Prawdopodobieństwo skrzyżowania", "Prawdopodobieństwo mutacji",
+                       "Liczba ukrytych warstw", "Wariancja wag połączeń"]
+        default_values = [10, 4,
+                          1, 0.5,
+                          3, 10.0]
         entries = []
 
         for i in range(len(label_texts)):
@@ -114,7 +122,7 @@ class MachineGaming(tk.Tk):
                                                    param_frame.destroy()])
         create_button.grid(row=10, column=0, columnspan=2)
 
-    def update_ea_parmeters(self, entries):
+    def update_ea_parameters(self, entries):
         pass
 
     def set_filename_and_save(self):
@@ -138,9 +146,6 @@ class MachineGaming(tk.Tk):
         self.destroy()  # this is necessary on Windows to prevent Fatal Python Error
 
     def on_game_over(self): # listener for spaceship crashes
-        self.current_game_time = 0.0
-        self.curr_score_x.clear()
-        self.curr_score_y.clear()
         self.machine_gaming_controller.neural_network.fitness = self.game_controller.current_game.score
         self.machine_gaming_controller.process()
 
@@ -153,18 +158,9 @@ class MachineGaming(tk.Tk):
 
         for obstacle in obstacles:
             delta_x = obstacle.coordinates.x - player.coordinates.x
-            delta_y = - (obstacle.coordinates.y - player.coordinates.y) # because cartesian but upside down
+            delta_y = - (obstacle.coordinates.y - player.coordinates.y)  # because cartesian but upside down
 
-            obstacle_direction = 0
-            if delta_x >= 0 and delta_y >= 0:
-                obstacle_direction = math.degrees(math.atan(delta_y/delta_x))
-            elif delta_x < 0 and delta_y >= 0:
-                obstacle_direction = 180 + math.degrees(math.atan(delta_y/delta_x))
-            elif delta_x < 0 and delta_y < 0:
-                obstacle_direction = 180 + math.degrees(math.atan(delta_y/delta_x))
-            elif delta_x >= 0 and delta_y < 0:
-                obstacle_direction = 360 + math.degrees(math.atan(delta_y/delta_x))
-
+            obstacle_direction = self._direction_degrees(delta_y, delta_x)
             delta_direction = obstacle_direction - player.direction
 
             screen_state.append(delta_x)
@@ -178,11 +174,16 @@ class MachineGaming(tk.Tk):
         return self.game_controller.calculate_buttons(neural_network=neural_network,
                                                       input_vector=screen_state)
 
+    @staticmethod
+    def _direction_degrees(y, x):
+        direction_rad = math.atan2(y, x)
+        if direction_rad >= 0:
+            return math.degrees(direction_rad)
+        else:
+            return math.degrees(2*math.pi + direction_rad)
+
+
 machine_gaming = MachineGaming()
-# animation_func = animation.FuncAnimation(fig=machine_gaming.fig,
-#                                          func=machine_gaming.animate_plot,
-#                                          interval=1000,
-#                                          blit=False)
 
 
 if __name__ == '__main__':

@@ -44,6 +44,9 @@ public:
     NeuralNetwork(const NeuralNetwork &neural_network);
     NeuralNetwork(const Genome &genome);
 
+    /// Fitness comparison
+    static bool compare(const PNeuralNetwork &p1, const PNeuralNetwork &p2);
+
     static PNeuralNetwork crossover(NeuralNetwork &parent_a, NeuralNetwork &parent_b);
     void mutate(const MutationType &mutation_type);
 

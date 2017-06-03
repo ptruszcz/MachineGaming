@@ -1,6 +1,10 @@
-/*
-File created by: Jakub Fajkowski
-*/
+/**
+ * @class Connection
+ * @brief Represents connection between neurons.
+ * @details It provides Gene methods. It is stored in Genotype
+ * and when needed Phenome connection matrices are built using it.
+ * @author Jakub Fajkowski
+ */
 
 #ifndef MACHINEGAMING_CONNECTION_H
 #define MACHINEGAMING_CONNECTION_H
@@ -9,10 +13,11 @@ File created by: Jakub Fajkowski
 #include <boost/archive/text_oarchive.hpp>
 #include <boost/archive/text_iarchive.hpp>
 #include <ostream>
-#include "Neuron.h"
-#include "Random.h"
-#include "Gene.h"
+
 #include "Counter.hpp"
+#include "Gene.h"
+#include "Random.h"
+#include "Neuron.h"
 
 class Connection;
 typedef std::shared_ptr<Connection> PConnection;
