@@ -32,7 +32,6 @@ class MachineGamingController:
     def save(self, path):
         if self.ea:
             self.ea.save(path)
-            print(path)
             return True
         else:
             return False

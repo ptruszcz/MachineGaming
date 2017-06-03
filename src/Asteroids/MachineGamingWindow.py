@@ -3,6 +3,7 @@ import matplotlib
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from matplotlib import style
+from matplotlib import animation
 from MachineGamingController import MachineGamingController
 from GameController import GameController
 import GUILabels
@@ -27,14 +28,19 @@ class MachineGaming(tk.Tk):
         self.machine_gaming_controller = MachineGamingController(stats_window=self)
         self.game_controller = GameController(stats_window=self)
 
+        self.canvas = None
         self.fig = Figure(figsize=(5, 5), dpi=100, tight_layout={'h_pad': 3})
-        self.overall_best = self.fig.add_subplot(3, 1, 1, title='Najlepszy', xlabel='czas [s]')
-        self.overall_best_x = []
+        self.best_gen_score = self.fig.add_subplot(2, 1, 1, title='Najlepszy wynik w generacji', xlabel='generacja')
+        self.mean_gen_score = self.fig.add_subplot(2, 1, 2, title='Średni wynik generacji', xlabel='generacja')
 
-        self.curr_gen_best = self.fig.add_subplot(3, 1, 2, title='Najlepszy w obecnej generacji', xlabel='czas [t]')
-        self.mean_gen_score = self.fig.add_subplot(3, 1, 3, title='Średni wynik generacji', xlabel='generacja')
         self.mean_gen_score_x = []
         self.mean_gen_score_y = []
+        self.best_gen_score_x = []
+        self.best_gen_score_y = []
+        self.curr_gen_best = 0
+        self.curr_gen_total_score = 0
+        self.total_nn_number = 0
+
         self.eap_label_vars = []
         self.stat_label_vars = []
 
@@ -101,9 +107,9 @@ class MachineGaming(tk.Tk):
         speed.pack(side=tk.BOTTOM)
 
     def add_plot(self):
-        canvas = FigureCanvasTkAgg(self.fig, self)
-        canvas.show()
-        canvas.get_tk_widget().pack(side=tk.BOTTOM)
+        self.canvas = FigureCanvasTkAgg(self.fig, self)
+        self.canvas.show()
+        self.canvas.get_tk_widget().pack(side=tk.BOTTOM)
 
     def enter_parameters(self):
         param_frame = tk.Toplevel()
@@ -119,15 +125,20 @@ class MachineGaming(tk.Tk):
             entries[i].insert(0, default_values[i])
             entries[i].grid(row=i, column=1)
 
-        parameters = [e.get() for e in entries]
-        create_button = tk.Button(param_frame, text="UTWÓRZ",
-                                  command=lambda: [self.machine_gaming_controller.initialize_ea(parameters),
-                                                   self.update_ea_parameters(parameters), param_frame.destroy()])
+        create_button = tk.Button(
+            param_frame, text="UTWÓRZ",
+            command=lambda: [self.machine_gaming_controller.initialize_ea(self.extract_str_from_entries(entries)),
+                             self.update_ea_parameters(self.extract_str_from_entries(entries)),
+                             param_frame.destroy()])
         create_button.grid(row=10, column=0, columnspan=2)
+
+    def extract_str_from_entries(self, entries):
+        return [e.get() for e in entries]
 
     def update_ea_parameters(self, parameters):
         for i in range(len(parameters)):
             self.eap_label_vars[i].set(GUILabels.params_texts[i] + str(parameters[i]))
+        self.total_nn_number = int(parameters[0]) + int(parameters[1])
 
     def update_stats(self, current_gen_num, current_nn_num, current_score):
         current_stats = [current_gen_num,
@@ -171,8 +182,10 @@ class MachineGaming(tk.Tk):
         self.destroy()  # this is necessary on Windows to prevent Fatal Python Error
         self.game_controller.stop()  # TODO: create and change to quit method
 
-    def on_game_over(self): # listener for spaceship crashes
-        self.machine_gaming_controller.neural_network.fitness = self.game_controller.current_game.score
+    def on_game_over(self):  # listener for spaceship crashes
+        current_game_score = self.game_controller.current_game.score
+        self.update_scores(current_game_score)
+        self.machine_gaming_controller.neural_network.fitness = current_game_score
         self.machine_gaming_controller.process()
 
     def on_screen_update(self, player, obstacles):
@@ -199,11 +212,32 @@ class MachineGaming(tk.Tk):
 
         if self.game_controller.current_game is not None:
             self.update_stats(self.machine_gaming_controller.get_current_generation(),
-                                  self.machine_gaming_controller.get_current_network(),
-                                  self.game_controller.current_game.score)
+                              self.machine_gaming_controller.get_current_network(),
+                              self.game_controller.current_game.score)
 
-        return self.game_controller.calculate_buttons(neural_network=neural_network,
-                                                      input_vector=screen_state)
+        return self.game_controller.calculate_buttons(neural_network=neural_network, input_vector=screen_state)
+
+    def update_scores(self, score):
+        if score > self.curr_gen_best:
+            self.curr_gen_best = score
+        self.curr_gen_total_score += score
+
+        if self.machine_gaming_controller.get_current_network() == self.total_nn_number:
+            self.update_plots()
+            self.curr_gen_best = 0
+            self.curr_gen_total_score = 0
+
+    def update_plots(self):
+        self.best_gen_score_y.append(self.curr_gen_best)
+        self.best_gen_score_x.append(self.machine_gaming_controller.get_current_generation())
+
+        self.mean_gen_score_y.append(self.curr_gen_total_score/self.total_nn_number)
+        self.mean_gen_score_x.append(self.machine_gaming_controller.get_current_generation())
+        self.mean_gen_score.clear()
+        self.best_gen_score.clear()
+        self.mean_gen_score.plot(self.mean_gen_score_x, self.mean_gen_score_y)
+        self.best_gen_score.plot(self.best_gen_score_x, self.best_gen_score_y)
+        self.canvas.draw()
 
     @staticmethod
     def _direction_degrees(y, x):
