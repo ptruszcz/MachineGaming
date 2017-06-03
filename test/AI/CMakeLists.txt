@@ -37,5 +37,4 @@ target_link_libraries(WrappersTest pyvolution)
 add_test(NAME WrappersTest COMMAND WrappersTest)
 
 file(COPY pyvolutionTest.py DESTINATION .)
-# TODO FIX BAD COMMAND EXCEPTION
-#add_test(NAME pyvolutionTest COMMAND ${PYTHON_EXECUTABLE} pyvolutionTest.py)
+add_test(NAME pyvolutionTest COMMAND ${PYTHON_EXECUTABLE} pyvolutionTest.py)

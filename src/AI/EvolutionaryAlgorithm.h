@@ -47,6 +47,7 @@ private:
 
     static Random random;
 
+    int current_network_ = 0;
     NeuralNetworks population_;
     int population_size_;
     int children_bred_per_generation_;
@@ -55,6 +56,8 @@ private:
     double weight_variance_;
 
     void generateInitialPopulation(int input_size, int hidden_layers, int output_size);
+    void breed();
+    void removeWeakestIndividuals();
     PNeuralNetwork select();
     PNeuralNetwork crossover();
     void mutate(NeuralNetwork& neural_network);
@@ -64,13 +67,11 @@ public:
     EvolutionaryAlgorithm(EvolutionaryAlgorithmParameters p);
     EvolutionaryAlgorithm(const EvolutionaryAlgorithm &eA);
 
-    void breed();
-    void removeWeakestIndividuals();
-
     void save(std::string filename);
     void load(std::string filename);
 
     const NeuralNetworks &getCurrentGeneration() const;
+    PNeuralNetwork getNext();
 };
 
 #endif //MACHINEGAMING_EVOLUTIONARYALGORITHM_H

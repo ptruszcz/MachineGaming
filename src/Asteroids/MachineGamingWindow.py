@@ -25,12 +25,13 @@ class MachineGaming(tk.Tk):
 
         self.fig = Figure(figsize=(5, 5), dpi=100, tight_layout={'h_pad': 3})
         self.overall_best = self.fig.add_subplot(3, 1, 1, title='Najlepszy', xlabel='czas [s]')
+        self.overall_best_x = []
+        self
+
         self.curr_gen_best = self.fig.add_subplot(3, 1, 2, title='Najlepszy w obecnej generacji', xlabel='czas [t]')
         self.mean_gen_score = self.fig.add_subplot(3, 1, 3, title='Średni wynik generacji', xlabel='generacja')
-
         self.mean_gen_score_x = []
         self.mean_gen_score_y = []
-        self.eap_label_vars = []
 
         frame = tk.Frame(self)
         frame.pack(side=tk.TOP, anchor='w')

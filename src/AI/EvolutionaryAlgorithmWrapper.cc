@@ -25,25 +25,17 @@ EvolutionaryAlgorithmParameters EvolutionaryAlgorithmWrapper::extractParams(cons
     return params;
 }
 
-const py::list EvolutionaryAlgorithmWrapper::getCurrentGenerationAsListOfSharedPtr() const {
+const py::list EvolutionaryAlgorithmWrapper::getCurrentGeneration() const {
     std::vector<PNeuralNetwork> pnn = evolutionaryAlgorithm.getCurrentGeneration();
     std::vector<std::shared_ptr<NeuralNetworkWrapper>> pwnn;
-    for(auto& p : pnn) {
+    for(auto &p : pnn) {
         pwnn.push_back(std::make_shared<NeuralNetworkWrapper>(p));
     }
     return to_py_list(pwnn);
 }
 
-const NeuralNetworks &EvolutionaryAlgorithmWrapper::getCurrentGeneration() const {
-    return evolutionaryAlgorithm.getCurrentGeneration();
-}
-
-void EvolutionaryAlgorithmWrapper::breed() {
-    evolutionaryAlgorithm.breed();
-}
-
-void EvolutionaryAlgorithmWrapper::removeWeakestIndividuals() {
-    evolutionaryAlgorithm.removeWeakestIndividuals();
+const NeuralNetworkWrapper EvolutionaryAlgorithmWrapper::getNext() {
+    return NeuralNetworkWrapper(evolutionaryAlgorithm.getNext());
 }
 
 void EvolutionaryAlgorithmWrapper::save(py::str filename) {

@@ -22,15 +22,7 @@ class MachineGamingController:
         self.process()
 
     def process(self):
-        generation = self.ea.get_current_generation()
-
-        if self._next_nn_number < len(generation):
-            self.neural_network = generation[self._next_nn_number]
-            self._next_nn_number += 1
-        else:
-            self._next_nn_number = 0
-            self.ea.breed()
-            self.ea.remove_weakest_individuals()
+        self.neural_network = self.ea.get_next()
 
     def save(self, filename):
         if self.ea:

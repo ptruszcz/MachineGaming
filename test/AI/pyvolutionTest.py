@@ -40,14 +40,14 @@ class pyvolutionTest(unittest.TestCase):
         p.output_size = 1
 
         ea = pv.EvolutionaryAlgorithm(p)
-        self.assertEqual(p.population_size, len(ea.get_current_generation()))
 
-        ea.breed()
-        self.assertEqual(p.population_size + p.children_bred_per_generation,
-                         len(ea.get_current_generation()))
+        for i in range(p.population_size):
+            ea.get_next()
+            self.assertEqual(p.population_size, len(ea.get_current_generation()))
 
-        ea.remove_weakest_individuals()
-        self.assertEqual(p.population_size, len(ea.get_current_generation()))
+        for i in range(p.children_bred_per_generation):
+            ea.get_next()
+            self.assertEqual(p.population_size + p.children_bred_per_generation, len(ea.get_current_generation()))
 
     def testImproveResults(self):
         p = pv.EvolutionaryAlgorithmParameters
@@ -57,44 +57,42 @@ class pyvolutionTest(unittest.TestCase):
         p.mutation_probability = 0.5
         p.weight_variance = 10.0
         p.input_size = 2
-        p.hidden_layers = 3
+        p.hidden_layers = 2
         p.output_size = 1
 
         ea = pv.EvolutionaryAlgorithm(p)
-        self.trainXOR(ea.get_current_generation())
+        current = ea.get_next()
 
-        while ea.get_current_generation()[0].fitness < 3.50:
-            ea.breed()
-            self.trainXOR(ea.get_current_generation())
-            ea.remove_weakest_individuals()
+        while current.fitness < 3.50:
+            self.trainXOR(current)
+            current = ea.get_next()
 
-            print('Best fit: ' + str(ea.get_current_generation()[0].fitness))
+        print('Best fit: ' + str(ea.get_current_generation()[0].fitness))
 
-    def trainXOR(self, neural_networks):
-        for network in neural_networks:
-            if network.fitness == 0:
-                fitness = 0
+    def trainXOR(self, network):
+        if network.fitness == 0:
+            fitness = 0
 
-                network.feed_forward([0, 0])
-                fitness += 1 - abs(network.get_output()[0])
-                print('0 XOR 0 ~' + str(network.get_output()[0]))
+            network.feed_forward([0, 0])
+            fitness += 1 - abs(network.get_output()[0])
+            # print('0 XOR 0 ~' + str(network.get_output()[0]))
 
-                network.feed_forward([0, 1])
-                fitness += network.get_output()[0]
-                print('0 XOR 1 ~' + str(network.get_output()[0]))
+            network.feed_forward([0, 1])
+            fitness += network.get_output()[0]
+            # print('0 XOR 1 ~' + str(network.get_output()[0]))
 
-                network.feed_forward([1, 0])
-                fitness += network.get_output()[0]
-                print('1 XOR 0 ~' + str(network.get_output()[0]))
+            network.feed_forward([1, 0])
+            fitness += network.get_output()[0]
+            # print('1 XOR 0 ~' + str(network.get_output()[0]))
 
-                network.feed_forward([1, 1])
-                fitness += 1 - (abs(network.get_output()[0]))
-                print('1 XOR 1 ~' + str(network.get_output()[0]))
+            network.feed_forward([1, 1])
+            fitness += 1 - (abs(network.get_output()[0]))
+            # print('1 XOR 1 ~' + str(network.get_output()[0]))
+            #
+            # print('Fitness: ' + str(fitness))
+            # print('--------------')
 
-                print('Fitness: ' + str(fitness))
-                print('--------------')
-
-                network.fitness = fitness
+            network.fitness = fitness
 
     def testSerialization(self):
         p = pv.EvolutionaryAlgorithmParameters

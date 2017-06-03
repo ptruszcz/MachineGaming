@@ -87,10 +87,6 @@ void EvolutionaryAlgorithm::removeWeakestIndividuals() {
     }
 }
 
-const NeuralNetworks &EvolutionaryAlgorithm::getCurrentGeneration() const {
-    return population_;
-}
-
 void EvolutionaryAlgorithm::save(std::string filename) {
     std::ofstream ofs(filename);
     boost::archive::text_oarchive oa(ofs);
@@ -103,4 +99,21 @@ void EvolutionaryAlgorithm::load(std::string filename) {
     boost::archive::text_iarchive ia(ifs);
     ia >> *this;
     ifs.close();
+}
+
+const NeuralNetworks &EvolutionaryAlgorithm::getCurrentGeneration() const {
+    return population_;
+}
+
+PNeuralNetwork EvolutionaryAlgorithm::getNext() {
+    if (current_network_ == population_size_) {
+        breed();
+    }
+
+    if (current_network_ == population_size_ + children_bred_per_generation_) {
+        removeWeakestIndividuals();
+        current_network_ = 0;
+    }
+
+    return population_[current_network_++];
 }

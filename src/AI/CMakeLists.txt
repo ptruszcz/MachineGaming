@@ -11,3 +11,7 @@ set_target_properties(pyvolution PROPERTIES PREFIX "")
 add_custom_command(TARGET pyvolution POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pyvolution> ${TEST_DIR}#./../../test/AI
         )
+
+add_custom_command(TARGET pyvolution POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:pyvolution> ./../Asteroids
+        )

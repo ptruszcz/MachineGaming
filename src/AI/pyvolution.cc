@@ -7,10 +7,8 @@ BOOST_PYTHON_MODULE(pyvolution) {
     register_ptr_to_python<std::shared_ptr<NeuralNetworkWrapper>>();
 
     class_<NeuralNetworkWrapper>("NeuralNetwork", init<int, int, int>())
-            .def("feed_forward_vector", &NeuralNetworkWrapper::feedForwardUsingVector)
-            .def("feed_forward", &NeuralNetworkWrapper::feedForwardUsingList)
-            .def("get_output_vector", &NeuralNetworkWrapper::getOutputAsVector)
-            .def("get_output", &NeuralNetworkWrapper::getOutputAsList)
+            .def("feed_forward", &NeuralNetworkWrapper::feedForward)
+            .def("get_output", &NeuralNetworkWrapper::getOutput)
             .add_property("fitness", &NeuralNetworkWrapper::getFitness, &NeuralNetworkWrapper::setFitness);
 
     class_<EvolutionaryAlgorithmParameters>("EvolutionaryAlgorithmParameters", no_init)
@@ -26,9 +24,8 @@ BOOST_PYTHON_MODULE(pyvolution) {
 
     class_<EvolutionaryAlgorithmWrapper>("EvolutionaryAlgorithm")
             .def(init<const object &>())
-            .def("breed", &EvolutionaryAlgorithmWrapper::breed)
-            .def("remove_weakest_individuals", &EvolutionaryAlgorithmWrapper::removeWeakestIndividuals)
-            .def("get_current_generation", &EvolutionaryAlgorithmWrapper::getCurrentGenerationAsListOfSharedPtr)
+            .def("get_next", &EvolutionaryAlgorithmWrapper::getNext)
+            .def("get_current_generation", &EvolutionaryAlgorithmWrapper::getCurrentGeneration)
             .def("save", &EvolutionaryAlgorithmWrapper::save)
             .def("load", &EvolutionaryAlgorithmWrapper::load);
     

@@ -8,7 +8,7 @@
 namespace py = boost::python;
 
 template<typename T>
-inline std::vector< T > to_std_vector(const py::list& iterable) {
+std::vector< T > to_std_vector(const py::list& iterable) {
     return std::vector<T>(py::stl_input_iterator<T>(iterable), py::stl_input_iterator<T>());
 }
 
@@ -29,12 +29,8 @@ public:
     NeuralNetworkWrapper(int input_size, int hidden_layers, int output_size);
     NeuralNetworkWrapper(PNeuralNetwork pNeuralNetwork);
 
-    const std::vector<double> getOutputAsVector();
-    const py::list getOutputAsList();
-    void feedForwardUsingVector(std::vector<double> &input);
-    void feedForwardUsingList(py::list &input);
-
-    const Matrix &getOutput() const;
+    const py::list getOutput();
+    void feedForward(py::list &input);
     double getFitness() const;
     void setFitness(double fitness);
 };
