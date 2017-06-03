@@ -28,6 +28,11 @@ BOOST_PYTHON_MODULE(pyvolution) {
             .def("get_population", &EvolutionaryAlgorithmWrapper::getPopulation)
             .def("current_network", &EvolutionaryAlgorithmWrapper::getCurrentNetwork)
             .def("current_generation", &EvolutionaryAlgorithmWrapper::getCurrentGeneration)
+            .def("population_size", &EvolutionaryAlgorithmWrapper::getPopulationSize)
+            .def("children_bred_per_generation", &EvolutionaryAlgorithmWrapper::getChildrenBredPerGeneration)
+            .def("crossover_probability", &EvolutionaryAlgorithmWrapper::getCrossoverProbability)
+            .def("mutation_probability", &EvolutionaryAlgorithmWrapper::getMutationProbability)
+            .def("weight_variance", &EvolutionaryAlgorithmWrapper::getWeightVariance)
             .def("save", &EvolutionaryAlgorithmWrapper::save)
             .def("load", &EvolutionaryAlgorithmWrapper::load);
     

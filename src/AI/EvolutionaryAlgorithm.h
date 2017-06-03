@@ -73,10 +73,15 @@ public:
     void save(std::string filename);
     void load(std::string filename);
 
-    const NeuralNetworks &getPopulation() const;
     PNeuralNetwork getNext();
     int getCurrentNetwork() const;
     int getCurrentGeneration() const;
+    const NeuralNetworks &getPopulation() const;
+    int getPopulationSize() const;
+    int getChildrenBredPerGeneration() const;
+    double getCrossoverProbability() const;
+    double getMutationProbability() const;
+    double getWeightVariance() const;
 };
 
 #endif //MACHINEGAMING_EVOLUTIONARYALGORITHM_H

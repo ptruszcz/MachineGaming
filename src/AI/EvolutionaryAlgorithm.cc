@@ -126,3 +126,23 @@ int EvolutionaryAlgorithm::getCurrentNetwork() const {
 int EvolutionaryAlgorithm::getCurrentGeneration() const {
     return current_generation_;
 }
+
+int EvolutionaryAlgorithm::getPopulationSize() const {
+    return population_size_;
+}
+
+int EvolutionaryAlgorithm::getChildrenBredPerGeneration() const {
+    return children_bred_per_generation_;
+}
+
+double EvolutionaryAlgorithm::getCrossoverProbability() const {
+    return crossover_probability_;
+}
+
+double EvolutionaryAlgorithm::getMutationProbability() const {
+    return mutation_probability_;
+}
+
+double EvolutionaryAlgorithm::getWeightVariance() const {
+    return weight_variance_;
+}

@@ -30,6 +30,11 @@ public:
     const NeuralNetworkWrapper getNext();
     int getCurrentNetwork() const;
     int getCurrentGeneration() const;
+    int getPopulationSize() const;
+    int getChildrenBredPerGeneration() const;
+    double getCrossoverProbability() const;
+    double getMutationProbability() const;
+    double getWeightVariance() const;
 
     void save(py::str filename);
     void load(py::str filename);

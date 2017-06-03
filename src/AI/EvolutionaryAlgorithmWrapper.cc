@@ -53,3 +53,23 @@ void EvolutionaryAlgorithmWrapper::save(py::str filename) {
 void EvolutionaryAlgorithmWrapper::load(py::str filename) {
     evolutionaryAlgorithm.load(boost::python::extract<std::string>(filename));
 }
+
+int EvolutionaryAlgorithmWrapper::getPopulationSize() const {
+    return evolutionaryAlgorithm.getPopulationSize();
+}
+
+int EvolutionaryAlgorithmWrapper::getChildrenBredPerGeneration() const {
+    return evolutionaryAlgorithm.getChildrenBredPerGeneration();
+}
+
+double EvolutionaryAlgorithmWrapper::getCrossoverProbability() const {
+    return evolutionaryAlgorithm.getCrossoverProbability();
+}
+
+double EvolutionaryAlgorithmWrapper::getMutationProbability() const {
+    return evolutionaryAlgorithm.getMutationProbability();
+}
+
+double EvolutionaryAlgorithmWrapper::getWeightVariance() const {
+    return evolutionaryAlgorithm.getWeightVariance();
+}
