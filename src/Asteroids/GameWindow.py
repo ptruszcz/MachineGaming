@@ -22,7 +22,7 @@ COLOR_GREEN = (0, 255, 0)
 COLOR_RED = (255, 0, 0)
 
 ASTEROIDS_MAX_VELOCITY = 5
-ASTEROIDS_POINTS_PER_HIT = 10
+ASTEROIDS_POINTS_PER_HIT = 100
 ASTEROIDS_PER_SPAWN = 1
 ASTEROIDS_SPAWN_INTERVAL = 1000
 ASTEROIDS_MAX_ON_SCREEN = 5
@@ -79,6 +79,7 @@ class GameWindow:
 
         while self.running:
             self._clock.tick(60 * self.speed)
+            self.score += 1
 
             for event in pygame.event.get():
                 if event is not pygame.MOUSEMOTION:
@@ -174,7 +175,7 @@ class GameWindow:
 
     def _spawn_single_asteroid(self):
         position = _randomize_spawn_point()
-        velocity = _create_vector_towards_screen(position)
+        velocity = self._create_vector_towards_screen(position)
 
         self._asteroids.add(Asteroid(position, velocity))
         self._last_asteroid_spawn = pygame.time.get_ticks()
@@ -194,6 +195,18 @@ class GameWindow:
                          (self._spaceship.coordinates.x, self._spaceship.coordinates.y),
                          (endpoint_x, endpoint_y))
 
+    def _create_vector_towards_screen(self, origin_coordinates):
+        max_vel_sqrt = math.sqrt(ASTEROIDS_MAX_VELOCITY)
+
+        # distance between spawn point and player point
+        distance = (self._spaceship.coordinates.x - origin_coordinates.x,
+                    self._spaceship.coordinates.y - origin_coordinates.y)
+        norm = math.sqrt(distance[0] ** 2 + distance[1] ** 2)
+        # unit vector of direction
+        direction = (distance[0] / norm, distance[1] / norm)
+
+        return Vector(direction[0] * max_vel_sqrt, direction[1] * max_vel_sqrt)
+
 
 def _randomize_spawn_point():
     border_number = random.randint(1, 4)
@@ -212,22 +225,6 @@ def _randomize_spawn_point():
                                WINDOW_SIZE_Y + SPAWN_MARGIN)
 
     return position
-
-
-def _create_vector_towards_screen(origin_coordinates):
-    max_vel_sqrt = math.sqrt(ASTEROIDS_MAX_VELOCITY)
-
-    # random point on screen towards which asteroid will be flying
-    random_screen_coordinates = Coordinates(random.randint(0, WINDOW_SIZE_X),
-                                            random.randint(0, WINDOW_SIZE_Y))
-    # distance between spawn point and random point on screen
-    distance = (random_screen_coordinates.x - origin_coordinates.x,
-                random_screen_coordinates.y - origin_coordinates.y)
-    norm = math.sqrt(distance[0] ** 2 + distance[1] ** 2)
-    # unit vector of direction
-    direction = (distance[0] / norm, distance[1] / norm)
-
-    return Vector(direction[0] * max_vel_sqrt, direction[1] * max_vel_sqrt)
 
 
 def calculate_distance(point_a, point_b):

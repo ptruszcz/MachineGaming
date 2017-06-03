@@ -197,9 +197,10 @@ class MachineGaming(tk.Tk):
         if screen_state_size < 16:
             screen_state += [0] * (16 - screen_state_size)
 
-        self.update_stats(self.machine_gaming_controller.get_current_generation(),
-                          self.machine_gaming_controller.get_current_network(),
-                          self.game_controller.current_game.score)
+        if self.game_controller.current_game is not None:
+            self.update_stats(self.machine_gaming_controller.get_current_generation(),
+                                  self.machine_gaming_controller.get_current_network(),
+                                  self.game_controller.current_game.score)
 
         return self.game_controller.calculate_buttons(neural_network=neural_network,
                                                       input_vector=screen_state)

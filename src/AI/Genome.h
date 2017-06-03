@@ -1,7 +1,12 @@
-/*
-File created by: Jakub Fajkowski
-Modified by: Piotr Truszczyński
-*/
+/**
+ * @class Genome
+ * @brief Represents genome.
+ * @details It consists of two genotypes - one representing Neurons
+ * and other representing Connections. It applies specified
+ * mutation types (like adding, deleting or modyfing Neuron/Connection)
+ * It allows crossing with other genome.
+ * @author Jakub Fajkowski
+ */
 
 #ifndef MACHINEGAMING_GENOME_H
 #define MACHINEGAMING_GENOME_H

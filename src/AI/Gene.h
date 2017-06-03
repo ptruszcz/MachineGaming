@@ -1,6 +1,10 @@
-/*
-File created by: Jakub Fajkowski
-*/
+/**
+ * @class Gene
+ * @brief Class representing gene.
+ * @details It stores unique id, allows to clone, and mutate.
+ * Provides methods accessible by Genotype.
+ * @author Jakub Fajkowski
+ */
 
 #ifndef MACHINEGAMING_GENE_H
 #define MACHINEGAMING_GENE_H
