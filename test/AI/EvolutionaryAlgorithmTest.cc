@@ -146,20 +146,22 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         EvolutionaryAlgorithm deserialized_ea;
         deserialized_ea.load("EvolutionaryAlgorithmTest.mg");
 
-        NeuralNetworks serialized_nn = serialized_ea.getPopulation();
-        NeuralNetworks deserialized_nn = deserialized_ea.getPopulation();
+        PNeuralNetwork serialized_nn = serialized_ea.getNext();
+        PNeuralNetwork deserialized_nn = deserialized_ea.getNext();
 
         Matrix input = {1, 1, 1, 1, 1};
         for (int i = 0; i < p.population_size; ++i) {
-            serialized_nn[i]->feedForward(input);
-            deserialized_nn[i]->feedForward(input);
+            serialized_nn->feedForward(input);
+            deserialized_nn->feedForward(input);
 
-            Matrix expected = serialized_nn[i]->getOutput();
-            Matrix actual = deserialized_nn[i]->getOutput();
+            Matrix expected = serialized_nn->getOutput();
+            Matrix actual = deserialized_nn->getOutput();
+
+            serialized_nn = serialized_ea.getNext();
+            deserialized_nn = deserialized_ea.getNext();
 
             BOOST_ASSERT(is_close(expected, actual, 0.0001));
         }
-
     }
 
 BOOST_AUTO_TEST_SUITE_END()
