@@ -102,6 +102,9 @@ BOOST_AUTO_TEST_SUITE(GenomeTest)
 
         BOOST_CHECK_EQUAL(*serialized[0], *serialized[1]);
         BOOST_CHECK_EQUAL(*deserialized[0], *deserialized[1]);
+
+        deserialized[0]->mutate(ADD_NEURON);
+        deserialized[1]->mutate(ADD_NEURON);
     }
 
 BOOST_AUTO_TEST_SUITE_END()

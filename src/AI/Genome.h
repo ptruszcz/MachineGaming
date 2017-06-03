@@ -30,13 +30,14 @@ private:
     friend class boost::serialization::access;
     template<class Archive>
     void serialize(Archive & ar, const unsigned int version) {
+        ar & layers_;
         ar & neurons_;
         ar & connections_;
     }
 
     static Random random;
-    static int layer_counter;
-    
+
+    int layers_;
     Genotype<Neuron> neurons_;
     Genotype<Connection> connections_;
 
@@ -61,7 +62,7 @@ private:
 public:
     Genome();
     Genome(int input_size, int hidden_layers, int output_size);
-    Genome(const Genotype<Neuron> &neurons, const Genotype<Connection> &connections);
+    Genome(int hidden_layers, const Genotype<Neuron> &neurons, const Genotype<Connection> &connections);
     Genome(const Genome &genome);
 
     static PGenome crossover(Genome &parentA, Genome &parentB);

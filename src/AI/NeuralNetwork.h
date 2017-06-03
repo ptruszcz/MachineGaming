@@ -1,6 +1,11 @@
-/*
-File created by: Jakub Fajkowski
-*/
+/**
+ * @class NeuralNetwork
+ * @brief Represents neural network - multilayer perceptron.
+ * @details It provides evolutionary algorithm compatible methods and members.
+ * Allows to be crossed-over or mutated. Used to predict output by input using
+ * unknown function.
+ * @author Jakub Fajkowski
+ */
 
 #ifndef PROJECT_NEURALNETWORK_H
 #define PROJECT_NEURALNETWORK_H

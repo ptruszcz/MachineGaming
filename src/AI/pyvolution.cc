@@ -1,3 +1,12 @@
+/**
+ * @brief Boost::Python library adapter.
+ * @details It provides connection between Python and C++.
+ * User can create EvolutionaryAlgorithm instance, process next network,
+ * get whole generation and parameters. Also it allows to process data
+ * with created neural networks. User can determine input and get calculated output.
+ * @author Piotr Truszczynski, Jakub Fajkowski
+ */
+
 #include "NeuralNetworkWrapper.h"
 #include "EvolutionaryAlgorithmWrapper.h"
 

@@ -1,14 +1,13 @@
 #include "Genome.h"
 
 Random Genome::random = Random();
-int Genome::layer_counter = 0;
 
 Genome::Genome() {
 
 }
 
 Genome::Genome(int input_size, int hidden_layers, int output_size) {
-    layer_counter = 0;
+    layers_ = 0;
     addLayer(input_size);
 
     for (int i = 1; i <= hidden_layers; ++i) {
@@ -17,17 +16,15 @@ Genome::Genome(int input_size, int hidden_layers, int output_size) {
     }
 
     addLayer(output_size);
-    connectLayer(layer_counter - 1);
+    connectLayer(layers_ - 1);
 }
 
 void Genome::addLayer(int size) {
-    int layer_number = layer_counter;
-
     for (int i = 0; i < size; ++i) {
-        addNeuron(layer_number);
+        addNeuron(layers_);
     }
 
-    ++layer_counter;
+    ++layers_;
 }
 
 void Genome::connectLayer(int layer_number) {
@@ -45,13 +42,14 @@ void Genome::connectLayer(int layer_number) {
     addConnections(prev_layer_neurons, this_layer_neurons);
 }
 
-Genome::Genome(const Genotype<Neuron> &neurons, const Genotype<Connection> &connections) {
-    this->neurons_ = Genotype<Neuron>(neurons);
-    this->connections_ = Genotype<Connection>(connections);
+Genome::Genome(int layers, const Genotype<Neuron> &neurons, const Genotype<Connection> &connections) {
+    layers_ = layers;
+    neurons_ = Genotype<Neuron>(neurons);
+    connections_ = Genotype<Connection>(connections);
 }
 
 Genome::Genome(const Genome &genome) {
-    layer_counter = genome.layer_counter;
+    layers_ = genome.layers_;
     neurons_ = genome.neurons_;
     connections_ = *genome.connections_.clone();
 }
@@ -60,7 +58,7 @@ PGenome Genome::crossover(Genome &parentA, Genome &parentB) {
     PGenotype<Neuron> neurons = Genotype<Neuron>::crossover(parentA.neurons_, parentB.neurons_);
     PGenotype<Connection> connections = Genotype<Connection>::crossover(parentA.connections_, parentB.connections_)->clone();
 
-    return std::make_unique<Genome>(*neurons, *connections);
+    return std::make_unique<Genome>(parentA.layers_, *neurons, *connections);
 }
 
 void Genome::mutate(const MutationType &mutation_type) {
@@ -88,7 +86,7 @@ void Genome::mutate(const MutationType &mutation_type) {
 }
 
 void Genome::addNeuron() {
-    int random_layer_number = random.next(1, layer_counter - 2);
+    int random_layer_number = random.next(1, layers_ - 2);
     PNeuron neuron_ptr = addNeuron(random_layer_number);
     addConnectionToPrevLayer(neuron_ptr);
     addConnectionToNextLayer(neuron_ptr);
@@ -103,7 +101,7 @@ PNeuron Genome::addNeuron(int layer_number) {
 }
 
 void Genome::deleteNeuron() {
-    int random_layer_number = random.next(1, layer_counter - 2);
+    int random_layer_number = random.next(1, layers_ - 2);
 
     if (layerSize(random_layer_number) > 1) {
         PNeuron neuron_to_delete = getRandomNeuron(random_layer_number);
@@ -135,7 +133,7 @@ void Genome::addConnections(const Neurons &input_layer, const Neurons &output_la
 }
 
 void Genome::addConnection() {
-    int layer_number = random.next(1, layer_counter - 2);
+    int layer_number = random.next(1, layers_ - 2);
     PNeuron neuron = getRandomNeuron(layer_number);
     addConnectionToPrevLayer(neuron);
 }
@@ -205,7 +203,7 @@ bool Genome::operator==(const Genome &rhs) const {
                     rhs_connections.begin(), rhs_connections.end(),
                     [](const PConnection lhs, const PConnection rhs){ return *lhs == *rhs; });
 
-    return layer_counter == rhs.layer_counter &&
+    return layers_ == rhs.layers_ &&
            neurons_ == rhs.neurons_ &&
            connections_equal;
 }

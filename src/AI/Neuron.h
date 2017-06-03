@@ -1,6 +1,10 @@
-/*
-File created by: Jakub Fajkowski
-*/
+/**
+ * @class Neuron
+ * @brief Represents network neurons.
+ * @details It provides Gene methods. It is stored in Genotype
+ * and when needed Phenome connection matrices are built using it.
+ * @author Jakub Fajkowski
+ */
 
 #ifndef MACHINEGAMING_NEURON_H
 #define MACHINEGAMING_NEURON_H

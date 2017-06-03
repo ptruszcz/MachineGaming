@@ -1,6 +1,11 @@
-/*
-File created by: Jakub Fajkowski
-*/
+/**
+ * @class Phenome
+ * @brief Represents phenome.
+ * @details It is simulating the look of individual. In case of neural networks
+ * it reads passed genome and using stored information - generates matrices
+ * of neurons and connections.
+ * @author Jakub Fajkowski
+ */
 
 #ifndef MACHINEGAMING_PHENOME_H
 #define MACHINEGAMING_PHENOME_H
