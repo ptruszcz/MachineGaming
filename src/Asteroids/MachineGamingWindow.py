@@ -196,8 +196,7 @@ class MachineGaming(tk.Tk):
             return
 
         screen_state = [player.direction,
-                        player.coordinates.x - c.CENTER_POINT.x,
-                        player.coordinates.y - c.CENTER_POINT.y]
+                        player.coordinates.calculate_distance(c.CENTER_POINT)]
 
         for obstacle in obstacles:
             delta_x = obstacle.coordinates.x - player.coordinates.x
@@ -209,15 +208,14 @@ class MachineGaming(tk.Tk):
             obstacle_direction = self._direction_degrees(delta_y, delta_x)
             delta_direction = obstacle_direction - player.direction
 
-            screen_state.append(delta_x)
-            screen_state.append(delta_y)
+            screen_state.append(player.coordinates.calculate_distance(obstacle.coordinates))
             screen_state.append(delta_v_x)
             screen_state.append(delta_v_y)
             screen_state.append(delta_direction)
 
         screen_state_size = len(screen_state)
-        if screen_state_size < 28:
-            screen_state += [0] * (28 - screen_state_size)
+        if screen_state_size < self.machine_gaming_controller.input_size:
+            screen_state += [0] * (self.machine_gaming_controller.input_size - screen_state_size)
 
         if self.game_controller.current_game is not None:
             self.update_stats(self.machine_gaming_controller.get_current_generation(),

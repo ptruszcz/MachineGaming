@@ -116,7 +116,7 @@ PNeuralNetwork EvolutionaryAlgorithm::getNext() {
         current_network_ = 0;
         ++current_generation_;
     }
-    
+
     return population_[current_network_++];
 }
 

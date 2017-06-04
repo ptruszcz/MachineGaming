@@ -15,15 +15,18 @@ def scale_image(image, scale):
 
 
 class MovingObject(pygame.sprite.Sprite):
-    def __init__(self, image, coordinates, velocity=Vector(0, 0), direction=0, image_scale=1):
+    def __init__(self, image, coordinates, does_it_bounce,
+                 velocity=Vector(0, 0), direction=0, slows_down_after_bounce=False,
+                 image_scale=1, listener=None):
         pygame.sprite.Sprite.__init__(self)
         self._image = scale_image(image, image_scale)
         self.rect = self._image.get_rect()
         self.coordinates = coordinates
         self.velocity = velocity
         self.direction = direction  # from 0 to 359 where 0 is right and 90 is down
-        self._does_it_bounce = True
-        self._slows_down_after_bounce = False
+        self._does_it_bounce = does_it_bounce
+        self._slows_down_after_bounce = slows_down_after_bounce
+        self._listener = listener
 
     def update(self, surface):
         # minus before self._direction is because transform.rotate counts rotation in counter-clockwise direction
@@ -47,22 +50,31 @@ class MovingObject(pygame.sprite.Sprite):
 
     def _update_coordinates(self):
         # bounce only objects on the screen
-        if self._does_it_bounce and self.is_on_screen():
-            next_x = self.coordinates.x + self.velocity.x
-            next_y = self.coordinates.y + self.velocity.y
+        if self.is_on_screen():
+            if self._does_it_bounce:
+                next_x = self.coordinates.x + self.velocity.x
+                next_y = self.coordinates.y + self.velocity.y
 
-            if next_x <= 0 or next_x >= c.WINDOW_SIZE_X:
-                self.velocity.x = -self.velocity.x
-                if self._slows_down_after_bounce:
-                    self.velocity.x *= c.SPEED_AFTER_BOUNCE
+                if next_x <= 0 or next_x >= c.WINDOW_SIZE_X:
+                    self.velocity.x = -self.velocity.x
+                    if self._slows_down_after_bounce:
+                        self.velocity.x *= c.SPEED_AFTER_BOUNCE
 
-            if next_y <= 0 or next_y >= c.WINDOW_SIZE_Y:
-                self.velocity.y = -self.velocity.y
-                if self._slows_down_after_bounce:
-                    self.velocity.y *= c.SPEED_AFTER_BOUNCE
+                if next_y <= 0 or next_y >= c.WINDOW_SIZE_Y:
+                    self.velocity.y = -self.velocity.y
+                    if self._slows_down_after_bounce:
+                        self.velocity.y *= c.SPEED_AFTER_BOUNCE
+        else:
+            if not self._does_it_bounce:
+                self.destroy()
 
         self.coordinates.x += self.velocity.x
         self.coordinates.y += self.velocity.y
 
     def is_on_screen(self):
         return 0 < self.coordinates.x < c.WINDOW_SIZE_X and 0 < self.coordinates.y < c.WINDOW_SIZE_Y
+
+    def destroy(self):
+        self.kill()
+        if self._listener is not None:
+            self._listener.on_object_destroyed(self)

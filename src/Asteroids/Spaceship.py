@@ -15,7 +15,7 @@ Modified by: Jakub Fajkowski
 
 
 class Spaceship(MovingObject):
-    def __init__(self, x, y):
+    def __init__(self, x, y, listener=None):
         fullname = os.path.join('../../res/Asteroids/sprites', 'spaceship.png')
         image = pygame.image.load(fullname)
 
@@ -23,10 +23,12 @@ class Spaceship(MovingObject):
                               coordinates=Coordinates(x, y),
                               velocity=Vector(0, 0),
                               direction=random.randint(0, 360),
-                              image_scale=0.25)
+                              image_scale=0.20,
+                              does_it_bounce=c.SPACESHIP_BOUNCE,
+                              slows_down_after_bounce=True,
+                              listener=listener)
 
         self.last_shot = 0
-        self._slows_down_after_bounce = True
 
     def move(self):
         self._slow_down()
@@ -47,7 +49,6 @@ class Spaceship(MovingObject):
         out_velocity = Vector()
         out_velocity.x = math.cos(math.radians(self.direction)) * (c.FIRE_POWER + spaceship_speed)
         out_velocity.y = - math.sin(math.radians(self.direction)) * (c.FIRE_POWER + spaceship_speed)
-        self.last_shot = pygame.time.get_ticks()
         return Missile(Coordinates(self.coordinates.x, self.coordinates.y), out_velocity, self.direction)
 
     def _slow_down(self):

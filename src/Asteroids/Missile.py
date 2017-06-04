@@ -1,5 +1,6 @@
 import os
 import pygame
+import Config as c
 from Vector import Vector
 from MovingObject import MovingObject
 
@@ -14,13 +15,10 @@ class Missile(MovingObject):
         fullname = os.path.join('../../res/Asteroids/sprites', 'missile.png')
         image = pygame.image.load(fullname)
 
-        MovingObject.__init__(self, image, coordinates, velocity, direction, image_scale=0.10)
-        self._does_it_bounce = False
+        MovingObject.__init__(self, image, coordinates,
+                              c.MISSILE_BOUNCE, velocity, direction,
+                              image_scale=0.10)
 
     def update(self, surface):
         self.move()
-
-        if not self.is_on_screen():
-            self.kill()
-
         MovingObject.update(self, surface)

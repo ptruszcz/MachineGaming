@@ -30,7 +30,8 @@ class GameWindow:
         self._tracked_asteroids = []
         self._missiles = pygame.sprite.Group()
         self._spaceship = Spaceship(x=c.CENTER_POINT.x,
-                                    y=c.CENTER_POINT.y)
+                                    y=c.CENTER_POINT.y,
+                                    listener=self)
         self._last_asteroid_spawn = 0
         self._asteroids_spawn_interval = c.ASTEROIDS_SPAWN_INTERVAL
         self._asteroids_per_spawn = c.ASTEROIDS_PER_SPAWN
@@ -50,7 +51,8 @@ class GameWindow:
         self._asteroids = pygame.sprite.Group()
         self._missiles = pygame.sprite.Group()
         self._spaceship = Spaceship(x=c.CENTER_POINT.x,
-                                    y=c.CENTER_POINT.y)
+                                    y=c.CENTER_POINT.y,
+                                    listener=self)
         self._last_asteroid_spawn = 0
         self._asteroids_spawn_interval = c.ASTEROIDS_SPAWN_INTERVAL
         self._asteroids_per_spawn = c.ASTEROIDS_PER_SPAWN
@@ -79,35 +81,42 @@ class GameWindow:
 
             for key in self._pressed_buttons:
                 if key == pygame.K_RETURN:
-                    if pygame.time.get_ticks() - self._spaceship.last_shot > c.MISSILE_RELOAD_TIME:
+                    if pygame.time.get_ticks() - self._spaceship.last_shot > self._consider_fps(c.MISSILE_RELOAD_TIME):
                         missile = self._spaceship.fire()
                         self._missiles.add(missile)
+                        self._spaceship.last_shot = pygame.time.get_ticks()
                 else:
                     self._spaceship.steer(key)
 
             self._spaceship.move()
             spaceship_crashed = pygame.sprite.spritecollideany(self._spaceship, self._asteroids)
             if spaceship_crashed:
-                if self._game_over_listener is not None:
-                    self._game_over_listener.on_game_over()
-                self.restart()
+                self._spaceship.destroy()
 
             destroyed_asteroids = pygame.sprite.groupcollide(self._missiles, self._asteroids,
                                                              True, True)
             if destroyed_asteroids:
                 self.score += c.ASTEROIDS_POINTS_PER_HIT
 
-            if pygame.time.get_ticks() - self._last_asteroid_spawn > c.ASTEROIDS_SPAWN_INTERVAL \
-               and len(self._asteroids.sprites()) < c.ASTEROIDS_MAX_ON_SCREEN:
+            if pygame.time.get_ticks() - self._last_asteroid_spawn > self._consider_fps(c.ASTEROIDS_SPAWN_INTERVAL) \
+               and len(self._asteroids.sprites()) < self._asteroids_max_on_screen:
                 self._spawn_asteroids(c.ASTEROIDS_PER_SPAWN)
 
             # time based difficulty - can easily be changed to score based
-            if pygame.time.get_ticks() - self._last_difficulty_increase > c.DIFFICULTY_INCREASE_INTERVAL:
+            if pygame.time.get_ticks() - self._last_difficulty_increase > self._consider_fps(c.DIFFICULTY_INCREASE_INTERVAL):
                 self._increase_difficulty()
 
             self._render()
 
         pygame.quit()
+
+    def _consider_fps(self, value):
+        fps = self._clock.get_fps()
+        if fps != 0:
+            result = value * (60/fps)
+        else:
+            result = value
+        return result
 
     def _handle_event(self, event):
         if event.type == pygame.KEYDOWN:
@@ -134,11 +143,11 @@ class GameWindow:
         pygame.display.update()
 
     def _increase_difficulty(self):
-        if self._asteroids_spawn_interval > 0:
-            self._asteroids_spawn_interval -= c.SPAWN_INTERVAL_DECREASE
-        elif self._asteroids_per_spawn < 10:
-            self._asteroids_per_spawn += 1
-        elif self._asteroids_max_on_screen < 30:
+        # if self._asteroids_spawn_interval > 0:
+        #     self._asteroids_spawn_interval -= c.SPAWN_INTERVAL_DECREASE
+        # if self._asteroids_per_spawn < 10:
+        #     self._asteroids_per_spawn += 1
+        if self._asteroids_max_on_screen < 10:
             self._asteroids_max_on_screen += 1
 
         self._last_difficulty_increase = pygame.time.get_ticks()
@@ -191,6 +200,12 @@ class GameWindow:
         direction = (distance[0] / norm, distance[1] / norm)
 
         return Vector(direction[0] * max_vel_sqrt, direction[1] * max_vel_sqrt)
+
+    def on_object_destroyed(self, o):
+        if isinstance(o, Spaceship):
+            if self._game_over_listener is not None:
+                self._game_over_listener.on_game_over()
+            self.restart()
 
 
 def _randomize_spawn_point():

@@ -31,6 +31,14 @@ private:
     void serialize(Archive & ar, const unsigned int version) {
         ar & genes_;
     }
+    struct PointerValuesEqual {
+        const std::shared_ptr<T> to_find;
+
+        bool operator()(const std::shared_ptr<T> &other) const {
+            if (!other) return false;
+            return *to_find == *other;
+        }
+    };
 
     static Random random;
     std::vector<std::shared_ptr<T>> genes_;
@@ -48,6 +56,7 @@ public:
     static PGenotype<T> crossover(Genotype &parent_a, Genotype &parent_b);
 
     void insert(const std::shared_ptr<T> &gene);
+    bool contains(const std::shared_ptr<T> &gene);
     void erase(const std::shared_ptr<T> &gene);
 
     std::shared_ptr<T> & operator[](size_t index);
@@ -150,11 +159,18 @@ std::shared_ptr<T> Genotype<T>::getRandomGene(const std::shared_ptr<T> &gene_a, 
 
 template <typename T>
 void Genotype<T>::insert(const std::shared_ptr<T> &gene) {
+
     size_t id = gene->getId();
     genes_.resize(id);
 
     typename std::vector<std::shared_ptr<T>>::iterator it = genes_.begin();
     genes_.insert(it + id, gene);
+}
+
+template <typename T>
+bool Genotype<T>::contains(const std::shared_ptr<T> &gene) {
+    PointerValuesEqual pointerValuesEqual = {gene};
+    return std::find_if(genes_.begin(), genes_.end(), pointerValuesEqual) != genes_.end();
 }
 
 template <typename T>

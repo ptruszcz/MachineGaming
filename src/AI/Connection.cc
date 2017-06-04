@@ -40,10 +40,8 @@ void Connection::randomizeWeight() {
 }
 
 bool Connection::operator==(const Connection &rhs) const {
-    return id == rhs.id &&
-            weight_ == rhs.weight_ &&
-            *input_ == *rhs.input_ &&
-            *output_ == *rhs.output_;
+    return *input_ == *rhs.input_ && *output_ == *rhs.output_ ||
+            *input_ == *rhs.output_ && *output_ == *rhs.input_;
 }
 
 bool Connection::operator!=(const Connection &rhs) const {

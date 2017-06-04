@@ -151,8 +151,9 @@ void Genome::addConnectionToNextLayer(const PNeuron &input) {
 }
 
 void Genome::addConnection(const PNeuron &input, const PNeuron &output) {
-    Connection connection(input, output);
-    connections_.insert(std::make_shared<Connection>(connection));
+    PConnection connection = std::make_shared<Connection>(input, output);
+    if (!connections_.contains(connection))
+        connections_.insert(connection);
 }
 
 void Genome::deleteConnection() {
