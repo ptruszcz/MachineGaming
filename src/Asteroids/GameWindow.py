@@ -14,9 +14,13 @@ Modified by: Jakub Fajkowski
 
 
 class GameWindow:
-    def __init__(self, game_over_listener=None, screen_update_listener=None):
+    def __init__(self, game_over_listener=None, screen_update_listener=None,
+                 headless=False):
         self._game_over_listener = game_over_listener
         self._screen_update_listener = screen_update_listener
+        self._display_size = (c.WINDOW_SIZE_X, c.WINDOW_SIZE_Y)
+        if headless:
+            self._display_size = (1, 1)
 
         self.score = 0
         self.speed = c.DEFAULT_SPEED
@@ -40,7 +44,7 @@ class GameWindow:
 
     def _init(self):
         pygame.init()
-        self._screen = pygame.display.set_mode((c.WINDOW_SIZE_X, c.WINDOW_SIZE_Y),
+        self._screen = pygame.display.set_mode(self._display_size,
                                                pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._clock = pygame.time.Clock()
         self.running = True

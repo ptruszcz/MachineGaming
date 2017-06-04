@@ -52,6 +52,7 @@ class MachineGaming(tk.Tk):
         self.controls_frame.pack(side=tk.LEFT)
         self.infos_frame = tk.Frame(frame)
         self.infos_frame.pack(side=tk.TOP, anchor='e')
+        self.speed_slider = None
         self.sliders_frame = tk.Frame(frame)
         self.sliders_frame.pack(side=tk.BOTTOM)
 
@@ -61,8 +62,9 @@ class MachineGaming(tk.Tk):
         self.add_plot()
 
     def add_controls(self):
-        buttons_callbacks = [self.start_if_ready, self.game_controller.stop,
-                             self.game_controller.change_lines,
+        buttons_callbacks = [lambda: self.start(headless=True),
+                             lambda: self.start(headless=False),
+                             self.stop, self.game_controller.change_lines,
                              self.enter_parameters, self.set_path_and_save,
                              self.set_path_and_load, self._quit]
 
@@ -103,9 +105,9 @@ class MachineGaming(tk.Tk):
         speed_slider_frame.pack(side=tk.LEFT)
         speed_label = tk.Label(speed_slider_frame, text="Prędkość symulacji")
         speed_label.pack(side=tk.BOTTOM)
-        speed = tk.Scale(speed_slider_frame, orient='horizontal', length=200,
-                         from_=1, to=10, resolution=0.1, command=self.game_controller.change_speed)
-        speed.pack(side=tk.BOTTOM)
+        self.speed_slider = tk.Scale(speed_slider_frame, orient='horizontal', length=200,
+                                     from_=1, to=10, resolution=0.1, command=self.game_controller.change_speed)
+        self.speed_slider.pack(side=tk.BOTTOM)
 
     def add_plot(self):
         self.canvas = FigureCanvasTkAgg(self.fig, self)
@@ -150,39 +152,47 @@ class MachineGaming(tk.Tk):
         for i in range(len(self.stat_label_vars)):
             self.stat_label_vars[i].set(GUILabels.stats_texts[i] + str(current_stats[i]))
 
-    def start_if_ready(self):
+    def start(self, headless):
         if self.machine_gaming_controller.ea is not None:
-            self.game_controller.start()
+            if self.game_controller.current_game is not None:
+                self.stop()
+
+            self.game_controller.start(headless=headless)
         else:
-            messagebox.showwarning('Start', 'Create new Evolutionary Algorithm first!')
+            messagebox.showwarning('Start', 'Należy zdefiniować parametry algorytmu (UTWÓRZ/ŁADUJ)!')
+
+    def stop(self):
+        self.speed_slider.set(1)
+        self.game_controller.stop()
+        self.game_controller.current_game_thread.join(10)
 
     def set_path_and_save(self):
         path = filedialog.asksaveasfilename(filetypes=[("Machine Gaming Files", "*.mg")], initialfile='algorithm')
         if len(path) is 0:  # dialog closed with "cancel".
             return
         if self.machine_gaming_controller.save(path):
-            messagebox.showinfo('Save', 'Saved successfully!')
+            messagebox.showinfo('Zapis', 'Zapis udany!')
         else:
-            messagebox.showwarning('Save', 'Cannot save! Create new Evolutionary Algorithm first.')
+            messagebox.showwarning('Zapis', 'Zapis nieudany! Należy zdefiniować parametry algorytmu (UTWÓRZ/ŁADUJ)!')
 
     def set_path_and_load(self):
-        path = filedialog.askopenfilename(filetypes=[("Machine Gaming Files", "*.mg")])
+        path = filedialog.askopenfilename(filetypes=[("Machine Gaming", "*.mg")])
         if len(path) is 0:  # dialog closed with "cancel".
             return
         success, parameters = self.machine_gaming_controller.load(path)
         if success:
             self.update_ea_parameters(parameters)
-            messagebox.showinfo('Load', 'Loaded successfully!')
+            messagebox.showinfo('Wczytywanie', 'Wczytywanie udane!')
         else:
-            messagebox.showwarning('Load', 'Loading failed!')
+            messagebox.showwarning('Wczytywanie', 'Plik jest uszkodzony!')
 
     def run(self):
         self.mainloop()
 
     def _quit(self):
+        self.stop()
         self.quit()     # stops mainloop
         self.destroy()  # this is necessary on Windows to prevent Fatal Python Error
-        self.game_controller.stop()  # TODO: create and change to quit method
 
     def on_game_over(self):  # listener for spaceship crashes
         current_game_score = self.game_controller.current_game.score
@@ -262,5 +272,3 @@ machine_gaming = MachineGaming()
 
 if __name__ == '__main__':
     machine_gaming.run()
-    machine_gaming.game_controller.current_game_thread.join(1)  # prevents from exception and freezing after quit
-    # TODO: find out why it doesn't work

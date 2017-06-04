@@ -15,12 +15,12 @@ class GameController:
                               pygame.K_d,
                               pygame.K_RETURN]
 
-    def start(self):
-        if self.current_game is None:
-            self.current_game = GameWindow(game_over_listener=self.stats_window,
-                                           screen_update_listener=self.stats_window)
-            self.current_game_thread = threading.Thread(target=self.current_game.run)
-            self.current_game_thread.start()
+    def start(self, headless):
+        self.current_game = GameWindow(game_over_listener=self.stats_window,
+                                       screen_update_listener=self.stats_window,
+                                       headless=headless)
+        self.current_game_thread = threading.Thread(target=self.current_game.run)
+        self.current_game_thread.start()
 
     def stop(self):
         if self.current_game is not None:
