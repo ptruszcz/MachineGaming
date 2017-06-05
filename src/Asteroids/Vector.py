@@ -1,5 +1,6 @@
 """
 File created by: Piotr Truszczynski
+Modified by: Jakub Fajkowski
 """
 
 

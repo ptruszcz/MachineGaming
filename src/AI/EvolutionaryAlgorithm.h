@@ -1,4 +1,10 @@
 /**
+ * @struct EvolutionaryAlgorithmParameters
+ * @brief Parameters defining evolutionary algorithm.
+ * @authors Piotr Truszczynski, Jakub Fajkowski
+ */
+
+/**
  * @class EvolutionaryAlgorithm
  * @brief Main library class controlling evolutionary algorithm process.
  * @details Stores collection of neural networks and using EvolutionaryAlgorithmParameters

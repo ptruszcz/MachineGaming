@@ -1,0 +1,49 @@
+\hypertarget{classPhenome}{}\section{Phenome Class Reference}
+\label{classPhenome}\index{Phenome@{Phenome}}
+
+
+Represents phenome.  
+
+
+
+
+{\ttfamily \#include $<$Phenome.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Phenome} (const \hyperlink{classGenome}{Genome} \&genome)\hypertarget{classPhenome_a900e3f448b143b5db3d44d8ff57f07e3}{}\label{classPhenome_a900e3f448b143b5db3d44d8ff57f07e3}
+
+\item 
+bool {\bfseries operator==} (const \hyperlink{classPhenome}{Phenome} \&rhs) const \hypertarget{classPhenome_a4aa383a3c22ab02cf4a58d68b83a70b7}{}\label{classPhenome_a4aa383a3c22ab02cf4a58d68b83a70b7}
+
+\item 
+bool {\bfseries operator!=} (const \hyperlink{classPhenome}{Phenome} \&rhs) const \hypertarget{classPhenome_a79ecab1c0a34f2f225d367782b72516c}{}\label{classPhenome_a79ecab1c0a34f2f225d367782b72516c}
+
+\item 
+std\+::vector$<$ Matrix $>$ \& {\bfseries get\+Neurons} ()\hypertarget{classPhenome_a8188a170ca1f162932a9a90bb8790599}{}\label{classPhenome_a8188a170ca1f162932a9a90bb8790599}
+
+\item 
+const std\+::vector$<$ Matrix $>$ \& {\bfseries get\+Weights} () const \hypertarget{classPhenome_af995a7151ac1e461559937889f0c02c9}{}\label{classPhenome_af995a7151ac1e461559937889f0c02c9}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const \hyperlink{classPhenome}{Phenome} \&phenome)\hypertarget{classPhenome_a34c29d70c5bc8815abcedce0aaf0cfd4}{}\label{classPhenome_a34c29d70c5bc8815abcedce0aaf0cfd4}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Represents phenome. 
+
+It is simulating the look of individual. In case of neural networks it reads passed genome and using stored information -\/ generates matrices of neurons and connections. \begin{DoxyAuthor}{Author}
+Jakub Fajkowski 
+\end{DoxyAuthor}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+A\+I/Phenome.\+h\item 
+src/\+A\+I/Phenome.\+cc\end{DoxyCompactItemize}

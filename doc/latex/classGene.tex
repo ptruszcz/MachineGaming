@@ -1,0 +1,67 @@
+\hypertarget{classGene}{}\section{Gene Class Reference}
+\label{classGene}\index{Gene@{Gene}}
+
+
+Class representing gene.  
+
+
+
+
+{\ttfamily \#include $<$Gene.\+h$>$}
+
+
+
+Inheritance diagram for Gene\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=212pt]{classGene__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Gene} (size\+\_\+t how\+\_\+many)\hypertarget{classGene_a64133f3ef65cc55daa3bc61085ebdade}{}\label{classGene_a64133f3ef65cc55daa3bc61085ebdade}
+
+\item 
+{\bfseries Gene} (const \hyperlink{classGene}{Gene} \&gene)\hypertarget{classGene_a7550abdded94171f54ad084d9d16a5c8}{}\label{classGene_a7550abdded94171f54ad084d9d16a5c8}
+
+\item 
+virtual P\+Gene {\bfseries clone} () const =0\hypertarget{classGene_a09f14ad635c9c68390a7e554791b699c}{}\label{classGene_a09f14ad635c9c68390a7e554791b699c}
+
+\item 
+virtual void {\bfseries mutate} (Mutation\+Type mutation\+\_\+type)=0\hypertarget{classGene_a92d8b7cf84975c65a12415e13c2eece5}{}\label{classGene_a92d8b7cf84975c65a12415e13c2eece5}
+
+\item 
+size\+\_\+t {\bfseries get\+Id} () const \hypertarget{classGene_ac306ce3d6384eed8f4583c05523e39e9}{}\label{classGene_ac306ce3d6384eed8f4583c05523e39e9}
+
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+size\+\_\+t {\bfseries id}\hypertarget{classGene_acdea063f669e84f754cf884f388c818a}{}\label{classGene_acdea063f669e84f754cf884f388c818a}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries boost\+::serialization\+::access}\hypertarget{classGene_ac98d07dd8f7b70e16ccb9a01abf56b9c}{}\label{classGene_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\item 
+std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const \hyperlink{classGene}{Gene} \&gene)\hypertarget{classGene_a7e61f216b89ac41b4cfc8af4184abd79}{}\label{classGene_a7e61f216b89ac41b4cfc8af4184abd79}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class representing gene. 
+
+It stores unique id, allows to clone, and mutate. Provides methods accessible by \hyperlink{classGenotype}{Genotype}. \begin{DoxyAuthor}{Author}
+Jakub Fajkowski 
+\end{DoxyAuthor}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+A\+I/Gene.\+h\item 
+src/\+A\+I/Gene.\+cc\end{DoxyCompactItemize}
