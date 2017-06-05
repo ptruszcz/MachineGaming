@@ -25,3 +25,4 @@ msgbox_msg = ['Należy zdefiniować parametry algorytmu (UTWÓRZ/ŁADUJ)!',
               'Plik jest uszkodzony!']
 
 mg_filetype = [("Machine Gaming", "*.mg")]
+initialfilename = 'algorithm'

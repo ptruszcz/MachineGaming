@@ -182,7 +182,7 @@ class MachineGaming(tk.Tk):
         self.destroy()  # this is necessary on Windows to prevent Fatal Python Error
 
     def _set_path_and_save(self):
-        path = filedialog.asksaveasfilename(filetypes=Labels.mg_filetype, initialfile='algorithm')
+        path = filedialog.asksaveasfilename(filetypes=Labels.mg_filetype, initialfile=Labels.initialfilename)
         if len(path) is 0:  # dialog closed with "cancel".
             return
         if self.machine_gaming_controller.save(path):
