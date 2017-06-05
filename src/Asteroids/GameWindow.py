@@ -46,7 +46,6 @@ class GameWindow:
         self._asteroids_per_spawn = c.ASTEROIDS_PER_SPAWN
         self._asteroids_max_on_screen = c.ASTEROIDS_MAX_ON_SCREEN
         self._last_difficulty_increase = current_time()
-        self._spawn_asteroids(c.ASTEROIDS_PER_SPAWN)
 
     def _init(self):
         pygame.init()
@@ -68,7 +67,6 @@ class GameWindow:
         self._asteroids_per_spawn = c.ASTEROIDS_PER_SPAWN
         self._asteroids_max_on_screen = c.ASTEROIDS_MAX_ON_SCREEN
         self._last_difficulty_increase = current_time()
-        self._spawn_asteroids(c.ASTEROIDS_PER_SPAWN)
 
     def run(self):
         self._init()
