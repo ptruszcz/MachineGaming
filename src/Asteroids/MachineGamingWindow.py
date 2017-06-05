@@ -40,7 +40,8 @@ class MachineGaming(tk.Tk):
         self.best_score_overall = 0
         self.curr_gen_best = 0
         self.curr_gen_total_score = 0
-        self.total_nn_number = 0
+        self._previous_population = 0  # population size
+        self._previous_generation = 1  # generation number
 
         self.eap_label_vars = []
         self.stat_label_vars = []
@@ -65,8 +66,8 @@ class MachineGaming(tk.Tk):
         buttons_callbacks = [lambda: self.start(headless=True),
                              lambda: self.start(headless=False),
                              self.stop, self.game_controller.change_lines,
-                             self.enter_parameters, self.set_path_and_save,
-                             self.set_path_and_load, self._quit]
+                             self.enter_parameters, self._set_path_and_save,
+                             self._set_path_and_load, self._quit]
 
         for i in range(len(GUILabels.buttons_texts)):
             button = tk.Button(self.controls_frame, text=GUILabels.buttons_texts[i],
@@ -141,7 +142,8 @@ class MachineGaming(tk.Tk):
     def update_ea_parameters(self, parameters):
         for i in range(len(parameters)):
             self.eap_label_vars[i].set(GUILabels.params_texts[i] + str(parameters[i]))
-        self.total_nn_number = int(parameters[0]) + int(parameters[1])
+        self._previous_population = len(self.machine_gaming_controller.ea.get_population())
+        self._previous_generation = self.machine_gaming_controller.get_current_generation()
 
     def update_stats(self, current_gen_num, current_nn_num, current_score):
         current_stats = [current_gen_num,
@@ -161,12 +163,20 @@ class MachineGaming(tk.Tk):
         else:
             messagebox.showwarning('Start', 'Należy zdefiniować parametry algorytmu (UTWÓRZ/ŁADUJ)!')
 
+    def run(self):
+        self.mainloop()
+
     def stop(self):
         self.speed_slider.set(1)
         self.game_controller.stop()
         self.game_controller.current_game_thread.join(1)
 
-    def set_path_and_save(self):
+    def _quit(self):
+        self.stop()
+        self.quit()     # stops mainloop
+        self.destroy()  # this is necessary on Windows to prevent Fatal Python Error
+
+    def _set_path_and_save(self):
         path = filedialog.asksaveasfilename(filetypes=[("Machine Gaming Files", "*.mg")], initialfile='algorithm')
         if len(path) is 0:  # dialog closed with "cancel".
             return
@@ -175,7 +185,7 @@ class MachineGaming(tk.Tk):
         else:
             messagebox.showwarning('Zapis', 'Zapis nieudany! Należy zdefiniować parametry algorytmu (UTWÓRZ/ŁADUJ)!')
 
-    def set_path_and_load(self):
+    def _set_path_and_load(self):
         path = filedialog.askopenfilename(filetypes=[("Machine Gaming", "*.mg")])
         if len(path) is 0:  # dialog closed with "cancel".
             return
@@ -185,14 +195,6 @@ class MachineGaming(tk.Tk):
             messagebox.showinfo('Wczytywanie', 'Wczytywanie udane!')
         else:
             messagebox.showwarning('Wczytywanie', 'Plik jest uszkodzony!')
-
-    def run(self):
-        self.mainloop()
-
-    def _quit(self):
-        self.stop()
-        self.quit()     # stops mainloop
-        self.destroy()  # this is necessary on Windows to prevent Fatal Python Error
 
     def on_game_over(self):  # listener for spaceship crashes
         current_game_score = self.game_controller.current_game.score
@@ -235,23 +237,27 @@ class MachineGaming(tk.Tk):
         return self.game_controller.calculate_buttons(neural_network=neural_network, input_vector=screen_state)
 
     def update_scores(self, score):
-        if score > self.curr_gen_best:
-            self.curr_gen_best = score
-        if score > self.best_score_overall:
-            self.best_score_overall = score
-        self.curr_gen_total_score += score
-
-        if self.machine_gaming_controller.get_current_network() == self.total_nn_number:
-            self.update_plots()
-            self.curr_gen_best = 0
+        if self._previous_generation == self.machine_gaming_controller.get_current_generation():
+            if score > self.curr_gen_best:
+                self.curr_gen_best = score
+            if score > self.best_score_overall:
+                self.best_score_overall = score
+            self.curr_gen_total_score += score
+        else:
+            self.update_plots(generation=self._previous_generation,
+                              gen_best=self.curr_gen_best,
+                              gen_avg=self.curr_gen_total_score/self._previous_population)
+            self._previous_population = len(self.machine_gaming_controller.ea.get_population())
             self.curr_gen_total_score = 0
+            self.curr_gen_best = 0
+            self._previous_generation = self.machine_gaming_controller.get_current_generation()
 
-    def update_plots(self):
-        self.best_gen_score_y.append(self.curr_gen_best)
-        self.best_gen_score_x.append(self.machine_gaming_controller.get_current_generation())
+    def update_plots(self, generation, gen_best, gen_avg):  # TODO: fix plotting after load
+        self.best_gen_score_y.append(gen_best)
+        self.best_gen_score_x.append(generation)
+        self.mean_gen_score_y.append(gen_avg)
+        self.mean_gen_score_x.append(generation)
 
-        self.mean_gen_score_y.append(self.curr_gen_total_score/self.total_nn_number)
-        self.mean_gen_score_x.append(self.machine_gaming_controller.get_current_generation())
         self.mean_gen_score.clear()
         self.best_gen_score.clear()
         self.mean_gen_score.plot(self.mean_gen_score_x, self.mean_gen_score_y)
