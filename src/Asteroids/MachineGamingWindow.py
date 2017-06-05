@@ -25,6 +25,7 @@ style.use('dark_background')
 class MachineGaming(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
+        self.overrideredirect(True)
         self.machine_gaming_controller = MachineGamingController(stats_window=self)
         self.game_controller = GameController(stats_window=self)
 
@@ -168,8 +169,9 @@ class MachineGaming(tk.Tk):
 
     def stop(self):
         self.speed_slider.set(1)
-        self.game_controller.stop()
-        self.game_controller.current_game_thread.join(1)
+        if self.game_controller.current_game is not None:
+            self.game_controller.stop()
+            self.game_controller.current_game_thread.join(1)
 
     def _quit(self):
         self.stop()
