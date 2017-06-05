@@ -172,7 +172,7 @@ class MachineGaming(tk.Tk):
         self.speed_slider.set(1)
         if self.game_controller.current_game is not None:
             self.game_controller.stop()
-            self.game_controller.current_game_thread.join(1)
+            self.game_controller.current_game_thread.join(5)
 
     def _quit(self):
         self.stop()

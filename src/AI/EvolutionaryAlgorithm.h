@@ -38,6 +38,7 @@ private:
     void serialize(Archive & ar, const unsigned int version) {
         ar & current_network_;
         ar & current_generation_;
+        ar & children_bred_;
         ar & population_;
         ar & population_size_;
         ar & children_bred_per_generation_;
