@@ -105,10 +105,10 @@ BOOST_AUTO_TEST_SUITE(EvolutionaryAlgorithmTest)
         EvolutionaryAlgorithmParameters p;
         p.population_size = 10;
         p.children_bred_per_generation = 5;
-        p.crossover_probability = 1;
+        p.crossover_probability = 0.5;
         p.mutation_probability = 0.5;
         p.input_size = 2;
-        p.hidden_layers = 2;
+        p.hidden_layers = 1;
         p.output_size = 1;
         p.weight_variance = 20.0;
 

@@ -1,0 +1,1 @@
+file(COPY asteroid.png missile.png spaceship.png DESTINATION .)

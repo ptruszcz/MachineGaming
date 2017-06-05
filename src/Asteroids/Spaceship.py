@@ -16,7 +16,8 @@ Modified by: Jakub Fajkowski
 
 class Spaceship(MovingObject):
     def __init__(self, x, y, listener=None):
-        fullname = os.path.join('../../res/Asteroids/sprites', 'spaceship.png')
+        file_path = os.path.dirname(__file__)
+        fullname = os.path.join(file_path, '../../res/Asteroids', 'spaceship.png')
         image = pygame.image.load(fullname)
 
         MovingObject.__init__(self, image=image,

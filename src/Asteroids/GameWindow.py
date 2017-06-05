@@ -2,6 +2,7 @@ import pygame
 import math
 import random
 import Config as c
+import time
 from Coordinates import Coordinates
 from Vector import Vector
 from Asteroid import Asteroid
@@ -11,6 +12,10 @@ from Spaceship import Spaceship
 File created by: Piotr Truszczynski
 Modified by: Jakub Fajkowski
 """
+
+
+def current_time():
+    return int(round(time.time() * 1000))
 
 
 class GameWindow:
@@ -36,11 +41,12 @@ class GameWindow:
         self._spaceship = Spaceship(x=c.CENTER_POINT.x,
                                     y=c.CENTER_POINT.y,
                                     listener=self)
-        self._last_asteroid_spawn = 0
+        self._last_asteroid_spawn = current_time()
         self._asteroids_spawn_interval = c.ASTEROIDS_SPAWN_INTERVAL
         self._asteroids_per_spawn = c.ASTEROIDS_PER_SPAWN
         self._asteroids_max_on_screen = c.ASTEROIDS_MAX_ON_SCREEN
-        self._last_difficulty_increase = 0
+        self._last_difficulty_increase = current_time()
+        self._spawn_asteroids(c.ASTEROIDS_PER_SPAWN)
 
     def _init(self):
         pygame.init()
@@ -57,18 +63,21 @@ class GameWindow:
         self._spaceship = Spaceship(x=c.CENTER_POINT.x,
                                     y=c.CENTER_POINT.y,
                                     listener=self)
-        self._last_asteroid_spawn = 0
+        self._last_asteroid_spawn = current_time()
         self._asteroids_spawn_interval = c.ASTEROIDS_SPAWN_INTERVAL
         self._asteroids_per_spawn = c.ASTEROIDS_PER_SPAWN
         self._asteroids_max_on_screen = c.ASTEROIDS_MAX_ON_SCREEN
-        self._last_difficulty_increase = 0
+        self._last_difficulty_increase = current_time()
+        self._spawn_asteroids(c.ASTEROIDS_PER_SPAWN)
 
     def run(self):
         self._init()
 
         while self.running:
             self._clock.tick(60 * self.speed)
-            self.score += 1
+
+            if c.POINTS_FOR_BEING_ALIVE:
+                self.score += 1
 
             for event in pygame.event.get():
                 if event is not pygame.MOUSEMOTION:
@@ -85,10 +94,10 @@ class GameWindow:
 
             for key in self._pressed_buttons:
                 if key == pygame.K_RETURN:
-                    if pygame.time.get_ticks() - self._spaceship.last_shot > self._consider_fps(c.MISSILE_RELOAD_TIME):
+                    if current_time() - self._spaceship.last_shot > self._consider_fps(c.MISSILE_RELOAD_TIME):
                         missile = self._spaceship.fire()
                         self._missiles.add(missile)
-                        self._spaceship.last_shot = pygame.time.get_ticks()
+                        self._spaceship.last_shot = current_time()
                 else:
                     self._spaceship.steer(key)
 
@@ -102,12 +111,12 @@ class GameWindow:
             if destroyed_asteroids:
                 self.score += c.ASTEROIDS_POINTS_PER_HIT
 
-            if pygame.time.get_ticks() - self._last_asteroid_spawn > self._consider_fps(c.ASTEROIDS_SPAWN_INTERVAL) \
+            if current_time() - self._last_asteroid_spawn > self._consider_fps(c.ASTEROIDS_SPAWN_INTERVAL) \
                and len(self._asteroids.sprites()) < self._asteroids_max_on_screen:
-                self._spawn_asteroids(c.ASTEROIDS_PER_SPAWN)
+                self._spawn_single_asteroid()
 
             # time based difficulty - can easily be changed to score based
-            if pygame.time.get_ticks() - self._last_difficulty_increase > self._consider_fps(c.DIFFICULTY_INCREASE_INTERVAL):
+            if current_time() - self._last_difficulty_increase > self._consider_fps(c.DIFFICULTY_INCREASE_INTERVAL):
                 self._increase_difficulty()
 
             self._render()
@@ -154,7 +163,7 @@ class GameWindow:
         if self._asteroids_max_on_screen < 10:
             self._asteroids_max_on_screen += 1
 
-        self._last_difficulty_increase = pygame.time.get_ticks()
+        self._last_difficulty_increase = current_time()
 
     def _display_score(self):
         font = pygame.font.SysFont("Courier New", 20)
@@ -176,7 +185,7 @@ class GameWindow:
         velocity = self._create_vector_towards_screen(position)
 
         self._asteroids.add(Asteroid(position, velocity))
-        self._last_asteroid_spawn = pygame.time.get_ticks()
+        self._last_asteroid_spawn = current_time()
 
     def _display_tracking_rays(self):
         for asteroid in self._tracked_asteroids:

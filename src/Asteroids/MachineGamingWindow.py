@@ -164,7 +164,7 @@ class MachineGaming(tk.Tk):
     def stop(self):
         self.speed_slider.set(1)
         self.game_controller.stop()
-        self.game_controller.current_game_thread.join(10)
+        self.game_controller.current_game_thread.join(1)
 
     def set_path_and_save(self):
         path = filedialog.asksaveasfilename(filetypes=[("Machine Gaming Files", "*.mg")], initialfile='algorithm')

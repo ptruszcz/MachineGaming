@@ -49,6 +49,7 @@ void EvolutionaryAlgorithm::breed() {
                 mutate(*offspring);
 
             population_.push_back(std::move(offspring));
+            ++children_bred_;
         }
     }
 }
@@ -111,9 +112,10 @@ PNeuralNetwork EvolutionaryAlgorithm::getNext() {
         breed();
     }
 
-    if (current_network_ == population_size_ + children_bred_per_generation_) {
+    if (current_network_ == population_size_ + children_bred_) {
         removeWeakestIndividuals();
         current_network_ = 0;
+        children_bred_ = 0;
         ++current_generation_;
     }
 

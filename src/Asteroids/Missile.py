@@ -12,7 +12,8 @@ Modified by: Jakub Fajkowski
 
 class Missile(MovingObject):
     def __init__(self, coordinates, velocity=Vector(0, 0), direction=0):
-        fullname = os.path.join('../../res/Asteroids/sprites', 'missile.png')
+        file_path = os.path.dirname(__file__)
+        fullname = os.path.join(file_path, '../../res/Asteroids', 'missile.png')
         image = pygame.image.load(fullname)
 
         MovingObject.__init__(self, image, coordinates,

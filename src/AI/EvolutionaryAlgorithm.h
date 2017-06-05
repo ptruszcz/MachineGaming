@@ -52,6 +52,7 @@ private:
 
     int current_network_ = 0;
     int current_generation_ = 1;
+    int children_bred_ = 0;
     NeuralNetworks population_;
     int population_size_;
     int children_bred_per_generation_;

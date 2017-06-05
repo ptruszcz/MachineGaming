@@ -1,4 +1,4 @@
-from os import path
+import os
 import pygame
 import Config as c
 from Vector import Vector
@@ -12,7 +12,8 @@ Modified by: Jakub Fajkowski
 
 class Asteroid(MovingObject):
     def __init__(self, coordinates, velocity=Vector(0, 0), scale=0.10, rotation_rate=-0.5):
-        fullname = path.join('../../res/Asteroids/sprites', 'asteroid.png')
+        file_path = os.path.dirname(__file__)
+        fullname = os.path.join(file_path, '../../res/Asteroids', 'asteroid.png')
         image = pygame.image.load(fullname)
 
         MovingObject.__init__(self, image, coordinates, c.ASTEROIDS_BOUNCE, velocity,

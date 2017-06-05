@@ -1,9 +1,3 @@
-file(GLOB SOURCES
-        "${SOURCES_DIR}/*.h"
-        "${SOURCES_DIR}/*.cc"
-        "${SOURCES_DIR}/*.hpp"
-        )
-
 add_executable(CounterTest CounterTest.cc)
 target_link_libraries(CounterTest pyvolution)
 add_test(NAME CounterTest COMMAND CounterTest)
