@@ -26,6 +26,8 @@ class GameController:
         if self.current_game is not None:
             self.current_game.running = False
             self.current_game = None
+        if self.current_game_thread is not None:
+            self.current_game_thread.join(5)
 
     def change_speed(self, speed):
         if self.current_game is not None:

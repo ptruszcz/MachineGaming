@@ -26,15 +26,9 @@ class MachineGaming(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
         self.wm_title(Labels.title)
-        self.overrideredirect(True)
-        self.resizable(0,0)
+        self.resizable(0, 0)
         self.machine_gaming_controller = MachineGamingController(stats_window=self)
         self.game_controller = GameController(stats_window=self)
-
-        self.canvas = None
-        self.fig = Figure(figsize=(5, 5), dpi=100, tight_layout={'h_pad': 3})
-        self.best_gen_score = self.fig.add_subplot(2, 1, 1, title=Labels.plot_title[0], xlabel=Labels.plot_xlabel)
-        self.mean_gen_score = self.fig.add_subplot(2, 1, 2, title=Labels.plot_title[1], xlabel=Labels.plot_xlabel)
 
         self.mean_gen_score_x = []
         self.mean_gen_score_y = []
@@ -43,11 +37,14 @@ class MachineGaming(tk.Tk):
         self.best_score_overall = 0
         self.curr_gen_best = 0
         self.curr_gen_total_score = 0
-        self._previous_population = 0  # population size
-        self._previous_generation = 1  # generation number
 
         self.eap_label_vars = []
         self.stat_label_vars = []
+
+        self.canvas = None
+        self.fig = Figure(figsize=(5, 5), dpi=100, tight_layout={'h_pad': 3})
+        self.best_gen_score = self.fig.add_subplot(2, 1, 1)
+        self.mean_gen_score = self.fig.add_subplot(2, 1, 2)
 
         frame = tk.Frame(self)
         frame.pack(side=tk.TOP, anchor='w')
@@ -117,6 +114,7 @@ class MachineGaming(tk.Tk):
         self.canvas = FigureCanvasTkAgg(self.fig, self)
         self.canvas.show()
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM)
+        self._update_plots()
 
     def enter_parameters(self):
         param_frame = tk.Toplevel()
@@ -136,6 +134,7 @@ class MachineGaming(tk.Tk):
             param_frame, text=Labels.create_button,
             command=lambda: [self.machine_gaming_controller.initialize_ea(self.extract_str_from_entries(entries)),
                              self.update_ea_parameters(self.extract_str_from_entries(entries)),
+                             self._reset_plots(),
                              param_frame.destroy()])
         create_button.grid(row=10, column=0, columnspan=2)
 
@@ -145,8 +144,6 @@ class MachineGaming(tk.Tk):
     def update_ea_parameters(self, parameters):
         for i in range(len(parameters)):
             self.eap_label_vars[i].set(Labels.params[i] + str(parameters[i]))
-        self._previous_population = len(self.machine_gaming_controller.ea.get_population())
-        self._previous_generation = self.machine_gaming_controller.get_current_generation()
 
     def update_stats(self, current_gen_num, current_nn_num, current_score):
         current_stats = [current_gen_num,
@@ -161,7 +158,6 @@ class MachineGaming(tk.Tk):
         if self.machine_gaming_controller.ea is not None:
             if self.game_controller.current_game is not None:
                 self.stop()
-
             self.game_controller.start(headless=headless)
         else:
             messagebox.showwarning(Labels.msgbox_title[0], Labels.msgbox_msg[0])
@@ -174,12 +170,11 @@ class MachineGaming(tk.Tk):
         self.speed_slider.set(1)
         if self.game_controller.current_game is not None:
             self.game_controller.stop()
-            self.game_controller.current_game_thread.join(5)
 
     def _quit(self):
         self.stop()
-        self.quit()     # stops mainloop
-        self.destroy()  # this is necessary on Windows to prevent Fatal Python Error
+        self.quit()
+        self.destroy()
 
     def _set_path_and_save(self):
         path = filedialog.asksaveasfilename(filetypes=Labels.mg_filetype, initialfile=Labels.initialfilename)
@@ -241,30 +236,38 @@ class MachineGaming(tk.Tk):
 
         return self.game_controller.calculate_buttons(neural_network=neural_network, input_vector=screen_state)
 
+    #  Counts only networks from basic population - children get accounted only if they survive
     def update_scores(self, score):
-        if self._previous_generation == self.machine_gaming_controller.get_current_generation():
-            if score > self.curr_gen_best:
-                self.curr_gen_best = score
-            if score > self.best_score_overall:
-                self.best_score_overall = score
-            self.curr_gen_total_score += score
-        else:
-            self.update_plots(generation=self._previous_generation,
-                              gen_best=self.curr_gen_best,
-                              gen_avg=self.curr_gen_total_score/self._previous_population)
-            self._previous_population = len(self.machine_gaming_controller.ea.get_population())
+        current_network_number = self.machine_gaming_controller.get_current_network()
+        current_generation_number = self.machine_gaming_controller.get_current_generation()
+        population_size = self.machine_gaming_controller.ea.get_population_size()
+
+        if current_network_number < population_size:
+            self._compare_scores(score)
+        elif current_network_number == population_size:
+            self._compare_scores(score)
+            self._update_plot_stats(generation=current_generation_number,
+                                    gen_best=self.curr_gen_best,
+                                    gen_avg=self.curr_gen_total_score/population_size)
+            self._update_plots()
             self.curr_gen_total_score = 0
             self.curr_gen_best = 0
-            self._previous_generation = self.machine_gaming_controller.get_current_generation()
 
-    def update_plots(self, generation, gen_best, gen_avg):
+    def _compare_scores(self, score):
+        if score > self.curr_gen_best:
+            self.curr_gen_best = score
+        if score > self.best_score_overall:
+            self.best_score_overall = score
+        self.curr_gen_total_score += score
+
+    def _update_plot_stats(self, generation, gen_best, gen_avg):
         self.best_gen_score_y.append(gen_best)
         self.best_gen_score_x.append(generation)
         self.mean_gen_score_y.append(gen_avg)
         self.mean_gen_score_x.append(generation)
 
-        self.mean_gen_score.clear()
-        self.best_gen_score.clear()
+    def _update_plots(self):
+        self._clear_plots()
         self.best_gen_score.plot(self.best_gen_score_x, self.best_gen_score_y)
         self.mean_gen_score.plot(self.mean_gen_score_x, self.mean_gen_score_y)
         self.best_gen_score.set_title(Labels.plot_title[0])
@@ -272,6 +275,18 @@ class MachineGaming(tk.Tk):
         self.mean_gen_score.set_title(Labels.plot_title[1])
         self.mean_gen_score.set_xlabel(Labels.plot_xlabel)
         self.canvas.draw()
+
+    def _reset_plots(self):
+        self._clear_plots()
+        self.best_gen_score_x = []
+        self.mean_gen_score_x = []
+        self.best_gen_score_y = []
+        self.mean_gen_score_y = []
+        self._update_plots()
+
+    def _clear_plots(self):
+        self.mean_gen_score.clear()
+        self.best_gen_score.clear()
 
     @staticmethod
     def _direction_degrees(y, x):
