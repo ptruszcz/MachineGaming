@@ -6,7 +6,7 @@ from matplotlib.figure import Figure
 from matplotlib import style
 from MachineGamingController import MachineGamingController
 from GameController import GameController
-import GUILabels
+import Labels
 import sys
 if sys.version_info[0] < 3:
     import Tkinter as tk
@@ -25,14 +25,16 @@ style.use('dark_background')
 class MachineGaming(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
+        self.wm_title(Labels.title)
+        self.overrideredirect(True)
         self.resizable(0,0)
         self.machine_gaming_controller = MachineGamingController(stats_window=self)
         self.game_controller = GameController(stats_window=self)
 
         self.canvas = None
         self.fig = Figure(figsize=(5, 5), dpi=100, tight_layout={'h_pad': 3})
-        self.best_gen_score = self.fig.add_subplot(2, 1, 1, title='Najlepszy wynik w generacji', xlabel='generacja')
-        self.mean_gen_score = self.fig.add_subplot(2, 1, 2, title='Średni wynik generacji', xlabel='generacja')
+        self.best_gen_score = self.fig.add_subplot(2, 1, 1, title=Labels.plot_title[0], xlabel=Labels.plot_xlabel)
+        self.mean_gen_score = self.fig.add_subplot(2, 1, 2, title=Labels.plot_title[1], xlabel=Labels.plot_xlabel)
 
         self.mean_gen_score_x = []
         self.mean_gen_score_y = []
@@ -70,34 +72,34 @@ class MachineGaming(tk.Tk):
                              self.enter_parameters, self._set_path_and_save,
                              self._set_path_and_load, self._quit]
 
-        for i in range(len(GUILabels.buttons_texts)):
-            button = tk.Button(self.controls_frame, text=GUILabels.buttons_texts[i],
+        for i in range(len(Labels.buttons)):
+            button = tk.Button(self.controls_frame, text=Labels.buttons[i],
                                padx=8, pady=8, width=6, height=1, command=buttons_callbacks[i])
             button.pack(side=tk.TOP)
 
     def add_infos(self):
-        stats_frame = tk.LabelFrame(self.infos_frame, text='Statystyki')
+        stats_frame = tk.LabelFrame(self.infos_frame, text=Labels.frames[0])
         stats_frame.pack(side=tk.TOP, anchor='e')
         stats_labels = []
 
-        for i in range(len(GUILabels.stats_texts)):
+        for i in range(len(Labels.stats)):
             self.stat_label_vars.append(tk.StringVar())
-            self.stat_label_vars[i].set(GUILabels.stats_texts[i])
+            self.stat_label_vars[i].set(Labels.stats[i])
 
-        for i in range(len(GUILabels.stats_texts)):
+        for i in range(len(Labels.stats)):
             stats_labels.append(tk.Label(stats_frame, textvariable=self.stat_label_vars[i],
                                          width=50, anchor="w"))
             stats_labels[i].pack(side=tk.TOP, anchor='w')
 
-        params_frame = tk.LabelFrame(self.infos_frame, text='Parametry')
+        params_frame = tk.LabelFrame(self.infos_frame, text=Labels.frames[1])
         params_frame.pack(side=tk.TOP, anchor='e')
 
-        for i in range(len(GUILabels.params_texts)):
+        for i in range(len(Labels.params)):
             self.eap_label_vars.append(tk.StringVar())
-            self.eap_label_vars[i].set(GUILabels.params_texts[i])
+            self.eap_label_vars[i].set(Labels.params[i])
 
         param_labels = []
-        for i in range(len(GUILabels.params_texts)):
+        for i in range(len(Labels.params)):
             param_labels.append(tk.Label(params_frame, textvariable=self.eap_label_vars[i],
                                          width=50, anchor="w"))
             param_labels[i].pack(anchor='nw')
@@ -105,7 +107,7 @@ class MachineGaming(tk.Tk):
     def add_sliders(self):
         speed_slider_frame = tk.Frame(self.sliders_frame)
         speed_slider_frame.pack(side=tk.LEFT)
-        speed_label = tk.Label(speed_slider_frame, text="Prędkość symulacji")
+        speed_label = tk.Label(speed_slider_frame, text=Labels.slider)
         speed_label.pack(side=tk.BOTTOM)
         self.speed_slider = tk.Scale(speed_slider_frame, orient='horizontal', length=200,
                                      from_=1, to=10, resolution=0.1, command=self.game_controller.change_speed)
@@ -123,15 +125,15 @@ class MachineGaming(tk.Tk):
                           3, 10.0]
         entries = []
 
-        for i in range(len(GUILabels.params_texts)):
-            label = tk.Label(param_frame, text=GUILabels.params_texts[i])
+        for i in range(len(Labels.params)):
+            label = tk.Label(param_frame, text=Labels.params[i])
             entries.append(tk.Entry(param_frame))
             label.grid(row=i, column=0)
             entries[i].insert(0, default_values[i])
             entries[i].grid(row=i, column=1)
 
         create_button = tk.Button(
-            param_frame, text="UTWÓRZ",
+            param_frame, text=Labels.create_button,
             command=lambda: [self.machine_gaming_controller.initialize_ea(self.extract_str_from_entries(entries)),
                              self.update_ea_parameters(self.extract_str_from_entries(entries)),
                              param_frame.destroy()])
@@ -142,7 +144,7 @@ class MachineGaming(tk.Tk):
 
     def update_ea_parameters(self, parameters):
         for i in range(len(parameters)):
-            self.eap_label_vars[i].set(GUILabels.params_texts[i] + str(parameters[i]))
+            self.eap_label_vars[i].set(Labels.params[i] + str(parameters[i]))
         self._previous_population = len(self.machine_gaming_controller.ea.get_population())
         self._previous_generation = self.machine_gaming_controller.get_current_generation()
 
@@ -153,7 +155,7 @@ class MachineGaming(tk.Tk):
                          self.best_score_overall]
 
         for i in range(len(self.stat_label_vars)):
-            self.stat_label_vars[i].set(GUILabels.stats_texts[i] + str(current_stats[i]))
+            self.stat_label_vars[i].set(Labels.stats[i] + str(current_stats[i]))
 
     def start(self, headless):
         if self.machine_gaming_controller.ea is not None:
@@ -162,7 +164,7 @@ class MachineGaming(tk.Tk):
 
             self.game_controller.start(headless=headless)
         else:
-            messagebox.showwarning('Start', 'Należy zdefiniować parametry algorytmu (UTWÓRZ/ŁADUJ)!')
+            messagebox.showwarning(Labels.msgbox_title[0], Labels.msgbox_msg[0])
 
     def run(self):
         self.protocol("WM_DELETE_WINDOW", self._quit)
@@ -180,24 +182,24 @@ class MachineGaming(tk.Tk):
         self.destroy()  # this is necessary on Windows to prevent Fatal Python Error
 
     def _set_path_and_save(self):
-        path = filedialog.asksaveasfilename(filetypes=[("Machine Gaming Files", "*.mg")], initialfile='algorithm')
+        path = filedialog.asksaveasfilename(filetypes=Labels.mg_filetype, initialfile='algorithm')
         if len(path) is 0:  # dialog closed with "cancel".
             return
         if self.machine_gaming_controller.save(path):
-            messagebox.showinfo('Zapis', 'Zapis udany!')
+            messagebox.showinfo(Labels.msgbox_title[1], Labels.msgbox_msg[1])
         else:
-            messagebox.showwarning('Zapis', 'Zapis nieudany! Należy zdefiniować parametry algorytmu (UTWÓRZ/ŁADUJ)!')
+            messagebox.showwarning(Labels.msgbox_title[1], Labels.msgbox_msg[2])
 
     def _set_path_and_load(self):
-        path = filedialog.askopenfilename(filetypes=[("Machine Gaming", "*.mg")])
+        path = filedialog.askopenfilename(filetypes=Labels.filetypes.mg)
         if len(path) is 0:  # dialog closed with "cancel".
             return
         success, parameters = self.machine_gaming_controller.load(path)
         if success:
             self.update_ea_parameters(parameters)
-            messagebox.showinfo('Wczytywanie', 'Wczytywanie udane!')
+            messagebox.showinfo(Labels.msgbox_title[2], Labels.msgbox_msg[3])
         else:
-            messagebox.showwarning('Wczytywanie', 'Plik jest uszkodzony!')
+            messagebox.showwarning(Labels.msgbox_title[2], Labels.msgbox_msg[4])
 
     def on_game_over(self):  # listener for spaceship crashes
         current_game_score = self.game_controller.current_game.score
@@ -255,7 +257,7 @@ class MachineGaming(tk.Tk):
             self.curr_gen_best = 0
             self._previous_generation = self.machine_gaming_controller.get_current_generation()
 
-    def update_plots(self, generation, gen_best, gen_avg):  # TODO: fix plotting after load
+    def update_plots(self, generation, gen_best, gen_avg):
         self.best_gen_score_y.append(gen_best)
         self.best_gen_score_x.append(generation)
         self.mean_gen_score_y.append(gen_avg)
@@ -263,8 +265,12 @@ class MachineGaming(tk.Tk):
 
         self.mean_gen_score.clear()
         self.best_gen_score.clear()
-        self.mean_gen_score.plot(self.mean_gen_score_x, self.mean_gen_score_y)
         self.best_gen_score.plot(self.best_gen_score_x, self.best_gen_score_y)
+        self.mean_gen_score.plot(self.mean_gen_score_x, self.mean_gen_score_y)
+        self.best_gen_score.set_title(Labels.plot_title[0])
+        self.best_gen_score.set_xlabel(Labels.plot_xlabel)
+        self.mean_gen_score.set_title(Labels.plot_title[1])
+        self.mean_gen_score.set_xlabel(Labels.plot_xlabel)
         self.canvas.draw()
 
     @staticmethod
