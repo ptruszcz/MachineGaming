@@ -223,7 +223,7 @@ class MachineGaming(tk.Tk):
             delta_v_y = - (obstacle.velocity.y - player.velocity.y)
 
             obstacle_direction = self._direction_degrees(delta_y, delta_x)
-            delta_direction = obstacle_direction - player.direction
+            delta_direction = self._direction_delta(obstacle_direction, player.direction)
 
             screen_state.append(player.coordinates.calculate_distance(obstacle.coordinates))
             screen_state.append(delta_v_x)
@@ -280,6 +280,10 @@ class MachineGaming(tk.Tk):
             return math.degrees(direction_rad)
         else:
             return math.degrees(2*math.pi + direction_rad)
+
+    @staticmethod
+    def _direction_delta(x, y):
+        return ((x-y) % 360 + 180) % 360 - 180
 
 
 machine_gaming = MachineGaming()
