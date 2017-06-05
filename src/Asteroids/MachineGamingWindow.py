@@ -191,7 +191,7 @@ class MachineGaming(tk.Tk):
             messagebox.showwarning(Labels.msgbox_title[1], Labels.msgbox_msg[2])
 
     def _set_path_and_load(self):
-        path = filedialog.askopenfilename(filetypes=Labels.filetypes.mg)
+        path = filedialog.askopenfilename(filetypes=Labels.mg_filetype)
         if len(path) is 0:  # dialog closed with "cancel".
             return
         success, parameters = self.machine_gaming_controller.load(path)
