@@ -41,6 +41,10 @@ void NeuralNetwork::mutate(const MutationType &mutation_type) {
     phenome_ = std::make_unique<Phenome>(*genome_);
 }
 
+/**
+ * Neural network using provided input calculate some output values.
+ * @param input vector
+ */
 void NeuralNetwork::feedForward(const Matrix &input) {
     if (!compatible(input))
         return;
@@ -58,6 +62,10 @@ bool NeuralNetwork::compatible(const Matrix &input) {
     return size(phenome_->getNeurons()[0]) == size(input);
 }
 
+/**
+ * Feed forward method should be called before.
+ * @return Calculated output value.
+ */
 const Matrix &NeuralNetwork::getOutput() const {
     return output_;
 }
@@ -79,6 +87,12 @@ bool NeuralNetwork::operator!=(const NeuralNetwork &rhs) const {
     return !(rhs == *this);
 }
 
+/**
+ * Comparator using neural network fitness.
+ * @param neural network one
+ * @param neural network two
+ * @return True if p1's fitness is greater than p2's fitness. Else false.
+ */
 bool NeuralNetwork::compare(const PNeuralNetwork &p1, const PNeuralNetwork &p2) {
     return p1->getFitness() > p2->getFitness();
 }

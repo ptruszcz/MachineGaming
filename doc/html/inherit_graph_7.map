@@ -1,0 +1,7 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classCounter.html" title="Counter\&lt; Connection \&gt;" alt="" coords="5,5,164,32"/>
+<area shape="rect" id="node2" href="$classConnection.html" title="Represents connection between neurons. " alt="" coords="212,31,300,57"/>
+<area shape="rect" id="node3" href="$classCounter.html" title="Counter\&lt; Neuron \&gt;" alt="" coords="17,107,152,133"/>
+<area shape="rect" id="node4" href="$classNeuron.html" title="Represents network neurons. " alt="" coords="224,93,288,120"/>
+<area shape="rect" id="node5" href="$classGene.html" title="Class representing gene. " alt="" coords="58,56,111,83"/>
+</map>

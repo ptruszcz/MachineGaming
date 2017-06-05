@@ -26,13 +26,12 @@ class MachineGaming(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
         self.wm_title(Labels.title)
-        self.overrideredirect(True)
-        self.resizable(0,0)
+        self.resizable(0, 0)
         self.machine_gaming_controller = MachineGamingController(stats_window=self)
         self.game_controller = GameController(stats_window=self)
 
         self.canvas = None
-        self.fig = Figure(figsize=(5, 5), dpi=100, tight_layout={'h_pad': 3})
+        self.fig = Figure(figsize=(5, 4), dpi=100, tight_layout={'h_pad': 3})
         self.best_gen_score = self.fig.add_subplot(2, 1, 1, title=Labels.plot_title[0], xlabel=Labels.plot_xlabel)
         self.mean_gen_score = self.fig.add_subplot(2, 1, 2, title=Labels.plot_title[1], xlabel=Labels.plot_xlabel)
 
@@ -74,7 +73,7 @@ class MachineGaming(tk.Tk):
 
         for i in range(len(Labels.buttons)):
             button = tk.Button(self.controls_frame, text=Labels.buttons[i],
-                               padx=8, pady=8, width=6, height=1, command=buttons_callbacks[i])
+                               padx=8, pady=6, width=6, height=1, command=buttons_callbacks[i])
             button.pack(side=tk.TOP)
 
     def add_infos(self):
@@ -109,7 +108,7 @@ class MachineGaming(tk.Tk):
         speed_slider_frame.pack(side=tk.LEFT)
         speed_label = tk.Label(speed_slider_frame, text=Labels.slider)
         speed_label.pack(side=tk.BOTTOM)
-        self.speed_slider = tk.Scale(speed_slider_frame, orient='horizontal', length=200,
+        self.speed_slider = tk.Scale(speed_slider_frame, orient='horizontal', length=350, width=10,
                                      from_=1, to=10, resolution=0.1, command=self.game_controller.change_speed)
         self.speed_slider.pack(side=tk.BOTTOM)
 

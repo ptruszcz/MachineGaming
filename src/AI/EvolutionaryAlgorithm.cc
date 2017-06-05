@@ -36,6 +36,10 @@ void EvolutionaryAlgorithm::generateInitialPopulation(int input_size, int hidden
     }
 }
 
+/**
+ * A method that sorts the population depending on their fitness and then
+ * it crossovers individuals with some probability. An offspring can be mutated.
+ */
 void EvolutionaryAlgorithm::breed() {
     std::sort(population_.begin(), population_.end(), NeuralNetwork::compare);
 
@@ -54,6 +58,10 @@ void EvolutionaryAlgorithm::breed() {
     }
 }
 
+/**
+ * It selects two parents and create an offspring.
+ * @return New neural network with mixed genome.
+ */
 PNeuralNetwork EvolutionaryAlgorithm::crossover() {
     PNeuralNetwork first_parent = select();
     PNeuralNetwork second_parent = select();
@@ -61,6 +69,10 @@ PNeuralNetwork EvolutionaryAlgorithm::crossover() {
     return NeuralNetwork::crossover(*first_parent, *second_parent);
 }
 
+/**
+ * It uses roulette wheel selection.
+ * @return Individual with probability of selection proportional to fitness.
+ */
 PNeuralNetwork EvolutionaryAlgorithm::select() {
     int fitness_sum = 0;
     for(const auto &individual : population_) {
@@ -81,6 +93,9 @@ void EvolutionaryAlgorithm::mutate(NeuralNetwork& neural_network) {
     neural_network.mutate(random_mutation_type);
 }
 
+/**
+ * It sorts population and deletes individuals with smallest fitness.
+ */
 void EvolutionaryAlgorithm::removeWeakestIndividuals() {
     std::sort(population_.begin(), population_.end(), NeuralNetwork::compare);
 
@@ -107,6 +122,13 @@ const NeuralNetworks &EvolutionaryAlgorithm::getPopulation() const {
     return population_;
 }
 
+/**
+ * The result of this method depends on current_network_ counter. If current network number
+ * is equal to population size - there are some offsprings added to population vector. After that
+ * algorithm will return children networks. If the last child is selected, counter resets
+ * and the weakest networks are killed.
+ * @return Current neural network chosen by algorithm.
+ */
 PNeuralNetwork EvolutionaryAlgorithm::getNext() {
     if (current_network_ == population_size_) {
         breed();

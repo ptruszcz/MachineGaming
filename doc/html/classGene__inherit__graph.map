@@ -1,0 +1,4 @@
+<map id="Gene" name="Gene">
+<area shape="rect" id="node2" href="$classConnection.html" title="Represents connection between neurons. " alt="" coords="5,80,93,107"/>
+<area shape="rect" id="node3" href="$classNeuron.html" title="Represents network neurons. " alt="" coords="117,80,181,107"/>
+</map>

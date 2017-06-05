@@ -1,0 +1,5 @@
+<map id="MovingObject.MovingObject" name="MovingObject.MovingObject">
+<area shape="rect" id="node4" href="$classAsteroid_1_1Asteroid.html" title="Asteroid.Asteroid" alt="" coords="7,155,130,181"/>
+<area shape="rect" id="node5" href="$classMissile_1_1Missile.html" title="Missile.Missile" alt="" coords="155,155,263,181"/>
+<area shape="rect" id="node6" href="$classSpaceship_1_1Spaceship.html" title="Spaceship.Spaceship" alt="" coords="287,155,435,181"/>
+</map>

@@ -36,6 +36,7 @@ private:
     PGenome genome_;
     PPhenome phenome_;
 
+    // Defines how valuable is given neural network.
     double fitness_ = 0;
     Matrix output_;
 

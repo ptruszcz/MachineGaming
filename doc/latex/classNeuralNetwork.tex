@@ -1,0 +1,120 @@
+\hypertarget{classNeuralNetwork}{}\section{Neural\+Network Class Reference}
+\label{classNeuralNetwork}\index{Neural\+Network@{Neural\+Network}}
+
+
+Represents neural network -\/ multilayer perceptron.  
+
+
+
+
+{\ttfamily \#include $<$Neural\+Network.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Neural\+Network} (int input\+\_\+size, int hidden\+\_\+layers, int output\+\_\+size)\hypertarget{classNeuralNetwork_a246f904545417df2801e56277ab8d53f}{}\label{classNeuralNetwork_a246f904545417df2801e56277ab8d53f}
+
+\item 
+{\bfseries Neural\+Network} (const \hyperlink{classNeuralNetwork}{Neural\+Network} \&neural\+\_\+network)\hypertarget{classNeuralNetwork_a9b688c5f00977e83fedea7ee021348f1}{}\label{classNeuralNetwork_a9b688c5f00977e83fedea7ee021348f1}
+
+\item 
+{\bfseries Neural\+Network} (const \hyperlink{classGenome}{Genome} \&genome)\hypertarget{classNeuralNetwork_a772972afe658adbb165af9e8b384e552}{}\label{classNeuralNetwork_a772972afe658adbb165af9e8b384e552}
+
+\item 
+void {\bfseries mutate} (const Mutation\+Type \&mutation\+\_\+type)\hypertarget{classNeuralNetwork_a95ce793f6206c627f4d436be8348eede}{}\label{classNeuralNetwork_a95ce793f6206c627f4d436be8348eede}
+
+\item 
+void {\bfseries randomize\+All\+Weights} ()\hypertarget{classNeuralNetwork_a94e3233f8f2f6c2f1e205b67ddca7adf}{}\label{classNeuralNetwork_a94e3233f8f2f6c2f1e205b67ddca7adf}
+
+\item 
+void \hyperlink{classNeuralNetwork_a06a48c985365b4f933d0abe8dc894a1c}{feed\+Forward} (const Matrix \&input)
+\item 
+const Matrix \& \hyperlink{classNeuralNetwork_a151d07a86bcb717704c3ff8a2f6f35ad}{get\+Output} () const 
+\item 
+double {\bfseries get\+Fitness} () const \hypertarget{classNeuralNetwork_a6a8e4dfa1a2efcb63a576cac81fb9fe4}{}\label{classNeuralNetwork_a6a8e4dfa1a2efcb63a576cac81fb9fe4}
+
+\item 
+void {\bfseries set\+Fitness} (double fitness)\hypertarget{classNeuralNetwork_a9be745ebf5c3f469791439aee1835b0a}{}\label{classNeuralNetwork_a9be745ebf5c3f469791439aee1835b0a}
+
+\item 
+bool {\bfseries operator==} (const \hyperlink{classNeuralNetwork}{Neural\+Network} \&rhs) const \hypertarget{classNeuralNetwork_a2a3aff2fe2ee178914a3676ad4c88c51}{}\label{classNeuralNetwork_a2a3aff2fe2ee178914a3676ad4c88c51}
+
+\item 
+bool {\bfseries operator!=} (const \hyperlink{classNeuralNetwork}{Neural\+Network} \&rhs) const \hypertarget{classNeuralNetwork_ae5ac2160c59e9b38d551bff997e52645}{}\label{classNeuralNetwork_ae5ac2160c59e9b38d551bff997e52645}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{classNeuralNetwork_ac6e9655da50b97ca94f4e34bf3de3adc}{compare} (const P\+Neural\+Network \&p1, const P\+Neural\+Network \&p2)
+\begin{DoxyCompactList}\small\item\em Fitness comparison. \end{DoxyCompactList}\item 
+static P\+Neural\+Network {\bfseries crossover} (\hyperlink{classNeuralNetwork}{Neural\+Network} \&parent\+\_\+a, \hyperlink{classNeuralNetwork}{Neural\+Network} \&parent\+\_\+b)\hypertarget{classNeuralNetwork_a1168869bf81b753ae8b20ea518e11593}{}\label{classNeuralNetwork_a1168869bf81b753ae8b20ea518e11593}
+
+\end{DoxyCompactItemize}
+\subsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+class {\bfseries boost\+::serialization\+::access}\hypertarget{classNeuralNetwork_ac98d07dd8f7b70e16ccb9a01abf56b9c}{}\label{classNeuralNetwork_ac98d07dd8f7b70e16ccb9a01abf56b9c}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Represents neural network -\/ multilayer perceptron. 
+
+It provides evolutionary algorithm compatible methods and members. Allows to be crossed-\/over or mutated. Used to predict output by input using unknown function. \begin{DoxyAuthor}{Author}
+Jakub Fajkowski 
+\end{DoxyAuthor}
+
+
+\subsection{Member Function Documentation}
+\index{Neural\+Network@{Neural\+Network}!compare@{compare}}
+\index{compare@{compare}!Neural\+Network@{Neural\+Network}}
+\subsubsection[{\texorpdfstring{compare(const P\+Neural\+Network \&p1, const P\+Neural\+Network \&p2)}{compare(const PNeuralNetwork &p1, const PNeuralNetwork &p2)}}]{\setlength{\rightskip}{0pt plus 5cm}bool Neural\+Network\+::compare (
+\begin{DoxyParamCaption}
+\item[{const P\+Neural\+Network \&}]{p1, }
+\item[{const P\+Neural\+Network \&}]{p2}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classNeuralNetwork_ac6e9655da50b97ca94f4e34bf3de3adc}{}\label{classNeuralNetwork_ac6e9655da50b97ca94f4e34bf3de3adc}
+
+
+Fitness comparison. 
+
+Comparator using neural network fitness. 
+\begin{DoxyParams}{Parameters}
+{\em neural} & network one \\
+\hline
+{\em neural} & network two \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if p1\textquotesingle{}s fitness is greater than p2\textquotesingle{}s fitness. Else false. 
+\end{DoxyReturn}
+\index{Neural\+Network@{Neural\+Network}!feed\+Forward@{feed\+Forward}}
+\index{feed\+Forward@{feed\+Forward}!Neural\+Network@{Neural\+Network}}
+\subsubsection[{\texorpdfstring{feed\+Forward(const Matrix \&input)}{feedForward(const Matrix &input)}}]{\setlength{\rightskip}{0pt plus 5cm}void Neural\+Network\+::feed\+Forward (
+\begin{DoxyParamCaption}
+\item[{const Matrix \&}]{input}
+\end{DoxyParamCaption}
+)}\hypertarget{classNeuralNetwork_a06a48c985365b4f933d0abe8dc894a1c}{}\label{classNeuralNetwork_a06a48c985365b4f933d0abe8dc894a1c}
+Neural network using provided input calculate some output values. 
+\begin{DoxyParams}{Parameters}
+{\em input} & vector \\
+\hline
+\end{DoxyParams}
+\index{Neural\+Network@{Neural\+Network}!get\+Output@{get\+Output}}
+\index{get\+Output@{get\+Output}!Neural\+Network@{Neural\+Network}}
+\subsubsection[{\texorpdfstring{get\+Output() const }{getOutput() const }}]{\setlength{\rightskip}{0pt plus 5cm}const Matrix \& Neural\+Network\+::get\+Output (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+) const}\hypertarget{classNeuralNetwork_a151d07a86bcb717704c3ff8a2f6f35ad}{}\label{classNeuralNetwork_a151d07a86bcb717704c3ff8a2f6f35ad}
+Feed forward method should be called before. \begin{DoxyReturn}{Returns}
+Calculated output value. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\+A\+I/Neural\+Network.\+h\item 
+src/\+A\+I/Neural\+Network.\+cc\end{DoxyCompactItemize}
