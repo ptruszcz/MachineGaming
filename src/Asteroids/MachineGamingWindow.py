@@ -25,7 +25,7 @@ style.use('dark_background')
 class MachineGaming(tk.Tk):
     def __init__(self):
         tk.Tk.__init__(self)
-        self.overrideredirect(True)
+        self.resizable(0,0)
         self.machine_gaming_controller = MachineGamingController(stats_window=self)
         self.game_controller = GameController(stats_window=self)
 
@@ -165,6 +165,7 @@ class MachineGaming(tk.Tk):
             messagebox.showwarning('Start', 'Należy zdefiniować parametry algorytmu (UTWÓRZ/ŁADUJ)!')
 
     def run(self):
+        self.protocol("WM_DELETE_WINDOW", self._quit)
         self.mainloop()
 
     def stop(self):
