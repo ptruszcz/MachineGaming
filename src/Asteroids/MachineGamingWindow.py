@@ -192,6 +192,7 @@ class MachineGaming(tk.Tk):
         success, parameters = self.machine_gaming_controller.load(path)
         if success:
             self.update_ea_parameters(parameters)
+            self._reset_plots()
             messagebox.showinfo(Labels.msgbox_title[2], Labels.msgbox_msg[3])
         else:
             messagebox.showwarning(Labels.msgbox_title[2], Labels.msgbox_msg[4])
