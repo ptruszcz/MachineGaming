@@ -59,8 +59,13 @@ BOOST_AUTO_TEST_SUITE(GenomeTest)
     }
 
     BOOST_FIXTURE_TEST_CASE(ConnectionAddingTest, F) {
-        Genome genome1(50, 10, 20);
+        Genome genome1(100, 1, 100);
         Genome genome2(genome1);
+
+        for (int i=0; i<100; ++i) {
+            genome2.mutate(ADD_NEURON);
+        }
+
 
         genome2.mutate(ADD_CONNECTION);
         Connections genes1 = genome1.getConnections();
@@ -86,7 +91,7 @@ BOOST_AUTO_TEST_SUITE(GenomeTest)
         Genome genome1(50, 10, 20);
         Genome genome2(genome1);
         genome2.mutate(RANDOMIZE_WEIGHT);
-        BOOST_CHECK_NE(genome1, genome2);
+        BOOST_CHECK_EQUAL(genome1, genome2);
     }
 
     BOOST_FIXTURE_TEST_CASE(SerializationTest, F) {

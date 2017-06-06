@@ -29,6 +29,3 @@ add_test(NAME PhenomeTest COMMAND PhenomeTest)
 add_executable(WrappersTest WrappersTest.cc)
 target_link_libraries(WrappersTest pyvolution)
 add_test(NAME WrappersTest COMMAND WrappersTest)
-
-file(COPY pyvolutionTest.py DESTINATION .)
-add_test(NAME pyvolutionTest COMMAND ${PYTHON_EXECUTABLE} pyvolutionTest.py)
