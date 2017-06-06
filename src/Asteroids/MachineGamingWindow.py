@@ -231,10 +231,8 @@ class MachineGamingWindow(tk.Tk):
 
         distance_to_center_point = player.coordinates.calculate_distance(c.CENTER_POINT)
 
-        distance_max = abs(distance_to_center_point)
         velocity_x_max = abs(player.velocity.x)
         velocity_y_max = abs(player.velocity.y)
-        direction_max = abs(player.direction - 180)
 
         screen_state = [distance_to_center_point,
                         player.velocity.x,
@@ -253,19 +251,13 @@ class MachineGamingWindow(tk.Tk):
 
             distance_to_obstacle = player.coordinates.calculate_distance(obstacle.coordinates)
 
-            abs_distance_to_obstacle = abs(distance_to_obstacle)
             abs_delta_v_x = abs(delta_v_x)
             abs_delta_v_y = abs(delta_v_y)
-            abs_delta_direction = abs(delta_direction)
 
-            if distance_max < abs_distance_to_obstacle:
-                distance_max = abs_distance_to_obstacle
             if velocity_x_max < abs_delta_v_x:
                 velocity_x_max = abs_delta_v_x
             if velocity_y_max < abs_delta_v_y:
                 velocity_y_max = abs_delta_v_y
-            if direction_max < abs_delta_direction:
-                direction_max = abs_delta_direction
 
             screen_state.append(distance_to_obstacle)
             screen_state.append(delta_v_x)
@@ -275,8 +267,7 @@ class MachineGamingWindow(tk.Tk):
         screen_state_size = len(screen_state)
         for i in range(screen_state_size):
             if i % 4 == 0:
-                if distance_max != 0:
-                    screen_state[i] /= distance_max
+                screen_state[i] /= c.WINDOW_SIZE
             elif i % 4 == 1:
                 if velocity_x_max != 0:
                     screen_state[i] /= velocity_x_max
@@ -284,8 +275,7 @@ class MachineGamingWindow(tk.Tk):
                 if velocity_y_max != 0:
                     screen_state[i] /= velocity_y_max
             elif i % 4 == 3:
-                if direction_max != 0:
-                    screen_state[i] /= direction_max
+                screen_state[i] /= 180
 
         if screen_state_size < self.machine_gaming_controller.input_size:
             screen_state += [0] * (self.machine_gaming_controller.input_size - screen_state_size)

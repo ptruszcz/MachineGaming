@@ -55,12 +55,12 @@ class MovingObject(pygame.sprite.Sprite):
                 next_x = self.coordinates.x + self.velocity.x
                 next_y = self.coordinates.y + self.velocity.y
 
-                if next_x <= 0 or next_x >= c.WINDOW_SIZE_X:
+                if next_x <= 0 or next_x >= c.WINDOW_SIZE:
                     self.velocity.x = -self.velocity.x
                     if self._slows_down_after_bounce:
                         self.velocity.x *= c.SPEED_AFTER_BOUNCE
 
-                if next_y <= 0 or next_y >= c.WINDOW_SIZE_Y:
+                if next_y <= 0 or next_y >= c.WINDOW_SIZE:
                     self.velocity.y = -self.velocity.y
                     if self._slows_down_after_bounce:
                         self.velocity.y *= c.SPEED_AFTER_BOUNCE
@@ -72,7 +72,7 @@ class MovingObject(pygame.sprite.Sprite):
         self.coordinates.y += self.velocity.y
 
     def is_on_screen(self):
-        return 0 < self.coordinates.x < c.WINDOW_SIZE_X and 0 < self.coordinates.y < c.WINDOW_SIZE_Y
+        return 0 < self.coordinates.x < c.WINDOW_SIZE and 0 < self.coordinates.y < c.WINDOW_SIZE
 
     def destroy(self):
         self.kill()

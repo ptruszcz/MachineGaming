@@ -23,7 +23,7 @@ class GameWindow:
                  headless=False):
         self._game_over_listener = game_over_listener
         self._screen_update_listener = screen_update_listener
-        self._display_size = (c.WINDOW_SIZE_X, c.WINDOW_SIZE_Y)
+        self._display_size = (c.WINDOW_SIZE, c.WINDOW_SIZE)
         if headless:
             self._display_size = (1, 1)
 
@@ -224,16 +224,16 @@ def _randomize_spawn_point():
     # get random point on outer rectangle (bigger than screen by SPAWN_MARGIN in every direction)
     if border_number == 1:
         position = Coordinates(-c.SPAWN_MARGIN,
-                               random.randint(-c.SPAWN_MARGIN, c.WINDOW_SIZE_Y + c.SPAWN_MARGIN))
+                               random.randint(-c.SPAWN_MARGIN, c.WINDOW_SIZE + c.SPAWN_MARGIN))
     elif border_number == 2:
-        position = Coordinates(c.WINDOW_SIZE_X + c.SPAWN_MARGIN,
-                               random.randint(-c.SPAWN_MARGIN, c.WINDOW_SIZE_Y + c.SPAWN_MARGIN))
+        position = Coordinates(c.WINDOW_SIZE + c.SPAWN_MARGIN,
+                               random.randint(-c.SPAWN_MARGIN, c.WINDOW_SIZE + c.SPAWN_MARGIN))
     elif border_number == 3:
-        position = Coordinates(random.randint(-c.SPAWN_MARGIN, c.WINDOW_SIZE_X + c.SPAWN_MARGIN),
+        position = Coordinates(random.randint(-c.SPAWN_MARGIN, c.WINDOW_SIZE + c.SPAWN_MARGIN),
                                -c.SPAWN_MARGIN)
     else:
-        position = Coordinates(random.randint(-c.SPAWN_MARGIN, c.WINDOW_SIZE_X + c.SPAWN_MARGIN),
-                               c.WINDOW_SIZE_Y + c.SPAWN_MARGIN)
+        position = Coordinates(random.randint(-c.SPAWN_MARGIN, c.WINDOW_SIZE + c.SPAWN_MARGIN),
+                               c.WINDOW_SIZE + c.SPAWN_MARGIN)
 
     return position
 
