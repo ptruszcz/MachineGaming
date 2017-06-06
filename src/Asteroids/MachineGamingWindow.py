@@ -172,9 +172,12 @@ class MachineGaming(tk.Tk):
             self.game_controller.stop()
 
     def _quit(self):
-        self.stop()
-        self.quit()
-        self.destroy()
+        if self.game_controller.current_game is not None:
+            messagebox.showwarning(Labels.msgbox_title[3], Labels.msgbox_msg[5])
+        else:
+            self.stop()
+            self.quit()
+            self.destroy()
 
     def _set_path_and_save(self):
         path = filedialog.asksaveasfilename(filetypes=Labels.mg_filetype, initialfile=Labels.initialfilename)

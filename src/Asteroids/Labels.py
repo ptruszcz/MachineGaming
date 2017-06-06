@@ -16,13 +16,14 @@ create_button = 'UTWÓRZ'
 plot_title = ['Najlepszy wynik w generacji', 'Średni wynik generacji']
 plot_xlabel = 'generacja'
 
-msgbox_title = ['Start', 'Zapis', 'Wczytywanie']
+msgbox_title = ['Start', 'Zapis', 'Wczytywanie', 'Wyjscie']
 
-msgbox_msg = ['Należy zdefiniować parametry algorytmu (UTWÓRZ/ŁADUJ)!',
+msgbox_msg = ['Należy zdefiniować parametry algorytmu (NOWY/WCZYTAJ)!',
               'Zapis udany!',
-              'Zapis nieudany! Należy zdefiniować parametry algorytmu (UTWÓRZ/ŁADUJ)!',
+              'Zapis nieudany! Należy zdefiniować parametry algorytmu (NOWY/WCZYTAJ)!',
               'Wczytywanie udane!',
-              'Plik jest uszkodzony!']
+              'Plik jest uszkodzony!',
+              'Nie można opuścić programu w trakcie działania symulacji (przycisk STOP)']
 
 mg_filetype = [("Machine Gaming", "*.mg")]
 initialfilename = 'algorithm'
