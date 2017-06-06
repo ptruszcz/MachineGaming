@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['rotate_5fimage',['rotate_image',['../classMovingObject_1_1MovingObject.html#ac2299da57e4ff40983ed385c33ac4c63',1,'MovingObject.MovingObject.rotate_image(self, angle)'],['../classMovingObject_1_1MovingObject.html#ac2299da57e4ff40983ed385c33ac4c63',1,'MovingObject.MovingObject.rotate_image(self, angle)'],['../classMovingObject_1_1MovingObject.html#ac2299da57e4ff40983ed385c33ac4c63',1,'MovingObject.MovingObject.rotate_image(self, angle)']]]
+  ['feedforward',['feedForward',['../classNeuralNetwork.html#a06a48c985365b4f933d0abe8dc894a1c',1,'NeuralNetwork']]]
 ];

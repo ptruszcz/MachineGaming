@@ -1,29 +1,31 @@
 import math
 import matplotlib
-import Config as c
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 from matplotlib import style
+import tkinter as tk
+from tkinter import filedialog
+from tkinter import messagebox
 from MachineGamingController import MachineGamingController
 from GameController import GameController
 import Labels
-import sys
-if sys.version_info[0] < 3:
-    import Tkinter as tk
-    from Tkinter import filedialog
-    from Tkinter import messagebox
-else:
-    import tkinter as tk
-    from tkinter import filedialog
-    from tkinter import messagebox
+import Config as c
 
 matplotlib.rcParams.update({'font.size': 8})
 matplotlib.use('TkAgg')
 style.use('dark_background')
 
 
-class MachineGaming(tk.Tk):
+class MachineGamingWindow(tk.Tk):
+    ## @brief Main class of the application - provides user interface.
+    ## Class is responsible for creating user interface and connecting it with proper controllers.
+    ## Allows user to manage and supervise learning process.
+    ## @authors Piotr Truszczynski, Jakub Fajkowski
+
     def __init__(self):
+        """@brief Constructor for main frame and controllers.
+        Constructor responsible for creating main frame and all controllers. Sets up all GUI elements.
+        """
         tk.Tk.__init__(self)
         self.wm_title(Labels.title)
         self.resizable(0, 0)
@@ -57,16 +59,46 @@ class MachineGaming(tk.Tk):
         self.sliders_frame = tk.Frame(frame)
         self.sliders_frame.pack(side=tk.BOTTOM)
 
-        self.add_controls()
-        self.add_infos()
-        self.add_sliders()
-        self.add_plot()
+        self._add_controls()
+        self._add_infos()
+        self._add_sliders()
+        self._add_plot()
 
-    def add_controls(self):
+    def run(self):
+        """@brief Starts the main loop of the interface.
+        Method used to initiate user interface and start it's main loop.
+        """
+        self.protocol("WM_DELETE_WINDOW", self._quit)
+        self.mainloop()
+
+    def start(self, headless):
+        """@brief Starts the simulation
+        Method that starts the simulation if parameters of Evolutionary Algorithm have been defined.
+        Allows to initialize game in normal and headless mode by calling method from GameController class.
+        If user did not define or load algorithm from file, proper message will be displayed.
+        :param headless: if true game will start in headless mode.
+        """
+        if self.machine_gaming_controller.ea is not None:
+            if self.game_controller.current_game is not None:
+                self.stop()
+            self.game_controller.start(headless=headless)
+        else:
+            messagebox.showwarning(Labels.msgbox_title[0], Labels.msgbox_msg[0])
+
+    def stop(self):
+        """@brief Stops the simulation if it's running.
+        If the simulation is running calls stop() method on GameController class. Also moves simulation speed
+        slider to the initial position.
+        """
+        self.speed_slider.set(1)
+        if self.game_controller.current_game is not None:
+            self.game_controller.stop()
+
+    def _add_controls(self):
         buttons_callbacks = [lambda: self.start(headless=True),
                              lambda: self.start(headless=False),
                              self.stop, self.game_controller.change_lines,
-                             self.enter_parameters, self._set_path_and_save,
+                             self._enter_parameters, self._set_path_and_save,
                              self._set_path_and_load, self._quit]
 
         for i in range(len(Labels.buttons)):
@@ -74,7 +106,7 @@ class MachineGaming(tk.Tk):
                                padx=8, pady=6, width=6, height=1, command=buttons_callbacks[i])
             button.pack(side=tk.TOP)
 
-    def add_infos(self):
+    def _add_infos(self):
         stats_frame = tk.LabelFrame(self.infos_frame, text=Labels.frames[0])
         stats_frame.pack(side=tk.TOP, anchor='e')
         stats_labels = []
@@ -101,7 +133,7 @@ class MachineGaming(tk.Tk):
                                          width=50, anchor="w"))
             param_labels[i].pack(anchor='nw')
 
-    def add_sliders(self):
+    def _add_sliders(self):
         speed_slider_frame = tk.Frame(self.sliders_frame)
         speed_slider_frame.pack(side=tk.LEFT)
         speed_label = tk.Label(speed_slider_frame, text=Labels.slider)
@@ -110,13 +142,13 @@ class MachineGaming(tk.Tk):
                                      from_=1, to=10, resolution=0.1, command=self.game_controller.change_speed)
         self.speed_slider.pack(side=tk.BOTTOM)
 
-    def add_plot(self):
+    def _add_plot(self):
         self.canvas = FigureCanvasTkAgg(self.fig, self)
         self.canvas.show()
         self.canvas.get_tk_widget().pack(side=tk.BOTTOM)
         self._update_plots()
 
-    def enter_parameters(self):
+    def _enter_parameters(self):
         param_frame = tk.Toplevel()
         default_values = [10, 4,
                           1, 0.5,
@@ -132,20 +164,20 @@ class MachineGaming(tk.Tk):
 
         create_button = tk.Button(
             param_frame, text=Labels.create_button,
-            command=lambda: [self.machine_gaming_controller.initialize_ea(self.extract_str_from_entries(entries)),
-                             self.update_ea_parameters(self.extract_str_from_entries(entries)),
+            command=lambda: [self.machine_gaming_controller.initialize_ea(self._extract_str_from_entries(entries)),
+                             self._update_ea_parameters(self._extract_str_from_entries(entries)),
                              self._reset_plots(),
                              param_frame.destroy()])
         create_button.grid(row=10, column=0, columnspan=2)
 
-    def extract_str_from_entries(self, entries):
+    def _extract_str_from_entries(self, entries):
         return [e.get() for e in entries]
 
-    def update_ea_parameters(self, parameters):
+    def _update_ea_parameters(self, parameters):
         for i in range(len(parameters)):
             self.eap_label_vars[i].set(Labels.params[i] + str(parameters[i]))
 
-    def update_stats(self, current_gen_num, current_nn_num, current_score):
+    def _update_stats(self, current_gen_num, current_nn_num, current_score):
         current_stats = [current_gen_num,
                          current_nn_num,
                          current_score,
@@ -153,23 +185,6 @@ class MachineGaming(tk.Tk):
 
         for i in range(len(self.stat_label_vars)):
             self.stat_label_vars[i].set(Labels.stats[i] + str(current_stats[i]))
-
-    def start(self, headless):
-        if self.machine_gaming_controller.ea is not None:
-            if self.game_controller.current_game is not None:
-                self.stop()
-            self.game_controller.start(headless=headless)
-        else:
-            messagebox.showwarning(Labels.msgbox_title[0], Labels.msgbox_msg[0])
-
-    def run(self):
-        self.protocol("WM_DELETE_WINDOW", self._quit)
-        self.mainloop()
-
-    def stop(self):
-        self.speed_slider.set(1)
-        if self.game_controller.current_game is not None:
-            self.game_controller.stop()
 
     def _quit(self):
         if self.game_controller.current_game is not None:
@@ -194,19 +209,19 @@ class MachineGaming(tk.Tk):
             return
         success, parameters = self.machine_gaming_controller.load(path)
         if success:
-            self.update_ea_parameters(parameters)
+            self._update_ea_parameters(parameters)
             self._reset_plots()
             messagebox.showinfo(Labels.msgbox_title[2], Labels.msgbox_msg[3])
         else:
             messagebox.showwarning(Labels.msgbox_title[2], Labels.msgbox_msg[4])
 
-    def on_game_over(self):  # listener for spaceship crashes
+    def _on_game_over(self):  # listener for spaceship crashes
         current_game_score = self.game_controller.current_game.score
-        self.update_scores(current_game_score)
+        self._update_scores(current_game_score)
         self.machine_gaming_controller.neural_network.fitness = current_game_score
         self.machine_gaming_controller.process()
 
-    def on_screen_update(self, player, obstacles):
+    def _on_screen_update(self, player, obstacles):
         neural_network = self.machine_gaming_controller.neural_network
         if neural_network is None:
             return
@@ -234,14 +249,14 @@ class MachineGaming(tk.Tk):
             screen_state += [0] * (self.machine_gaming_controller.input_size - screen_state_size)
 
         if self.game_controller.current_game is not None:
-            self.update_stats(self.machine_gaming_controller.get_current_generation(),
-                              self.machine_gaming_controller.get_current_network(),
-                              self.game_controller.current_game.score)
+            self._update_stats(self.machine_gaming_controller.get_current_generation(),
+                               self.machine_gaming_controller.get_current_network(),
+                               self.game_controller.current_game.score)
 
         return self.game_controller.calculate_buttons(neural_network=neural_network, input_vector=screen_state)
 
     #  Counts only networks from basic population - children get accounted only if they survive
-    def update_scores(self, score):
+    def _update_scores(self, score):
         current_network_number = self.machine_gaming_controller.get_current_network()
         current_generation_number = self.machine_gaming_controller.get_current_generation()
         population_size = self.machine_gaming_controller.ea.get_population_size()
@@ -305,7 +320,7 @@ class MachineGaming(tk.Tk):
         return ((x-y) % 360 + 180) % 360 - 180
 
 
-machine_gaming = MachineGaming()
+machine_gaming = MachineGamingWindow()
 
 
 if __name__ == '__main__':

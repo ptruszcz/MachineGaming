@@ -2,6 +2,9 @@ import pyvolution as pv
 
 
 class MachineGamingController:
+    """
+
+    """
     def __init__(self, stats_window):
         self.stats_window = stats_window
         self.input_size = 0

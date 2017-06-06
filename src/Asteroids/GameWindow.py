@@ -86,7 +86,7 @@ class GameWindow:
                                self._spaceship.coordinates.calculate_distance(a.coordinates),
                                reverse=False)
                 self._tracked_asteroids = asteroids[:c.DEFAULT_TRACKED_ASTEROIDS]
-                self._pressed_buttons = self._screen_update_listener.on_screen_update(
+                self._pressed_buttons = self._screen_update_listener._on_screen_update(
                     player=self._spaceship,
                     obstacles=self._tracked_asteroids)
 
@@ -215,7 +215,7 @@ class GameWindow:
     def on_object_destroyed(self, o):
         if isinstance(o, Spaceship):
             if self._game_over_listener is not None:
-                self._game_over_listener.on_game_over()
+                self._game_over_listener._on_game_over()
             self.restart()
 
 

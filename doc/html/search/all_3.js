@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['feedforward',['feedForward',['../classNeuralNetwork.html#a06a48c985365b4f933d0abe8dc894a1c',1,'NeuralNetwork']]]
+  ['evolutionaryalgorithm',['EvolutionaryAlgorithm',['../classEvolutionaryAlgorithm.html',1,'']]],
+  ['evolutionaryalgorithmparameters',['EvolutionaryAlgorithmParameters',['../structEvolutionaryAlgorithmParameters.html',1,'']]],
+  ['evolutionaryalgorithmwrapper',['EvolutionaryAlgorithmWrapper',['../classEvolutionaryAlgorithmWrapper.html',1,'']]]
 ];
