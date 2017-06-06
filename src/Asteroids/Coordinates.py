@@ -1,10 +1,7 @@
-"""
-File created by: Piotr Truszczynski
-"""
-
 import math
 
-
+## @brief Class representing coordinates of the object
+#  @author Piotr Truszczynski
 class Coordinates:
     def __init__(self, x=0, y=0):
         self.x = x

@@ -1,49 +1,132 @@
 \hypertarget{classMachineGamingController_1_1MachineGamingController}{}\section{Machine\+Gaming\+Controller.\+Machine\+Gaming\+Controller Class Reference}
 \label{classMachineGamingController_1_1MachineGamingController}\index{Machine\+Gaming\+Controller.\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller.\+Machine\+Gaming\+Controller}}
+
+
+Class reponsible for Evolutionary Algorithm management.  
+
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-def {\bfseries \+\_\+\+\_\+init\+\_\+\+\_\+} (self, stats\+\_\+window)\hypertarget{classMachineGamingController_1_1MachineGamingController_a0552527740e7e5e6a58d2babbe00387a}{}\label{classMachineGamingController_1_1MachineGamingController_a0552527740e7e5e6a58d2babbe00387a}
-
-\item 
-def {\bfseries initialize\+\_\+ea} (self, parameters)\hypertarget{classMachineGamingController_1_1MachineGamingController_a7eebd5e59bc078c01bf3057684c54547}{}\label{classMachineGamingController_1_1MachineGamingController_a7eebd5e59bc078c01bf3057684c54547}
-
-\item 
-def {\bfseries get\+\_\+current\+\_\+network} (self)\hypertarget{classMachineGamingController_1_1MachineGamingController_aa5f25a8c5bf4cbc0e9dc4f6ad7c1cce5}{}\label{classMachineGamingController_1_1MachineGamingController_aa5f25a8c5bf4cbc0e9dc4f6ad7c1cce5}
-
-\item 
-def {\bfseries get\+\_\+current\+\_\+generation} (self)\hypertarget{classMachineGamingController_1_1MachineGamingController_ac90fcf35b4ae810843b5420e1160b0c4}{}\label{classMachineGamingController_1_1MachineGamingController_ac90fcf35b4ae810843b5420e1160b0c4}
-
-\item 
-def {\bfseries process} (self)\hypertarget{classMachineGamingController_1_1MachineGamingController_a1bf9bfb9f213daf15538668353af3307}{}\label{classMachineGamingController_1_1MachineGamingController_a1bf9bfb9f213daf15538668353af3307}
-
-\item 
-def {\bfseries save} (self, path)\hypertarget{classMachineGamingController_1_1MachineGamingController_a3bfaf926c88d2d4658cac9a31d68cbc5}{}\label{classMachineGamingController_1_1MachineGamingController_a3bfaf926c88d2d4658cac9a31d68cbc5}
-
-\item 
-def {\bfseries load} (self, filename)\hypertarget{classMachineGamingController_1_1MachineGamingController_af74b190c4918ace93d1c02d06d95b33c}{}\label{classMachineGamingController_1_1MachineGamingController_af74b190c4918ace93d1c02d06d95b33c}
-
-\end{DoxyCompactItemize}
-\subsection*{Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-{\bfseries stats\+\_\+window}\hypertarget{classMachineGamingController_1_1MachineGamingController_a5c7fa65b5ff61ced3e53b6a75be9b447}{}\label{classMachineGamingController_1_1MachineGamingController_a5c7fa65b5ff61ced3e53b6a75be9b447}
-
-\item 
-{\bfseries input\+\_\+size}\hypertarget{classMachineGamingController_1_1MachineGamingController_a5d895aaebf825121920b865c58f1e4a4}{}\label{classMachineGamingController_1_1MachineGamingController_a5d895aaebf825121920b865c58f1e4a4}
-
-\item 
-{\bfseries neural\+\_\+network}\hypertarget{classMachineGamingController_1_1MachineGamingController_a3976256fc7d27ebe7d28ec536911d62e}{}\label{classMachineGamingController_1_1MachineGamingController_a3976256fc7d27ebe7d28ec536911d62e}
-
-\item 
-{\bfseries ea}\hypertarget{classMachineGamingController_1_1MachineGamingController_afa9b244a5044affb82da318a3334d380}{}\label{classMachineGamingController_1_1MachineGamingController_afa9b244a5044affb82da318a3334d380}
-
-\end{DoxyCompactItemize}
+def \hyperlink{classMachineGamingController_1_1MachineGamingController_a0552527740e7e5e6a58d2babbe00387a}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, stats\+\_\+window)
+\begin{DoxyCompactList}\small\item\em Constructor  stats\+\_\+window window that present statistics to the user -\/ G\+UI. \end{DoxyCompactList}\item 
+def \hyperlink{classMachineGamingController_1_1MachineGamingController_a7eebd5e59bc078c01bf3057684c54547}{initialize\+\_\+ea} (self, parameters)
+\begin{DoxyCompactList}\small\item\em Creates new \hyperlink{classEvolutionaryAlgorithm}{Evolutionary\+Algorithm} instance Creates new \hyperlink{classEvolutionaryAlgorithm}{Evolutionary\+Algorithm} instance based on parameters passed to the method. \end{DoxyCompactList}\item 
+def \hyperlink{classMachineGamingController_1_1MachineGamingController_aa5f25a8c5bf4cbc0e9dc4f6ad7c1cce5}{get\+\_\+current\+\_\+network} (self)
+\begin{DoxyCompactList}\small\item\em Gets current network number. \end{DoxyCompactList}\item 
+def \hyperlink{classMachineGamingController_1_1MachineGamingController_ac90fcf35b4ae810843b5420e1160b0c4}{get\+\_\+current\+\_\+generation} (self)
+\begin{DoxyCompactList}\small\item\em Gets current generation number. \end{DoxyCompactList}\item 
+def \hyperlink{classMachineGamingController_1_1MachineGamingController_a1bf9bfb9f213daf15538668353af3307}{process} (self)
+\begin{DoxyCompactList}\small\item\em Shifts to the next neural network. \end{DoxyCompactList}\item 
+def \hyperlink{classMachineGamingController_1_1MachineGamingController_a3bfaf926c88d2d4658cac9a31d68cbc5}{save} (self, path)
+\begin{DoxyCompactList}\small\item\em Saves current state of the algorithm. \end{DoxyCompactList}\item 
+def \hyperlink{classMachineGamingController_1_1MachineGamingController_af74b190c4918ace93d1c02d06d95b33c}{load} (self, filename)
+\begin{DoxyCompactList}\small\item\em Loads algorithm from file. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-\begin{DoxyVerb}\end{DoxyVerb}
- 
+Class reponsible for Evolutionary Algorithm management. 
+
+Class that is responsible for creating, managing and calling methods on \hyperlink{classEvolutionaryAlgorithm}{Evolutionary\+Algorithm} class. Contains handles for \hyperlink{classNeuralNetwork}{Neural\+Network} and \hyperlink{classEvolutionaryAlgorithm}{Evolutionary\+Algorithm} objects. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+(self, stats\+\_\+window)}{__init__(self, stats_window)}}]{\setlength{\rightskip}{0pt plus 5cm}def Machine\+Gaming\+Controller.\+Machine\+Gaming\+Controller.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{stats\+\_\+window}
+\end{DoxyParamCaption}
+)}\hypertarget{classMachineGamingController_1_1MachineGamingController_a0552527740e7e5e6a58d2babbe00387a}{}\label{classMachineGamingController_1_1MachineGamingController_a0552527740e7e5e6a58d2babbe00387a}
+
+
+Constructor  stats\+\_\+window window that present statistics to the user -\/ G\+UI. 
+
+
+
+\subsection{Member Function Documentation}
+\index{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}!get\+\_\+current\+\_\+generation@{get\+\_\+current\+\_\+generation}}
+\index{get\+\_\+current\+\_\+generation@{get\+\_\+current\+\_\+generation}!Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}}
+\subsubsection[{\texorpdfstring{get\+\_\+current\+\_\+generation(self)}{get_current_generation(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Machine\+Gaming\+Controller.\+Machine\+Gaming\+Controller.\+get\+\_\+current\+\_\+generation (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classMachineGamingController_1_1MachineGamingController_ac90fcf35b4ae810843b5420e1160b0c4}{}\label{classMachineGamingController_1_1MachineGamingController_ac90fcf35b4ae810843b5420e1160b0c4}
+
+
+Gets current generation number. 
+
+\begin{DoxyReturn}{Returns}
+current generation number. 
+\end{DoxyReturn}
+\index{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}!get\+\_\+current\+\_\+network@{get\+\_\+current\+\_\+network}}
+\index{get\+\_\+current\+\_\+network@{get\+\_\+current\+\_\+network}!Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}}
+\subsubsection[{\texorpdfstring{get\+\_\+current\+\_\+network(self)}{get_current_network(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Machine\+Gaming\+Controller.\+Machine\+Gaming\+Controller.\+get\+\_\+current\+\_\+network (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classMachineGamingController_1_1MachineGamingController_aa5f25a8c5bf4cbc0e9dc4f6ad7c1cce5}{}\label{classMachineGamingController_1_1MachineGamingController_aa5f25a8c5bf4cbc0e9dc4f6ad7c1cce5}
+
+
+Gets current network number. 
+
+\begin{DoxyReturn}{Returns}
+current network number. 
+\end{DoxyReturn}
+\index{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}!initialize\+\_\+ea@{initialize\+\_\+ea}}
+\index{initialize\+\_\+ea@{initialize\+\_\+ea}!Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}}
+\subsubsection[{\texorpdfstring{initialize\+\_\+ea(self, parameters)}{initialize_ea(self, parameters)}}]{\setlength{\rightskip}{0pt plus 5cm}def Machine\+Gaming\+Controller.\+Machine\+Gaming\+Controller.\+initialize\+\_\+ea (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{parameters}
+\end{DoxyParamCaption}
+)}\hypertarget{classMachineGamingController_1_1MachineGamingController_a7eebd5e59bc078c01bf3057684c54547}{}\label{classMachineGamingController_1_1MachineGamingController_a7eebd5e59bc078c01bf3057684c54547}
+
+
+Creates new \hyperlink{classEvolutionaryAlgorithm}{Evolutionary\+Algorithm} instance Creates new \hyperlink{classEvolutionaryAlgorithm}{Evolutionary\+Algorithm} instance based on parameters passed to the method. 
+
+\index{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}!load@{load}}
+\index{load@{load}!Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}}
+\subsubsection[{\texorpdfstring{load(self, filename)}{load(self, filename)}}]{\setlength{\rightskip}{0pt plus 5cm}def Machine\+Gaming\+Controller.\+Machine\+Gaming\+Controller.\+load (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{filename}
+\end{DoxyParamCaption}
+)}\hypertarget{classMachineGamingController_1_1MachineGamingController_af74b190c4918ace93d1c02d06d95b33c}{}\label{classMachineGamingController_1_1MachineGamingController_af74b190c4918ace93d1c02d06d95b33c}
+
+
+Loads algorithm from file. 
+
+Loads algorithm state, parameters and current population from file. \begin{DoxyReturn}{Returns}
+true if operation succeeded, parameters of the loaded algorithm 
+\end{DoxyReturn}
+\index{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}!process@{process}}
+\index{process@{process}!Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}}
+\subsubsection[{\texorpdfstring{process(self)}{process(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Machine\+Gaming\+Controller.\+Machine\+Gaming\+Controller.\+process (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classMachineGamingController_1_1MachineGamingController_a1bf9bfb9f213daf15538668353af3307}{}\label{classMachineGamingController_1_1MachineGamingController_a1bf9bfb9f213daf15538668353af3307}
+
+
+Shifts to the next neural network. 
+
+Shifts handle of the currently trained neural network to next network in the generation. \index{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}!save@{save}}
+\index{save@{save}!Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller@{Machine\+Gaming\+Controller\+::\+Machine\+Gaming\+Controller}}
+\subsubsection[{\texorpdfstring{save(self, path)}{save(self, path)}}]{\setlength{\rightskip}{0pt plus 5cm}def Machine\+Gaming\+Controller.\+Machine\+Gaming\+Controller.\+save (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{path}
+\end{DoxyParamCaption}
+)}\hypertarget{classMachineGamingController_1_1MachineGamingController_a3bfaf926c88d2d4658cac9a31d68cbc5}{}\label{classMachineGamingController_1_1MachineGamingController_a3bfaf926c88d2d4658cac9a31d68cbc5}
+
+
+Saves current state of the algorithm. 
+
+Saves current algorithm state, parameters and current population to file. \begin{DoxyReturn}{Returns}
+true operation succeeded, returns false otherwise 
+\end{DoxyReturn}
+
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

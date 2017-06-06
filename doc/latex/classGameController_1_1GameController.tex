@@ -1,42 +1,36 @@
 \hypertarget{classGameController_1_1GameController}{}\section{Game\+Controller.\+Game\+Controller Class Reference}
 \label{classGameController_1_1GameController}\index{Game\+Controller.\+Game\+Controller@{Game\+Controller.\+Game\+Controller}}
+
+
+Controller for Asteroids game.  
+
+
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 def \hyperlink{classGameController_1_1GameController_a8e0ebfe57e0c1850047d4f271e296187}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, stats\+\_\+window, key\+\_\+threshold=0.\+75)
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
 def \hyperlink{classGameController_1_1GameController_a000e1b43edbc5454673763a491f53d27}{start} (self, headless)
-\item 
+\begin{DoxyCompactList}\small\item\em Starts the game. \end{DoxyCompactList}\item 
 def \hyperlink{classGameController_1_1GameController_adceb4b825410df4ac33c63732c5ebb1c}{stop} (self)
-\item 
+\begin{DoxyCompactList}\small\item\em Stops the game. \end{DoxyCompactList}\item 
 def \hyperlink{classGameController_1_1GameController_a6e9c793d9f9c7f91ef86fdfbad1f399c}{change\+\_\+speed} (self, speed)
-\item 
+\begin{DoxyCompactList}\small\item\em Changes speed of the game by altering it\textquotesingle{}s fps. \end{DoxyCompactList}\item 
 def \hyperlink{classGameController_1_1GameController_a6df31616562721415f855506ac39200e}{change\+\_\+lines} (self)
-\item 
+\begin{DoxyCompactList}\small\item\em Toggles additional lines displaying. \end{DoxyCompactList}\item 
 def \hyperlink{classGameController_1_1GameController_adfa21a1d6a41248487a720c5311eb5c7}{calculate\+\_\+buttons} (self, neural\+\_\+network, input\+\_\+vector)
-\item 
+\begin{DoxyCompactList}\small\item\em Calculates buttons that should be pressed based on neural network output. \end{DoxyCompactList}\item 
 def \hyperlink{classGameController_1_1GameController_a7828e77aa375bd536fe94f502cf177e5}{add\+\_\+key\+\_\+mapping} (self, key)
-\end{DoxyCompactItemize}
-\subsection*{Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-{\bfseries stats\+\_\+window}\hypertarget{classGameController_1_1GameController_a2a1ba0465b97db6b05716e321f778a8d}{}\label{classGameController_1_1GameController_a2a1ba0465b97db6b05716e321f778a8d}
-
-\item 
-{\bfseries current\+\_\+game}\hypertarget{classGameController_1_1GameController_aa9126bcbf2b35e3f5216409e8e27451f}{}\label{classGameController_1_1GameController_aa9126bcbf2b35e3f5216409e8e27451f}
-
-\item 
-{\bfseries current\+\_\+game\+\_\+thread}\hypertarget{classGameController_1_1GameController_acf065316475a9b63dcd44ddb367acf45}{}\label{classGameController_1_1GameController_acf065316475a9b63dcd44ddb367acf45}
-
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Adds additional key to current mapping. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}
-\begin{DoxyVerb}@brief Controller for Asteroids game.
-Class connecting the Asteroids game with user interface. Allows to modify speed and appearance of the game.
-@author Jakub Fajkowski
-\end{DoxyVerb}
- 
+Controller for Asteroids game. 
+
+Class connecting the Asteroids game with user interface. Allows to modify speed and appearance of the game. \begin{DoxyAuthor}{Author}
+Jakub Fajkowski 
+\end{DoxyAuthor}
+
 
 \subsection{Constructor \& Destructor Documentation}
 \index{Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
@@ -48,12 +42,18 @@ Class connecting the Asteroids game with user interface. Allows to modify speed 
 \item[{}]{key\+\_\+threshold = {\ttfamily 0.75}}
 \end{DoxyParamCaption}
 )}\hypertarget{classGameController_1_1GameController_a8e0ebfe57e0c1850047d4f271e296187}{}\label{classGameController_1_1GameController_a8e0ebfe57e0c1850047d4f271e296187}
-\begin{DoxyVerb}@brief Constructor.
-Constructor setting key mappings and connecting class with
-:param stats_window: Window that will listen for game over and screen update events.
-:param key_threshold: Threshold for counting keys as pressed.
-\end{DoxyVerb}
- 
+
+
+Constructor. 
+
+Constructor setting key mappings and connecting class with 
+\begin{DoxyParams}{Parameters}
+{\em stats\+\_\+window} & Window that will listen for game over and screen update events. \\
+\hline
+{\em key\+\_\+threshold} & Threshold for counting keys as pressed. \\
+\hline
+\end{DoxyParams}
+
 
 \subsection{Member Function Documentation}
 \index{Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}!add\+\_\+key\+\_\+mapping@{add\+\_\+key\+\_\+mapping}}
@@ -64,11 +64,16 @@ Constructor setting key mappings and connecting class with
 \item[{}]{key}
 \end{DoxyParamCaption}
 )}\hypertarget{classGameController_1_1GameController_a7828e77aa375bd536fe94f502cf177e5}{}\label{classGameController_1_1GameController_a7828e77aa375bd536fe94f502cf177e5}
-\begin{DoxyVerb}@brief Adds additional key to current mapping.
-Allows to extend current mapping with additional key.
-:param key: key to be mapped.
-\end{DoxyVerb}
- \index{Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}!calculate\+\_\+buttons@{calculate\+\_\+buttons}}
+
+
+Adds additional key to current mapping. 
+
+Allows to extend current mapping with additional key. 
+\begin{DoxyParams}{Parameters}
+{\em key} & key to be mapped. \\
+\hline
+\end{DoxyParams}
+\index{Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}!calculate\+\_\+buttons@{calculate\+\_\+buttons}}
 \index{calculate\+\_\+buttons@{calculate\+\_\+buttons}!Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}}
 \subsubsection[{\texorpdfstring{calculate\+\_\+buttons(self, neural\+\_\+network, input\+\_\+vector)}{calculate_buttons(self, neural_network, input_vector)}}]{\setlength{\rightskip}{0pt plus 5cm}def Game\+Controller.\+Game\+Controller.\+calculate\+\_\+buttons (
 \begin{DoxyParamCaption}
@@ -77,23 +82,32 @@ Allows to extend current mapping with additional key.
 \item[{}]{input\+\_\+vector}
 \end{DoxyParamCaption}
 )}\hypertarget{classGameController_1_1GameController_adfa21a1d6a41248487a720c5311eb5c7}{}\label{classGameController_1_1GameController_adfa21a1d6a41248487a720c5311eb5c7}
-\begin{DoxyVerb}@brief Calculates buttons that should be pressed based on neural network output.
-Feeds the neural network with input vector and interprets output to determine which buttons should be pressed.
-:param neural_network: neural network that will be used to calculate output.
-:param input_vector: current state of the game.
-:return: set of buttons that should be pressed based on output from neural network.
-\end{DoxyVerb}
- \index{Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}!change\+\_\+lines@{change\+\_\+lines}}
+
+
+Calculates buttons that should be pressed based on neural network output. 
+
+Feeds the neural network with input vector and interprets output to determine which buttons should be pressed. 
+\begin{DoxyParams}{Parameters}
+{\em neural\+\_\+network} & neural network that will be used to calculate output. \\
+\hline
+{\em input\+\_\+vector} & current state of the game. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+set of buttons that should be pressed based on output from neural network. 
+\end{DoxyReturn}
+\index{Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}!change\+\_\+lines@{change\+\_\+lines}}
 \index{change\+\_\+lines@{change\+\_\+lines}!Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}}
 \subsubsection[{\texorpdfstring{change\+\_\+lines(self)}{change_lines(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Game\+Controller.\+Game\+Controller.\+change\+\_\+lines (
 \begin{DoxyParamCaption}
 \item[{}]{self}
 \end{DoxyParamCaption}
 )}\hypertarget{classGameController_1_1GameController_a6df31616562721415f855506ac39200e}{}\label{classGameController_1_1GameController_a6df31616562721415f855506ac39200e}
-\begin{DoxyVerb}@brief Toggles additional lines displaying.
-Toggles displaying of spaceship crosshair and additional lines connecting spaceship with obstacles.
-\end{DoxyVerb}
- \index{Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}!change\+\_\+speed@{change\+\_\+speed}}
+
+
+Toggles additional lines displaying. 
+
+Toggles displaying of spaceship crosshair and additional lines connecting spaceship with obstacles. \index{Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}!change\+\_\+speed@{change\+\_\+speed}}
 \index{change\+\_\+speed@{change\+\_\+speed}!Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}}
 \subsubsection[{\texorpdfstring{change\+\_\+speed(self, speed)}{change_speed(self, speed)}}]{\setlength{\rightskip}{0pt plus 5cm}def Game\+Controller.\+Game\+Controller.\+change\+\_\+speed (
 \begin{DoxyParamCaption}
@@ -101,11 +115,16 @@ Toggles displaying of spaceship crosshair and additional lines connecting spaces
 \item[{}]{speed}
 \end{DoxyParamCaption}
 )}\hypertarget{classGameController_1_1GameController_a6e9c793d9f9c7f91ef86fdfbad1f399c}{}\label{classGameController_1_1GameController_a6e9c793d9f9c7f91ef86fdfbad1f399c}
-\begin{DoxyVerb}@brief Changes speed of the game by altering it's fps.
-If game has been initialized changes speed of it by setting desired frames per second value.
-:param speed: desired frames per second
-\end{DoxyVerb}
- \index{Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}!start@{start}}
+
+
+Changes speed of the game by altering it\textquotesingle{}s fps. 
+
+If game has been initialized changes speed of it by setting desired frames per second value. 
+\begin{DoxyParams}{Parameters}
+{\em speed} & desired frames per second \\
+\hline
+\end{DoxyParams}
+\index{Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}!start@{start}}
 \index{start@{start}!Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}}
 \subsubsection[{\texorpdfstring{start(self, headless)}{start(self, headless)}}]{\setlength{\rightskip}{0pt plus 5cm}def Game\+Controller.\+Game\+Controller.\+start (
 \begin{DoxyParamCaption}
@@ -113,21 +132,27 @@ If game has been initialized changes speed of it by setting desired frames per s
 \item[{}]{headless}
 \end{DoxyParamCaption}
 )}\hypertarget{classGameController_1_1GameController_a000e1b43edbc5454673763a491f53d27}{}\label{classGameController_1_1GameController_a000e1b43edbc5454673763a491f53d27}
-\begin{DoxyVerb}@brief Starts the game.
-Method that starts the game in separate thread. Allows to initialize game in normal and headless mode.
-:param headless: if true game will start in headless mode.
-\end{DoxyVerb}
- \index{Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}!stop@{stop}}
+
+
+Starts the game. 
+
+Method that starts the game in separate thread. Allows to initialize game in normal and headless mode. 
+\begin{DoxyParams}{Parameters}
+{\em headless} & if true game will start in headless mode. \\
+\hline
+\end{DoxyParams}
+\index{Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}!stop@{stop}}
 \index{stop@{stop}!Game\+Controller\+::\+Game\+Controller@{Game\+Controller\+::\+Game\+Controller}}
 \subsubsection[{\texorpdfstring{stop(self)}{stop(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Game\+Controller.\+Game\+Controller.\+stop (
 \begin{DoxyParamCaption}
 \item[{}]{self}
 \end{DoxyParamCaption}
 )}\hypertarget{classGameController_1_1GameController_adceb4b825410df4ac33c63732c5ebb1c}{}\label{classGameController_1_1GameController_adceb4b825410df4ac33c63732c5ebb1c}
-\begin{DoxyVerb}@brief Stops the game.
-Stops the game and closes it's window if game wasn't initialized in headless mode.
-\end{DoxyVerb}
- 
+
+
+Stops the game. 
+
+Stops the game and closes it\textquotesingle{}s window if game wasn\textquotesingle{}t initialized in headless mode. 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

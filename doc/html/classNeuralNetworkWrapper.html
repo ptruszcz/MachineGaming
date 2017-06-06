@@ -40,7 +40,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -86,7 +85,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="classNeuralNetworkWrapper-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">NeuralNetworkWrapper Class Reference</div>  </div>
@@ -97,28 +95,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <a href="classNeuralNetworkWrapper.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="NeuralNetworkWrapper_8h_source.html">NeuralNetworkWrapper.h</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a669dc7ff0b6f17d182bbae149f344f51"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a669dc7ff0b6f17d182bbae149f344f51"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>NeuralNetworkWrapper</b> (int input_size, int hidden_layers, int output_size)</td></tr>
-<tr class="separator:a669dc7ff0b6f17d182bbae149f344f51"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a012b510ced2c1c39d0d2df160246cb29"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a012b510ced2c1c39d0d2df160246cb29"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>NeuralNetworkWrapper</b> (PNeuralNetwork pNeuralNetwork)</td></tr>
-<tr class="separator:a012b510ced2c1c39d0d2df160246cb29"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae16c5f85afd47b5b569020f6f92c9720"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae16c5f85afd47b5b569020f6f92c9720"></a>
-const py::list&#160;</td><td class="memItemRight" valign="bottom"><b>getOutput</b> ()</td></tr>
-<tr class="separator:ae16c5f85afd47b5b569020f6f92c9720"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22d7e6ff1fad1ca9c1e654d59114510e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a22d7e6ff1fad1ca9c1e654d59114510e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>feedForward</b> (py::list &amp;input)</td></tr>
-<tr class="separator:a22d7e6ff1fad1ca9c1e654d59114510e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb481c656d747eb2c028f1fb9f7f71f8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adb481c656d747eb2c028f1fb9f7f71f8"></a>
-double&#160;</td><td class="memItemRight" valign="bottom"><b>getFitness</b> () const </td></tr>
-<tr class="separator:adb481c656d747eb2c028f1fb9f7f71f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8417a449fc7d6693e5f186856a6cbb9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab8417a449fc7d6693e5f186856a6cbb9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>setFitness</b> (double fitness)</td></tr>
-<tr class="separator:ab8417a449fc7d6693e5f186856a6cbb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Wrapper for <a class="el" href="classNeuralNetwork.html" title="Represents neural network - multilayer perceptron. ">NeuralNetwork</a>. </p>
 <p>It makes <a class="el" href="classNeuralNetwork.html" title="Represents neural network - multilayer perceptron. ">NeuralNetwork</a> class public methods fully accessible in Python. </p><dl class="section author"><dt>Author</dt><dd>Piotr Truszczynski </dd></dl>

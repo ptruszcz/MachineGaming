@@ -9,51 +9,6 @@ Represents genotype.
 
 {\ttfamily \#include $<$Genotype.\+hpp$>$}
 
-\subsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-{\bfseries Genotype} (const \hyperlink{classGenotype}{Genotype} \&genotype)\hypertarget{classGenotype_ae29841aca68c4e2f7ab34f5287aab699}{}\label{classGenotype_ae29841aca68c4e2f7ab34f5287aab699}
-
-\item 
-P\+Genotype$<$ T $>$ {\bfseries clone} () const \hypertarget{classGenotype_ae530c5a1420c152ea8c944aec6637ae0}{}\label{classGenotype_ae530c5a1420c152ea8c944aec6637ae0}
-
-\item 
-void {\bfseries insert} (const std\+::shared\+\_\+ptr$<$ T $>$ \&gene)\hypertarget{classGenotype_aa49caf873e5c01f7b0c36c0905f83902}{}\label{classGenotype_aa49caf873e5c01f7b0c36c0905f83902}
-
-\item 
-bool {\bfseries contains} (const std\+::shared\+\_\+ptr$<$ T $>$ \&gene)\hypertarget{classGenotype_aedc67c3bcfc023c2c3d39bfbe6ac4a97}{}\label{classGenotype_aedc67c3bcfc023c2c3d39bfbe6ac4a97}
-
-\item 
-void {\bfseries erase} (const std\+::shared\+\_\+ptr$<$ T $>$ \&gene)\hypertarget{classGenotype_a5970e8399e8d0d725517e23e309a32fb}{}\label{classGenotype_a5970e8399e8d0d725517e23e309a32fb}
-
-\item 
-std\+::shared\+\_\+ptr$<$ T $>$ \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t index)\hypertarget{classGenotype_a79ab71079ff510e6cf879234d1173882}{}\label{classGenotype_a79ab71079ff510e6cf879234d1173882}
-
-\item 
-const std\+::shared\+\_\+ptr$<$ T $>$ \& {\bfseries operator\mbox{[}$\,$\mbox{]}} (size\+\_\+t index) const \hypertarget{classGenotype_aab215e1c057e93b3d986998bdae1f3d9}{}\label{classGenotype_aab215e1c057e93b3d986998bdae1f3d9}
-
-\item 
-bool {\bfseries operator==} (const \hyperlink{classGenotype}{Genotype} \&rhs) const \hypertarget{classGenotype_a6b7de41bb91479adc030ee4db3a5aab7}{}\label{classGenotype_a6b7de41bb91479adc030ee4db3a5aab7}
-
-\item 
-bool {\bfseries operator!=} (const \hyperlink{classGenotype}{Genotype} \&rhs) const \hypertarget{classGenotype_a9969a19f352b79c2abc10188306071fa}{}\label{classGenotype_a9969a19f352b79c2abc10188306071fa}
-
-\item 
-std\+::vector$<$ std\+::shared\+\_\+ptr$<$ T $>$ $>$ {\bfseries get\+Genes} () const \hypertarget{classGenotype_a34bd58f011f915e034ae6b3aea4fd54c}{}\label{classGenotype_a34bd58f011f915e034ae6b3aea4fd54c}
-
-\end{DoxyCompactItemize}
-\subsection*{Static Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-static P\+Genotype$<$ T $>$ {\bfseries crossover} (\hyperlink{classGenotype}{Genotype} \&parent\+\_\+a, \hyperlink{classGenotype}{Genotype} \&parent\+\_\+b)\hypertarget{classGenotype_a97906c12a2b40c984cb264ee75381f66}{}\label{classGenotype_a97906c12a2b40c984cb264ee75381f66}
-
-\end{DoxyCompactItemize}
-\subsection*{Friends}
-\begin{DoxyCompactItemize}
-\item 
-class {\bfseries boost\+::serialization\+::access}\hypertarget{classGenotype_ac98d07dd8f7b70e16ccb9a01abf56b9c}{}\label{classGenotype_ac98d07dd8f7b70e16ccb9a01abf56b9c}
-
-\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}

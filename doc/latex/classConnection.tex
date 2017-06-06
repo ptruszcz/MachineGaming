@@ -11,8 +11,7 @@ Represents connection between neurons.
 
 
 
-Inheritance diagram for Connection\+:
-\nopagebreak
+Inheritance diagram for Connection\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -21,60 +20,13 @@ Inheritance diagram for Connection\+:
 \end{figure}
 
 
-Collaboration diagram for Connection\+:
-\nopagebreak
+Collaboration diagram for Connection\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=258pt]{classConnection__coll__graph}
 \end{center}
 \end{figure}
-\subsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-{\bfseries Connection} (const P\+Neuron \&input, const P\+Neuron \&output)\hypertarget{classConnection_a7f8d1ee42429739840f51e29291b14ff}{}\label{classConnection_a7f8d1ee42429739840f51e29291b14ff}
-
-\item 
-{\bfseries Connection} (const \hyperlink{classConnection}{Connection} \&connection)\hypertarget{classConnection_a543917dbba5f7633ae525bb06f66ae0b}{}\label{classConnection_a543917dbba5f7633ae525bb06f66ae0b}
-
-\item 
-virtual P\+Gene {\bfseries clone} () const \hypertarget{classConnection_a6c256435c0b134c6aa3756f576d1a80b}{}\label{classConnection_a6c256435c0b134c6aa3756f576d1a80b}
-
-\item 
-virtual void {\bfseries mutate} (Mutation\+Type mutation\+\_\+type)\hypertarget{classConnection_ab5a3ec19262bfa15dd52ee2130ffb730}{}\label{classConnection_ab5a3ec19262bfa15dd52ee2130ffb730}
-
-\item 
-bool {\bfseries operator==} (const \hyperlink{classConnection}{Connection} \&rhs) const \hypertarget{classConnection_aab41089321047bf9f04fe3a39ec44794}{}\label{classConnection_aab41089321047bf9f04fe3a39ec44794}
-
-\item 
-bool {\bfseries operator!=} (const \hyperlink{classConnection}{Connection} \&rhs) const \hypertarget{classConnection_a8ec11ec71856e09d103fed48403cf403}{}\label{classConnection_a8ec11ec71856e09d103fed48403cf403}
-
-\item 
-const P\+Neuron \& {\bfseries get\+Input} () const \hypertarget{classConnection_a4b0e00cbd27df2acca18f7658c0b148a}{}\label{classConnection_a4b0e00cbd27df2acca18f7658c0b148a}
-
-\item 
-const P\+Neuron \& {\bfseries get\+Output} () const \hypertarget{classConnection_ad67bbab3d9091f1f9520ae6c50404403}{}\label{classConnection_ad67bbab3d9091f1f9520ae6c50404403}
-
-\item 
-double {\bfseries get\+Weight} () const \hypertarget{classConnection_a32c8c2b7d73cccb3a9ee6baf86973ee6}{}\label{classConnection_a32c8c2b7d73cccb3a9ee6baf86973ee6}
-
-\end{DoxyCompactItemize}
-\subsection*{Static Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-static double {\bfseries weight\+\_\+variance} = 5.\+0\hypertarget{classConnection_ad27b7debd320e5344aa09cfe178a3d27}{}\label{classConnection_ad27b7debd320e5344aa09cfe178a3d27}
-
-\end{DoxyCompactItemize}
-\subsection*{Friends}
-\begin{DoxyCompactItemize}
-\item 
-class {\bfseries boost\+::serialization\+::access}\hypertarget{classConnection_ac98d07dd8f7b70e16ccb9a01abf56b9c}{}\label{classConnection_ac98d07dd8f7b70e16ccb9a01abf56b9c}
-
-\item 
-std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const \hyperlink{classConnection}{Connection} \&connection)\hypertarget{classConnection_abcafed6524d9e106791d700379ecd9c2}{}\label{classConnection_abcafed6524d9e106791d700379ecd9c2}
-
-\end{DoxyCompactItemize}
-\subsection*{Additional Inherited Members}
 
 
 \subsection{Detailed Description}

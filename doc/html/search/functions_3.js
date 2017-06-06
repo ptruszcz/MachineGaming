@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['feedforward',['feedForward',['../classNeuralNetwork.html#a06a48c985365b4f933d0abe8dc894a1c',1,'NeuralNetwork']]]
+  ['destroy',['destroy',['../classMovingObject_1_1MovingObject.html#a7deae65ed90400dab791e8611e86c833',1,'MovingObject::MovingObject']]]
 ];

@@ -4,12 +4,8 @@ import Config as c
 from Vector import Vector
 from MovingObject import MovingObject
 
-"""
-File created by: Piotr Truszczynski
-Modified by: Jakub Fajkowski
-"""
-
-
+## @brief Class representing obstacle - Asteroid
+#  @authors Piotr Truszczynski, Jakub Fajkowski
 class Asteroid(MovingObject):
     def __init__(self, coordinates, velocity=Vector(0, 0), scale=0.10, rotation_rate=-0.5):
         file_path = os.path.dirname(__file__)

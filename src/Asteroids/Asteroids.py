@@ -1,8 +1,7 @@
 from GameWindow import GameWindow
 
-"""
-File created by: Piotr Truszczynski
-"""
+## @brief Module starting the game
+#  @author Piotr Truszczynski
 
 if __name__ == "__main__":
     game = GameWindow()

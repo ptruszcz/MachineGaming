@@ -2,8 +2,12 @@
 \label{classMovingObject_1_1MovingObject}\index{Moving\+Object.\+Moving\+Object@{Moving\+Object.\+Moving\+Object}}
 
 
-Inheritance diagram for Moving\+Object.\+Moving\+Object\+:
-\nopagebreak
+Base class of all moving objects, such as Asteroid.  
+
+
+
+
+Inheritance diagram for Moving\+Object.\+Moving\+Object\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -12,8 +16,7 @@ Inheritance diagram for Moving\+Object.\+Moving\+Object\+:
 \end{figure}
 
 
-Collaboration diagram for Moving\+Object.\+Moving\+Object\+:
-\nopagebreak
+Collaboration diagram for Moving\+Object.\+Moving\+Object\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -23,41 +26,86 @@ Collaboration diagram for Moving\+Object.\+Moving\+Object\+:
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-def {\bfseries \+\_\+\+\_\+init\+\_\+\+\_\+} (self, image, coordinates, does\+\_\+it\+\_\+bounce, velocity=\hyperlink{classVector_1_1Vector}{Vector}(0, 0), direction=0, slows\+\_\+down\+\_\+after\+\_\+bounce=False, image\+\_\+scale=1, listener=None)\hypertarget{classMovingObject_1_1MovingObject_a237013581377a7e5f7163d47254dbce8}{}\label{classMovingObject_1_1MovingObject_a237013581377a7e5f7163d47254dbce8}
-
-\item 
-def {\bfseries update} (self, surface)\hypertarget{classMovingObject_1_1MovingObject_ab8d51c9a7e120afad47200b6166d2530}{}\label{classMovingObject_1_1MovingObject_ab8d51c9a7e120afad47200b6166d2530}
-
-\item 
+def \hyperlink{classMovingObject_1_1MovingObject_a237013581377a7e5f7163d47254dbce8}{\+\_\+\+\_\+init\+\_\+\+\_\+} (self, image, coordinates, does\+\_\+it\+\_\+bounce, velocity=\hyperlink{classVector_1_1Vector}{Vector}(0, 0), direction=0, slows\+\_\+down\+\_\+after\+\_\+bounce=False, image\+\_\+scale=1, listener=None)
+\begin{DoxyCompactList}\small\item\em Constructor. \end{DoxyCompactList}\item 
+def \hyperlink{classMovingObject_1_1MovingObject_ab8d51c9a7e120afad47200b6166d2530}{update} (self, surface)
+\begin{DoxyCompactList}\small\item\em Blits object on passed surface. \end{DoxyCompactList}\item 
 def \hyperlink{classMovingObject_1_1MovingObject_ac2299da57e4ff40983ed385c33ac4c63}{rotate\+\_\+image} (self, angle)
-\item 
-def {\bfseries move} (self)\hypertarget{classMovingObject_1_1MovingObject_a6060cd55441bc6f9473c4ad5520adc8c}{}\label{classMovingObject_1_1MovingObject_a6060cd55441bc6f9473c4ad5520adc8c}
+\begin{DoxyCompactList}\small\item\em Rotates image around it\textquotesingle{}s center point. \end{DoxyCompactList}\item 
+def \hyperlink{classMovingObject_1_1MovingObject_a6060cd55441bc6f9473c4ad5520adc8c}{move} (self)\hypertarget{classMovingObject_1_1MovingObject_a6060cd55441bc6f9473c4ad5520adc8c}{}\label{classMovingObject_1_1MovingObject_a6060cd55441bc6f9473c4ad5520adc8c}
 
-\item 
-def {\bfseries is\+\_\+on\+\_\+screen} (self)\hypertarget{classMovingObject_1_1MovingObject_a3c44ea1a39ee9bd15bb16295a7f6bf75}{}\label{classMovingObject_1_1MovingObject_a3c44ea1a39ee9bd15bb16295a7f6bf75}
+\begin{DoxyCompactList}\small\item\em Updates coordinates of the object Updates coordinates of the object adequately to it\textquotesingle{}s behaviour (bouncing, slowing down etc.) \end{DoxyCompactList}\item 
+def \hyperlink{classMovingObject_1_1MovingObject_a3c44ea1a39ee9bd15bb16295a7f6bf75}{is\+\_\+on\+\_\+screen} (self)
+\begin{DoxyCompactList}\small\item\em Checks if object is on screen. \end{DoxyCompactList}\item 
+def \hyperlink{classMovingObject_1_1MovingObject_a7deae65ed90400dab791e8611e86c833}{destroy} (self)\hypertarget{classMovingObject_1_1MovingObject_a7deae65ed90400dab791e8611e86c833}{}\label{classMovingObject_1_1MovingObject_a7deae65ed90400dab791e8611e86c833}
 
-\item 
-def {\bfseries destroy} (self)\hypertarget{classMovingObject_1_1MovingObject_a7deae65ed90400dab791e8611e86c833}{}\label{classMovingObject_1_1MovingObject_a7deae65ed90400dab791e8611e86c833}
+\begin{DoxyCompactList}\small\item\em Destroys object and callbacks listener. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
-\end{DoxyCompactItemize}
-\subsection*{Public Attributes}
-\begin{DoxyCompactItemize}
-\item 
-{\bfseries rect}\hypertarget{classMovingObject_1_1MovingObject_a6e9925838ed3028698c1164d2d763245}{}\label{classMovingObject_1_1MovingObject_a6e9925838ed3028698c1164d2d763245}
 
-\item 
-{\bfseries coordinates}\hypertarget{classMovingObject_1_1MovingObject_a4d1309f9d6f6ad8ebe03ce5e14325045}{}\label{classMovingObject_1_1MovingObject_a4d1309f9d6f6ad8ebe03ce5e14325045}
+\subsection{Detailed Description}
+Base class of all moving objects, such as Asteroid. 
 
-\item 
-{\bfseries velocity}\hypertarget{classMovingObject_1_1MovingObject_a7a0d3bf890cd7711bcdbaa2d25c4d0f4}{}\label{classMovingObject_1_1MovingObject_a7a0d3bf890cd7711bcdbaa2d25c4d0f4}
+\begin{DoxyAuthor}{Author}
+Jakub Fajkowski 
+\end{DoxyAuthor}
 
-\item 
-{\bfseries direction}\hypertarget{classMovingObject_1_1MovingObject_a52cda6e4073bf975ac10d85df1abaa91}{}\label{classMovingObject_1_1MovingObject_a52cda6e4073bf975ac10d85df1abaa91}
 
-\end{DoxyCompactItemize}
+\subsection{Constructor \& Destructor Documentation}
+\index{Moving\+Object\+::\+Moving\+Object@{Moving\+Object\+::\+Moving\+Object}!\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}}
+\index{\+\_\+\+\_\+init\+\_\+\+\_\+@{\+\_\+\+\_\+init\+\_\+\+\_\+}!Moving\+Object\+::\+Moving\+Object@{Moving\+Object\+::\+Moving\+Object}}
+\subsubsection[{\texorpdfstring{\+\_\+\+\_\+init\+\_\+\+\_\+(self, image, coordinates, does\+\_\+it\+\_\+bounce, velocity=\+Vector(0, 0), direction=0, slows\+\_\+down\+\_\+after\+\_\+bounce=\+False, image\+\_\+scale=1, listener=\+None)}{__init__(self, image, coordinates, does_it_bounce, velocity=Vector(0, 0), direction=0, slows_down_after_bounce=False, image_scale=1, listener=None)}}]{\setlength{\rightskip}{0pt plus 5cm}def Moving\+Object.\+Moving\+Object.\+\_\+\+\_\+init\+\_\+\+\_\+ (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{image, }
+\item[{}]{coordinates, }
+\item[{}]{does\+\_\+it\+\_\+bounce, }
+\item[{}]{velocity = {\ttfamily {\bf Vector}(0,~0)}, }
+\item[{}]{direction = {\ttfamily 0}, }
+\item[{}]{slows\+\_\+down\+\_\+after\+\_\+bounce = {\ttfamily False}, }
+\item[{}]{image\+\_\+scale = {\ttfamily 1}, }
+\item[{}]{listener = {\ttfamily None}}
+\end{DoxyParamCaption}
+)}\hypertarget{classMovingObject_1_1MovingObject_a237013581377a7e5f7163d47254dbce8}{}\label{classMovingObject_1_1MovingObject_a237013581377a7e5f7163d47254dbce8}
+
+
+Constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em image} & path to the image file of the object \\
+\hline
+{\em coordinates} & point on which object will be spawned \\
+\hline
+{\em does\+\_\+it\+\_\+bounce} & if true object will bounce off the edge of the window \\
+\hline
+{\em velocity} & initial vector of velocity \\
+\hline
+{\em direction} & direction in which object will be initially turned \\
+\hline
+{\em slows\+\_\+down\+\_\+after\+\_\+bounce} & if true object will slow down after bounce to predefined speed \\
+\hline
+{\em image\+\_\+scale} & scale of the image, 1 represents identical size as in image file \\
+\hline
+{\em listener} & class that will listen for events generated by object \\
+\hline
+\end{DoxyParams}
 
 
 \subsection{Member Function Documentation}
+\index{Moving\+Object\+::\+Moving\+Object@{Moving\+Object\+::\+Moving\+Object}!is\+\_\+on\+\_\+screen@{is\+\_\+on\+\_\+screen}}
+\index{is\+\_\+on\+\_\+screen@{is\+\_\+on\+\_\+screen}!Moving\+Object\+::\+Moving\+Object@{Moving\+Object\+::\+Moving\+Object}}
+\subsubsection[{\texorpdfstring{is\+\_\+on\+\_\+screen(self)}{is_on_screen(self)}}]{\setlength{\rightskip}{0pt plus 5cm}def Moving\+Object.\+Moving\+Object.\+is\+\_\+on\+\_\+screen (
+\begin{DoxyParamCaption}
+\item[{}]{self}
+\end{DoxyParamCaption}
+)}\hypertarget{classMovingObject_1_1MovingObject_a3c44ea1a39ee9bd15bb16295a7f6bf75}{}\label{classMovingObject_1_1MovingObject_a3c44ea1a39ee9bd15bb16295a7f6bf75}
+
+
+Checks if object is on screen. 
+
+\begin{DoxyReturn}{Returns}
+true if object is within screen area 
+\end{DoxyReturn}
 \index{Moving\+Object\+::\+Moving\+Object@{Moving\+Object\+::\+Moving\+Object}!rotate\+\_\+image@{rotate\+\_\+image}}
 \index{rotate\+\_\+image@{rotate\+\_\+image}!Moving\+Object\+::\+Moving\+Object@{Moving\+Object\+::\+Moving\+Object}}
 \subsubsection[{\texorpdfstring{rotate\+\_\+image(self, angle)}{rotate_image(self, angle)}}]{\setlength{\rightskip}{0pt plus 5cm}def Moving\+Object.\+Moving\+Object.\+rotate\+\_\+image (
@@ -66,8 +114,37 @@ def {\bfseries destroy} (self)\hypertarget{classMovingObject_1_1MovingObject_a7d
 \item[{}]{angle}
 \end{DoxyParamCaption}
 )}\hypertarget{classMovingObject_1_1MovingObject_ac2299da57e4ff40983ed385c33ac4c63}{}\label{classMovingObject_1_1MovingObject_ac2299da57e4ff40983ed385c33ac4c63}
-\begin{DoxyVerb}rotate an image while keeping its center and size\end{DoxyVerb}
+
+
+Rotates image around it\textquotesingle{}s center point. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angle} & angle from 0 to 359, where 0 is right and 90 is down \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+rotated image \begin{DoxyVerb}rotate an image while keeping its center and size\end{DoxyVerb}
  
+\end{DoxyReturn}
+\index{Moving\+Object\+::\+Moving\+Object@{Moving\+Object\+::\+Moving\+Object}!update@{update}}
+\index{update@{update}!Moving\+Object\+::\+Moving\+Object@{Moving\+Object\+::\+Moving\+Object}}
+\subsubsection[{\texorpdfstring{update(self, surface)}{update(self, surface)}}]{\setlength{\rightskip}{0pt plus 5cm}def Moving\+Object.\+Moving\+Object.\+update (
+\begin{DoxyParamCaption}
+\item[{}]{self, }
+\item[{}]{surface}
+\end{DoxyParamCaption}
+)}\hypertarget{classMovingObject_1_1MovingObject_ab8d51c9a7e120afad47200b6166d2530}{}\label{classMovingObject_1_1MovingObject_ab8d51c9a7e120afad47200b6166d2530}
+
+
+Blits object on passed surface. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em surface} & on which object will be blitted. \\
+\hline
+\end{DoxyParams}
+
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

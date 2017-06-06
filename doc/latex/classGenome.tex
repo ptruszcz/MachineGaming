@@ -9,48 +9,6 @@ Represents genome.
 
 {\ttfamily \#include $<$Genome.\+h$>$}
 
-\subsection*{Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-{\bfseries Genome} (int input\+\_\+size, int hidden\+\_\+layers, int output\+\_\+size)\hypertarget{classGenome_a08f0bdfc91c960226de4a76824efa9f8}{}\label{classGenome_a08f0bdfc91c960226de4a76824efa9f8}
-
-\item 
-{\bfseries Genome} (int hidden\+\_\+layers, const \hyperlink{classGenotype}{Genotype}$<$ \hyperlink{classNeuron}{Neuron} $>$ \&neurons, const \hyperlink{classGenotype}{Genotype}$<$ \hyperlink{classConnection}{Connection} $>$ \&connections)\hypertarget{classGenome_a43feb27690888ba31de0cd0e182ae68b}{}\label{classGenome_a43feb27690888ba31de0cd0e182ae68b}
-
-\item 
-{\bfseries Genome} (const \hyperlink{classGenome}{Genome} \&genome)\hypertarget{classGenome_aff7ee3f037c64e4764f6ea8e035e076e}{}\label{classGenome_aff7ee3f037c64e4764f6ea8e035e076e}
-
-\item 
-void {\bfseries mutate} (const Mutation\+Type \&mutation\+\_\+type)\hypertarget{classGenome_ae5a44d1b9b981207c3c035111773d67f}{}\label{classGenome_ae5a44d1b9b981207c3c035111773d67f}
-
-\item 
-bool {\bfseries operator==} (const \hyperlink{classGenome}{Genome} \&rhs) const \hypertarget{classGenome_a5c04453dc59ba5d5bc7d9b82982ae89c}{}\label{classGenome_a5c04453dc59ba5d5bc7d9b82982ae89c}
-
-\item 
-bool {\bfseries operator!=} (const \hyperlink{classGenome}{Genome} \&rhs) const \hypertarget{classGenome_a4c60caa54530ddb4e4fee035c0958254}{}\label{classGenome_a4c60caa54530ddb4e4fee035c0958254}
-
-\item 
-Neurons {\bfseries get\+Neurons} () const \hypertarget{classGenome_af7e210105ebaaca5f74fd35354aca4a9}{}\label{classGenome_af7e210105ebaaca5f74fd35354aca4a9}
-
-\item 
-Connections {\bfseries get\+Connections} () const \hypertarget{classGenome_a08affdae441734b35cfaf36221d7e9da}{}\label{classGenome_a08affdae441734b35cfaf36221d7e9da}
-
-\end{DoxyCompactItemize}
-\subsection*{Static Public Member Functions}
-\begin{DoxyCompactItemize}
-\item 
-static P\+Genome {\bfseries crossover} (\hyperlink{classGenome}{Genome} \&parentA, \hyperlink{classGenome}{Genome} \&parentB)\hypertarget{classGenome_a8aa2d1d912b730c698fb457072b96c41}{}\label{classGenome_a8aa2d1d912b730c698fb457072b96c41}
-
-\end{DoxyCompactItemize}
-\subsection*{Friends}
-\begin{DoxyCompactItemize}
-\item 
-class {\bfseries boost\+::serialization\+::access}\hypertarget{classGenome_ac98d07dd8f7b70e16ccb9a01abf56b9c}{}\label{classGenome_ac98d07dd8f7b70e16ccb9a01abf56b9c}
-
-\item 
-std\+::ostream \& {\bfseries operator$<$$<$} (std\+::ostream \&os, const \hyperlink{classGenome}{Genome} \&genome)\hypertarget{classGenome_a18f3541c63496097bd51def08c049428}{}\label{classGenome_a18f3541c63496097bd51def08c049428}
-
-\end{DoxyCompactItemize}
 
 
 \subsection{Detailed Description}

@@ -15,17 +15,15 @@ matplotlib.rcParams.update({'font.size': 8})
 matplotlib.use('TkAgg')
 style.use('dark_background')
 
-
+## @brief Main class of the application - provides user interface.
+#  Class is responsible for creating user interface and connecting it with proper controllers.
+#  Allows user to manage and supervise learning process.
+#  @authors Piotr Truszczynski, Jakub Fajkowski
 class MachineGamingWindow(tk.Tk):
-    ## @brief Main class of the application - provides user interface.
-    ## Class is responsible for creating user interface and connecting it with proper controllers.
-    ## Allows user to manage and supervise learning process.
-    ## @authors Piotr Truszczynski, Jakub Fajkowski
 
+    ## @brief Constructor for main frame and controllers.
+    #  Constructor responsible for creating main frame and all controllers. Sets up all GUI elements.
     def __init__(self):
-        """@brief Constructor for main frame and controllers.
-        Constructor responsible for creating main frame and all controllers. Sets up all GUI elements.
-        """
         tk.Tk.__init__(self)
         self.wm_title(Labels.title)
         self.resizable(0, 0)
@@ -64,19 +62,19 @@ class MachineGamingWindow(tk.Tk):
         self._add_sliders()
         self._add_plot()
 
+    ## @brief Starts the main loop of the interface.
+    #  Method used to initiate user interface and start it's main loop.
     def run(self):
-        """@brief Starts the main loop of the interface.
-        Method used to initiate user interface and start it's main loop.
-        """
         self.protocol("WM_DELETE_WINDOW", self._quit)
         self.mainloop()
 
+    ## @brief Starts the simulation
+    #  Method that starts the simulation if parameters of Evolutionary Algorithm have been defined.
+    #  Allows to initialize game in normal and headless mode by calling method from GameController class.
+    #  If user did not define or load algorithm from file, proper message will be displayed.
+    #  @param headless: if true game will start in headless mode.
     def start(self, headless):
-        """@brief Starts the simulation
-        Method that starts the simulation if parameters of Evolutionary Algorithm have been defined.
-        Allows to initialize game in normal and headless mode by calling method from GameController class.
-        If user did not define or load algorithm from file, proper message will be displayed.
-        :param headless: if true game will start in headless mode.
+        """
         """
         if self.machine_gaming_controller.ea is not None:
             if self.game_controller.current_game is not None:
@@ -85,11 +83,10 @@ class MachineGamingWindow(tk.Tk):
         else:
             messagebox.showwarning(Labels.msgbox_title[0], Labels.msgbox_msg[0])
 
+    ## @brief Stops the simulation if it's running.
+    #  If the simulation is running calls stop() method on GameController class. Also moves simulation speed
+    #  slider to the initial position.
     def stop(self):
-        """@brief Stops the simulation if it's running.
-        If the simulation is running calls stop() method on GameController class. Also moves simulation speed
-        slider to the initial position.
-        """
         self.speed_slider.set(1)
         if self.game_controller.current_game is not None:
             self.game_controller.stop()

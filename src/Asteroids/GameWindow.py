@@ -8,16 +8,13 @@ from Vector import Vector
 from Asteroid import Asteroid
 from Spaceship import Spaceship
 
-"""
-File created by: Piotr Truszczynski
-Modified by: Jakub Fajkowski
-"""
-
 
 def current_time():
     return int(round(time.time() * 1000))
 
 
+## @brief Main window of the game
+#  @authors Piotr Truszczynski, Jakub Fajkowski
 class GameWindow:
     def __init__(self, game_over_listener=None, screen_update_listener=None,
                  headless=False):

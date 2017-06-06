@@ -40,7 +40,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -86,8 +85,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="classPhenome-members.html">List of all members</a>  </div>
   <div class="headertitle">
 <div class="title">Phenome Class Reference</div>  </div>
@@ -98,31 +95,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  <a href="classPhenome.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="Phenome_8h_source.html">Phenome.h</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a900e3f448b143b5db3d44d8ff57f07e3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a900e3f448b143b5db3d44d8ff57f07e3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Phenome</b> (const <a class="el" href="classGenome.html">Genome</a> &amp;genome)</td></tr>
-<tr class="separator:a900e3f448b143b5db3d44d8ff57f07e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4aa383a3c22ab02cf4a58d68b83a70b7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4aa383a3c22ab02cf4a58d68b83a70b7"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classPhenome.html">Phenome</a> &amp;rhs) const </td></tr>
-<tr class="separator:a4aa383a3c22ab02cf4a58d68b83a70b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79ecab1c0a34f2f225d367782b72516c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a79ecab1c0a34f2f225d367782b72516c"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=</b> (const <a class="el" href="classPhenome.html">Phenome</a> &amp;rhs) const </td></tr>
-<tr class="separator:a79ecab1c0a34f2f225d367782b72516c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8188a170ca1f162932a9a90bb8790599"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8188a170ca1f162932a9a90bb8790599"></a>
-std::vector&lt; Matrix &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getNeurons</b> ()</td></tr>
-<tr class="separator:a8188a170ca1f162932a9a90bb8790599"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af995a7151ac1e461559937889f0c02c9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af995a7151ac1e461559937889f0c02c9"></a>
-const std::vector&lt; Matrix &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>getWeights</b> () const </td></tr>
-<tr class="separator:af995a7151ac1e461559937889f0c02c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a34c29d70c5bc8815abcedce0aaf0cfd4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a34c29d70c5bc8815abcedce0aaf0cfd4"></a>
-std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="classPhenome.html">Phenome</a> &amp;phenome)</td></tr>
-<tr class="separator:a34c29d70c5bc8815abcedce0aaf0cfd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents phenome. </p>
 <p>It is simulating the look of individual. In case of neural networks it reads passed genome and using stored information - generates matrices of neurons and connections. </p><dl class="section author"><dt>Author</dt><dd>Jakub Fajkowski </dd></dl>

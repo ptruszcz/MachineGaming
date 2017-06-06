@@ -8,12 +8,8 @@ from Vector import Vector
 from Missile import Missile
 from Coordinates import Coordinates
 
-"""
-File created by: Piotr Truszczynski
-Modified by: Jakub Fajkowski
-"""
-
-
+## @brief Class representing Spaceship
+#  @authors Piotr Truszczynski, Jakub Fajkowski
 class Spaceship(MovingObject):
     def __init__(self, x, y, listener=None):
         file_path = os.path.dirname(__file__)

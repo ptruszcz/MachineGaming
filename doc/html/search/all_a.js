@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['spaceship',['Spaceship',['../classSpaceship_1_1Spaceship.html',1,'Spaceship']]],
-  ['start',['start',['../classGameController_1_1GameController.html#a000e1b43edbc5454673763a491f53d27',1,'GameController.GameController.start()'],['../classMachineGamingWindow_1_1MachineGamingWindow.html#ac4557c04b273d9c3b1fb0d37c8bce514',1,'MachineGamingWindow.MachineGamingWindow.start()']]],
-  ['stop',['stop',['../classGameController_1_1GameController.html#adceb4b825410df4ac33c63732c5ebb1c',1,'GameController.GameController.stop()'],['../classMachineGamingWindow_1_1MachineGamingWindow.html#a869ea6315c4ebed4badcc43b8aba44fd',1,'MachineGamingWindow.MachineGamingWindow.stop()']]]
+  ['neuralnetwork',['NeuralNetwork',['../classNeuralNetwork.html',1,'NeuralNetwork'],['../classNeuralNetwork.html#a246f904545417df2801e56277ab8d53f',1,'NeuralNetwork::NeuralNetwork(int input_size, int hidden_layers, int output_size)'],['../classNeuralNetwork.html#a9b688c5f00977e83fedea7ee021348f1',1,'NeuralNetwork::NeuralNetwork(const NeuralNetwork &amp;neural_network)'],['../classNeuralNetwork.html#a772972afe658adbb165af9e8b384e552',1,'NeuralNetwork::NeuralNetwork(const Genome &amp;genome)']]],
+  ['neuralnetworkwrapper',['NeuralNetworkWrapper',['../classNeuralNetworkWrapper.html',1,'']]],
+  ['neuron',['Neuron',['../classNeuron.html',1,'']]]
 ];
