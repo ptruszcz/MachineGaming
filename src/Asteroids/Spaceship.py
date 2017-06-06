@@ -23,7 +23,7 @@ class Spaceship(MovingObject):
         MovingObject.__init__(self, image=image,
                               coordinates=Coordinates(x, y),
                               velocity=Vector(0, 0),
-                              direction=random.randint(0, 360),
+                              direction=90,
                               image_scale=0.20,
                               does_it_bounce=c.SPACESHIP_BOUNCE,
                               slows_down_after_bounce=True,

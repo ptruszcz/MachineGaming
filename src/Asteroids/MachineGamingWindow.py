@@ -229,57 +229,27 @@ class MachineGamingWindow(tk.Tk):
         if neural_network is None:
             return
 
-        distance_to_center_point = player.coordinates.calculate_distance(c.CENTER_POINT)
-
-        velocity_x_max = abs(player.velocity.x)
-        velocity_y_max = abs(player.velocity.y)
-
-        screen_state = [distance_to_center_point,
-                        player.velocity.x,
-                        player.velocity.y,
-                        player.direction - 180]
+        screen_state = [(player.coordinates.x - c.CENTER_POINT.x)/c.WINDOW_SIZE*2,
+                        (player.coordinates.y - c.CENTER_POINT.y)/c.WINDOW_SIZE*2,
+                        (player.direction - 180)/180]
 
         for obstacle in obstacles:
             delta_x = obstacle.coordinates.x - player.coordinates.x
             delta_y = - (obstacle.coordinates.y - player.coordinates.y)  # because cartesian but upside down
-
-            delta_v_x = obstacle.velocity.x - player.velocity.x
-            delta_v_y = - (obstacle.velocity.y - player.velocity.y)
 
             obstacle_direction = self._direction_degrees(delta_y, delta_x)
             delta_direction = self._direction_delta(obstacle_direction, player.direction)
 
             distance_to_obstacle = player.coordinates.calculate_distance(obstacle.coordinates)
 
-            abs_delta_v_x = abs(delta_v_x)
-            abs_delta_v_y = abs(delta_v_y)
-
-            if velocity_x_max < abs_delta_v_x:
-                velocity_x_max = abs_delta_v_x
-            if velocity_y_max < abs_delta_v_y:
-                velocity_y_max = abs_delta_v_y
-
-            screen_state.append(distance_to_obstacle)
-            screen_state.append(delta_v_x)
-            screen_state.append(delta_v_y)
-            screen_state.append(delta_direction)
+            screen_state.append(distance_to_obstacle/c.WINDOW_SIZE*2)
+            screen_state.append(delta_direction/180)
 
         screen_state_size = len(screen_state)
-        for i in range(screen_state_size):
-            if i % 4 == 0:
-                screen_state[i] /= c.WINDOW_SIZE
-            elif i % 4 == 1:
-                if velocity_x_max != 0:
-                    screen_state[i] /= velocity_x_max
-            elif i % 4 == 2:
-                if velocity_y_max != 0:
-                    screen_state[i] /= velocity_y_max
-            elif i % 4 == 3:
-                screen_state[i] /= 180
-
         if screen_state_size < self.machine_gaming_controller.input_size:
             screen_state += [0] * (self.machine_gaming_controller.input_size - screen_state_size)
 
+        print(screen_state)
         output_vector, buttons = self.game_controller.calculate_buttons(neural_network=neural_network,
                                                                         input_vector=screen_state)
 
@@ -352,7 +322,7 @@ class MachineGamingWindow(tk.Tk):
 
     @staticmethod
     def _direction_delta(x, y):
-        return ((x-y) % 360 + 180) % 360 - 180
+        return -((x-y) % 360 + 180) % 360 - 180
 
 
 machine_gaming = MachineGamingWindow()
