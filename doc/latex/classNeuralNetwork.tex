@@ -12,20 +12,15 @@ Represents neural network -\/ multilayer perceptron.
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-{\bfseries Neural\+Network} (int input\+\_\+size, int hidden\+\_\+layers, int output\+\_\+size)\hypertarget{classNeuralNetwork_a246f904545417df2801e56277ab8d53f}{}\label{classNeuralNetwork_a246f904545417df2801e56277ab8d53f}
-
+\hyperlink{classNeuralNetwork_a246f904545417df2801e56277ab8d53f}{Neural\+Network} (int input\+\_\+size, int hidden\+\_\+layers, int output\+\_\+size)
 \item 
-{\bfseries Neural\+Network} (const \hyperlink{classNeuralNetwork}{Neural\+Network} \&neural\+\_\+network)\hypertarget{classNeuralNetwork_a9b688c5f00977e83fedea7ee021348f1}{}\label{classNeuralNetwork_a9b688c5f00977e83fedea7ee021348f1}
-
+\hyperlink{classNeuralNetwork_a9b688c5f00977e83fedea7ee021348f1}{Neural\+Network} (const \hyperlink{classNeuralNetwork}{Neural\+Network} \&neural\+\_\+network)
 \item 
-{\bfseries Neural\+Network} (const \hyperlink{classGenome}{Genome} \&genome)\hypertarget{classNeuralNetwork_a772972afe658adbb165af9e8b384e552}{}\label{classNeuralNetwork_a772972afe658adbb165af9e8b384e552}
-
+\hyperlink{classNeuralNetwork_a772972afe658adbb165af9e8b384e552}{Neural\+Network} (const \hyperlink{classGenome}{Genome} \&genome)
 \item 
-void {\bfseries mutate} (const Mutation\+Type \&mutation\+\_\+type)\hypertarget{classNeuralNetwork_a95ce793f6206c627f4d436be8348eede}{}\label{classNeuralNetwork_a95ce793f6206c627f4d436be8348eede}
-
+void \hyperlink{classNeuralNetwork_a95ce793f6206c627f4d436be8348eede}{mutate} (const Mutation\+Type \&mutation\+\_\+type)
 \item 
-void {\bfseries randomize\+All\+Weights} ()\hypertarget{classNeuralNetwork_a94e3233f8f2f6c2f1e205b67ddca7adf}{}\label{classNeuralNetwork_a94e3233f8f2f6c2f1e205b67ddca7adf}
-
+void \hyperlink{classNeuralNetwork_a94e3233f8f2f6c2f1e205b67ddca7adf}{randomize\+All\+Weights} ()
 \item 
 void \hyperlink{classNeuralNetwork_a06a48c985365b4f933d0abe8dc894a1c}{feed\+Forward} (const Matrix \&input)
 \item 
@@ -47,9 +42,8 @@ bool {\bfseries operator!=} (const \hyperlink{classNeuralNetwork}{Neural\+Networ
 \begin{DoxyCompactItemize}
 \item 
 static bool \hyperlink{classNeuralNetwork_ac6e9655da50b97ca94f4e34bf3de3adc}{compare} (const P\+Neural\+Network \&p1, const P\+Neural\+Network \&p2)
-\begin{DoxyCompactList}\small\item\em Fitness comparison. \end{DoxyCompactList}\item 
-static P\+Neural\+Network {\bfseries crossover} (\hyperlink{classNeuralNetwork}{Neural\+Network} \&parent\+\_\+a, \hyperlink{classNeuralNetwork}{Neural\+Network} \&parent\+\_\+b)\hypertarget{classNeuralNetwork_a1168869bf81b753ae8b20ea518e11593}{}\label{classNeuralNetwork_a1168869bf81b753ae8b20ea518e11593}
-
+\item 
+static P\+Neural\+Network \hyperlink{classNeuralNetwork_a1168869bf81b753ae8b20ea518e11593}{crossover} (\hyperlink{classNeuralNetwork}{Neural\+Network} \&parent\+\_\+a, \hyperlink{classNeuralNetwork}{Neural\+Network} \&parent\+\_\+b)
 \end{DoxyCompactItemize}
 \subsection*{Friends}
 \begin{DoxyCompactItemize}
@@ -67,6 +61,51 @@ Jakub Fajkowski
 \end{DoxyAuthor}
 
 
+\subsection{Constructor \& Destructor Documentation}
+\index{Neural\+Network@{Neural\+Network}!Neural\+Network@{Neural\+Network}}
+\index{Neural\+Network@{Neural\+Network}!Neural\+Network@{Neural\+Network}}
+\subsubsection[{\texorpdfstring{Neural\+Network(int input\+\_\+size, int hidden\+\_\+layers, int output\+\_\+size)}{NeuralNetwork(int input_size, int hidden_layers, int output_size)}}]{\setlength{\rightskip}{0pt plus 5cm}Neural\+Network\+::\+Neural\+Network (
+\begin{DoxyParamCaption}
+\item[{int}]{input\+\_\+size, }
+\item[{int}]{hidden\+\_\+layers, }
+\item[{int}]{output\+\_\+size}
+\end{DoxyParamCaption}
+)}\hypertarget{classNeuralNetwork_a246f904545417df2801e56277ab8d53f}{}\label{classNeuralNetwork_a246f904545417df2801e56277ab8d53f}
+It creates new \hyperlink{classNeuralNetwork}{Neural\+Network} with single \hyperlink{classNeuron}{Neuron} in each hidden layer. 
+\begin{DoxyParams}{Parameters}
+{\em input\+\_\+size} & First layer size. \\
+\hline
+{\em hidden\+\_\+layers} & Number of hidden layers. \\
+\hline
+{\em output\+\_\+size} & Last layer size. \\
+\hline
+\end{DoxyParams}
+\index{Neural\+Network@{Neural\+Network}!Neural\+Network@{Neural\+Network}}
+\index{Neural\+Network@{Neural\+Network}!Neural\+Network@{Neural\+Network}}
+\subsubsection[{\texorpdfstring{Neural\+Network(const Neural\+Network \&neural\+\_\+network)}{NeuralNetwork(const NeuralNetwork &neural_network)}}]{\setlength{\rightskip}{0pt plus 5cm}Neural\+Network\+::\+Neural\+Network (
+\begin{DoxyParamCaption}
+\item[{const {\bf Neural\+Network} \&}]{neural\+\_\+network}
+\end{DoxyParamCaption}
+)}\hypertarget{classNeuralNetwork_a9b688c5f00977e83fedea7ee021348f1}{}\label{classNeuralNetwork_a9b688c5f00977e83fedea7ee021348f1}
+Copy constructor used to initialize \hyperlink{classNeuralNetwork}{Neural\+Network} with same structure, and \hyperlink{classGene}{Gene} id\textquotesingle{}s. 
+\begin{DoxyParams}{Parameters}
+{\em neural\+\_\+network} & \hyperlink{classNeuralNetwork}{Neural\+Network} to be copied. \\
+\hline
+\end{DoxyParams}
+\index{Neural\+Network@{Neural\+Network}!Neural\+Network@{Neural\+Network}}
+\index{Neural\+Network@{Neural\+Network}!Neural\+Network@{Neural\+Network}}
+\subsubsection[{\texorpdfstring{Neural\+Network(const Genome \&genome)}{NeuralNetwork(const Genome &genome)}}]{\setlength{\rightskip}{0pt plus 5cm}Neural\+Network\+::\+Neural\+Network (
+\begin{DoxyParamCaption}
+\item[{const {\bf Genome} \&}]{genome}
+\end{DoxyParamCaption}
+)}\hypertarget{classNeuralNetwork_a772972afe658adbb165af9e8b384e552}{}\label{classNeuralNetwork_a772972afe658adbb165af9e8b384e552}
+Creates new \hyperlink{classNeuralNetwork}{Neural\+Network} using provided \hyperlink{classGenome}{Genome}. 
+\begin{DoxyParams}{Parameters}
+{\em genome} & Parents crossed \hyperlink{classGenome}{Genome}. \\
+\hline
+\end{DoxyParams}
+
+
 \subsection{Member Function Documentation}
 \index{Neural\+Network@{Neural\+Network}!compare@{compare}}
 \index{compare@{compare}!Neural\+Network@{Neural\+Network}}
@@ -76,10 +115,6 @@ Jakub Fajkowski
 \item[{const P\+Neural\+Network \&}]{p2}
 \end{DoxyParamCaption}
 )\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classNeuralNetwork_ac6e9655da50b97ca94f4e34bf3de3adc}{}\label{classNeuralNetwork_ac6e9655da50b97ca94f4e34bf3de3adc}
-
-
-Fitness comparison. 
-
 Comparator using neural network fitness. 
 \begin{DoxyParams}{Parameters}
 {\em neural} & network one \\
@@ -89,6 +124,24 @@ Comparator using neural network fitness.
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 True if p1\textquotesingle{}s fitness is greater than p2\textquotesingle{}s fitness. Else false. 
+\end{DoxyReturn}
+\index{Neural\+Network@{Neural\+Network}!crossover@{crossover}}
+\index{crossover@{crossover}!Neural\+Network@{Neural\+Network}}
+\subsubsection[{\texorpdfstring{crossover(\+Neural\+Network \&parent\+\_\+a, Neural\+Network \&parent\+\_\+b)}{crossover(NeuralNetwork &parent_a, NeuralNetwork &parent_b)}}]{\setlength{\rightskip}{0pt plus 5cm}P\+Neural\+Network Neural\+Network\+::crossover (
+\begin{DoxyParamCaption}
+\item[{{\bf Neural\+Network} \&}]{parent\+\_\+a, }
+\item[{{\bf Neural\+Network} \&}]{parent\+\_\+b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classNeuralNetwork_a1168869bf81b753ae8b20ea518e11593}{}\label{classNeuralNetwork_a1168869bf81b753ae8b20ea518e11593}
+Creates and offspring. 
+\begin{DoxyParams}{Parameters}
+{\em parent\+\_\+a} & \\
+\hline
+{\em parent\+\_\+b} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classNeuralNetwork}{Neural\+Network} with features common with parents. 
 \end{DoxyReturn}
 \index{Neural\+Network@{Neural\+Network}!feed\+Forward@{feed\+Forward}}
 \index{feed\+Forward@{feed\+Forward}!Neural\+Network@{Neural\+Network}}
@@ -112,7 +165,26 @@ Neural network using provided input calculate some output values.
 Feed forward method should be called before. \begin{DoxyReturn}{Returns}
 Calculated output value. 
 \end{DoxyReturn}
-
+\index{Neural\+Network@{Neural\+Network}!mutate@{mutate}}
+\index{mutate@{mutate}!Neural\+Network@{Neural\+Network}}
+\subsubsection[{\texorpdfstring{mutate(const Mutation\+Type \&mutation\+\_\+type)}{mutate(const MutationType &mutation_type)}}]{\setlength{\rightskip}{0pt plus 5cm}void Neural\+Network\+::mutate (
+\begin{DoxyParamCaption}
+\item[{const Mutation\+Type \&}]{mutation\+\_\+type}
+\end{DoxyParamCaption}
+)}\hypertarget{classNeuralNetwork_a95ce793f6206c627f4d436be8348eede}{}\label{classNeuralNetwork_a95ce793f6206c627f4d436be8348eede}
+Applies mutation to \hyperlink{classNeuralNetwork}{Neural\+Network}. 
+\begin{DoxyParams}{Parameters}
+{\em mutation\+\_\+type} & Type of mutation. \\
+\hline
+\end{DoxyParams}
+\index{Neural\+Network@{Neural\+Network}!randomize\+All\+Weights@{randomize\+All\+Weights}}
+\index{randomize\+All\+Weights@{randomize\+All\+Weights}!Neural\+Network@{Neural\+Network}}
+\subsubsection[{\texorpdfstring{randomize\+All\+Weights()}{randomizeAllWeights()}}]{\setlength{\rightskip}{0pt plus 5cm}void Neural\+Network\+::randomize\+All\+Weights (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classNeuralNetwork_a94e3233f8f2f6c2f1e205b67ddca7adf}{}\label{classNeuralNetwork_a94e3233f8f2f6c2f1e205b67ddca7adf}
+Randomizes all Connections weights. 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

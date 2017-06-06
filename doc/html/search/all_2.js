@@ -9,5 +9,6 @@ var searchData=
   ['coordinates',['Coordinates',['../namespaceCoordinates.html',1,'']]],
   ['counter',['Counter',['../classCounter.html',1,'']]],
   ['counter_3c_20connection_20_3e',['Counter&lt; Connection &gt;',['../classCounter.html',1,'']]],
-  ['counter_3c_20neuron_20_3e',['Counter&lt; Neuron &gt;',['../classCounter.html',1,'']]]
+  ['counter_3c_20neuron_20_3e',['Counter&lt; Neuron &gt;',['../classCounter.html',1,'']]],
+  ['crossover',['crossover',['../classNeuralNetwork.html#a1168869bf81b753ae8b20ea518e11593',1,'NeuralNetwork']]]
 ];

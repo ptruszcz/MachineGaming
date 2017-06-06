@@ -4,21 +4,38 @@ NeuralNetwork::NeuralNetwork() {
 
 }
 
+/**
+ * It creates new NeuralNetwork with single Neuron in each hidden layer.
+ * @param input_size First layer size.
+ * @param hidden_layers Number of hidden layers.
+ * @param output_size Last layer size.
+ */
 NeuralNetwork::NeuralNetwork(int input_size, int hidden_layers, int output_size) {
     genome_ = std::make_unique<Genome>(input_size, hidden_layers, output_size);
     phenome_ = std::make_unique<Phenome>(*genome_);
 }
 
+/**
+ * Copy constructor used to initialize NeuralNetwork with same structure, and Gene id's.
+ * @param neural_network NeuralNetwork to be copied.
+ */
 NeuralNetwork::NeuralNetwork(const NeuralNetwork &neural_network) {
     genome_ = std::make_unique<Genome>(*neural_network.genome_);
     phenome_ = std::make_unique<Phenome>(*neural_network.genome_);
 }
 
+/**
+ * Creates new NeuralNetwork using provided Genome.
+ * @param genome Parents crossed Genome.
+ */
 NeuralNetwork::NeuralNetwork(const Genome &genome) {
     genome_ = std::make_unique<Genome>(genome);
     phenome_ = std::make_unique<Phenome>(genome);
 }
 
+/**
+ * Randomizes all Connections weights.
+ */
 void NeuralNetwork::randomizeAllWeights() {
     for (PConnection connection: genome_->getConnections()) {
         connection->mutate(RANDOMIZE_WEIGHT);
@@ -31,11 +48,21 @@ Matrix NeuralNetwork::activationFunction(Matrix z) {
     return 1/(1 + arma::exp(-z));
 }
 
+/**
+ * Creates and offspring.
+ * @param parent_a
+ * @param parent_b
+ * @return NeuralNetwork with features common with parents.
+ */
 PNeuralNetwork NeuralNetwork::crossover(NeuralNetwork &parent_a, NeuralNetwork &parent_b) {
     PGenome genome = Genome::crossover(*parent_a.genome_, *parent_b.genome_);
     return std::make_unique<NeuralNetwork>(*genome);
 }
 
+/**
+ * Applies mutation to NeuralNetwork.
+ * @param mutation_type Type of mutation.
+ */
 void NeuralNetwork::mutate(const MutationType &mutation_type) {
     genome_->mutate(mutation_type);
     phenome_ = std::make_unique<Phenome>(*genome_);
