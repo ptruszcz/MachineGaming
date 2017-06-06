@@ -85,7 +85,7 @@ class MachineGaming(tk.Tk):
 
         for i in range(len(Labels.stats)):
             stats_labels.append(tk.Label(stats_frame, textvariable=self.stat_label_vars[i],
-                                         width=50, anchor="w"))
+                                         width=53, anchor="w"))
             stats_labels[i].pack(side=tk.TOP, anchor='w')
 
         params_frame = tk.LabelFrame(self.infos_frame, text=Labels.frames[1])
@@ -98,7 +98,7 @@ class MachineGaming(tk.Tk):
         param_labels = []
         for i in range(len(Labels.params)):
             param_labels.append(tk.Label(params_frame, textvariable=self.eap_label_vars[i],
-                                         width=50, anchor="w"))
+                                         width=53, anchor="w"))
             param_labels[i].pack(anchor='nw')
 
     def add_sliders(self):
@@ -145,11 +145,14 @@ class MachineGaming(tk.Tk):
         for i in range(len(parameters)):
             self.eap_label_vars[i].set(Labels.params[i] + str(parameters[i]))
 
-    def update_stats(self, current_gen_num, current_nn_num, current_score):
+    def update_stats(self, current_gen_num, current_nn_num, current_score, current_output):
+        current_probs = [(x, round(y, 2)) for x, y in zip(["W", "S", "A", "D", "ENT"], current_output)]
+
         current_stats = [current_gen_num,
                          current_nn_num,
                          current_score,
-                         self.best_score_overall]
+                         self.best_score_overall,
+                         current_probs]
 
         for i in range(len(self.stat_label_vars)):
             self.stat_label_vars[i].set(Labels.stats[i] + str(current_stats[i]))
@@ -211,8 +214,17 @@ class MachineGaming(tk.Tk):
         if neural_network is None:
             return
 
-        screen_state = [player.direction,
-                        player.coordinates.calculate_distance(c.CENTER_POINT)]
+        distance_to_center_point = player.coordinates.calculate_distance(c.CENTER_POINT)
+
+        distance_max = abs(distance_to_center_point)
+        velocity_x_max = abs(player.velocity.x)
+        velocity_y_max = abs(player.velocity.y)
+        direction_max = abs(player.direction - 180)
+
+        screen_state = [distance_to_center_point,
+                        player.velocity.x,
+                        player.velocity.y,
+                        player.direction - 180]
 
         for obstacle in obstacles:
             delta_x = obstacle.coordinates.x - player.coordinates.x
@@ -224,22 +236,55 @@ class MachineGaming(tk.Tk):
             obstacle_direction = self._direction_degrees(delta_y, delta_x)
             delta_direction = self._direction_delta(obstacle_direction, player.direction)
 
-            screen_state.append(player.coordinates.calculate_distance(obstacle.coordinates))
+            distance_to_obstacle = player.coordinates.calculate_distance(obstacle.coordinates)
+
+            abs_distance_to_obstacle = abs(distance_to_obstacle)
+            abs_delta_v_x = abs(delta_v_x)
+            abs_delta_v_y = abs(delta_v_y)
+            abs_delta_direction = abs(delta_direction)
+
+            if distance_max < abs_distance_to_obstacle:
+                distance_max = abs_distance_to_obstacle
+            if velocity_x_max < abs_delta_v_x:
+                velocity_x_max = abs_delta_v_x
+            if velocity_y_max < abs_delta_v_y:
+                velocity_y_max = abs_delta_v_y
+            if direction_max < abs_delta_direction:
+                direction_max = abs_delta_direction
+
+            screen_state.append(distance_to_obstacle)
             screen_state.append(delta_v_x)
             screen_state.append(delta_v_y)
             screen_state.append(delta_direction)
 
         screen_state_size = len(screen_state)
+        for i in range(screen_state_size):
+            if i % 4 == 0:
+                if distance_max != 0:
+                    screen_state[i] /= distance_max
+            elif i % 4 == 1:
+                if velocity_x_max != 0:
+                    screen_state[i] /= velocity_x_max
+            elif i % 4 == 2:
+                if velocity_y_max != 0:
+                    screen_state[i] /= velocity_y_max
+            elif i % 4 == 3:
+                if direction_max != 0:
+                    screen_state[i] /= direction_max
+
         if screen_state_size < self.machine_gaming_controller.input_size:
             screen_state += [0] * (self.machine_gaming_controller.input_size - screen_state_size)
+
+        output_vector, buttons = self.game_controller.calculate_buttons(neural_network=neural_network,
+                                                                        input_vector=screen_state)
 
         if self.game_controller.current_game is not None:
             self.update_stats(self.machine_gaming_controller.get_current_generation(),
                               self.machine_gaming_controller.get_current_network(),
-                              self.game_controller.current_game.score)
+                              self.game_controller.current_game.score,
+                              output_vector)
 
-        return self.game_controller.calculate_buttons(neural_network=neural_network, input_vector=screen_state)
-
+        return buttons
     #  Counts only networks from basic population - children get accounted only if they survive
     def update_scores(self, score):
         current_network_number = self.machine_gaming_controller.get_current_network()
