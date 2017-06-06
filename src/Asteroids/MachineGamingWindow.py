@@ -249,7 +249,6 @@ class MachineGamingWindow(tk.Tk):
         if screen_state_size < self.machine_gaming_controller.input_size:
             screen_state += [0] * (self.machine_gaming_controller.input_size - screen_state_size)
 
-        print(screen_state)
         output_vector, buttons = self.game_controller.calculate_buttons(neural_network=neural_network,
                                                                         input_vector=screen_state)
 
